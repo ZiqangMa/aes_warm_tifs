@@ -1,0 +1,904 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.3.13)  19 JUL 2017 15:37
+entering extended mode
+**C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_warm_
+*journal/mainbody.tex
+
+("C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_warm_
+ journal/mainbody.tex"
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for loaded.
+
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\IEEEtran.cls"
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpdimenC=\dimen104
+\@IEEEtrantmpcountA=\count79
+\@IEEEtrantmpcountB=\count80
+\@IEEEtrantmpcountC=\count81
+\@IEEEtrantmptoksA=\toks14
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 503.
+
+(D:\CTEX\MiKTeX\tex\latex\psnfss\ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen105
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen106
+\CLASSINFOnormalsizeunitybaselineskip=\dimen107
+\IEEEnormaljot=\dimen108
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+\IEEEquantizedlength=\dimen109
+\IEEEquantizedlengthdiff=\dimen110
+\IEEEquantizedtextheightdiff=\dimen111
+\IEEEilabelindentA=\dimen112
+\IEEEilabelindentB=\dimen113
+\IEEEilabelindent=\dimen114
+\IEEEelabelindent=\dimen115
+\IEEEdlabelindent=\dimen116
+\IEEElabelindent=\dimen117
+\IEEEiednormlabelsep=\dimen118
+\IEEEiedmathlabelsep=\dimen119
+\IEEEiedtopsep=\skip41
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@IEEEsubequation=\count86
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count87
+\c@table=\count88
+\@IEEEeqnnumcols=\count89
+\@IEEEeqncolcnt=\count90
+\@IEEEsubeqnnumrollback=\count91
+\@IEEEquantizeheightA=\dimen120
+\@IEEEquantizeheightB=\dimen121
+\@IEEEquantizeheightC=\dimen122
+\@IEEEquantizeprevdepth=\dimen123
+\@IEEEquantizemultiple=\count92
+\@IEEEquantizeboxA=\box26
+\@IEEEtmpitemindent=\dimen124
+\IEEEPARstartletwidth=\dimen125
+\c@IEEEbiography=\count93
+\@IEEEtranrubishbin=\box27
+) (D:\CTEX\MiKTeX\tex\latex\caption\caption.sty
+Package: caption 2011/11/10 v3.2e Customizing captions (AR)
+
+(D:\CTEX\MiKTeX\tex\latex\caption\caption3.sty
+Package: caption3 2011/11/01 v1.4a caption3 kernel (AR)
+
+(D:\CTEX\MiKTeX\tex\latex\graphics\keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+\captionmargin=\dimen126
+\captionmargin@=\dimen127
+\captionwidth=\dimen128
+\caption@indent=\dimen129
+\caption@parindent=\dimen130
+\caption@hangindent=\dimen131
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEta
+blestring \footnotesize \bgroup \par \centering \@IEEEtabletopskipstrut {\norma
+lfont \footnotesize #1}\\{\normalfont \footnotesize \scshape #2}\par \addvspace
+ {0.5\baselineskip }\egroup \@IEEEtablecaptionsepspace \else \@IEEEfigurecaptio
+nsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspac
+e \nobreakspace #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\nor
+malfont \footnotesize {#1.}\nobreakspace \nobreakspace }\parbox [t]{\hsize }{\n
+ormalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONcon
+ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
+\else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi 
+\fi .
+\c@ContinuedFloat=\count94
+) (D:\CTEX\MiKTeX\tex\latex\algorithms\algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(D:\CTEX\MiKTeX\tex\latex\float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count95
+\float@exts=\toks16
+\float@box=\box28
+\@float@everytoks=\toks17
+\@floatcapt=\box29
+)
+(D:\CTEX\MiKTeX\tex\latex\base\ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks18
+\c@algorithm=\count96
+)
+(D:\CTEX\MiKTeX\tex\latex\algorithmicx\algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count97
+\c@ALG@rem=\count98
+\c@ALG@nested=\count99
+\ALG@tlm=\skip44
+\ALG@thistlm=\skip45
+\c@ALG@Lnr=\count100
+\c@ALG@blocknr=\count101
+\c@ALG@storecount=\count102
+\c@ALG@tmpcounter=\count103
+\ALG@tmplength=\skip46
+) (D:\CTEX\MiKTeX\tex\latex\algorithmicx\algpseudocode.sty
+Package: algpseudocode 
+
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (D:\CTEX\MiKTeX\tex\latex\ams\math\amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip47
+
+For additional information on amsmath, use the `?' option.
+(D:\CTEX\MiKTeX\tex\latex\ams\math\amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(D:\CTEX\MiKTeX\tex\latex\ams\math\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks19
+\ex@=\dimen132
+))
+(D:\CTEX\MiKTeX\tex\latex\ams\math\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen133
+)
+(D:\CTEX\MiKTeX\tex\latex\ams\math\amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count104
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count105
+\leftroot@=\count106
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count107
+\DOTSCASE@=\count108
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box30
+\strutbox@=\box31
+\big@size=\dimen134
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count109
+\c@MaxMatrixCols=\count110
+\dotsspace@=\muskip10
+\c@parentequation=\count111
+\dspbrk@lvl=\count112
+\tag@help=\toks20
+\row@=\count113
+\column@=\count114
+\maxfields@=\count115
+\andhelp@=\toks21
+\eqnshift@=\dimen135
+\alignsep@=\dimen136
+\tagshift@=\dimen137
+\tagwidth@=\dimen138
+\totwidth@=\dimen139
+\lineht@=\dimen140
+\@envbody=\toks22
+\multlinegap=\skip48
+\multlinetaggap=\skip49
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+(D:\CTEX\MiKTeX\tex\latex\amsfonts\amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+
+(D:\CTEX\MiKTeX\tex\latex\amsfonts\amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(D:\CTEX\MiKTeX\tex\latex\ams\classes\amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip50
+\thm@postskip=\skip51
+\thm@headsep=\skip52
+\dth@everypar=\toks29
+)
+\c@theorem=\count116
+
+(D:\CTEX\MiKTeX\tex\latex\graphics\graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(D:\CTEX\MiKTeX\tex\latex\graphics\graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(D:\CTEX\MiKTeX\tex\latex\graphics\trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(D:\CTEX\MiKTeX\tex\latex\00miktex\graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(D:\CTEX\MiKTeX\tex\latex\pdftex-def\pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(D:\CTEX\MiKTeX\tex\generic\oberdiek\infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(D:\CTEX\MiKTeX\tex\generic\oberdiek\ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count117
+))
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+)
+(D:\CTEX\MiKTeX\tex\latex\subfigure\subfigure.sty
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip53
+\subfigcapskip=\skip54
+\subfigcaptopadj=\dimen143
+\subfigbottomskip=\skip55
+\subfigcapmargin=\dimen144
+\subfiglabelskip=\skip56
+\c@subfigure=\count118
+\c@lofdepth=\count119
+\c@subtable=\count120
+\c@lotdepth=\count121
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(D:\CTEX\MiKTeX\tex\latex\subfigure\subfigure.cfg)
+\subfig@top=\skip57
+\subfig@bottom=\skip58
+)
+(D:\CTEX\MiKTeX\tex\latex\ltxmisc\url.sty
+\Urlmuskip=\muskip11
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+(D:\CTEX\MiKTeX\tex\latex\multirow\multirow.sty
+\bigstrutjot=\dimen145
+)
+(D:\CTEX\MiKTeX\tex\latex\listings\listings.sty
+\lst@mode=\count122
+\lst@gtempboxa=\box32
+\lst@token=\toks30
+\lst@length=\count123
+\lst@currlwidth=\dimen146
+\lst@column=\count124
+\lst@pos=\count125
+\lst@lostspace=\dimen147
+\lst@width=\dimen148
+\lst@newlines=\count126
+\lst@lineno=\count127
+\lst@maxwidth=\dimen149
+
+(D:\CTEX\MiKTeX\tex\latex\listings\lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count128
+\lst@skipnumbers=\count129
+\lst@framebox=\box33
+)
+(D:\CTEX\MiKTeX\tex\latex\listings\listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
+(D:\CTEX\MiKTeX\tex\latex\xcolor\xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(D:\CTEX\MiKTeX\tex\latex\00miktex\color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\mainbody.aux")
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+
+-- Lines per column: 58 (exact).
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: subfigure package is loaded.
+Package caption Info: End \AtBeginDocument code.
+(D:\CTEX\MiKTeX\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count130
+\scratchdimen=\dimen150
+\scratchbox=\box34
+\nofMPsegments=\count131
+\nofMParguments=\count132
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count133
+\MPscratchDim=\dimen151
+\MPnumerator=\count134
+\makeMPintoPDFobject=\count135
+\everyMPtoPDFconversion=\toks32
+)
+\c@lstlisting=\count136
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 75.
+
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/introduction.tex"
+LaTeX Font Info:    Try loading font information for U+msa on input line 107.
+ (D:\CTEX\MiKTeX\tex\latex\amsfonts\umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 107.
+
+(D:\CTEX\MiKTeX\tex\latex\amsfonts\umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+) [1{D:/CTEX/UserData/pdftex/config/pdftex.map{Unicode.sfd}{UGBK.sfd}}
+
+
+])
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/background.tex"
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 13.
+ (D:\CTEX\MiKTeX\tex\latex\psnfss\ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[][][]\OT1/ptm/m/n/8 The last round on-ly per-form-s \OT1/pcr/m/n/8 SubBytes\OT
+1/ptm/m/n/8 , \OT1/pcr/m/n/8 ShiftRows \OT1/ptm/m/n/8 and
+ []
+
+
+Overfull \hbox (52.81226pt too wide) detected at line 26
+\OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ] = (2 \
+OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr
+/m/n/10 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10
+ )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/
+cmm/m/it/10 ; \OT1/cmr/m/n/10 3 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m
+/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ))\OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 
+[\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ] = (3 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr
+/m/n/10 2 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/1
+0 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1
+/cmr/m/n/10 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/
+n/10 ))
+ []
+
+
+Overfull \hbox (52.81226pt too wide) detected at line 29
+\OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ] = (\OM
+L/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/i
+t/10 ; \OT1/cmr/m/n/10 3 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (
+\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2 \OMS/cm
+sy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/1
+0 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ))\OM
+L/cmm/m/it/10 T[]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ] = (\OML/c
+mm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/1
+0 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT
+1/cmr/m/n/10 3 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m
+/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2 \OMS/cmsy/m/n/10 
+ \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ))
+ []
+
+
+Overfull \hbox (14.54492pt too wide) detected at line 35
+\OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ] = (2 \
+OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr
+/m/n/10 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10
+ )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/
+cmm/m/it/10 ; \OT1/cmr/m/n/10 3 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m
+/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2 
+\OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cm
+r/m/n/10 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/1
+0 )\OML/cmm/m/it/10 ; S\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML
+/cmm/m/it/10 ; \OT1/cmr/m/n/10 3 \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 S\OT1/cmr/
+m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ))
+ []
+
+[2] [3])
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/elimatingcacheattack.tex" [4]
+
+LaTeX Warning: Reference `subsec:fullwarm' on page 5 undefined on input line 26
+4.
+
+
+Underfull \hbox (badness 4595) in paragraph at lines 260--265
+[]\OT1/ptm/b/n/10 Case 1\OT1/ptm/m/n/10 : The ex-e-cu-tion time of \OT1/ptm/m/s
+c/10 Cryp-t() \OT1/ptm/m/n/10 is in
+ []
+
+
+Underfull \hbox (badness 3271) in paragraph at lines 265--269
+[]\OT1/ptm/b/n/10 Case 2\OT1/ptm/m/n/10 : The time of en-cryp-tion/de-cryp-tion
+ is in
+ []
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/analysis.tex" [5]
+Overfull \hbox (7.29185pt too wide) detected at line 98
+\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 ) = \OML
+/cmm/m/it/10 P[] \OMS/cmsy/m/n/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 W \OMS/cm
+sy/m/n/10   \OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ) = (1 \OMS/cmsy/m/n/10   \OT1/cm
+r/m/n/10 ((1 \OMS/cmsy/m/n/10   []\OT1/cmr/m/n/10 )[])[])(\OML/cmm/m/it/10 W \O
+MS/cmsy/m/n/10   \OML/cmm/m/it/10 B\OT1/cmr/m/n/10 )
+ []
+
+
+Overfull \hbox (142.41846pt too wide) in paragraph at lines 109--118
+ [][] 
+ []
+
+[6] <pic/markov1.pdf, id=32, 680.64787pt x 247.7757pt>
+File: pic/markov1.pdf Graphic file (type pdf)
+ <use pic/markov1.pdf>
+Package pdftex.def Info: pic/markov1.pdf used on input line 156.
+(pdftex.def)             Requested size: 412.80157pt x 150.27336pt.
+
+Overfull \hbox (160.80157pt too wide) in paragraph at lines 156--156
+ [][] 
+ []
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 162.
+
+
+
+Overfull \hbox (31.59814pt too wide) detected at line 164
+\OT1/cmr/m/n/7 [] = [] \OML/cmm/m/it/7 ; \OT1/cmr/m/n/7 [] = [] \OML/cmm/m/it
+/7 ; \OT1/cmr/m/n/7 [] = []
+ []
+
+LaTeX Font Info:    Calculating math sizes for size <> on input line 164.
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 164.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 167.
+
+
+
+Overfull \hbox (57.82953pt too wide) detected at line 169
+\OT1/cmr/m/n/7 [] = [] \OML/cmm/m/it/7 ; \OT1/cmr/m/n/7 [] = [] \OML/cmm/m/it
+/7 ; \OT1/cmr/m/n/7 [] = []
+ []
+
+
+Overfull \hbox (28.45787pt too wide) detected at line 177
+\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 ) \OMS/c
+msy/m/n/10   \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 T[]\OT1/cmr/m/
+n/10 ) = [] \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 t[] \OT1/cmr/m/n/10 + (1 \OMS/
+cmsy/m/n/10   \OT1/cmr/m/n/10 []) \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 P[] \OMS
+/cmsy/m/n/10  \OML/cmm/m/it/10 t[] \OMS/cmsy/m/n/10   \OT1/cmr/m/n/10 [] \OMS
+/cmsy/m/n/10  \OML/cmm/m/it/10 t[]
+ []
+
+
+Overfull \hbox (118.29462pt too wide) in paragraph at lines 213--220
+ [][] 
+ []
+
+[7 <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_war
+m_ journal/pic/markov1.pdf>]
+Overfull \hbox (143.95076pt too wide) in paragraph at lines 283--292
+ [][] 
+ []
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/implementation.tex"
+<pic/TWOCM_allwarm.pdf, id=55, 441.09402pt x 137.42241pt>
+File: pic/TWOCM_allwarm.pdf Graphic file (type pdf)
+
+<use pic/TWOCM_allwarm.pdf>
+Package pdftex.def Info: pic/TWOCM_allwarm.pdf used on input line 40.
+(pdftex.def)             Requested size: 361.19843pt x 112.53821pt.
+
+Overfull \hbox (109.19843pt too wide) in paragraph at lines 40--41
+ [][] 
+ []
+
+<pic/fwopensslworst.pdf, id=56, 435.24095pt x 170.11656pt>
+File: pic/fwopensslworst.pdf Graphic file (type pdf)
+
+<use pic/fwopensslworst.pdf>
+Package pdftex.def Info: pic/fwopensslworst.pdf used on input line 62.
+(pdftex.def)             Requested size: 309.60315pt x 121.01462pt.
+
+<pic/fwopensslbest.pdf, id=57, 439.03825pt x 178.57816pt>
+File: pic/fwopensslbest.pdf Graphic file (type pdf)
+
+<use pic/fwopensslbest.pdf>
+Package pdftex.def Info: pic/fwopensslbest.pdf used on input line 69.
+(pdftex.def)             Requested size: 309.60315pt x 125.93031pt.
+
+Overfull \hbox (64.60327pt too wide) in paragraph at lines 62--70
+ [][] 
+ []
+
+
+Overfull \hbox (64.60327pt too wide) in paragraph at lines 62--70
+ [] 
+ []
+
+<pic/TWOCM_onenotin.pdf, id=58, 412.60919pt x 108.15105pt>
+File: pic/TWOCM_onenotin.pdf Graphic file (type pdf)
+
+<use pic/TWOCM_onenotin.pdf>
+Package pdftex.def Info: pic/TWOCM_onenotin.pdf used on input line 77.
+(pdftex.def)             Requested size: 283.80157pt x 74.38994pt.
+
+Overfull \hbox (31.80157pt too wide) in paragraph at lines 77--77
+ [][] 
+ []
+
+[8 <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_war
+m_ journal/pic/TWOCM_allwarm.pdf>]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 99.
+
+Overfull \hbox (70.40308pt too wide) in paragraph at lines 154--155
+[][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (70.40308pt too wide) in paragraph at lines 156--157
+[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/evaluation.tex" [9 <C:/Users/mzq/Desktop/马自强实验室工作
+/AES_warm工作/论文/AES_warm_ journal/pic/fwopensslworst.pdf> <C:/Users/mzq/
+Desktop/马自强实验室工作/AES_warm工作/论文/AES_warm_ journal/pic/fw
+opensslbest.pdf> <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/
+论文/AES_warm_ journal/pic/TWOCM_onenotin.pdf>]
+<pic/ori_scheme_distri.pdf, id=111, 453.09767pt x 139.22916pt>
+File: pic/ori_scheme_distri.pdf Graphic file (type pdf)
+
+<use pic/ori_scheme_distri.pdf>
+Package pdftex.def Info: pic/ori_scheme_distri.pdf used on input line 40.
+(pdftex.def)             Requested size: 309.60315pt x 95.13557pt.
+
+Overfull \hbox (57.60315pt too wide) in paragraph at lines 40--40
+ [][] 
+ []
+
+
+Overfull \hbox (91.93617pt too wide) in paragraph at lines 72--81
+ [][] 
+ []
+
+<pic/performance_comparison.pdf, id=112, 726.79329pt x 397.60646pt>
+File: pic/performance_comparison.pdf Graphic file (type pdf)
+
+<use pic/performance_comparison.pdf>
+Package pdftex.def Info: pic/performance_comparison.pdf used on input line 86.
+(pdftex.def)             Requested size: 412.80157pt x 225.83112pt.
+
+Overfull \hbox (160.80157pt too wide) in paragraph at lines 86--86
+ [][] 
+ []
+
+<pic/diff_scheme_compare.pdf, id=113, 433.01575pt x 220.97656pt>
+File: pic/diff_scheme_compare.pdf Graphic file (type pdf)
+
+<use pic/diff_scheme_compare.pdf>
+Package pdftex.def Info: pic/diff_scheme_compare.pdf used on input line 99.
+(pdftex.def)             Requested size: 412.80157pt x 210.66496pt.
+
+Overfull \hbox (160.80157pt too wide) in paragraph at lines 99--99
+ [][] 
+ []
+
+
+LaTeX Warning: Reference `' on page 10 undefined on input line 114.
+
+[10 <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_wa
+rm_ journal/pic/ori_scheme_distri.pdf> <C:/Users/mzq/Desktop/马自强实验室
+工作/AES_warm工作/论文/AES_warm_ journal/pic/performance_comparison.pdf> 
+<C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_warm_ 
+journal/pic/diff_scheme_compare.pdf>])
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/discussions.tex")
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/conclusion.tex")
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/appdenix.tex" [11]
+** WARNING: Ignoring useless \section in Appendix (line 3).
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 21.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 21.
+
+
+Overfull \hbox (18.05215pt too wide) in paragraph at lines 21--21
+[] 
+ []
+
+
+Overfull \hbox (70.23294pt too wide) detected at line 37
+\OML/cmm/m/it/10 P[] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10 :
+ []
+
+
+Overfull \hbox (4.25912pt too wide) detected at line 62
+\OML/cmm/m/it/10 k > [] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 k[] :
+ []
+
+
+Overfull \hbox (27.28452pt too wide) detected at line 71
+\OML/cmm/m/it/10 k[] < k \OMS/cmsy/m/n/10  [] \OT1/cmr/m/n/10 = \OML/cmm/m/it/
+10 k[] :
+ []
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 82.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 82.
+
+
+Overfull \hbox (64.73886pt too wide) in paragraph at lines 82--82
+[] 
+ []
+
+
+Overfull \hbox (24.33002pt too wide) detected at line 82
+[]
+ []
+
+
+Underfull \hbox (badness 1603) in paragraph at lines 84--85
+[]$\OML/cmm/m/it/10 y\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 )$ \O
+T1/ptm/m/n/10 is a func-tion of $\OML/cmm/m/it/10 k$ \OT1/ptm/m/n/10 (de-not-ed
+ as $\OML/cmm/m/it/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 k\OT1/cmr/m/n/10 )$\OT
+1/ptm/m/n/10 ). As
+ []
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 92.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 92.
+
+
+Overfull \hbox (34.28162pt too wide) in paragraph at lines 92--92
+[] 
+ []
+
+
+Overfull \hbox (24.33002pt too wide) detected at line 92
+[]
+ []
+
+
+Overfull \hbox (34.47043pt too wide) detected at line 99
+\OML/cmm/m/it/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 k[]\OT1/cmr/m/n/10 ) = (\OM
+L/cmm/m/it/10 P[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 )(2\OML
+/cmm/m/it/10 P[] \OMS/cmsy/m/n/10   \OT1/cmr/m/n/10 1 + \OML/cmm/m/it/10 P[]P[]
+\OT1/cmr/m/n/10 (1 \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 ))\OM
+L/cmm/m/it/10 :
+ []
+
+** WARNING: Ignoring useless \section in Appendix (line 113).
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 117.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 122.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 127.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 132.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 137.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 142.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 147.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 152.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 157.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 162.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 167.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 172.
+
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\mainbody.bbl"
+Underfull \hbox (badness 2875) in paragraph at lines 43--45
+[]\OT1/ptm/m/n/8 D. J. Bern-stein, ``Cache-timing at-tack-s on AES,'' $http : /
+ / cr . yp . to /
+ []
+
+[12]
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+ [13]) [14]
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\mainbody.aux")
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 4.5pt have occurred.
+
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 6683 strings out of 495354
+ 100604 string characters out of 3183859
+ 170627 words of memory out of 3000000
+ 9724 multiletter control sequences out of 15000+200000
+ 55853 words of font info for 117 fonts, out of 3000000 for 9000
+ 17 hyphenation exceptions out of 8191
+ 36i,16n,39p,1343b,898s stack positions out of 5000i,500n,10000p,200000b,50000s
+{D:/CTEX/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<D:/CTEX/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmmi10.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
+i5.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><D:/CTEX/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb><D:/CTEX/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmmi8.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><D
+:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/CTEX/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr5.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr6.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/CTEX/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/CTEX/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmsy5.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+<D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><D:/CTEX/MiKTeX/fonts/
+type1/urw/courier/ucrr8a.pfb><D:/CTEX/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><
+D:/CTEX/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><D:/CTEX/MiKTeX/fonts/type1/ur
+w/times/utmr8a.pfb><D:/CTEX/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on mainbody.pdf (14 pages, 1491094 bytes).
+PDF statistics:
+ 241 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+

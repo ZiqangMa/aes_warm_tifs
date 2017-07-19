@@ -1,0 +1,33 @@
+\section{Conclusion}
+\label{sec:conclusion}
+%We present the {\scshape{Warm+Delay}} scheme to eliminate remote cache timing side channels.
+%Our scheme uses the cache warm and delay strategy to guarantee the security of the symmetric algorithm.
+%Our scheme is a software implementation which can be easily used in different systems
+%Also the cryptographic algorithms don't need to modify the code implementation which improves the universality of our scheme.
+%
+%While analyzing the security of our scheme, we analyze the performance of the scheme in details.
+%Our scheme has the best performance against the cache timing attack.
+%We do a serial of contrast experiments and prove the optimality of our scheme.
+
+We propose the {\scshape{Warm+Delay}} scheme to eliminate the remote cache timing side channel attacks,
+ for the block ciphers implemented based on lookup tables.
+Our scheme is applicable to all regular block ciphers,
+   and transparent to implementations. %(i.e., no binaries).
+The scheme works well in common computer systems,  without any privileged operation.
+
+We prove that,
+  the {\scshape{Warm+Delay}} scheme destroys the relationship between the measured time and cache misses/hits,
+to ensure security.
+Then the scheme is applied to AES,
+    and analyze the situations that it produces the optimized performance.
+Experimental results on the prototype system, confirm the security against remote cache timing side channels,
+   and validate the performance optimization.
+
+%When the actual execution time is larger than the best one (i.e., no cache miss occurs),
+% it extends the observed execution time to the worst case execution time (i.e., no cache hits), and attempts to keep all the lookup tables in the cache by accessing all the lookup tables.
+%The execution time observed by the attackers is independent of the input, as it is either equal to the best one, or no less than the worst one.
+
+
+%\begin{CJK}{UTF8}{gkai}
+%总结，呼应开头
+%\end{CJK}

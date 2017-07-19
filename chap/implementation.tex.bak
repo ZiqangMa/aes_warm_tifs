@@ -1,0 +1,141 @@
+\section{Implementation and Performance Evaluation}
+\label{sec:implementationEvalution}
+%更多的细节考虑，应该放在这里
+%\vspace{-1mm}
+\textbf{Environment. }
+The evaluation platform is a Lenovo ThinkCentre M8400t PC with an Intel Core(TM) i7-2600 CPU and 2GB RAM.
+ This CPU has $4$ cores and each core has a $32$KB L1 data cache. The operating system is 32-bit Linux with kernel version 3.6.2.
+
+
+\subsection{Implementation}
+%\vspace{-1mm}
+% AES  mbed TLS-2.4.2
+%In this section,
+We apply the {\scshape{Warm+Delay}} scheme to AES-128. %to validate the security and evaluate the performance.
+The implementation of AES employs the mbed TLS-1.3.10~\cite{polarssl}.
+As we aim to provide the optimized performance while eliminating remote cache timing side
+channels, efficient {\scshape{GetTime()}}, {\scshape{Warm()}} and {\scshape{Delay()}}
+  are finished;
+and the constant parameters (TWOCM and WET) are determined properly.
+ Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
+
+%[[[About the threshold! Maybe we shall mention more about threshold in Section 'Optimization Analysis'+++]]]
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.55\textwidth]{pic/twocm.pdf}\\
+  \caption{The distribution of AES execution time only  not warm one cache line.}\label{fig:twocm}
+\end{figure}
+
+\noindent\textbf{TWOCM.}
+%TWOCM should be larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+%and less than the AES execution when only one cache line size of lookup tables isn't in the cache and is accessed.
+%Thus we can ensure the observed execution time independent of the input plaintexts. %这里说TWOCM是什么，下面讲怎么得到的。
+TWOCM is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+and less than the AES execution that only one cache miss occurs.
+%Thus we can ensure the observed execution time independent of the input plaintexts.
+The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in caches.
+In our environment it is $331$ cycles. Figure~\ref{fig:twocm}
+  shows the distribution of AES execution time for $2^{30}$ plaintexts
+   while all lookup tables except one block of 64 bytes (i.e., one cache line) are cached.
+%when just one cache line size of lookup tables (the first 64 Bytes of $T_{0}$) is not warmed.
+Note that, this uncached entry may be unnecessary in an execution of AES encryption.
+%The AES execution time between 380 and 430 cycles means that the one cache miss occurs.
+In Figure \ref{fig:twocm}, the data between 380 and 430 cycles are caused by the impact of micro-architecture (see Section \ref{subsec:fullwarm} for details),
+% 论文2005Cache-timing attacks on AES给出了fully-warmed cache攻击的解释：由于cache set的冲突原因，
+% 调用时的stack写入write，使得同cache set的entry在被read时、会有延迟。
+and the data between 460 and 570 are caused by the cache miss.
+Finally, we choose 380 cycles as TWOCM.
+
+
+\noindent\textbf{WET.}
+When all lookup tables are not in the data cache while the instructions are not in caches,
+ the AES execution time is WET.
+We flush all cached data before the AES execution
+ and record the AES encryption time.
+The average value is  4247 CPU cycles.
+
+
+\noindent\textbf{{\scshape{Warm()}}.}
+It accesses all blocks of the five lookup tables to load them into caches and every time access one byte of each block of 64 bytes (i.e., the size of one cache line).
+In order to prevent the compiler optimization, the variables in the function are declared with keyword \verb+volatile+.
+
+
+
+\noindent\textbf{{\scshape{GetTime()}}.}
+%The function in Listing 1.1 returns the current time in high precision (e.g. in clock cycles) with low cost.
+We adopts the instruction \verb+RDTSCP+ to implement \scshape{GetTime()}, to obtain the current time in high precision (e.g. in clock cycles) with low cost.
+The instruction \verb+RDTSCP+ has high precision (in clock cycle) and is adopted in our implementation.
+\verb+RDTSCP+ is a serializing call which can prevent the CPU from reordering it.
+However, in the implementation, we need to perform the following operations to achieve the high accuracy:
+(1) as the TSCs on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSC;
+(2) the clock cycle changes due to the energy-saving function of the computer, we  disable this function in the BIOS to ensure the clock cycle be a  constant.
+
+
+%(3) using \verb+RDTSC+ alone will not prevent the CPU from reordering it, we add \verb+CPUID+ instruction, a serializing call,   before \verb+RDTSC+ to avoid the reordering.
+%\verb+RDTSCP+, a new Intel instruction can be directly adopted without adding \verb+CPUID+ instruction,  with the same precision and accuracy as \verb+RDTSC+, but a lower cost.
+
+%\lstset{
+%basicstyle=\small\ttfamily,
+%numbersep=5pt,
+%xleftmargin=20pt,
+%frame=tb,
+%framexleftmargin=20pt
+%}
+
+%\renewcommand*\thelstnumber{\arabic{lstnumber}:}
+%\begin{lstlisting}[caption={{GetTime function}}]
+%inline uint64_t GetTime()
+%{
+%  unsigned long high, low;
+%  asm volatile ("rdtscp" : "=high" (high),
+%                 "=low" (low) : : "ebx", "ecx");
+%  return high | ((uint64_t) low << 32);
+%}
+
+%\end{lstlisting}
+
+
+%x86: unify/rewrite SMP TSC sync code
+
+
+\noindent\textbf{{\scshape{Delay()}}.}
+It pads instructions to WET, without making the lookup tables evicted from caches.
+The \verb+usleep()+ and \verb+nanosleep()+ are inappropriate, as they switch the state of AES execution process to {TASK\_INTERRUPTIBLE}, which may make the lookup tables evicted from caches.
+ We adopt the \verb+xor+ instruction to operate data in registers repeatedly, achieving a high precision (in clock cycles) without modifying the cache state.
+We measure the time cost by the \verb+xor+ instruction loop numbers from 0 to 2000 and the interval is 50.
+Then the relation between the time delayed  and the loop number of \verb+xor+ instruction is calculated through the least squares method. The equation is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
+So {\scshape{Delay()}} is shown in Listing 1.2.
+%When we need to delay $t_{expected}$ clock cycles, the input parameter (\verb+d_time+) of the function \verb+delay+ is $(t_{expected}-49)/ 3$.
+
+\lstset{
+basicstyle=\small\ttfamily,
+numbersep=5pt,
+xleftmargin=20pt,
+frame=tb,
+framexleftmargin=20pt
+}
+
+\renewcommand*\thelstnumber{\arabic{lstnumber}:}
+
+\begin{lstlisting}[caption={{The delay function}}]
+volatile int delay(uint64_t t_delay){
+    uint64_t n;
+    n = (double)t_delay > 12.886 ?
+            (uint64_t)((double)t_delay/2.995-4.302) : 0;
+	for(;n>0;n--){
+		asm volatile (
+		"xor %%eax, %%eax;" : : : "%eax");
+	}
+}
+\end{lstlisting}
+
+
+%\textbf{The practical implementation.}
+Besides, the cost of \verb+RDTSCP+ is 36 cycles which is a little large.
+So we perform {\scshape{GetTime()}} only when $delay - start < WET$,
+   instead of every time after {\scshape{Warm()}}.
+In this way, if the input of {\scshape{Delay()}} is less than zero, it simply returns.
+The cost of judgement is much less \verb+RDTSCP+ so that it achieves a better performance.
+
+
+%So we employ Algorithm~\ref{alg:aesdefense2} to replace the Algorithm~\ref{alg:aesdefense}. In Algorithm~\ref{alg:aesdefense2}, we perform {\scshape{GetTime()}} when the delay operation is needed instead of every time after the {\scshape{Warm()}}. The cost of the conditional statement is much lower than \verb+RDTSCP+, so it can achieve a better performance.

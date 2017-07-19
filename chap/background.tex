@@ -1,0 +1,314 @@
+\section{Background and Related Works}
+\label{sec:background}
+%\vspace{-1mm}
+\subsection{AES and Block Cipher}
+\label{back:aes}
+%\vspace{-1mm}
+% 通用的描述
+AES is a popular block cipher with
+128-bit input blocks,
+  and the key is 128, 192 or 256 in bits.
+AES encryption (or decryption) consists of a certain round of transformations
+ and the number depends on the key length.
+Each round transformation consists of \texttt{SubBytes}, \texttt{ShiftRows},
+ \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state \footnote{The last round only performs \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey}}.
+% 应该能够说明：包括了什么操作？某些操作用了lookup table，就是访问data；lookup table是与key/data有关系。
+% 别的操作，是什么？能够让大家觉得不会有timing差异产生。
+These steps except \texttt{AddRoundKey},
+can be implemented as table lookup operations \cite{Daemen2002The}.
+%For the implementation of AES in OpenSSL-1.1.0e~\cite{openssl}, four lookup tables, $T_{0}, T_{1}, T_{2}, T_{3}$,  each of which is 1KB,
+%  are used in each round exception the last one,
+% and a 256-byte lookup table $T_{4}$ in the last round.
+\texttt{AddRoundKey} consists of bitwise \texttt{XOR} operations on the state.
+The common implementation of the lookup tables needs four 1KB tables $T_{0}, T_{1}, T_{2}$ and $T_{3}$, which are used in all rounds.
+$$
+T_{0}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x))  T_{1}[x] = (3\cdot S(x), 2\cdot S(x), S(x), S(x))
+$$
+$$
+T_{2}[x] = (S(x), 3\cdot S(x), 2\cdot S(x), S(x))  T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))
+$$
+Where S(x) stands for the result of an AES S-box lookup for the input value x.
+In this paper, we use the AES implementation with a 2KB lookup table in RAM. 
+This lookup table is 
+$$
+T_{2}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))
+$$
+The four lookup tables needed by AES computation are formed by this 2KB table.
+
+
+%where s(x) and \cdot stand for the result of an AES S-box lookup for the input
+%value x and the finite field multiplication in GF(28) as it is realized in AES,
+%respectively.
+
+
+% The implementation we analyze is described in [11] and it is widely used on 32-bit architectures. To speed up encrytion all of the component functions of AES, except AddRoundKey, are combined into lookup tables and the rounds turn to be composed of table lookups and bitwise exclusive-or operations. The five lookup tables T0, T1, T2, T3, T4 employed in this implementation are generated from the actual AES S-box value as the following way
+
+%Each round $i$ takes a 16-byte block of input $X^{i}$ and a 16-byte round key $K^{i}$ to calculate the output $X^{i+1}$ of 16 bytes. Each round except the last round, performs the algebraic operations SubBytes, ShiftRows, and MixColumns on $X^{i}$, and takes the sub-result exclusive-or with the round key $K^{i}$.
+%Recently, AES is the most widely used symmetric encryption algorithm. In this study, we use AES to represent the symmetric cipher.
+
+%A full description of AES is provided in~\cite{Daemen2002The} and below is a brief introduction. AES has a fixed block size of 128 bits and a key size of 128, 192 or 256 bits. This paper will focus on the 128 bits key while for 192 and 256 bits key versions it is the same theory in terms of analysing the cache based side-channel attack. AES is an iterated cipher: Each round i takes a 16-byte block of input $X^{i}$ and a 16-byte key material $K^{i}$ to produce an output $X^{i+1}$ of 16 bytes. Each round performs the algebraic operations SubBytes, ShiftRows, and MixColumns on $X^{i}$(except the last round that doesn't have the MixColumns), then takes the sub-result exclusive-or with the round key $K^{i}$. After iterating a fixed number of rounds, (10, 12, and 14 rounds for 128-bit, 192-bit, and 256-bit keys, respectively), the final output $X^{i+1}$ is the ciphertext.
+
+%The implementation on 32-bit architectures for AES takes advantage of the computer architecture to speed up the performance combining all algebraic operations into lookup tables which can be pre-computed so that the rounds turn to be composed of table lookups and bitwise exclusive-or operations. There are five lookup tables in total: $T_{0}, T_{1}, T_{2}, T_{3}$ which are 1KB large and $T_{4}$ which is 256 bytes. These tables mapping one byte of input to four bytes of output are generated from the actual AES S-box value. The table $T_{0}, T_{1}, T_{2}, T_{3}$ are for each round of the AES except for the last round using $T_{4}$ instead. So each round of AES encryption can be shown as follows by splitting $X^{i}$ into 16 bytes $x^{i}_{0},x^{i}_{1},...,x^{i}_{15}$ and $K^{i}$ into 16 bytes $k^{i}_{0},k^{i}_{1},...,k^{i}_{15}$.
+%\begin{equation}\begin{split}
+%X^{i+1} = \{& T_{0}[x^{i}_{0 }]\oplus T_{1}[x^{i}_{5 }]\oplus T_{2}[x^{i}_{10}]\oplus T_{3}[x^{i}_{15}]\oplus \{k^{i}_{0} ,k^{i}_{1} ,k^{i}_{2} ,k^{i}_{3} %\},\\
+%& T_{0}[x^{i}_{4} ]\oplus T_{1}[x^{i}_{9 }]\oplus T_{2}[x^{i}_{14}]\oplus T_{3}[x^{i}_{3 }]\oplus \{k^{i}_{4} ,k^{i}_{5} ,k^{i}_{6} ,k^{i}_{7} \},\\
+%& T_{0}[x^{i}_{8 }]\oplus T_{1}[x^{i}_{13}]\oplus T_{2}[x^{i}_{2 }]\oplus T_{3}[x^{i}_{7 }]\oplus \{k^{i}_{8} ,k^{i}_{9} ,k^{i}_{10},k^{i}_{11}\},\\
+%& T_{0}[x^{i}_{12}]\oplus T_{1}[x^{i}_{1 }]\oplus T_{2}[x^{i}_{6 }]\oplus T_{3}[x^{i}_{11}]\oplus \{k^{i}_{12},k^{i}_{13},k^{i}_{14},k^{i}_{15}\}\}.
+%\end{split}\end{equation}
+%For the final round, replacing $T_{0}, T_{1}, T_{2}, T_{3}$ with $T_{4}$ which is the S-box:
+%\begin{equation}\begin{split}
+%C = \{& T_{4}[x^{10}_{0}]\oplus k^{10}_{0},T_{4}[x^{10}_{5}]\oplus k^{10}_{1}, T_{4}[x^{10}_{10}]\oplus k^{10}_{2},T_{4}[x^{10}_{15}]\oplus k^{10}_{3},\\
+%& T_{4}[x^{10}_{4}]\oplus k^{10}_{4},T_{4}[x^{10}_{9}]\oplus k^{10}_{5},T_{4}[x^{10}_{14}]\oplus k^{10}_{6},T_{4}[x^{10}_{3}]\oplus k^{10}_{7},\\
+%& T_{4}[x^{10}_{8}]\oplus k^{10}_{8},T_{4}[x^{10}_{13}]\oplus k^{10}_{9},T_{4}[x^{10}_{2}]\oplus k^{10}_{10},T_{4}[x^{10}_{7}]\oplus k^{10}_{11},\\
+%& T_{4}[x^{10}_{12}]\oplus k^{10}_{12},T_{4}[x^{10}_{1}]\oplus k^{10}_{13},T_{4}[x^{10}_{6}]\oplus k^{10}_{14},T_{4}[x^{10}_{11}]\oplus k^{10}_{15}\}.
+%\end{split}\end{equation}
+%We use the mbed TLS (formerly known as PolarSSL) as the experimental subject. Its AES code is implemented with this design above. However, our protection model can also be employed in other implementations based on the lookup tables.
+
+There are similar implementations of other block ciphers:
+  only table lookup and other basic operations,
+  and no data dependent branch in the execution path.
+For example, 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} used in OpenSSH-7.4p1~\cite{openssh}.
+%  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
+%Our scheme works for the symmetric encryption algorithm based on the lookup tables.
+%As shown in~\cite{Schneier1996Applied}, table lookup is a common operation in symmetric encryption algorithm.
+% e.g., and 3DES, Blowfish~\cite{Schneier1993Description} used in GPG and SSH. %, Twofish~\cite{Kelsey1998Twofish} and MARS~\cite{Burwick1999The} the two of the five finalist ciphers in the AES selection program.
+
+
+
+\subsection{Cache Timing Side Channel}
+\label{subsec:remoteattack}
+%\vspace{-1mm}
+%We describe cache, then remote cache timing side-channel attacks,
+%   other side-channel attacks exploiting the fact that faster than RAM,
+%   and countermeasure.
+%cache in general
+Caches, a small amount of high-speed memory cells located between CPU cores and RAM,
+ are designed to temporarily store the data recently accessed by CPU cores,
+  avoiding accessing the slow RAM.
+% As the speed gap between RAM and CPU increases, multiple levels of caches are implemented, and lower-levels caches have smaller size but achieve higher speed.
+%The cache consists of a hierarchy of memory components located between the CPU cores and the main memory. The cache is a small piece of storage area used to reduce the average access time to the main memory. Modern processors often have 3 levels of cache memory, with the first level(L1) being the closest to the CPU registers having the fastest access speed.Generally, only the L1 cache is split into instruction cache and data cache. The higher level cache is much bigger than the lower and contains the context of the lower level cache.
+%cache structure
+%Each level cache is divided into several cache sets which contains a predefined number of cache lines, the minimal storage cell of cache. A $W$-way set associative cache means that each cache set contains $W$ cache lines.
+When the CPU core attempts to access a data block,
+  the operation takes place in caches if the data have been cached (i.e., cache hit);
+  otherwise,
+   the data block is firstly read from RAM into caches  (i.e., cache miss)
+   and then this operation is performed in caches.
+
+
+% the cache control logic unit judges whether it is in the cache.
+%Cache hit is used to denote that the element is in the cache,
+%while ``cache miss'' means the memory block containing the element needs to be loaded into
+% the cache from the main memory.
+%Each level cache is structured in the same manner. The minimal storage cell of cache is called cache line, which consists of B bytes. The cache line size B can be 32, 64 or 128 bytes while different level can have different size. The cache is divided into S cache sets, each containing W cache lines which denotes the associativity of a cache. So the overall cache size is S*W*B bytes. Figure~\ref{cachemem} shows a 4-way associativity cache.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.5\textwidth]{pic/cachememory.pdf}\\
+%  \caption{A 4-way associativity cache memory.}\label{cachemem}
+%\end{figure}
+
+%cache hit or miss
+%When an element stored in the main memory is accessed, CPU first sends the element address to the cache and the cache control logic unit judges whether it is in the cache right now. If the element is in, CPU access it directly and it's called a "cache hit". Otherwise, called "cache miss", and then the memory block(size B bytes) containing the element will be loaded into a cache line for the next access so that any subsequent access might speed up. So it is claimed that when a cache hit occurs it has a lower access time than when a cache miss occurs.
+
+%cache addressing
+%Since the cache size is much smaller than the number of directly addressable bytes in main memory N (e.g. 4 GB on 32-bit CPUs), a mapping strategy needs to be adopted. One main memory block(equal to a cache line size) is mapped into uniquely one determined cache set, but any cache line in the set. The cache line selection in a set is decided by the replacement algorithm like LRU,LFU. This is called set-associative mapping. one address accessed in the memory mapping to the cache is split into three parts(Figure~\ref{cacheaddress}): a set index, an address tag and a line offset. The line offset is the $ \log_{2}B $ lowest-order bits of the address which is used to locate an element in the cache line. The set index that is the $ \log_{2}S $ consecutive bits starting from bit $ \log_{2}B $, is used to decide the cache set location. The address tag is the remaining high-order bits for each cache line. The tag determines which cache line in the cache set the address will cache in. When the CPU access an address, it compares the tag with the cache lines in the cache set determined by the set index part of the address, if it is matched, then the cache hit occurs, otherwise the cache miss takes place.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.6\textwidth]{pic/cacheaddr.pdf}\\
+%  \caption{Address mapping of a 4-way associativity 32KB L1 cache with 64B line size.}\label{cacheaddress}
+%\end{figure}
+
+%Intel cache
+%The cache hierarchy differs among different CPUs. For example, Intel Core2 Q8200 CPU which is used in our evaluation, contains two separate cache-sharing core sets. Each core has a level-one data (L1D) cache of 32 KB, 8-way set associative, 64-byte cache line size and an instruction cache of 32 KB. The two cores of each cache set share a unified L2 cache of 2 MB, 8-way set associative, 64-byte cache line size.
+%Different types of CPU don't have the same cache structure even coming from the same company. The Intel CPU which is the most widely used at present is chosen for illustrating our defense scheme in this paper. Our experimental platform selects the Intel Core2 Q8200 CPU which contains two separate cache-sharing core sets, and each has two cores. Each core has a L1D cache of 32 KB, 8-way set associative, 64-byte cache line size and also an instruction cache of 32 KB. The two cores of each cache set share a unified L2 cache of 2 MB, 8-way set associative, 64-byte cache line size.
+
+%这里for different plaintexts 是否合适？
+Cache timing side-channel attacks exploit the fact that
+ accessing cached data is about two orders of magnitude faster than those in RAM,
+ to recover the keys based on the execution time.
+Typically, it takes 3 to 4 cycles for a read operation in caches,
+ while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
+%Different remote cache timing side channel attacks are proposed, and according the analysis on the execution time,
+%they can be classified into three types: the statistical attack, the Bernstein's attack and the collision attack.
+Two typical remote cache-based side channels for block ciphers are outlined in the following.
+
+\noindent\textbf{The internal collision attack.}
+Each cache line contains multiple lookup table entries,
+ and the internal collision is used to denote accessing the entries in the same cache line.
+The internal collision attack is applied to DES, 3DES and the first round of AES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis},
+ and extended to the second round and last round of AES~\cite{Ac2007Cache}.
+ This attack is based on the correlation between the encryption time and the average number of cache hits (or misses).
+For AES,
+%the observation on 600-MHz Pentium III CPU, reflects that longer encryption time implies lower frequency of cache misses in the first round~\footnote{This observation depends on the CPU type and the implementation of AES.}.
+the input plaintext and the first $128$ bits of the key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$ respectively,
+the inputs of the lookup table $i$ $(0 \leq i \leq 3)$ in the first round, are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
+When any two of $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$ refer to the entries of the lookup table in the same cache line,
+ a shorter encryption time appears\footnote{According to \cite{Tsunoo2003Cryptanalysis}, a longer encryption time results for the implementation~\cite{aesimp} of AES running on 600-MHz Pentium III CPUs.}.
+Then the difference of some key bits can be inferred as the values (i.e., $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$, $0 \leq j < k \leq 3$) counted most often,
+   which is used to extract the secret key.
+%A cache miss occurs when the inputs of each lookup table are different.
+%In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
+%After collecting $2^{18}$  plaintexts with long encryption time, the 96-bit key differences are obtained, which are the values counted most often.
+%The secret key is recovered with a following 32-bit brute-force search.
+%Tsunoo \emph{et al.} applies this attack to DES, 3DES and AES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis},
+
+
+
+
+%Tsunoo \emph{et al.} presented this attacks on DES and 3DES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis}. In DES and 3DES,  the input of the S-box is $K_{i} \oplus P_{i}$, the $i$th byte of the key  XORed with the $i$th byte of the plaintext. Then,   the difference of the $i$th byte and $j$th byte (i.e., $K_{i} \oplus K_{j}$) is inferred    from the values of $P_{i}$ and $P_{j}$ using the following equations,    and the key search space is reduced. A smaller execution time results from more cache hits,   so Equation (\ref{text:formulas1})  holds;  otherwise,  a greater time means Equation (\ref{text:formulas2}). \begin{equation} P_{i} \oplus K_{i} = P_{j} \oplus K_{j} \Rightarrow P_{i} \oplus P_{j} = K_{i} \oplus K_{j}\label{text:formulas1} \end{equation} \begin{equation} P_{i} \oplus K_{i} \neq P_{j} \oplus K_{j} \Rightarrow P_{i} \oplus P_{j} \neq K_{i} \oplus K_{j}\label{text:formulas2} \end{equation} In principle, it's effective to any implementation of block ciphers that adopts lookup tables.
+
+
+%S-box data is deleted from the L1 data cache. The input values of S-boxes under comparison are different. In this case, Eq. (2) holds and values of improbable key differences can be excluded. Implementing this method requires the collection of plaintexts resulting a long encryption time under the assumption that a plaintext having a large number of cache misses equals a plaintext having a long encryption time. Thus, the most of the collected plaintexts are guessed to result in different input values between the S-boxes. Key differences for the collected plaintexts can therefore be calculated and the value that appears the least frequently is taken as the correct key difference. We call this method an elimination table attack. Correlation Between the Encryption Time and the Average Number of Cache Misses the correlation that lower frequency of cache misses implies longer encryption time.
+
+
+%\subsection{Typical Attack Methods}
+%Cache based side channel attacks take advantage of the cache behaviour when accessing the memory causing cache hit or miss which can result in some variation on time, power, electromagnetism and so on. The timing attacks exploit the total execution time affected by the cache. During cryptographic algorithm executing, when the cache miss occurs frequently it has a long execution time. Based on the usage of the total execution time by the attackers, the timing attack can be classified into three types. First is the statistical attack which select and collect effective plaintexts for cryptanalysis, and infers the information on the expanded key from the collected plaintexts. Second is the Bernstein's attack which has an learning stage using a known key. Last is the collision attack which predicts timing variation due to cache-collisions in the sequence of lookups performed by the encryption. The core concept of all timing attacks is that different plaintext inputs cause the different encryption time due to the number of cache miss.
+
+%\subsubsection{Statistical attack}
+
+%This type of attack is first implemented in~\cite{Tsunoo2002Cryptanalysis} and ~\cite{Tsunoo2003Cryptanalysis} practically by Tsunoo. It mainly attacks the DES and Triple-DES. The other kinds of symmetric cryptographic algorithm also can be attackked by this type of attack such as MISTY1~\cite{Tsunoo2006Improving}, Camellia. In the paper, it shows that all symmetric algorithms using lookup tables can be effected by the attack method.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.3\textwidth]{pic/simplemodel.pdf}\\
+%  \caption{Ciphers with two S-boxes.}\label{ciphermodel}
+%\end{figure}
+
+%The attack presented by Tsunoo is based on the fact that plaintexts with a long encryption time correspond to a high frequency of cache misses and a short encryption time correspond to a high frequency of cache hits. However, the more different inputs of the S-box lead to the cache misses increasing. Therefore, one can infer that if the time of the encryption of a given plaintext is long, it means that many different S-box input values for the plaintext. In order to simplified the explanation of the attack, the authors make use of a cipher with two S-boxes in Figure~\ref{ciphermodel}. It employs two independent key bytes $K_{0}$ and $K_{1}$ exclusive-OR with plaintexts $P_{0}$ and $P_{1}$, and then inputs then into the S-boxes. the key difference($K_{0} \oplus K_{1}$) can be inffered from the values of $P_{0}$ and $P_{1}$ using either of the following relations.
+%\begin{equation}
+%P_{0} \oplus K_{0} = P_{1} \oplus K_{1} \Rightarrow P_{0} \oplus P_{1} = K_{0} \oplus K_{1}\label{text:formulas1}
+%\end{equation}
+%\begin{equation}
+%P_{0} \oplus K_{0} \neq P_{1} \oplus K_{1} \Rightarrow P_{0} \oplus P_{1} \neq K_{0} \oplus K_{1}\label{text:formulas2}
+%\end{equation}
+%By obtaining the key differences the attacker is able to reduce the key search space.
+
+%There are two methods of gathering the key differences corresponding to each of the previous two formulas. The first method corresponding to the situation in which the inputs of S-boxes under comparison are equivalent and the relation (\ref{text:formulas1}) is called the non-elimination table attack. In this case, the inputs will cause a large number of cache hits. So the attackers collect the plaintexts resulting a short encryption time which represents a small number of cache miss. It can be easily inferred that key differences can therefore be calculated for the collected plaintexts and the value counted most frequently can be regarded as the correct key difference. The second method is called the elimination table attack which is corresponding to the situation of different inputs of the S-boxes for which equation (\ref{text:formulas2}) holds. In this case the improbable key differences can be excluded. The attackers collect the plaintexts resulting a long encryption time which represents a large number of cache miss. So the key differences for the collected plaintexts can therefore be calculated and the value that appears the least frequently is taken as the correct key difference.
+
+%Considering the structure of DES, only 16 accesses are needed for each S-box during the encryption. Relatively to the 64 entries of an S-box, the number of 16 accesses is rather small, resulting in a high probability of accessing different elements of the separate S-boxes. So the authors implement the elimination table attack on a a Pentium III CPU having a cache load size of 32-bytes. As a result, the key is recovered by a success rate greater than 90\% with $2^{23}$ known plaintexts and $2^{24}$ calculations.
+
+\noindent\textbf{The Bernstein's attack.}
+Bernstein's attack \cite{Bernstein2005Cache} is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on the lookup table index.
+The attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
+For each byte of the key, the attacker obtains the lookup table index ($p_i \oplus k_i$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
+Then, the attacker infers the key of the victim server, with the obtained lookup table index and known plaintexts.
+
+%Bernstein's attack uses the distribution of AES encryption time to recover each byte of the key \cite{Bernstein2005Cache}.
+ %It contains three phases. The first one is the learning phases, in which the attacker constructs a duplicate server with the same CPU and AES implementation of the victim server, but with a known key, then encrypts a large number of 400, 600 and 800 byte random plaintexts to build a time pattern for the various bytes. The second phases is the attack phases, where the attacker builds the time pattern for the victim server whose AES key is unknown. In the last phases, the attacker analyses the time patterns of the duplicate and the victim server for each byte to produce a set of possible key bits.
+%Bernstein's attack is a remote timing attack based on the speculation that the timing delay of any S-box lookup is highly correlated with the whole AES computation. This can leak information about each key byte exclusive-OR with a plaintext byte($k_{j} \oplus p_{j}$) so that using the distribution of AES encryption timings a function of $p_{j}$, one can compute the value of the corresponding key byte $k_{j}$ for each byte.
+
+%This attack consists of three steps as shown in Figure~\ref{berattacks}. The first step is the learning phrase. The attacker constructs a duplicate server with the same CPU and running the same implementation of AES but with a known key as the victim server. Then the attacker generates a large number of random 400, 600 and 800 byte plaintexts and sends them to the victim server. The time taken to encrypt each plaintext is recorded. For each byte of the input 16 byte plaintexts of one AES block, the attacker can build a time pattern for the various value. The second step is the attack phrase in which the attack is launched against the real victim server. This step is the same as the first step except the key of the victim is known. Also need the attacker to build another time pattern. The last step is the analysis phrase. The attacker compares the timing patterns from the victim server with the duplicate server for each byte, and then produces a set of possible key bits.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.9\textwidth]{pic/berattack.pdf}\\
+%  \caption{Steps of Bernstein's attack.}\label{berattacks}
+%\end{figure}
+
+%Bernstein attacks the server that is with a 450Mhz Pentium III running version 2.95.4 of the GCC compiler and OpenSSL version 0.9.7a and successfully recovers the AES key. Afterwards, there are many researches investigating and improving the Bernstein's attack to obtain the key information of AES.
+
+%\textbf{The collision attack [a little more details are needed].}
+%Each cache line contains multiple lookup table entries, and the collision is used to denote accessing different index of lookup tables in the same cache line. When  the inputs of the S-box introduce the collision, the  encryption time will be smaller. The first round attack cannot recover all bits of the AES key as the exact index of lookup tables can't be determined, and Ac谋i 莽mez proposed a two round cache collision attack of AES which recovers all bits of the key~\cite{Ac2007Cache}.
+
+
+%The collision attack utilizes another characteristic of AES encryption time differing from the Bernstein's attack which makes use of the effect on the total execution time by the time of searching the different index of the lookup tables. When carrying out the collision, it is based on the time accessing the same lookup tables occurring hit or miss that influences the overall encryption time. Collision attack is similar to the statistical attack which also takes advantage of access time on lookup tables, but the analysing phrase is not the same. For each byte of the key, the statistical attack counts the most(or least) frequently value as the right exclusive-or value of the key, however, collision attack focuses on the time varied due to the cache collision.
+
+%Cache collision occurs when two separate lookup indices satisfy $\langle l_{i}\rangle = \langle l_{j}\rangle$, which means a cache hit occurs. Here, for cache line size 64 bytes, one cache line can store 16 lookup table entries , so $\langle l_{i}\rangle$ represents the significant $8- \log_{2}^{16}$ bits. When the case is $\langle l_{i}\rangle \neq \langle l_{j}\rangle$, the cache miss will occur if the $T[l_{j}]$ was out of memory. So, depending on the cache access time, it is concluded that for any pair of lookup indices i, j, given a large number of random AES encryptions with the same key, the average time when $\langle l_{i}\rangle = \langle l_{j}\rangle$ will be less than the average time when $\langle l_{i}\rangle \neq \langle l_{j}\rangle$.
+
+%This type of attack can be explained by the simple model in Figure~\ref{ciphermodel} too by replacing the S-boxes to the lookup tables. Let $P_{i}$ and $K_{i}$ be the $i^{th}$ byte of the plaintext and key, respectively. It can have the following equation:
+%\begin{equation}
+%\langle P_{i}\rangle \oplus \langle K_{i}\rangle = \langle P_{j}\rangle \oplus \langle K_{j}\rangle \Rightarrow \langle P_{i}\rangle \oplus \langle P_{j}\rangle = \langle K_{i}\rangle \oplus \langle K_{j}\rangle\label{text:formulas3}
+%\end{equation}
+%When plaintexts satisfy the equation \ref{text:formulas3} for a pair of bytes i, j, it will have a lower average encryption time because of the collision. The first round attack compiles encryption timing data into a table $ t[i, j,\langle P_{i}\rangle \oplus \langle P_{j}\rangle]$ of average encryption times for all i, j in the same table family. The low average time of the table at $t[i,j,\Delta]$ means a cache hit happens, so $\langle K_{i}\rangle \oplus \langle K_{j}\rangle = \Delta $.
+
+%The first round attack can not recover all bits of the key due to the influence by the cache structure that the low bits of the index of lookup tables can't be determined. The cache collision attack also can be carried out for the last round AES, which don't have the influence and can recover all bits of the key. Ac谋i莽mez also proposed a two round cache collision attack against AES in~\cite{Ac2006Cache} to recover all bits of the key.
+
+%%%%usefull
+%“Timing attacks” [2][6] that measure the encryption time of a cryptographic application can also be treated as side-channel attacks. A countermeasure to attacks of this type is to eliminate branch processing in the implementing algorithm so that encryption times are equivalent
+%conditional branches
+%However, adding noise does not stop the attack: the client simply averages over a larger number of samples, as in [7]. In particular, reducing the precision of the server's timestamps, or eliminating them from the server's responses, does not stop the attack: the client simply uses round-trip timings based on its local clock, and compensates for the increased noise by averaging over a larger number of samples.
+
+
+%Thus, if a total-data load is executed before processing, differences between the frequencies of cache misses will not be observed, making it impossible to determine the relationships between sets of S-boxes
+
+
+
+\subsection{Countermeasure}
+Although eliminating timing side channels remains difficult~\cite{Cock2014The},
+different countermeasures have been proposed on hardware, software and OS levels.
+All the defense methods can be divided into three categories: eliminating cache misses, adding confusion to cache misses and their combination.
+
+\noindent\textbf{Eliminating cache misses.}
+The most direct method to defend against the cache side channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical. At present, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is an hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations are suffered from high performance overload compared with using lookup tables.
+There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
+
+Cache warm is one way to eliminating the cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into the caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods would introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
+
+Another way to eliminate cache misses is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
+The new cache design~\cite{Kong2009Hardware,Wang2007New} uses partition-locked caches to prevent cache interference.
+Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
+SecDCP technique~\cite{wang2016secdcp} can change the size of cache partitions at run time for better performance.
+Although they can effectively defend against the cache timing attacks, their deficiencies are obvious as these schemes have
+limited practical usage and cannot be deployed on ready-made commodity hardware.
+
+\noindent\textbf{Adding confusion to cache misses.}
+Adding delay is a common way to make the attackers obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and dynamic padding which means adding delay to a constant value~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}. Besides these software methods, OS level defense methods are also proposed such as adding noise with periodic cache cleaning~\cite{Yinqian2013D}, also making encryption time to constant values by adding delay~\cite{Cleemput2012Compiler,Coppens2009Practical}, and using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler}. These methods are algorithm independent and can effectively defend against the cache side attacks. But the major drawback of these methods is that they incur large performance overhead.
+
+The author in paper \cite{Page2003Defending} suggests to add some dummy instructions or access some extra arrays to confusion the encryption time. A fixed number Of clock cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a hardware-based method PRC confuse the cache misses to the attackers. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
+
+Another method to confuse the attackers' observations is modifying the precision of the time measured by attackers~\cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}. But it is useless in the remote environment because the attackers can use its own timers.
+
+\noindent\textbf{Combination methods.}
+Some schemes combine the two strategies to defend against the cache timing attack. The scheme proposed in \cite{Brickell2006Software} consists of three parts: using compact tables, frequently randomizing tables, and pre-loading of relevant cache-lines. It makes cache misses occur as little as possible while makes the observations secret-independent. But the drawback is the performance overload as a result that three parts all would introduce some extra overhead.
+
+Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding, isolating shared resources and lazily cleansing state to form a robust defense. It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
+
+PRET~\cite{lickly2008predictable,liu2009elimination}, a hardware architecture, is designed to replace caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
+
+
+%
+%AES-NI
+%S. Gueron, “Advanced Encryption Standard (AES) instructions
+%set,” www.intel.com/Assets/PDF/manual/323641.pdf,
+%2008, Intel Corporation.
+%
+%
+%
+%
+%The most popular hardware design is AES-NI, which runs instructions on the CPU to implement AES without using caches.
+%Other approaches
+%Cache misses may be eliminated by not using caches, avoiding shared caches, or cache warming.
+%On the other hand, adding time delay, adding redundant instructions, order skewing,
+% and table randomization add confusion at cache misses.
+%However, existing methods have some disadvantages: (1) not using caches~\cite{Page2003Defending,Gullasch2011Cache,K2008A,Taha2014Cache}, cache warming~\cite{Brickell2006Software,Tsunoo2003Cryptanalysis}, masking~\cite{Bl2005Provably,Osvik2006Cache}, and adding delay~\cite{K2009A,Ferdinand2004Worst,Zhang2011Predictive,Askarov2010Predictive} would introduce significant overhead;
+%on the other hand,
+% our scheme combines cache warm and delay with optimized performance;
+%(2) using compact tables~\cite{Brickell2006Software}, order skewing~\cite{Page2003Defending} or table randomization~\cite{Mer2007Analysis} require modifications to the implementation, hence, they are less universal;
+%(3) modifying the time accuracy~\cite{Page2003Defending,Martin2012TimeWarp} fails to prevent the remote attackers from observing the execution time.
+%(4) avoiding the caches being shared~\cite{Braun2015Robust} and setting caches no-fill mode~\cite{Taha2014Cache} needs special privileges on the system.
+%
+%Hardware designs  are proposed to eliminate timing side channels.
+%A hardware-based mechanism  presented in~\cite{Dan2005Partitioned},
+%  allows  cache to be configured dynamically to match the need of a process.
+%The new cache design~\cite{Wang2007New,Kong2009Hardware} uses partition-locked caches and random permutation caches
+% to  prevent cache interference.
+%\cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
+%
+%Zhang2011Predictive
+%
+%The works~\cite{Coppens2009Practical,Cleemput2012Compiler} provide automated mechanisms to eliminate cache side channels by new options of compilers and programming languages,
+% which can be adopted by our work. % to achieve the automated elimination of side channel with the optimal performance.
+%Finally,
+%  countermeasures attempt to hide the access patterns from the adversary on the other VMS,
+%    against cross-VM cache-based side channels \cite{get-off-my-cloud,liu2015last}.
+%For example, STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into the locked cache lines,
+% D{\"u}ppel~\cite{Yinqian2013D}  cleanses time-shared caches,
+%and StopWatch~\cite{Li2013Mitigating} modifies the timings observed by others.
+%
+%Timing side channel attacks~\cite{Kocher1996Timing,yarom2014recovering,Brumley2005Remote,Brumley2011Remote}
+% exists for RSA and ECDSA,
+% which are based on instruction caches.
+%The commeasures include generating the unique execution paths~\cite{Askarov2010Predictive,Crane2015Thwarting,Braun2015Robust} and
+%preventing shared resources~\cite{Kim2012STEALTHMEM,Braun2015Robust}.

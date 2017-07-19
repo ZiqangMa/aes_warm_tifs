@@ -1,0 +1,173 @@
+\section{Introduction}
+%\vspace{-2mm}
+%\begin{CJK}{GBK}{song}
+%\begin{CJK}{UTF8}{gkai}
+%\ \ \ \ \ 侧信道攻击的危害及研究的必要
+%攻击分类，有哪些攻击
+%防御方法有哪些
+%防御的问题：对算法本身进行修改，对硬件进行修改，可用性不强
+%我们的研究：针对敌手需要的能力最弱的攻击，时间攻击
+%提出一个防御框架
+%保证了在AES计算时不泄露信息
+%在安全的同时，计算效率最高
+%
+%\end{CJK}
+    %Kocher1996Timing 对RSA和ECC的攻击，利用不同运算的计算时间
+    %Tsunoo2003Cryptanalysis: 针对DES的攻击，first practical，time-driven attacks
+    %Bernstein2005Cache 远程攻击，但是没有给出具体示例it is extremely difficult to load an array entry in time that does not depend on the entry's index. Is AES the only cryptographic function vulnerable to this type of attack? No. The relevant feature of AES software, namely its heavy reliance upon S-boxes, is shared by cryptographic software for many other functions（但举的例子不太明显）
+    %Ac2006Trace：trace attack，所需要的trace数目较少
+    %Bonneau2006Cache：基于lookup table的AES实现。common table-driven software implementation of the AES cipher，在此之前最优的攻击是Bernstein2005Cache，起将所学的明密文对数目降低了4个数量级 represent a significant step towards developing realistic remote timing attacks against AES,
+    %Neve2006A 对Bernstein2005Cache的一个更细致的分析，指出其能成功的原因
+    %Tsunoo2003Cryptanalysis First practical results for time-driven cache attacks on the Data Encryption Standard (DES)
+    %Gullasch2011Cache access-driven attack, 近乎实时攻击，所需的样本量很少，非特权的spy进程，也是先学习，后猜测的过程。针对AES
+    %Osvik2005Cache: evict+time，on AES
+    %Tromer2010Efficient 是Osvik2005Cache的journal版本
+In the implementations of a cryptographic algorithm,
+   the cryptographic keys could be leaked through side channels on
+    timing \cite{Acii2005Improving,Ac2006Trace,Bonneau2006Cache,Bernstein2005Cache,Gullasch2011Cache,Kocher1996Timing,Neve2006A,Osvik2006Cache,Tsunoo2003Cryptanalysis,Tromer2010Efficient}, % 引用一些在不同的方法上，有开创性的
+    electromagnetic fields \cite{Electromagnetic-sidechannel}, power \cite{power-pc,Bertoni2005AES},
+ ground electric potential \cite{electric-potential-sidechannel} or acoustic emanations \cite{Acoustic-sidechannel},
+  even when the algorithm is theoretically secure.
+  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
+  Among all kinds of side channels, timing attack is widely used due to easy realization.
+  Specially, remote timing side channels allow an attacker without
+    any system or physical privilege on the computer,
+    to recover the keys
+   by just repeatedly invoking the encryption/decryption functions and measuring the execution time \cite{Tsunoo2002Cryptanalysis,Bernstein2005Cache,Bonneau2006Cache,Neve2006A,Brumley2011Remote,Brumley2005Remote},
+   which is a big threat to the security system.
+% 公钥算法的timing，也很明显，但是与cache无关？引用remote cache攻击
+%Public key algorithms have proved the most vulnerable to timing attacks because they typically perform lengthy mathematical operations, the running time of which depends directly on the data due to branch statements
+%Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
+%在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
+
+The remote timing side channels exploiting the time difference of cache misses and hits,
+    called the \emph{remote cache timing side channels} in this paper,
+ are discovered in many cryptographic implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+In various implementations of block ciphers,
+  table lookup operations are the primary time-consuming operations.
+Because accessing data in caches is much faster than those in RAM,
+ cache misses and hits in these table lookup operations
+    are reflected in the overall execution time of block ciphers.
+Different inputs of table look operations cause different cache access behavior so that the overall time differs, which are related to the secret keys,
+    and then the information about keys leaks.
+
+%	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
+%	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
+
+Remote timing cache side channels widely exists in the software implementations of cryptographic algorithms,
+  and are practical to be exploited~\cite{Ac2007Cache,atici2016remote,Bernstein2005Cache,saraswat2014remote}.
+Compared with other side channels
+ on electromagnetic fields, power,
+ ground electric potential and acoustic emanations,
+ remote timing cache-based side-channel attacks do not require special equipments
+    or extra physical access to the system.
+ Moreover,
+  they just need the ability to invoke the necessary encryptions/decryptions without any extra operations or spy processes running on the target system,
+compared with other cache-based side-channel attacks
+%   such as cross-VM side-channel attack, FLUSH+RELOAD, and access-driven cache-attacks
+\cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
+
+Since little acquirements are needed, this type attack is easy to deploy and hard to defense. There already exists many defense methods to eliminate the remote cache side channels. The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
+Although the existing methods can offer some security guarantee, most of them have some drawbacks. Some methods which are implemented on hardware to control the cache lack universality. Some using particular implementation to make algorithms constant time are just suitable to specific algorithms.
+Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads. It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
+
+%%
+%Intro：
+%	各种Side channel威胁到密码系统的安全性，包括timing、电磁、xxxx、xxx。利用Side channel攻击者能够获得密钥。Timing side channel是其中容易发起的一种，因为只需要计时、不需要专门的设备。
+%	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
+%	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
+
+%Because of the prevalence and severity of the attack, many defense mechanisms have been proposed to eliminate the cache side channels.
+
+In this paper, we present {\scshape{Warm+Delay}}, a universal defense mechanism to eliminate remote cache timing side channels.
+ Meanwhile we achieve the optimized performance both in theoretical analysis and actual implementation.
+Two elementary operations,
+  \emph{warm} (i.e., to fill cache lines by reading constant tables)
+  and \emph{delay} (i.e., to insert padding instructions after the encryption/decryption operations),
+  have been proposed to prevent cache side-channel attacks \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}. %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
+Our scheme combines these two operations as follows to reduce extra overheads,
+   to gain the optimized performance while ensure security.
+\begin{enumerate}
+\item
+Destroy the relationship between the execution time and cache misses/hits,
+  to ensure security.
+That is, the measured execution time reflects either the best case (i.e., all lookup tables are cached),
+     or the worst case (i.e., none of tables is in caches).
+\item
+Prefer warm for the best case, to optimize the performance.
+Warm before executing the encryption/decryption operations,
+  if not all tables are cached.
+However, cached data may be evicted by system activities and
+    the effect of warm is destroyed;
+  in this case,
+    the time of encryption/decryption may reflect the data cache access,
+   and then delay operation makes the execution to be the worst case.
+\item
+% 将warm放到delay的时间中
+If delay is performed,
+  warm is also done for the next encryption/decryption operation to raise the performance.
+So, some useless padding instructions are utilized to perform warm instead.
+Note that warm also consumes CPU cycles.
+\end{enumerate}
+
+
+%1. the时间与data无关，或者是全部都在cache的时间，或者是全部都不在cache的时间；使得无法推导data相关
+%2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
+%3. 条件的判断，基于时间，不需要特殊的操作和权限；
+
+The proposed {\scshape{Warm+Delay}} scheme does not require any privileged operation on the system.
+The conditions to perform warm and delay, are defined as regular timing.
+Reading constant tables, padding instructions, and timing are commonly supported in computer systems.
+The scheme is independent of algorithms and implementations.
+   It does not depend on any special design or feature of block ciphers,
+and it is applicable to different implementations, except that the lookup tables are accessible in the warm operations.
+
+We apply this scheme to AES, and analyze the situations that it produces the optimized performance.
+It achieves the optimized performance for the AES-128 implementation with 2KB lookup tables \cite{Daemen2002The},
+when (\emph{a}) the probability
+ that some entries of lookup tables are evict from caches by system activities during the executions of encryption/decryption, denoted as $P_{evict}$, is less than $0.2$, and
+ (\emph{b}) the ratio of
+  the delayed time  to the time of reading constant tables from  either caches or RAM,
+  denoted as $k$, is less than $57.4$.
+These conditions hold for continuous AES executions in commodity systems,
+  and confirmed experimentally by the prototype.
+In fact, our scheme produces the optimized performance for  various AES implementations (the lookup tables in size of 2K, 4KB, 4.25KB and 5KB) in different key length (128, 192 and 256 bits), when $P_{evict} < 0.2$ and $k < 42.41$.
+These conditions also hold in commodity systems.
+
+
+   % 各种输入是攻击情况，仍然是相同的分布。这一块的实验，我们没有做。是否需要做？
+   % 对于original，在图上，哪些是可以利用来攻击的，应该有所标注【或者使用文字】。
+We implement the {\scshape{Warm+Delay}} scheme with AES.
+Experiment results on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
+  demonstrate that, the measured time does  not reflect the data cache access.
+We also validate the optimization in different scenarios,
+ by comparing it with different strategies of warm and delay.
+To the best of our knowledge,
+  this work is the first protection against cache timing side channels with the analysis of optimized performance.
+
+In summary, our contributions are listed below:
+\begin{itemize}
+\item
+We present {\scshape{Warm+Delay}}, a defense mechanism efficiently combining warm and delay operations to eliminate remote cache timing side channels.
+\item
+We theoretically analyze the defense scheme and find the optimal way to use the warm and delay operation with security.
+\item
+The scheme is algorithm-independent and need no special privilege, so it can be widely used in all block ciphers with lookup tables.
+\item
+We apply the scheme into AES and verify the security and performance both in theory and experiments.
+\end{itemize}
+
+
+%	已有的消除(Remote) Cache Timing Side Channels有各种各样，包括ABCDEFG。逐一大致说明。
+%	已有方法的大致思路都是：……有一个总结【是什么？】这些方法为了避免攻击者从timing推导得到cache hit/missing 信息、进而推导得到key信息，都会使得timing (or speed)受到防御措施的影响，也就是速度降低。
+%	本文提出了一种框架，to eliminate remote cache timing side channels, while保持最优性能。我们方法的基本思路是，结合warm和delay【这2个关键词，别人是这么用的吗？不要自己造出来一些term，要用已有的term来描述创新的方法/方案，别人才能够更好更快地理解】，……【说明我们的大致思想】
+%	我们实现了方案，实验等等
+
+The remainder of this paper is organized as follows.
+Section \ref{sec:background} presents the background and related works.
+Section \ref{sec:eliminating} describes the {\scshape{Warm+Delay}} scheme and analyzes its security.
+Section \ref{sec:performanceproof} proves that our scheme achieves the optimized performance, which is verified by the evaluation in Section \ref{sec:implementationEvalution}.
+Section \ref{sec:discussion} contains extended discussions.
+Section \ref{sec:conclusion} draws the conclusion.
+Appendix \ref{appendixa} provides the proof of the optimized performance in details,
+ while Appendix \ref{appendixb} analyzes various implementations of AES with different key lengths.

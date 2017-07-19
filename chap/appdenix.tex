@@ -1,0 +1,174 @@
+\newpage
+\appendix
+\section{Appendix A: The the range of $k$}
+\label{appendixa}
+In this section, we describe how to calculate the range of $k$ in details.
+%In the proof of Theorem~\ref{lemma:warmaftermiss}, we get the Equation~\ref{equ:tpc1}. From it we calculate the range of $k$. Here is the details of the calculation.
+From Table~\ref{tbl:pdelayvalue}, we get $0.8 \leq P_{delay} \leq 1$.
+The conditions $0 \leq P_{warm} \leq 1$ , $0 \leq P_{evict} \leq 1$ ,and $k > 1$ hold, obviously.
+
+
+By combing Equation~\ref{equ:pip},~\ref{equ:pic} and~\ref{equ:tpc1}, we get Equation~\ref{equ:ypwarm} and \ref{equ:detail}.
+We need to determine the range of  $k$, which makes $E(T^{p}) - E(T^{c})>0$ (i.e., $y(P_{warm}) > 0$).
+
+\begin{equation}
+\label{equ:ypwarm}
+\begin{split}
+\scriptsize
+y(P_{warm}) = &(P_{delay}+P_{evict})*P_{warm}^{2} \\
+& +  P_{evict}*(P_{delay}+P_{evict})(1-P_{delay})*P_{warm}\\
+& - k*P_{delay}*P_{evict}*P_{warm}+ k*P_{delay}^{2}*P_{evict} \ ,
+\end{split}\end{equation}
+
+\begin{equation}
+\label{equ:detail}
+\begin{split}
+E(T^{p}) - E(T^{c}) = &\frac{y(P_{warm})}{(P_{warm}+P_{evict})(P_{delay}+P_{evict})}
+\end{split}\end{equation}
+
+
+%$y(P_{warm})$ a quadratic function, and $(P_{delay}+P_{evict}) > 0$.\par
+%\vspace{ex}
+ \ \par
+The symmetry axis of $y(P_{warm})$ is $P_{warm} = P_{a}$, where $P_{a}$ is denoted in Equation~\ref{equ:pa}.
+\begin{equation}
+\label{equ:pa}
+P_{a} = \frac{k*P_{evict}P_{delay} + P_{evict}^{2}P_{delay} + P_{evict}P_{delay}^{2} - P_{evict}^{2} - P_{evict}P_{delay}}{2(P_{evict}+P_{delay})}\ .
+\end{equation}
+
+Equation~\ref{equ:pal0} holds when $0.8 \leq P_{delay} \leq 1$, $0 \leq P_{evict} \leq 1$,  which means $P_{a}  \geq 0$.
+  \begin{equation}
+  \label{equ:pal0}
+  \begin{split}
+     k  > 1 > & \frac{P_{evict}^{2} + P_{evict}P_{delay} - P_{evict}P_{delay}^{2} - P_{evict}^{2}P_{delay}}{P_{evict}P_{delay}} \\
+     &= \frac{P_{evict}}{P_{delay}} - P_{delay} + 1 - P_{evict} \ .
+  \end{split}
+  \end{equation}
+  %We make $k_{1} = \frac{P_{evict}^{2} + P_{evict}P_{delay} - P_{evict}P_{delay}^{2} - P_{evict}^{2}P_{delay}}{P_{evict}P_{delay}}$.
+  %After simplified, $k_{1} = \frac{P_{evict}}{P_{delay}} - P_{delay} + 1 - P_{evict}$.
+  %$k_{1}$ is a decreasing function of $P_{delay}$, the maximum of $k_{1}$ is $0.25P_{evict}+0.2$ when $P_{delay} = 0.8$. The maximum value is less than 1, but $k$ must be larger than $1$. So this condition is false.
+ %means $k<1$ which conflicts with the precondition $k>1$.
+
+
+
+\begin{enumerate}
+
+
+  \item If $P_{a} > 1$ (i.e., Equation~\ref{equ:pal1} holds), the minimum value of $y(P_{warm})$ is $y(1)$.
+  When $k \epsilon (k_{1}, k_{0}]$, $y(P_{warm}) \geq 0$ holds.
+    \begin{equation}
+    \label{equ:pal1}
+    k > \frac{(P_{evict}+P_{delay})(2+P_{evict}-P_{delay}P_{evict})}{P_{evict}P_{delay}} = k_{1} \ .
+  \end{equation}
+  %In this condition,.
+ % \begin{equation}
+  %  \scriptsize
+  %  y(1) = (P_{delay} - 1)P_{evict}P_{delay}k + (1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay}) \ .
+ % \end{equation}
+  %make $y(1) \geq 0$, so all $y(P_{warm}) \geq 0$ when $0 \leq P_{warm} \leq 1$ . So:
+  \begin{equation}
+   k_{1} < k \leq \frac{(1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay})}{(1 - P_{delay})P_{evict}P_{delay}} = k_{0}\ .
+  \end{equation}
+  %We mark $k_{2} = \frac{(P_{evict}+P_{delay})(2+P_{evict}-P_{delay}P_{evict})}{P_{evict}P_{delay}}$ and \par $k_{0} = \frac{(1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay})}{(1 - P_{delay})P_{evict}P_{delay}}$ ,\par so when
+  %$k_{2} < k \leq k_{0},$
+ % $$y(P_{warm}) \geq 0$$.\par
+
+ % \ \par
+
+  \item If $0 \leq P_{a} \leq 1,$ (i.e., $1 < k \leq k_{1}$), the minimum value of $y(P_{warm})$ is $y(P_{a})$.
+  \begin{equation}\begin{split}
+    \scriptsize
+    y(P_{a}) =& \frac{1}{4(P_{evict}+P_{delay})}\{-P_{evict}^{2}P_{delay}^{2}k^{2}\\ &+ 2P_{evict}P_{delay}(P_{evict}+P_{delay})(2P_{delay}+P_{evict}-P_{evict}P_{delay})k\\ & - P_{evict}^{2}(P_{evict}+P_{delay})^{2}(1-P_{delay})^{2}\}.
+  \end{split}\end{equation}
+
+ $y(P_{a})$ is a function of $k$ (denoted as $f(k)$). As $-P_{evict}^{2}P_{delay}^{2} < 0$, the minimum of $f(k)$ is either $f(1)$ or $f(k_{1})$, for $1 < k \leq k_{1}$. When $P_{delay} \in [0.8,1]$, $f(1)$ and  $f(k_{2})$ is larger than $0$, which means $y(P_{a}) > 0$
+
+  % So if $f(1)>0 and f(k_{2})>0$, $f(k)>0 in k \in (1,k_{2}]$.
+  \begin{equation}
+  \label{equ:f1}
+  \begin{split}
+    \scriptsize
+    f(1) =& \frac{1}{4(P_{evict}+P_{delay})}\{-(1-P_{delay})^{2}P_{evict}^{4} + 2P_{evict}^{3}P_{delay}^{2}\\ & + 4P_{evict}P_{delay}^{3} + P_{evict}^{2}P_{delay}^{2}(4-P_{delay}^{2} - 2P_{evict}P_{delay})\}.
+  \end{split}\end{equation}
+ % So, $f(1) > 0$ is true when $P_{delay} \in [0.8,1]$.
+
+
+  \begin{equation}
+  \label{equ:fk1}
+    f(k_{1}) = (P_{evict}+P_{delay})(2P_{delay}- 1 + P_{evict}P_{delay}(1 - P_{delay})).
+  \end{equation}
+  %So, $f(k_{2}) > 0$ is true when $P_{delay} \in [0.8,1]$.\par
+
+ % \ \par
+
+  %Therefore, when $1< k \leq k_{2}$, $y(P_{a}) > 0$.
+
+  %So, $y(P_{warm}) > 0$.
+
+\end{enumerate}
+%So, we can get that when $1< k \leq k_{0}$, $y(P_{warm}) \geq 0$.
+From the above analysis, we find that when $1< k \leq k_{0}$, $E(T^{p}) \geq E(T^{c})$.
+%I.e. when $1< k \leq k_{0}$, $T^{p} \geq T^{C}$
+
+\section{Appendix B: The $P_{delay}$ in different AES key lengthes and different AES implementations }
+\label{appendixb}
+We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the probability of performing delay operation with $N$ cache line size of lookup tables not in the cache. So when the AES implementation uses 4.25KB lookup tables, the $P_{delay}$ for AES-128 AES-192 and AES-256 are as follows respectively:
+\begin{equation}
+    \scriptsize
+    P_{delay}^{128} = 1- (\frac{16}{17}(1-\frac{C}{1024})^{36}+ \frac{1}{17}(1-\frac{C}{256})^{16})^{N},
+\end{equation}
+%for AES-192 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{192} = 1- (\frac{16}{17}(1-\frac{C}{1024})^{44}+ \frac{1}{17}(1-\frac{C}{256})^{16})^{N},
+\end{equation}
+%for AES-256 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{256} = 1- (\frac{16}{17}(1-\frac{C}{1024})^{52}+ \frac{1}{17}(1-\frac{C}{256})^{16})^{N}.
+\end{equation}
+When the AES implementation uses 5KB lookup tables, the $P_{delay}$ for AES-128 AES-192 and AES-256 are as follows respectively:
+\begin{equation}
+    \scriptsize
+    P_{delay}^{128} = 1- (\frac{4}{5}(1-\frac{C}{1024})^{36}+ \frac{1}{5}(1-\frac{C}{1024})^{16})^{N},
+\end{equation}
+%for AES-192 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{192} = 1- (\frac{4}{5}(1-\frac{C}{1024})^{44}+ \frac{1}{5}(1-\frac{C}{1024})^{16})^{N},
+\end{equation}
+%for AES-256 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{256} = 1- (\frac{4}{5}(1-\frac{C}{1024})^{52}+ \frac{1}{5}(1-\frac{C}{1024})^{16})^{N}.
+\end{equation}
+When the AES implementation uses 4KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+\begin{equation}
+    \scriptsize
+    P_{delay}^{128} = 1- ((1-\frac{C}{1024})^{40})^{N},
+\end{equation}
+%for AES-192 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{192} = 1- ((1-\frac{C}{1024})^{48})^{N},
+\end{equation}
+%for AES-256 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{256} = 1- ((1-\frac{C}{1024})^{56})^{N}.
+\end{equation}
+When the AES implementation uses 2KB lookup table, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+\begin{equation}
+    \scriptsize
+    P_{delay}^{128} = 1- ((1-\frac{C}{2048})^{16*10})^{N},
+\end{equation}
+%for AES-192 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{192} = 1- ((1-\frac{C}{2048})^{16*12})^{N},
+\end{equation}
+%for AES-256 is
+\begin{equation}
+    \scriptsize
+    P_{delay}^{256} = 1- ((1-\frac{C}{2048})^{16*14})^{N}.
+\end{equation}

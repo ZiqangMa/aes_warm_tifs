@@ -1,0 +1,96 @@
+@misc{Kelsey1998Twofish,
+  title={Twofish: A 128-Bit Block Cipher},
+  author={Kelsey, Bruce Schneier John and Whiting, Doug and Wagner, David and Hall, Chris and Ferguson, Niels},
+  year={1998},
+}
+
+@misc{Burwick1999The,
+  title={The {MARS} Encryption Algorithm},
+  author={Burwick, Carolynn and Gennaro, Rosario and Halevi, Shai and Jutla, Charanjit and Matyas, Stephen M. and Safford, David and Zunic, Nevenko},
+  year={1999},
+}
+
+@article{Dan2002Theoretical,
+  title={Theoretical Use of Cache Memory as a Cryptanalytic Side-Channel},
+  author={Page, Dan},
+  journal={IACR Cryptology ePrint Archive},
+  volume={2002},
+  pages={169},
+  year={2002}
+}
+
+@article{Mair2005Investigation,
+  title={Investigation of cache timing attacks on {AES}},
+  author={O¡¯Hanlon, Mair{\'e}ad and Tonge, Anthony},
+  journal={School of Computing, Dublin City University},
+  volume={51},
+  number={2},
+  pages={306 - 311},
+  year={2005},
+}
+
+@article{Tsunoo2006Improving,
+  title={Improving cache attacks by considering cipher structure},
+  author={Tsunoo, Yukiyasu and Tsujihara, Etsuko and Shigeri, Maki and Kubo, Hiroyasu and Minematsu, Kazuhiko},
+  journal={International Journal of Information Security},
+  volume={5},
+  number={3},
+  pages={166-176},
+  year={2006},
+  publisher={Springer}
+}
+
+@article{Bonneau2006Robust,
+  title={Robust Final-Round Cache-Trace Attacks Against {AES}},
+  author={Bonneau, Joseph},
+  journal={IACR Cryptology ePrint Archive},
+  volume={2006},
+  pages={374},
+  year={2006},
+  publisher={Citeseer}
+}
+
+@article{Neve2006Cache,
+  title={Cache time-behavior analysis on {AES}},
+  author={Neve, Michael and Seifert, Jean-Pierre and Wang, Zhenghong},
+  journal={Selected Area of Cryptology},
+  year={2006}
+}
+
+@inproceedings{Kong2008Deconstructing,
+  title={Deconstructing new cache designs for thwarting software cache-based side channel attacks},
+  author={Kong, Jingfei and Ac{\i}i\c{c}mez, Onur and Seifert, Jean Pierre and Zhou, Huiyang},
+  booktitle={Computer Security Architecture, the 2nd ACM Workshop on },
+  pages={25--34},
+  year={2008},
+  organization={ACM}
+}
+
+@inproceedings{Wei2012A,
+  title={A cache timing attack on AES in virtualization environments},
+  author={Wei{\ss}, Michael and Heinz, Benedikt and Stumpf, Frederic},
+  booktitle={Financial Cryptography and Data Security, International Conference on },
+  pages={314--328},
+  year={2012},
+  organization={Springer}
+}
+
+@article{Kong2013Architecting,
+  title={Architecting against Software Cache-Based Side-Channel Attacks},
+  author={Kong, Jingfei and Ac{\i}i{\c{c}}mez, O. and Seifert, J. P. and Zhou, Huiyang},
+  journal={IEEE Transactions on Computers},
+  volume={62},
+  number={7},
+  pages={1276--1288},
+  year={2013},
+  publisher={IEEE}
+}
+
+@inproceedings{Aly2013Attacking,
+  title={Attacking {AES} using Bernstein's attack on modern processors},
+  author={Aly, Hassan and ElGayyar, Mohammed},
+  booktitle={International Conference on Cryptology in Africa},
+  pages={127--139},
+  year={2013},
+  organization={Springer}
+}

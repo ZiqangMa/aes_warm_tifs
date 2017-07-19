@@ -1,0 +1,168 @@
+@inproceedings{MONOMI,
+  title={Processing analytical queries over encrypted data},
+  author={Tu, Stephen and Kaashoek, M Frans and Madden, Samuel and Zeldovich, Nickolai},
+  booktitle={Proc. of the VLDB Endowment},
+  volume={6},
+  number={5},
+  pages={289--300},
+  year={2013},
+  organization={VLDB Endowment}
+}
+
+@article{cryptdb,
+  title={{CryptDB: Processing queries on an encrypted database}},
+  author={Popa, Raluca Ada and Redfield, Catherine and Zeldovich, Nickolai and Balakrishnan, Hari},
+  journal={Communications of the ACM},
+  pages={103--111},
+  year={2012},
+  publisher={ACM}
+}
+
+@incollection{AS5,
+  title={{AS5: A secure searchable secret sharing scheme for privacy preserving database outsourcing}},
+  author={Hadavi, Mohammad Ali and Damiani, Ernesto and Jalili, Rasool and Cimato, Stelvio and Ganjei, Zeinab},
+  booktitle={Data Privacy Management and Autonomous Spontaneous Security},
+  pages={201--216},
+  year={2013},
+  publisher={Springer}
+}
+@incollection{agrawal2011secure,
+  title={Secure data management service on cloud computing infrastructures},
+  author={Agrawal, Divyakant and El Abbadi, Amr and Emekci, Fatih and Metwally, Ahmed and Wang, Shiyuan},
+  booktitle={New Frontiers in Information and Software as Services},
+  pages={57--80},
+  year={2011},
+  publisher={Springer}
+}
+
+@inproceedings{tian2011privacy,
+  title={Privacy preserving query processing on secret share based data storage},
+  author={Tian, XiuXia and Sha, ChaoFeng and Wang, XiaoLing and Zhou, AoYing},
+  booktitle={Database Systems for Advanced Applications},
+  pages={108--122},
+  year={2011},
+  organization={Springer}
+}
+
+
+@article{shamir1979share,
+  title={How to share a secret},
+  author={Shamir, Adi},
+  journal={Communications of the ACM},
+  pages={612--613},
+  year={1979},
+  publisher={ACM}
+}
+
+@inproceedings{sharemulitip,
+  title={{Simplified VSS and fast-track multiparty computations with applications to threshold cryptography}},
+  author={Gennaro, Rosario and Rabin, Michael O and Rabin, Tal},
+  booktitle={17th annual ACM symposium on Principles of distributed computing},
+  pages={101--111},
+  year={1998},
+  organization={ACM}
+}
+
+@inproceedings{gentry2009fully,
+  title={Fully homomorphic encryption using ideal lattices},
+  author={Gentry, Craig},
+  booktitle={Proc. of the 41st STOC},
+  pages={169--169},
+  year={2009},
+  organization={ACM Press}
+}
+
+@incollection{gentry2012homomorphic,
+  title={Homomorphic evaluation of the AES circuit},
+  author={Gentry, Craig and Halevi, Shai and Smart, Nigel P},
+  booktitle={Advances in Cryptology (CRYPTO)},
+  pages={850--867},
+  year={2012},
+  publisher={Springer}
+}
+
+@inproceedings{boldyreva2009order,
+  title={Order-Preserving Symmetric Encryption},
+  author={Boldyreva, Alexandra and Chenette, Nathan and Lee, Younho and O'Neill, Adam},
+  booktitle={Proc. of the 28th EUROCRYPT},
+  pages={224--241},
+  year={2009},
+  organization={Springer-Verlag}
+}
+
+@inproceedings{song2000practical,
+  title={Practical techniques for searches on encrypted data},
+  author={Song, Dawn Xiaoding and Wagner, David and Perrig, Adrian},
+  booktitle={Proc. of the 21st IEEE S\&P},
+  pages={44--55},
+  year={2000},
+  organization={IEEE}
+}
+
+@inproceedings{elmore2011zephyr,
+  title={{Zephyr: Live migration in shared nothing databases for elastic cloud platforms}},
+  author={Elmore, Aaron J and Das, Sudipto and Agrawal, Divyakant and El Abbadi, Amr},
+  booktitle={Proc. of SIGMOD},
+  pages={301--312},
+  year={2011},
+  organization={ACM}
+}
+
+@incollection{halevi2003tweakable,
+  title={A tweakable enciphering mode},
+  author={Halevi, Shai and Rogaway, Phillip},
+  booktitle={Advances in Cryptology (CRYPTO)},
+  pages={482--499},
+  year={2003},
+  publisher={Springer}
+}
+
+@incollection{boldyreva2009order,
+  title={Order-preserving symmetric encryption},
+  author={Boldyreva, Alexandra and Chenette, Nathan and Lee, Younho and O¡¯neill, Adam},
+  booktitle={Advances in Cryptology (EUROCRYPT)},
+  pages={224--241},
+  year={2009},
+  publisher={Springer}
+}
+
+@inproceedings{paillier1999public,
+  title={Public-key cryptosystems based on composite degree residuosity classes},
+  author={Paillier, Pascal},
+  booktitle={Advances in cryptology (EUROCRYPT)},
+  pages={223--238},
+  year={1999},
+  organization={Springer}
+}
+
+
+@misc{mysqlproxy,
+  author = {{M. Taylor}},
+  title =  {{MySQL proxy.}},
+  howpublished = "\url{https://launchpad.net/mysql-proxy}"
+}
+
+
+@misc{ntl,
+  author = {{V. Shoup}},
+  title = {{NTL: A library for doing number theory.}},
+  howpublished = "\url{ http://www.shoup.net/ntl/}",
+}
+
+@inproceedings{firstcon,
+  title={{Executing SQL over encrypted data in the database-service-provider model}},
+  author={Hacig{\"u}m{\"u}{\c{s}}, Hakan and Iyer, Bala and Li, Chen and Mehrotra, Sharad},
+  booktitle={Proceedings of  SIGMOD},
+  pages={216--227},
+  year={2002},
+  organization={ACM}
+}
+
+@inproceedings{arasu2013secure,
+  title={{Secure database-as-a-service with Cipherbase}},
+  author={Arasu, Arvind and Blanas, Spyros and Eguro, Ken and Joglekar, Manas and Kaushik, Raghav and Kossmann, Donald and Ramamurthy, Ravi and Upadhyaya, Prasang and Venkatesan, Ramarathnam},
+  booktitle={the international conference on Management of data},
+  pages={1033--1036},
+  year={2013},
+  organization={ACM}
+}

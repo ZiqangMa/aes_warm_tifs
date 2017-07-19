@@ -1,0 +1,385 @@
+\section{Performance Analysis}
+\label{sec:performanceproof}
+%\vspace{-1mm}
+\def \vdelay {{\scshape{Delay()}}}
+\def \vwarm {{\scshape{Warm()}}}
+\def \vwd {{\scshape{Warm+Delay}}}
+
+
+%In this section, we first introduce five principles that lead to an optimized {\scshape{Warm+Delay}} performance. We then examine these principles with our proposed algorithm, and derive practical conditions which make the proposed algorithm optimal. We first examine the performance of \vdelay, and then analyze the \vwam~operation with AES as the cryptographic algorithm, and show that our scheme is optimal. Last, we discuss the impact of different key lengths and different algorithm implementations.
+%All the detailed conditions are practical.
+
+
+\subsection{Overview}
+\label{sec:eval}
+%\vspace{-1mm}
+In this section, we show that our solution is optimal in the category of approaches that do not modify encryption algorithm code.
+%In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce \vwarm~(i.e., cache warm) to improve performance.
+Intuitively, all of the following principles need to be satisfied in order to achieve the optimal performance:
+
+\begin{itemize}
+    \item In the {\vdelay} operation, the imposed delay, or the execution time with added delay, is the shortest.
+    \item The number of {\vdelay} operations is minimum.
+    \item In the {\vwarm} operation, only minimum data is loaded into cache. % as little as possible.
+    \item The number of  {\vwarm} operations is minimum.
+    \item {\vwarm} is more efficient than {\vdelay}, \vwarm~is preferred over {\vdelay}. % than \verb+delay+.
+\end{itemize}
+
+We examine these principles with our proposed scheme, and derive practical conditions which make it optimal. We first examine the performance of \vdelay, and then analyze the \vwarm~operation with  AES-128 with 2KB lookup tables \cite{openssl}.
+ In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which leads to more \vdelay~in the future). Then we identify the best timing for the \vwarm~operation. Eventually, we derive a practical condition, so that our scheme is optimal. That is, performing warm operation when the execution time lies in $(TWOCM, \infty)$ is the optimal method in our experiment environment. Last, we discuss the impact of different key lengths and different implementations.
+
+%In our \vwd~scheme, we perform delay operation when the execution time is in $(TWOCM, WET)$, and delay it to $WET$. The \vwarm~(cache warm) operation in our scheme loads all the lookup tables into the cache. Hence, the overhead depends on the size of the lookup tables and the implementation of algorithms. We implement our scheme in AES-128 with 4.25KB lookup tables in the proof in Section 4.3. In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which leads to more \vwarm~in the future). Then we identify the best timing for the \vwarm~operation. In particular, we will discuss three cache-access states: (1) all the lookup tables are in the cache ($S_{full}$); (2) the lookup entries not in the cache are not accessed ($S_{nonas}$); (3) and the entries not in the cache are accessed ($S_{as}$). We will compare the additional time introduced by our scheme vs. other methods. Eventually, we derive a practical condition, so that our scheme is optimal when the condition is satisfied. That is, performing warmup operation when the execution time lies in $(TWOCM, \infty)$ is the optimal method in our experiment environment.
+
+%The sketch is needed here!+++++++++++
+
+%Next we discuss \verb+delay+ and \verb+warmup+ in details. we discuss the \verb+warmup+ operation after the \verb+delay+ operation because the \verb+warmup+ has some relation to the \verb+delay+.
+
+%\begin{CJK}{UTF8}{gkai}
+%最优化证明的目的在于，证明我们的方案是最优的，而保证最优的原则有以下几点：
+%1、	warm内容尽可能少
+%2、	warm的次数尽可能少
+%3、	delay的时间尽可能短
+%4、	delay的次数尽可能少
+%5、 原则上由于delay时间大于warm时间，因此尽可能多的使用warm，和尽可能少的使用delay
+%然后对warm 和delay 分别进行详细证明。
+%\end{CJK}
+
+\subsection{Performance Analysis of Delay}
+%\vspace{-2mm}
+%The analysis of \vdelay~is independent of the encryption algorithm used in the scheme.
+\begin{theorem} In the \vdelay~operation, delay to WET imposes the minimal overhead while effectively defending against timing side-channel attacks.\end{theorem}
+\begin{proof}
+From the attackers' viewpoint, there are three types of encryption times that are useless (i.e. the execution time is independent of the plaintext input): the shortest time, WET, and any value that is larger than WET. The shortest time means that all the lookup tables are loaded into the cache with no cache miss during encryption. The WET corresponds to the longest execution path, when all lookup tables are not in the cache. When the execution time is longer than WET, the encryption has been disturbed by the OS (e.g. scheduler or interrupt handler), and it is impossible for the attacker to find the real encryption time.
+
+If we delay the encryption time to a random value or a discrete value less than WET, there still exists an observable relationship between the encryption time and the input. The remote attacker can find the relationship by excessively invoking the encryption. Therefore, delaying to WET imposes the shortest delay that is effective against the side-channel attacks.
+\qed\end{proof}
+
+
+
+\begin{theorem} Performing the \vdelay~operation when the encryption time is in $(TWOCM, WET)$ results the smallest number of \vdelay~operations. % when we cannot distinguish the reason why encryption takes longer than $TWOCM$ (cache miss or the OS scheduler and  interrupt handler).
+\end{theorem} % 这里when后的部分需要吗
+%******BL: 我也觉得后面半句可以不要，因为下文有解释。我先把这半句注释掉了
+\begin{proof}
+
+If the AES execution time is less than TWOCM, it means no cache miss has occurred, so that the encryption time is independent of the input. When the observed encryption time is no less than WET, it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
+
+When the execution time is in $(TWOCM, WET)$, it is because of cache miss, OS scheduler, or interrupt handler (the overhead is less than WET). The proposed scheme cannot distinguish the actual reason. However, the attacker can distinguish it by repeatedly invoking the encryption using the same input, and further perform timing attacks. Therefore, \vdelay~is  necessary. % in this case.
+\qed\end{proof}
+
+\subsection{Performance Analysis of Warm}
+%\vspace{-1mm}
+We apply the \vwd~scheme to AES-128 implemented as described in Section \ref{back:aes}.
+The \vwarm~operation is applied to the lookup tables, which consume 2KB in total.
+We will show that in this case our {\scshape{Warm+Delay}} scheme gets the best performance.
+%In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
+
+\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
+\begin{proof}
+In AES, \vwarm~loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
+cache miss may happen, which will in turn trigger \vdelay~operation. Therefore, the benefit of not loading $N$ ($N>0$) cache lines of lookup tables is the saved loading time in \vwarm, while the potential cost is the added time due to \vdelay. In the following, we will prove that the expected cost is greater than the benefit, regardless of $N$.
+
+For AES with 2KB lookup table implementation, it just use one lookup table $T_{e}$ with 2KB.
+We assume that the size of a cache line is $C$ Bytes, hence, $T_{e}$ needs $2048/C$ cache lines.
+%For a cache line utilized by AES look up tables, the probability that it loads $T_{0}, T_{1}, T_{2}, T_{3}$ is $16/17$, while the probability it loads the content of $T_{4}$ is $1/17$.
+
+We assume that each round of AES is independent in terms of cache access. $T_{e}$ is accessed $16$ times in each of AES rounds besides the last round.
+Therefore, the probability that one cache line of $T_{e}$ is not accessed in all rounds is $P_{e} = (1-\frac{C}{2048})^{160}$.
+%The expected probability that any cache line is not accessed in one AES execution is $P_{e} = \frac{16}{17}P_{0-3}+ \frac{1}{17}P_{4}$.
+Hence, the probability that $N$ cache lines are not accessed in one execution is $P_{e}^N$. Therefore, the probability of \emph{invoking \vdelay~while $N$ cache lines of lookup tables are not in the cache} is shown in Equation~\ref{equ:delay}.
+  \begin{equation}
+  \label{equ:delay}
+ P_{delay} = 1- (P_{e})^{N}
+\end{equation}
+
+We assume the execution time of WET is $W$, and the shortest execution time (TWOCM) is $B$, then the expected overhead (i.e. the cost) of not loading $N$ cache line of lookup tables (and invoking \vdelay) is
+ \begin{equation}
+ \label{equ:tdelay}
+E(T_{delay}) = P_{delay} * (W-B) = (1- ((1-\frac{C}{2048})^{160})^{N})(W-B)
+\end{equation}
+
+The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$, then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}$.
+
+\begin{table}[t]
+  \centering
+  %\small
+  \scriptsize
+  %\footnotesize
+  %\normalsize
+  \caption{Reduced and  introduced time by not loading $N$ cache lines (in cycle).}\label{tbl:warmcontent}
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+   \hline
+   {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30    & 32\\
+   \hline
+   {$E(T_{delay})$} & 2509.29 & 2524.90 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   \hline
+   {$\Delta T_{warm}$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5 & 1391.88 & 1670.25 & 1781.60 \\
+   \hline
+   \end{tabular}
+\end{table}
+
+Therefore, we have: (1) if there exists $N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (2) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
+
+In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $W$ (i.e. WET) is 2834 CPU cycles, while the shortest AES execution time $B$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
+\qed\end{proof}
+
+In our {\scshape{Warm+Delay}} scheme, we perform \vwarm  after the AES execution. If the execution time is less than the WET, we perform \vwarm~and then \vdelay. Therefore, the time of \vwarm~becomes part of delay. In this case, the overhead of \vwarm is further reduced. When this case occurs, the extra time reduced by not warming some cache line is zero, if the AES execution time plus \vwarm~time is less than WET. Otherwise, the extra overhead (e.g. overhead beyond WET) is still less than \vwarm. In this situation, warming all cache lines is still the better choice.% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
+
+Note, in commodity hardware, the cache is enough to load all lookup tables.
+For example, loading all AES lookup tables needs 5KB, while loading all tables for 3DES needs 2KB. However, the typical L1D cache size is 32 or 64KB for Intel CPU, and 16KB or 32KB for ARM CPU.
+%For example, L1D xxx, AES xx KB, 3DES xx KB
+%How about Intel CPU, ARM CPU? L1D cache size?
+
+%************************************分隔符******************************************
+\begin{theorem}\label{lemma:warmaftermiss} For commodity computers, performing  \vwarm~when cache-miss occurred during the previous execution results the minimum extra time.\end{theorem}
+\begin{proof}
+
+%We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the \vwarm~operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
+%Thus, a naive solution would be performing the \vwarm~operation to load all the lookup tables into the cache before every AES execution, that is we perform the \vwarm~operation each time, which is proved to introduce more extra time later.
+
+
+To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two other cache warm strategies:
+\begin{itemize}
+  \item{ \textbf{Less} \vwarm~\textbf{operations}. When there is a cache miss in the previous AES execution, we perform  \vwarm~with a probability less than 1.
+      In this case, \vdelay is needed.
+      If the next encryption accesses any entry that is currently not in caches, performing \vwarm~operation before hand  introduces none extra overhead -- without \vwarm~ all these entries will still be loaded into caches during encryption.
+      If the next encryption accesses some uncached entries, as proved in Thorem 3, when $N$ cache line size of lookup tables are not cached, not performing \vwarm~introduces more extra time.}
+  \item \textbf{More} \vwarm~\textbf{operations}.  Performing the \vwarm~operation with a probability $P_{warm}$, regardless of the cache state after the previous execution. Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
+\end{itemize}
+
+To prove the second case, we categorize the system state into three cases: (1) all the lookup tables are in the cache ($S_{full}$), (2) the lookup entries not in the cache are not accessed ($S_{nonas}$), and (3) the lookup entries not in the cache are accessed ($S_{as}$). We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
+$S_{nonas}$ and $S_{as}$ indicate the states that one or more cache lines of lookup tables are evicted.
+Figure~\ref{pic:statetrans} shown the state transition diagram.
+In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache. We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional \vwarm~respectively, and the values are as follows.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.8\textwidth]{pic/markov1.pdf}\\
+  \caption{The Markov state-transferring probability diagram.}\label{pic:statetrans}
+\end{figure}
+
+\begin{equation}
+\label{equ:pip}
+\scriptsize
+\Pi_{full}^{p} = \frac{P_{warm}}{P_{evict}+P_{warm}}\ , \Pi_{nonas}^{p} = \frac{P_{nona}P_{evict}}{P_{evict}+P_{warm}}\ , \Pi_{as}^{p} = \frac{P_{evict}(1-P_{nona})}{P_{evict}+P_{warm}}
+\end{equation}
+\begin{equation}
+\label{equ:pic}
+\scriptsize
+\Pi_{full}^{c} = \frac{1-P_{nona}}{1-P_{nona}+P_{evict}}\ , \Pi_{nonas}^{c} = \frac{P_{nona}P_{evict}}{1-P_{nona}+P_{evict}}\ , \Pi_{as}^{c} = \frac{P_{evict}(1-P_{nona})}{1-P_{nona}+P_{evict}}
+\end{equation}
+
+
+The expected extra time introduced by the probabilistic and conditional \vwarm~are denoted as $E(T^{p})$ and $E(T^{c})$, respectively. $t_{delay}$ and $t_{warm}$ are the time needed to perform \emph{one} \vdelay~and \emph{one} \vwarm~operation\footnote{$t_{delay}$ varies for different executions and $t_{warm}$ varies when loading different size of lookup tables.}.
+Then,
+\begin{equation}
+\label{equ:tpc1}
+E(T^{p}) - E(T^{c}) = \Pi_{as}^{p} * t_{delay} + (1 - \Pi_{as}^{p})*P_{warm} *t_{warm} - \Pi_{as}^{c} * t_{delay}
+\end{equation}
+
+%\begin{equation}\begin{split}
+%\label{equ:tpc2}
+%\scriptsize
+%T^{p} - T^{c} =& \frac{1}{(P_{warm}+P_{evict})(P_{delay}+P_{evict})}((P_{delay}+P_{evict})*P_{warm}^{2} + \\ & P_{evict}*(P_{delay}+P_{evict})(1-P_{delay})*P_{warm} -\\ & k*P_{delay}*P_{evict}*P_{warm}+ k*P_{delay}^{2}*P_{evict})t_{warm}
+%\end{split}\end{equation}%这个公式太长了，是不是可以在这里不写，放到附录里？
+
+We use $k=t_{delay} / t_{warm}$, so $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k \leq k_{0}$. %from the equation we can get that when
+%$$
+%\label{equ:kres}
+%    1 \leq k \leq k_{0}
+%$$
+
+\begin{equation}
+k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}*P_{delay}*(1-P_{delay})}
+\end{equation}
+
+%$T^{p} > T^{C}$.
+
+From Equation~\ref{equ:delay}, we get $P_{delay} > 0.907$.
+When $P_{evict}$ varies, the range of $k_{0}$ is listed in  Table~\ref{tbl:kvalue} ($P_{delay} = 0.907$). When $P_{delay}$ is larger, $k_{0}$ gets larger. %, which will cause the range of $k$ to increase correspondingly.
+For example, in the environment described in Section~\ref{sec:performanceproof},
+the maximum of $t_{delay}$ is $2525.00$ cycles,
+the minimum of $t_{warm}$ is $124$ cycles (accessing the lookup tables from caches).
+The maximum of $t_{warm}$ is $1781.60$ when all the lookup tables in RAM.
+Therefore, the range of $k$ is: $1 < k < 20.36$.% When at least one cache line of lookup tables is loaded from RAM, $1 < k < 18.01$.
+ Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
+Therefore, the  conditional \vwarm~provides  better performance than the probabilistic \vwarm.
+\qed\end{proof}
+
+
+\begin{table}[t]%[!hbt]
+  \centering
+  \small
+  \caption{The values of $k_{0}$ corresponding to $P_{evict}$.}\label{tbl:kvalue}
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+   \hline
+   {$P_{evict}$} & 0   & 0.05  & 0.1 & 0.2   & 0.3   & 0.4   & 0.5  & 0.6   & 0.7    & 0.8  & 0.9 & 1 \\
+   \hline
+   {$k_{0}$} & $\infty$ & 216.7 & 109.8 & 57.4 & 40.7 & 33.1 & 29.0 & 26.7 & 25.4 & 24.8 & 24.6 &24.7 \\
+   \hline
+   \end{tabular}
+\end{table}
+
+%In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
+
+
+\noindent\textbf{One AES execution is a partial warm operation.}
+When the system is in the state $S_{as}$, one AES execution is a partial warm operation, as in this case, cache misses are resulted to load the corresponding entries into the cache.
+
+%下面注释掉的这段是之前的证明，但是现在看来似乎是不需要了。
+%Here, we prove that the extra time caused by not performing the \verb+warmup+ operation after an AES execution at the state $S_{as}$, is larger than our scheme. The probability that the next consecutive AES execution needs \verb+delay+ when $N$ cache line size of the lookup tables are in the cache before the AES execution (i.e.,  partial \verb+warmup+) is shown in Equation~\ref{equ:delay}, while the introduced extra time $T_{delay,N} = P_{delay,N} * t_{delay}$. The extra time $T_{warm,N}$ for our scheme is used to access all the lookup tables, including the ones in and not in the cache, and is shown in Equation~\ref{equ:partwarm}, where $t_c$ ($t_{nc}$) is the time for accessing one cache line that is in (not in) the cache. Evaluations on different platforms show that  $T_{delay,j} > T_{warm,j}$ for $j = 0, 1, ..., 67$.
+%For example, in the environment described in Section~\ref{sec:eval}, $t_c = 5.01$, $t_{nc}=36.62$, $t_{delay}=4287$, the $T_{delay,j}$  and $T_{warm,j}$ are listed in Table~\ref{tbl:partwarm}.
+%
+%\begin{equation}
+%\label{equ:partial}
+%P_{delay,j} = \sum_{i=0}^{68-j}C_{68-j}^{i}(1-P_e)^{i}P_e^{68-j-i}(1-P_e^{68-i-j})
+%\end{equation}
+%\begin{equation}
+%\label{equ:partwarm}
+%T_{warm,j} = \sum_{i=0}^{68-j}C_{68-j}^{i}(1-P_e)^{i}P_e^{68-j-i}((i+j)t_c+(68-i-j)t_{nc})
+%\end{equation}
+%
+%
+%\begin{table}[!hbt]
+%  \centering
+%  \small
+%  \caption{$T_{delay,j}$  and $T_{warm,j}$ (in ms).}\label{tbl:partwarm}
+%   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+%   \hline
+%   {j}           & 0      & 1  & 2    & 10   & 20   & 30   & 40  & 50   & 60    & 67\\
+%   \hline
+%   {$T_{delay,j}$} & 4276.14 & 4275.14 & 4274.05 & 4260.84 & 4223.99 & 4135.21 & 3921.36 & 3406.20 & 2165.23 & 360.81 \\
+%   \hline
+%   {$T_{warm,j}$} & 535.11 & 532.18 & 529.26 & 505.60 & 474.86 & 440.87 & 398.26 & 332.83 & 206.97 & 34.42 \\
+%   \hline
+%   \end{tabular}
+%\end{table}
+
+%In our analysis, the warmup operation is performed after the AES execution. When doing the delay operation, the time consumption of the warmup operation is included in the delay time. So it is better to perform warmup when need to delay because the warmup cost nothing at this time.%这段话是想说，warm是在delay之后做的，而且warm的消耗包含在了delay的消耗里，所以只要需要进行delay的时候，进行一次warm是一个更好的选择，因为这个时候warm是不会产生额外消耗的。这段话放在这里似乎不太合适，但我没想好放在哪里。
+When the system state is $S_{as}$, our scheme performs \vwarm~with probability 1, while the probabilistic  \vwarm~performs \vwarm~ with the probability $P_{warm}$, which is increased by the AES execution, a partial warm operation. %, it mean the AES expands the $P_{warm}$.
+However, according to Theorem~\ref{lemma:warmaftermiss},
+$E(T^{p}) > E(T^{c})$ holds when  $1 \leq k \leq k_{0}$, which is independent of $P_{warm}$.
+Therefore, our scheme is still better.
+
+
+%the value of $P_{warm}$ doesn't affect the result. Although the AES expends the probability of warm, our scheme is better.
+%When in the state $S_{as}$, for our conditional warmup method, we perform the warmup method. For probabilistic warmup method, originally performing the warmup operation is in a probability of $P_{warm}$. But now as the AES is a partial warmup operation, it mean the AES expands the $P_{warm}$. However, in the proof of Theorem 4, the value of $P_{warm}$ doesn't affect the result. Although the AES expends the probability of warm, our scheme is better.%这段话就是在解释AES本身是一个部分warm的过程。但是在现在的方案中，这个部分warm的效果，在我们的方案中没有体现，而在概率warm的情况下，效果就是提高了warm的概率。而我们在上面的证明过程中，得到了我们方案最优，是和概率warm的大小无关的，也就是说，这种情况下还是我们的方案更优。
+%之前做的证明，是因为当时的方案是warm是在AES之前进行，所以warm执行不执行是会有时间开销的，所以是对warm开销和delay开销的一个比较。但现在，warm是没有开销的。所以把这段注释掉了。
+
+\noindent\textbf{Process scheduling and interruption occur during the AES execution.}
+In this case,  $end - start > WET$, \vwarm~will be triggered in our scheme. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
+As the process scheduling and interruption occur, we assume that $N$ cache lines of lookup tables are evicted from caches.
+%We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
+Hence, the extra overhead introduced by using \vwarm~to load all lookup tables is $E(T_{warm,N}) = N*t_{nc} + (32-N)*t_{c}$, where $t_c$ and $t_{nc}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead, denoted as $E(T_{delay})$, is shown in Equation~\ref{equ:tdelay}.
+Table~\ref{tbl:scheduaes} shows that performing \vwarm achieves better performance.
+%If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
+%So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
+
+\begin{table}[t]
+  \centering
+  %\small
+  \scriptsize
+  %\footnotesize
+  \caption{The introduced time by performing warmup operation or not (in cycle).}\label{tbl:scheduaes}
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+   \hline
+   {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30    & 32\\
+   \hline
+   {$E(T_{delay})$} & 2509.29 & 2524.90 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   \hline
+   {$E(T_{warm})$} & 175.80 & 227.60 & 279.4 & 383.00 & 642.00 & 901.00 & 1160.00 & 1419.00 & 1678.00 & 1781.60 \\
+   \hline
+   \end{tabular}
+\end{table}
+
+\noindent\textbf{Periodical schedule function is called without scheduling during AES execution.}
+As no other process invoked, the lookup tables are not evicted.
+Therefore, \vwarm~ is unnecessary although $TWOCM < end - start \leq WET$.
+However, \vwarm~ is a better choice, as we cannot predict whether the lookup tables are in the cache, and the overhead introduced by accessing the elements in caches is concealed by \vdelay.
+
+%In this case, the lookup tables normally are still in the cache. So the warmup and delay operation are not needed. Actually, in this case, $TWOCM < end - start \leq WET$. However, we can't distinguish it is in this case or cache misses occurs. So we must do the delay operation. Moreover, in this case, performing warmup operation introduces none extra time. Therefore, we can regard this case as in the state $S_{as}$. %这段话是说明了周期调度函数调用但未有其他函数被调度时，AES时间是小于WET的，但是我们通过观察无法分辨是这种情况发生，还是是有cache miss发生。因此我们要对这种情况进行delay+warm的操作。其实对于概率warm的情况，也是要这么处理，所以，我们的方案合适。
+
+\noindent\textbf{The relationship between the cache state and execution time.}
+In Theorems 3 and 4, we prove that performing  \vwarm~when not all lookup tables are in caches, results the smallest extra time.
+However, in our scheme, we perform the {\scshape{Warm()}} operation according to the previous AES execution time,
+ as we are technically unable to observe the cache state without introducing additional overhead.
+% \footnote{Otherwise, we perform  the warmup operation before each execution, which is less efficient as proved in Theorem 4.}.% 这个脚注是什么意思？为什么？
+The relation between the cache state and execution time is as follows:
+\begin{itemize}
+  \item $end - start \leq TWOCM$, the system is in state $S_{full}$ or $S_{nonas}$, no \vwarm~  is needed according to Theorem 4.
+  \item $end - start > WET$, the system is in state $S_{as}$ or $S_{nonas}$, \vwarm~ is needed according to Theorem~\ref{theorm:warmall}.
+ % another process is scheduled during the AES execution which makes part of the lookup tables  evicted from the cache.
+  \item $TWOCM < end - start \leq WET$, %all the lookup tables may be in the cache or not, which is related with the workload in parallel.
+%      The OS invokes the \verb+Scheduler()+ function every $t_{sched}$ interval and evicts at least one  entry of the lookup tables for anther process with the probability $P_{evict}$. Then, in this case,
+%      when performing \verb+warmup+ for the AES execution next to the current one, the expected extra time is $T_{warm}^{t-w} = ( \frac{encEnd_c-encStart_c}{t_{interval}}*(1-P_{evict})+ \frac{encStart_c-encStart_p}{t_{interval}}*P_{evict}) * t_{warm}$;
+%       while not performing the \verb+warmup+, the expected extra time is $T_{delay}^{t-w} = \frac{encStart_c-encStart_p}{t_{interval}}*P_{evict} * t_{delay}$. When $P_{evict}$ satisfies Equation~\ref{equ:con}, $T_{warm}^{t-w} < T_{delay}^{t-w}$, which means the \verb+warmup+ operation is not needed when the workload is small. In our evaluation environment, we find that when $P_{evict} < 0.18$, the \verb+warmup+ operation is unnecessary.
+    %all the lookup tables may be in the cache or not.
+    the system is in the state $S_{as}$ or $S_{full}$, \vwarm~ is better according to previous analysis. %the periodic schedule function is called but scheduling not occurs during AES execution. But we treat them all as in the state $S_{as}$. On the above we already explain it reasonable.%这里就是说，这里对应两种情况，但是都只能当S_{as}这个状态来处理，但是之前已经说明过了，这样是没问题的。
+\end{itemize}
+
+%\begin{equation}
+%\scriptsize
+%\label{equ:con}
+% P_{evict} < \frac{(encEnd_c-encStart_c)t_{warm}}{(encStart_c-encStart_p)t_{delay}+(encEnd_c-2encStart_c+encStart_p)t_{warm}}
+%\end{equation}
+%
+%
+%\begin{figure}
+%  \centering
+%  % Requires \usepackage{graphicx}
+%  \includegraphics[width=0.45\textwidth]{pic/statusandtime.pdf}\\
+%  \caption{The consecutive AES execution.}\label{pic:status}
+%\end{figure}
+
+
+%Moreover, as proved in Lemma 3, the \verb+warmup+ operations  are necessary  to provide better performance in the following two  cases where  not all the lookup tables are in the cache:
+%\begin{itemize}
+%  \item Before the first AES execution, where none of the lookup tables are in  cache.
+%  \item The interval between two AES executions is too large or perform AES discontinuously. %在AES不连续的时候，建议进行warm操作。
+%\end{itemize}
+
+\subsection{Other Key Lengths and Other Implementations}
+%\vspace{-1mm}
+\label{analy:otherkey}
+%shall be discussed here!
+%++++++++++
+%Table~\ref{tbl:pdelayvalue} shows the minimum value of the $P_{delay}$ in different AES key lengthes and different AES implementations. The formulas of $P_{delay}$ is in the appendix.
+
+\begin{table}[t]
+%\vspace{-2mm}
+  \centering
+  \small
+  \caption{the minimum value of the $P_{delay}$ in different cases.}
+  \label{tbl:pdelayvalue}
+   \begin{tabular}{|c|c|c|c|c|}
+   \hline
+   {table size}           & AES-128      & AES-192 & AES-256   \\
+   \hline
+   {4.25KB} & 0.907 & 0.944 & 0.966 \\
+   \hline
+   {5KB} & 0.85 & 0.88 & 0.90  \\
+   \hline
+   {4KB} & 0.924 & 0.954 & 0.973  \\
+   \hline
+   {2KB} & 0.994 & 0.998 & 0.999  \\
+   \hline
+   \end{tabular}
+\end{table}
+
+The {\scshape{Warm+Delay}} scheme provides the optimized performance for various implementations of AES~\cite{openssl,polarssl} with different key length, once $1 \leq k \leq k_0$.
+All the proofs above stands, with the only difference be the value of $P_{delay}$ (detailed in Appendix~\ref{appendixb}).
+$P_{delay}$ depends  on the size of lookup tables and the number of iterated rounds.
+For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, the size of lookup tables are 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
+Table~\ref{tbl:pdelayvalue} lists the corresponding minimum $P_{delay}$.
+
+
+%We analyze three different AES implementations. The difference is in the last round of the AES. The first one uses a 256B table in the last round~\cite{polarssl}. The second one uses one 1KB table in the last round~\cite{openssl}(Openssl-0.9.7i), and the third one uses the four tables in the previous rounds~\cite{openssl}(Openssl-1.0.2c). Also we analyze the different key length of AES. AES-128 has 10 rounds, AES-192 has 12 round, and AES-256 has 14 rounds.%这是说，有三种AES实现，一种是使用5个查找表，前面几轮使用4个1K的表，最后一轮使用256B的一个表。一种是使用5个表，前几轮也是使用4个1K的表，但最后一轮使用1个1K的表。还有一种是使用4个1K的表，每轮都是使用这4个表。同时每种实现有分为三种密钥长度，每种密钥长度其实对应的是AES不同的轮数.
+
+%For all the situations, the process of the proof of the Theorem 3 and Theorem 4 is almost the same. The main difference is the value of $P_{delay}$. We compute the value of $P_{delay}$ in the Table~\ref{tbl:pdelayvalue}, and find out that the Theorem 3 and Theorem 4 still hold true. %这段是说，对于这些不同的情况，在证明Lemma 3 and Lemma 4的时候，证明方法都是一样的，不同的就是P_{delay}的取值范围不同，但是经过计算，在每种取值范围内，Lemma 3 and Lemma 4都是成立的，也就是都是我们的方案最优。
+
+For other table-lookup block ciphers, we have to determine the $P_{delay}$ according to the algorithm and the implementation.
+Once $1 \leq k \leq k_0$ is satisfied , {\scshape{Warm+Delay}}  provides the optimized  performance.
+
+%it is similar to the AES. They just have different values of $P_{delay}$. The three states of the cache is same and they have the same state transition diagram. So it can be proved that the Theorem 3 and Theorem 4 hold true for them.% 这段是说，对于其他算法，Lemma 3 and Lemma 4 的证明也是类似的，同样对于cache有这三种状态，且状态转移图也是一样的，故而证明过程也一样，只是P_{delay}不同而已，可以证明对于其P_{delay}的范围，Lemma 3 and Lemma 4 也是成立的。
+
+
+

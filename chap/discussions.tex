@@ -1,0 +1,197 @@
+\section{Discussions}
+\label{sec:discussion}
+
+%This section includes some extended discussions on the {\scshape{Warm+Delay}} scheme.
+
+\subsection{Effect of Instruction Caches}
+%\vspace{-1mm}
+Firstly,
+  the implementation of block ciphers is not subject
+   to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
+  because there is generally no branch in the execution path.
+The status of instruction caches affect the execution time,
+  but is not related to the data (i.e., keys and plaintexts/ciphertexts).
+The instructions of block ciphers
+  may be evicted from the caches due to system activities,
+   which causes instruction cache misses and increases the execution time.
+%The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
+
+As the effect of instruction caches on the execution time is indistinguishable from that of data caches,
+  we determine TWOCM when all instructions of encryption/decryption are cached;
+ and the value will be greater if it is done when the instructions are uncached.
+However,    when the encryption/decryption functions are invoked and all the instructions are cached,
+such a greater TWOCM will offer attack opportunities
+ because the measured time may leak some information about data cache access.
+%As the instruction cache miss and data cache miss are indistinguishable from the execution time,
+%our scheme chooses $TWOCM$ which ensures no cache miss of the instruction or data cache exists to defend against the remote cache timing  side channel attacks.
+Similarly,
+ we determine  WET as the execution time
+  when all instructions are not in instruction caches (and all lookup tables are not in data caches).
+Otherwise,
+ the measured time may also leak some information about data cache access.
+
+%As the instructions are loaded into the cache per block in size of **** Byte, while the size of AES encryption is *** Byte, we can add a lightweight function before the AES encryption, which is invoked before every AES encryption to avoid instruction cache miss during the AES execution.
+
+
+%The instruction cache has influence on the AES execution time. The computation threshold is the shortest AES execution time which is the execution time that all the AES instructions are in the cache. So influence of the interruption and the process scheduling is not just about the state of lookup tables in the cache, but also the instruction cache which can be reflected on the execution time. If the instructions of AES are not in the cache, the AES execution time will be larger than the computation time resulting in performing additional delay and cache warm operation. But when normally computing AES, the instruction is always in the cache and the change of  instruction cache is usually accompanied by the change of data cache. Therefore we don't take into account the influence of the instruction cache in our analysis is reasonable.
+
+%\begin{CJK}{UTF8}{gkai}
+%对full warm情况的分析
+%1、	实验发现，full warm的情况在新机器上是存在的，但是机器越新，发生的越少，可被利用的可能性也越小。
+%2、	我们的方案，如果我们的计算阈值取得稍微放松，也就是将其中小尖峰包含在内，那对于其攻击而言没有，这种手段并没有提升其安全性。
+%3、	如果阈值未包含尖峰，那么我们会将其延时至WCET，那么被延时到这一时刻的并不只是这一种情况，因此攻击被混淆了，会使得其正确率降低，也会使得获取的比特数变少
+%
+%指令cache的影响
+%1、	指令cache会对AES计算时间产生影响，我们的计算阈值取的是AES最短加密时间，这个时间是AES计算的指令都在指令cache 中时，AES的计算时间。因此中断和进程调度对AES的影响并不仅仅是使查找表在cache中的状态有所变化，同时也会使指令cache产生变化，从而反映到AES计算时间上。AES指令如果不在指令cache中，那么计算AES时就会使计算时间大于阈值，从而引起不必要的delay和warm操作。而在正常进行的AES计算过程中，AES连续计算时，AES指令都会一直在cache中，因此我们在之前的讨论中并没有将指令cache的影响考虑在内，是合理的。
+%2、	指令cache的影响还在于对delay的影响，由于中断或进程调度的影响，查找表不完全在cache中，而且AES指令并不完全在指令cache中，而这也会使AES计算时间变长，从而使得需要的delay时间并没有那么长，而在我们之前对保护方案的分析中，计算delay 的期望的时候，并没有对此进行处理。
+%
+%分析应对trace-driven和access-driven攻击时的情况
+%\end{CJK}
+
+%Also the instruction cache affects the time of delay operation. When the interruption or process scheduling occurs, the lookup tables are not all in the cache. Also the instructions are not all in the instruction cache which also make the AES execution time larger. So the delay
+
+%\subsection{The Attacks on Fully-Warmed Caches}
+%\label{subsec:fullwarm}
+%
+%Even when all lookup tables are in caches,
+% the distribution of encryption time for different plaintext varies slightly, which may be exploited to launch a loaded initial state attack~\cite{Canteaut2006Understanding}.
+%In our environment, for each of $2^{30}$ random plaintexts, we perform the encryption after loading  all the lookup tables into cache. Figure~\ref{fig:fullwarmese-diffinput} describes the distribution of encrypting time.
+%The loaded initial state attack~\cite{Canteaut2006Understanding} predicts part of the key by analysing the plaintext, whose observed encryption time is between 382 and 440 cycles.
+%
+%The generation of the peak between 382 and 440 cycles is due to the fact that a load from L1 cache takes slightly more time if it involves
+%the same set of cache lines as a recent store to L1 cache~\cite{Bernstein2005Cache}.
+%%We make an experiment to prove it.
+%%We use the AES implementation with a 2KB lookup table. On our platform, there are 64 cache sets in total. the aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule.
+%%We use the stack switch approach~\cite{guan2014copker} for reference to use a 2KB global array as the stack for the local variables.
+%%First, we make the first address of the array be the same as the lookup table module 4096. This make the intermediate variables of AES execution use the same cache sets with the lookup tables. Then we perform the AES encryption for $2^{30}$ random plaintexts and the peak between 382 and 440 cycles is even much higher.
+%%Next, we make the first address of the array connect the lookup table module 4096, and this make the intermediate variables of AES execution use the remaining cache sets as the stack compared with the lookup table. In this case, the distribution of AES encryption for $2^{30}$ random plaintexts have no peak between 382 and 440 cycles.
+%
+%We can avoid this by using the AES implementation with a 2KB lookup table.The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
+%We take advantage of the stack switch technique~\cite{guan2014copker} using a 2KB global array as the stack, of which we can easily control the address.
+%The first address is made next to the lookup table module 4096, and this make the intermediate variables of AES execution use the remaining cache sets compared with the lookup table.
+%In this case, the distribution of AES encryption for $2^{30}$ random plaintexts have no peak between 382 and 440 cycles as shown in Figure~\ref{fig:fullwarmbest}.
+%Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution that the first address of the array is the same as the lookup table module 4096.
+
+
+%When {\scshape{Warm+Delay}} scheme is adopted, the observed encryption time is either in the interval $(0,TWOCM]$ or $[WET, \infty)$.
+%The loaded state attack cannot infer any key bit directly, when $TWOCM = 381$.
+%
+%However, for different plaintexts, the probability that the observed time of one encryption falls into $[WET, \infty)$, varies from $0$ to $8.42*10^{-3}$ (The probability interval is obtained by performing $10^{4}$ encryption for  each of $2^{20}$ random plaintext.).
+%The adversary may attempt to infer the plaintexts for the loaded initial state attack by encrypting the plaintext multiple times.
+%The {\scshape{Warm+Delay}} scheme may choose a smaller TWOCM, to make the difference of probability negligible, with the performance degradation.
+%
+
+
+
+%For example, when TWOCM is 332 cycles, the probability that the observed time of one encryption varies from 0.39 to 0.48.
+
+% some timing variations may still be observed, especially on superscalar processors  \cite{Canteaut2006Understanding}.
+% The variations are related to the input data,
+% and it can be exploited to launch remote timing attacks.
+%The reason of the timing variations has two possibilities. One is that the cache memory on superscalar processors is designed for handling more than one access per cycle, which results conflicts when the same bank is required by concurrent instructions and the other is that some conflict miss may occur during the execution~\cite{Canteaut2006Understanding}.
+
+%We performs the following experiments on the Lenovo ThinkCentre M8400t PC,
+% when all lookup tables are cached and no system activity interrupts the executions of encryption/decryption,
+% as shown in Figure \ref{fig:fullwarmese}.
+%As  $2^{30}$ random plaintexts are encrypted by one given key,
+% the distribution of execution time is shown in Figure \ref{fig:fullwarmese-diffinput}.
+%Then, Figure \ref{fig:fullwarmese-sameinput}
+%   shown the distribution,
+%   as one plaintext is encrypted by one given key for $2^{30}$ times.
+%Note that, the execution time is not identical even for the same data processed.
+
+%We make an experiment to obtain the distribution of AES execution time on different CPUs in the full warm condition. We perform the AES on Intel Core2 Q8200, Intel Core i5, Intel Core i7 and find out that this timing variations really exist. The Figure~\ref{fig:fullwarmese} shows the results of the AES distributions on  Intel Core i7 CPU.
+
+
+
+
+
+%The collection of timing data greater TWOCM in Figure \ref{fig:fullwarmese-diffinput} (called \emph{the fully-warmed attack collection}),
+% is exploited to launch cache timing side-channel attacks \cite{Canteaut2006Understanding},
+% even when all lookup tables are in caches.
+%After the {\scshape{Warm+Delay}} scheme is adopted,
+ %    this collection is delayed to WET and even easier to be identified.
+%So the attackers still exist on these platforms,
+%  in the case that there is no system activity.
+
+%When using our the value of $TWOCM$ (350 in our experiment) already makes the variational time enlarge to $WET$. However, these variations caused in the full warm condition still rely on the inputs.
+
+%In the case that no any system activities,
+%  attackers can
+%send requests with the same plaintext repeatedly to distinguish the full warm condition with others. So, just enlarging to $WET$ can't eliminate the attack in~\cite{Canteaut2006Understanding}.
+
+%In the {\scshape{Warm+Delay}} scheme,
+% we choose a threshold smaller than TWOCM as the condition to execute {\scshape{Warm()}} and {\scshape{Delay()}}
+%   (Line 5 in Algorithm \ref{alg:aesdefense}),
+%  to prevent these attacks on fully-warmed caches.
+%By choose a smaller threshold,
+%  more and more executions of encryption/decryption will be delayed to WET,
+%   as well as the fully-warmed attack collection.
+%When the ratio of delayed time in the  attack case of Figure \ref{fig:fullwarmese-diffinput}
+%   is approximately equal to that in the unexploitable case of Figure \ref{fig:fullwarmese-sameinput},
+%   the attackers cannot distinguish the fully-warmed attack collection (with a high enough probability).
+%From the Figure~\ref{fig:fullwarmese}, if the number of AES execution time with different inputs which is lager than $TWOCM$ is in the same order of magnitude with the same inputs, the attacker can't distinguish the full warm condition.
+%So, the choice of the $TWOCM$ can't use the previous method.
+
+%In the experiment platform,
+%  we choose 332ms as the threshold, to prevent the fully-warmed cache timing attacks.
+%Then about 48%
+%We choose the value that the number of AES execution time larger than it is in the same order of magnitude when using different inputs and same inputs as the $TWOCM$.
+%In this way we can eliminate the full warm attack. However, this process decreases the performance of the AES. For example, in our experiment environment, we choose 336 as TWOCM, which can satisfy the requirement. There are about 18.5\% of AES executions should be enlarged to WET, while when not considering the full warm case, the number is just about 0.28\% in low overhead and 0.41\% in high memory reading overhead.
+
+
+
+%, the author finds even the lookup tables are all in the cache the AES execution time can change due to the computer architecture. The peak of the distribution of AES execution time nearby the fastest value can be used to attack. We make an experiment that measure the distribution of AES execution time on different CPUs to find out the influence by the architecture. We perform the AES on Intel Core2 Q8200, Intel Core i5, Intel Core i7 and Xeon*** and find that the peak which can be utilized almost disappears and is smaller and smaller when the performance of the CPU is better.
+
+%For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the WET. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
+
+\subsection{Other Cache-based Side Channels}
+Beside the timing attack,
+   there are two other kinds of cache-based side-channel attacks:
+    the trace-driven attack and the access-driven attack.
+Firstly,
+  both of these attacks require special privileges on the target system.
+During the execution of encryption/decryption,
+  the trace-driven attackers monitor the variations of electromagnetic fields or power
+  to capture the profile of cache activities and deduce cache hits and misses
+  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace},
+  while the access-driven attackers run a spy process on the target server accessing shared caches,
+   to infer the cache status periodically \cite{Neve2006Advances,Osvik2006Cache,Gullasch2011Cache,Irazoqui2014Wait}.
+The attackers with such privileges are not considered in our scheme,
+  and will be considered in our future work.
+
+
+In principle, delay is not effective for trace-driven and access-driven attacks,
+because cache misses and hits exist during the execution of encryption/decryption.
+On the other hand,
+  warm is effective for these attacks,
+  provided that the cached lookup tables are not evicted by system activities or the local spy process.
+
+%  to So the attackers can obtain the information of every cache line at every access.
+%Therefore, the \verb+delay+ operation, used to confuse the cache miss, is useless for the trace-driven attack.
+%However, as our scheme adopts \verb+warmup+ attempting to avoid the cache miss by keeping all the lookup tables in the cache, the cipher execution starts with no cold miss. So the actual trace-based attacks can't be evoked.
+%这里需要解释cold miss吗？
+
+%There are two other kinds of cache attacks except the timing attack. The trace-driven attack utilizes to monitor the changes of the energy consumption or the electromagnetic radiation during an encryption so that the attackers can capture the profile of the cache activity to deduce the cache hits and misses. So the attackers can obtain the information of every cache line at every access. In this case the delay operation is useless. For the attacks in~\cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace,Acii2006Trace}, using our defense scheme most of the encryptions are under the condition that all lookup tables are in the cache. Only the process scheduling or interruption can change the state of the cache, However the process scheduling and interruption are the interference factors. So our defense scheme is efficient to trace-driven attack because there are no cache misses.
+
+%Based on the AES execution numbers during one monitoring period, the attack has three resolution cases~\cite{Neve2006Advances}:
+%\begin{itemize}
+%  \item low resolution: one observation covers more than one AES executions.
+%  \item one line resolution: one observation period has one execution.
+%  \item high resolution: several observations during one AES executions.
+%\end{itemize}
+%Most of the subsequent attacks\cite{Osvik2006Cache,Gullasch2011Cache,Irazoqui2014Wait} have the high resolution. However, as our scheme attempts to keep all the lookup tables in the cache by \verb+warmup+, it can just provide protection against the attacks have low or one line resolution.
+
+
+%For different attacks, the required observation period varies, \cite{Osvik2006Cache,Neve2006Advances,Gullasch2011Cache,Irazoqui2014Wait} requires the observation period less than one AES execution time, \cite{Osvik2006Cache} need the period equals (or close) to one AES execution time, while \cite{} succeed more than one AES executed during one period.
+%Our scheme attempts to keep all the lookup tables in the cache by \verb+warmup+, and can provide protection against the attacks when the observation period is no less than one AES execution.
+
+% determine whether a cache line has been evicted or not. There are three kinds of accuracy for the spy process which are several AESs between two detections, just one AES between two detections and several detections during one AES. For our defense scheme just operates before and after the AES execution, So it is efficient for the former two accuracy. When the spy detects several times during AES, our scheme is useless.
+
+%In access-driven attack, the adversary can execute a spy process on the target device in order to determine whether a cache line has been evicted or not. There are three kinds of accuracy for the spy process which are several AESs between two detections, just one AES between two detections and several detections during one AES. For our defense scheme just operates before and after the AES execution, So it is efficient for the former two accuracy. When the spy detects several times during AES, our scheme is useless.
+
+
+
+
+
+

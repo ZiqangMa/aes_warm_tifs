@@ -1,0 +1,358 @@
+\section{Eliminating Remote Cache Timing Side Channels}
+\label{sec:eliminating}
+%\vspace{-2mm}
+This section presents the threat mode and design goals.
+Then, the defense scheme is described,
+ and we explain that it effectively eliminate remote cache timing side channels.
+
+
+\subsection{Threat Model and Design Goals}
+%\vspace{-1mm}
+\label{sec:assumption}
+%goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
+We focus on the remote cache side-channel attacks on block ciphers.
+The algorithms of block ciphers are publicly known, but the keys are kept secret before the attacks are launched.
+The implementation details such as source code, operating systems, cache hierarchy and other hardware configurations,
+  are also publicly known;
+  but the running states are unknown  to the  remote attackers due to non-deterministic interrupts, task scheduling and other system activities.
+In particular,
+ the implementation is based on lookup tables,
+  and the execution time depends mostly on cache misses and hits.
+
+ For the attackers, we assume that they can
+  arbitrarily invoke the encryption/decryption functions
+  and measure the time for each invocation.
+That means,
+ the attackers control the invocation,
+ so they can continuously invoke the functions to cache
+        all tables % with a high probability,
+    or invoke no function for a long time to let
+           all tables be evicted, with a high probability.
+We assume that attackers cannot run any processes on the target systems,
+ and they just can obtain the overall execution time of the block ciphers
+  but cannot get the middle-state of the ciphers.
+
+In our model, the target operating system and the underlying hardware are regarded as security.
+ We expect that attackers do not have physical access to the hardware and can not run any processes on the target as well.
+  We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
+  
+We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
+ And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.  
+
+
+
+% as in some attacks \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,Lauradoux2005Collision}.
+
+
+%require the special initial state of the cache, our scheme allows the attackers to set the initial state of the cache as they need.
+
+%We assume the attackers have the ability to perform all known remote cache timing side channel attacks on the target device which adopts the conventional cache memory.
+% Therefore, the attackers are able to invoke the encryption function without any limit; have the necessary information of the target device including the cache size, the cache line size and set associativity;
+%[?? and can observe the aggregate profile of the encryption, i.e., total numbers of cache hits and misses. ??]
+
+
+Our scheme attempts to eliminate remote cache timing side channels,
+  with the following properties:
+\begin{itemize}
+  \item It is applicable to various block ciphers and transparent to implementations.
+  The scheme is algorithm-independent and
+        works well for any implementation %of block ciphers
+           without any modifying the source code  of encryption/decryption.
+%  It doesn't need to modify the encryption algorithm code, and can be applied to all the symmetric encryption algorithm implementations based on the lookup tables.
+
+  \item It requires no  privileged operations on the system.
+  All operations introduced by the defense scheme, are available in common computer systems.
+   It works well either in user space or kernel space,
+     to protect the cryptographic operations in user mode and kernel mode, respectively.
+  \item
+   The parameters are configurable to optimize the performance.
+Then, it provides optimized performance by configuring appropriate parameters
+    for different algorithms and platforms.
+\end{itemize}
+
+
+%while eliminating the remote cache timing side channel attacks on the symmetric encryption algorithm implementations based on the lookup tables.
+%The implementations using directly instruction mapping or Intel AES-NI, which are immune to the remote cache timing side channel attacks, are not considered here.
+
+
+%威胁模型（包括敌手能力，等）
+%The primary goal of our work is to defend against the cache timing side channel attacks. In such attacks, an adversary gathers the AES encryption time information relation to the cache behaviour to manage to recover the AES key. Different cache side channel attacks have different requirement to the attackers and the environment of the targets is not the same. Meanwhile, the target being attacked by cache side channel attack must have some certain characters. In our work, we mainly aim at the time-based cache attack, so we make follow assumptions for the target machines and the adversary ability.
+
+%Firstly, the processing device being attacked accesses main memory through a conventional cache memory. And the attacker has the knowledge of the cache used by the target device about the structure such as the line size, total size and set associativity etc. These messages can help the attacker carry out the attack operations.
+
+%Secondly, the AES implementation used by the target device should employ the lookup tables. Some implementation using directly instruction mapping or Intel AES-NI is completely unaffected by this type of attacks.
+
+%Finally, the adversary is able to observe the aggregate profile, i.e., total numbers of cache hits and misses or at least a value that can be used to approximate these numbers. Based on the cache characters that a plaintext having a small number of cache misses equals a short encryption time the attacker can using the total execution time to represents the profile and make algorithm-specific, statistically based inferences. Additionally, we assume that the adversary can call function whenever he wants and can have enough information to realise the attack.
+
+%We don't assume that when the adversary carries out the attack, the cache of the target device is empty. It is because in our protection scheme the cache initial state is inconsequential. Neither do we assume that during the AES execution the lookup tables loaded in the cache can't be evicted from cache. For this situation, we have the corresponding processing in our scheme.
+
+%假设知道cache结构，并基于此进行我们的攻击。
+%可以调用加密算法进行加解密计算
+%算法使用查找表，不是直接使用指令映射。
+%
+%具有统计规律的，the attacker can make algorithm-specific, statistically based inferences
+%敌手有能力观察统计信息，也就是一次加密中所有hit和miss的总数，或者是一个可以估计这个数的值，也就是整体加密时间。
+%加密明文时，少量的miss对应短的加密时间，多的miss对应长的加密时间
+%
+%敌手可以随时对算法进行调用，且没有限制。
+%\vspace{-1mm}
+\subsection{The \scshape{Warm+Delay} Scheme}
+\label{sec:scheme}
+%\vspace{-2mm}
+% 我们的防御方案，最主要的目的是为了保护cache时间攻击，同时，对于防御方案，有一些要求，首先是要运行在用户态下，其次是要与算法无关的，可移植的，同时，防御方案对算法本身并不进行修改。再次是要能够使得在安全性保证的前提下，效率达到最大。
+% 对于cache 攻击的软件防御一般分为两种方式，消除cache miss 和 混淆cache miss，使用warm可以消除，混淆的方法有多种，可以时间扭曲，随机置换表等。但是很多方法需要对算法本身进行修改，其中使用给每次计算进行延时的方法，可以有效混淆cache miss。 我们进过仔细分析，warm可以使查找表都在cache中，从而消除cache miss，但是在实际情况中，由于cache碰撞，进程调度等原因，并不能保证查找表一定在cache中。而对于延时的方法，会严重影响AES的效率。因此，经过仔细分析，我们提出了如下防御方案，结合了warm和delay的操作，将其融合在一起。下面的例子是以AES为例，但可以被移植到其他使用查找表来实现的对称算法。
+
+
+Our scheme integrates two strategies to eliminate remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
+    \emph{a}) {\scshape{Warm}}, load the lookup tables into caches before the encryption/decryption operation;
+  and \emph{b}) {\scshape{Delay}},     insert padding instructions after the encryption/decryption operation.
+These two operations cooperatively destroy the relationship between the time measured by attackers and
+  the cache misses/hits during the execution of encryption/decryption.
+In practice,
+  warm cannot completely eliminate the cache timing side channels by itself,
+  because the effect of cache warm may be countered by system activities,
+     which evict lookup tables from caches.
+Delay directly controls the time measured by attackers,
+    but it degrades the performance significantly.
+%Our scheme combines the two methods together to ensure the security and optimize the performance.
+  %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
+
+%[[[\textbf{This content shall be in Related Work}. adding dummy access to the lookup tables, changing the instructions order, performing a random permutation of the lookup tables.
+%Some of the methods need to modify the algorithm code and some need the privilege. These methods can't be used in our scheme due to our goals.]]]
+
+
+The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
+Given a block cipher, the execution time without cache misses (TWOCM) and the worst execution time (WET)
+  are constant on a certain platform.
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+ \begin{algorithm}[t]
+        \caption{The {\scshape{Warm+Delay}} scheme}
+        \label{alg:aesdefense}
+        \begin{algorithmic}[1]
+           %\State $state \gets 1$
+           \Require $key$, $in$
+           \Ensure $out$
+           \Function {ProtectedCrypt}{$key$, $in$, $out$}
+                \State $start \gets \Call{GetTime}$
+                \State $\Call{Crypt}{key, in, out}$     {   } $//$ encrypt or decrypt
+                \State $end \gets \Call{GetTime}$
+                \If {$end - start > TWOCM$}
+                    %\State $state \gets 1$
+                    \State $\Call{Warm}$
+                    \State $delay \gets \Call{GetTime}$
+                    \If {$delay - start < WET $}
+                        \State $\Call{Delay}{WET-delay+start}$
+                    \EndIf
+                \EndIf
+           \EndFunction
+        \end{algorithmic}
+    \end{algorithm}
+%\vspace{-1mm}
+
+Three operations are introduced by this defense scheme:
+        \emph{a}) {\scshape{Warm()}}, cache warm by accessing lookup tables as constant data,
+        \emph{b}) {\scshape{Delay()}}, delay by padding instructions,
+        and \emph{c}) {\scshape{GetTime()}}, timing for the conditions of warm and delay.
+All these operations are algorithms-independent.
+Moreover, they are implementation-transparent,
+        except that the address of lookup tables is needed in cache warm.
+
+These operations are supported in common computer systems,
+ either in user mode or kernel mode.
+The conditions of warm and delay are defined by timing.
+We do not query the status of cache lines to judge whether an entry of the lookup tables is in caches or not,
+       which are unavailable on common platforms.
+
+In this algorithm,
+  there are two constant parameters, WET and TWOCM.
+WET is defined as the period for one execution of encryption/decryption,
+  in the case that none of lookup tables is cached before the execution.
+TWOCM is defined as the maximal period for one execution of encryption/decryption,
+  in the case that all lookup tables are in caches before the execution.
+These two parameters are determined when there is no concurrent interrupts, task scheduling or other system activities.
+
+%上面是说有两种类型的防御策略，消除cache miss 和混淆cache miss
+% 这里是想说，这些方法中有些需要修改算法实现，有些需要特权等级（内核态，或者root用户），而 warm 和delay是不需要的，满足我们的需求。
+
+%Our scheme uses the cache warm (line $5$ in Algorithm~\ref{alg:aesdefense}), which loads the whole lookup tables into the cache, and the cache miss confusion together to eliminate the remote cache timing side channel attacks. Meanwhile, in order to achieve the algorithm independent, we adopt the time delay method to confuse the cache miss (line $14$ in Algorithm~\ref{alg:aesdefense}). 注释的这段是蔡师兄之前改的。
+
+
+% 说明一下调用方法：如下[以algorithm的方式写出来]：
+% 赋值delay
+% warm()
+% for ()
+%   protected_crypt()
+% 说明一下，为什么warm在delay之前。而不是之后。
+
+In general,
+  {\scshape{ProtectedCrypt()}} are invoked continuously in a loop, to process a great deal of data,
+  and the performance matters in such cases.
+So {\scshape{Warm()}} takes effect in the next execution of encryption/decryption.
+Therefore,
+  if {\scshape{ProtectedCrypt()}} has been idle for a long time,
+   we suggest an additional invocation of {\scshape{Warm()}} before {\scshape{ProtectedCrypt()}}.
+Note that,
+  even if this ``initial'' warm is not performed,
+   the security is still ensured by delay and
+    the impact of performance is  negligible if the loop of {\scshape{ProtectedCrypt()}} is long enough.
+
+%Programmers are advised to perform the cache warm operation once before the encryption, and it is for the performance. The function $PROTECTED\_CRYPT()$ once can just operate one block plaintext. %这里是说调用者如何调用算法。
+%Moreover, the \verb+warmup+ operations  are necessary  to provide better performance in the following two  cases where  not all the lookup tables are in the cache:
+% Before the first AES execution, where none of the lookup tables are in  cache.  The interval between two AES executions is too large or perform AES discontinuously. %在AES不连续的时候，建议进行warm 操作。
+
+
+
+
+%[[[[\textbf{ this content shall be in Section Implementation}.
+%Further, although the design of our scheme is independent of the software and hardware, the implementation details vary according to the underlying hardwares and softwares. For example, we adopts the \verb+rdtscp+ instruction provided by Intel to get the timestamp efficiently. The threshold (\verb+ENC_THRESHOLD+) and WET are related to the hardware, operating system and the implementation of the encryption algorithm, and can be calculated by performing the multiple encryption in the environment previously. ]]]]
+
+
+%[[this table may be needed in \textbf{Section Analysis of Optimization}]]
+%\begin{table}
+%  \centering
+%  \small
+%  \caption{The meaning of symbols.}\label{tbl:sybmean}
+%   \begin{tabular}{|c|c|c|c|}
+%   \hline
+%   {$P_{delay}$} &  the probability of performing delay operation\\
+%   \hline
+%   {$T_{delay}$} &  the expectation of time cost by performing delay operation\\
+%   \hline
+%   {$\Delta T_{warm}$} & the average time reduced by not loading $N$ cache line size\\
+%   \hline
+%   {$T_{warm}$} &  the time cost by performing warmup operation\\
+%   \hline
+%   {$P_{evict}$} &  the probability that some entries of lookup tables are evict from cache\\
+%   \hline
+%   \end{tabular}%这里我就列了这些，后面证明的时候S_{full}这几个我没有在这列出来，因为在讲到的时候都有解释说是什么含义。
+%\end{table}
+
+
+
+\subsection{Security Analysis}
+%\vspace{-1mm}
+The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}}.
+The cache timing side channels come from the relation between the measured time and the data processed;
+   that is, different data (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
+   resulting in different measured time as some table entries are in caches and others are not.
+We ensure that the measured time does not leak any information about the status of cache lines,
+   and then destroy the  relationship between the execution time and data processed in encryption/decryption.
+%In our scheme we put the cache warm operation after the encryption/decryption, So the time costs by the cache warm can be hidden.
+%这句话是想说，将warm放在加密之后，可以将warm的时间隐藏在delay中间。
+%So the attackers can gain the cache warm time. The warm time is related to the previous execution, so the attackers can infer the cache access information from it. So the cache warm operation should be after the encryption/decryption.% 这句是说如果warm放在了开始，那么如果前一次AES进行了delay的操作，需要进行warm，如果warm在这次AES 之前做，那么攻击者就能够获取到warm的时间，从而根据warm的时间推断上一次AES执行时对cache的访问情况，因为warm的时间长短就体现了访问查找表的内容。因此如果需要warm，必须在AES计算之后进行。
+%Therefore, as long as we break down the relationship between secret data and the execution time, the remote cache timing attacks can't be carried out.%这里是说攻击的原理，只要打破这种关系，就可以抵御攻击。
+
+%[[[[[[[\textbf{this paragraph shall not be here. Section 4?}
+%To achieve the optimal performance, our scheme only performs the cache warm in the necessary cases: the encryption time is larger than the \verb+ENC_THRESHOLD+ (line $5$ in Algorithm~\ref{alg:aesdefense}) which means some of the needed lookup tables are evicted from the cache.
+%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than WET(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to WET for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
+%]]]]]]]
+
+
+According to Algorithm~\ref{alg:aesdefense}, the measured time, i.e., the execution time of {\scshape{ProtectedCrypt()}},
+  falls into two intervals $(0, TWOCM]$ and $[WET, \infty )$.
+We prove that,
+ no information about the status of cache lines  %lookup tables cached or data processed
+  leaks through the time measured by attackers.
+\begin{itemize}
+  \item \textbf{Case 1}: The execution time of {\scshape{Crypt()}} is in $(0, TWOCM]$.
+   It is almost a fixed value for arbitrary data processed, as all tables are cached.
+    When all table entries are in caches,
+    the access time for any entry is constant,
+     resulting in a fixed execution time.\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[WET, \infty )$.
+  \item \textbf{Case 2}: The time of encryption/decryption is in $(TWOCM, WET$). It will be delayed to $WET$,
+    which is the execution time as all accessed lookup tables are uncached.
+    That is, the encryption/decryption is executed equivalently without any caches.
+    In this case, the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
+  \item \textbf{Case 3}: The execution time is greater than $WET$.
+    It results from task scheduling or  interrupts.
+   As explained in Section~\ref{sec:assumption},
+     the running states such as interrupts, task scheduling and other system activities,
+       are unknown to the remote attackers,
+       so the attackers cannot obtain the actual execution time of encryption/decryption to infer the keys.
+\end{itemize}
+
+In summary,
+  Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
+  and in Case 3, the actual execution time is  obscured by unknown system activities.
+Moreover, the  sequence of Cases 1, 2, and 3,
+  cannot be exploited to construct cache timing side channels.
+In Case 1,
+    the measured time is almost constant,
+  and no exploitable differential information exists.
+Cases 2 and 3 happen only if encryption/decryption is interrupted
+ by non-deterministic activities,
+   and the differential information is determined by the system events but not the keys.
+
+%case 4: The attacker fails to obtain any other information from which interval the encryption time falls in.
+% Because it is independent of  the input data, but relied on whether the needed cache entries are evict, or OS scheduler and interrupt handlers are invoked, which is unpredictable for the remote attackers.%这段是说，从计算时间落在是前一个区间还是后一个区间也得不到有用信息。
+
+%1、	通过对攻击方法的研究，攻击者进行进攻时，所依赖的是AES计算时间变化，这种变化是由于明文输入不同而导致计算时访问查找表不同，从而产生访问cache或者访问内存导致的时间变化。因此，也就是说明文输入的不同反应了AES计算时间的变化。只要能够破坏明文输入和计算时间的关系，也就是说攻击者获得的AES计算时间集合和AES的输入并不存在这种对应关系的时候，攻击就不能够进行了。
+
+In the following,
+we explain that our scheme successfully prevent typical remote cache timing side channel attacks.
+%	对各个不同类型的攻击，用我们的防御方案以后，可以获得哪些数据，通过这些数据不能够实施这些攻击。
+%通过对AES的各种cache时间攻击进行分析，可以将时间攻击分为三种典型的类型：
+%一是统计攻击：
+%由于对于查找表的访问导致AES加密时间的变化，可以认为产生多的cache miss会导致加密时间变长，产生少的cache miss对应于短的加密时间。攻击者可以利用其进行攻击，一种攻击是定义一个小的阈值，找那些加密时间小于阈值的明文，说明这些明文产生的cache miss少，在这些明文中，找那些出现频率最高的明文，计算得到的差分值作为密钥比特间的差分值。或者攻击者定义一个高的阈值，寻找那些加密时间大于阈值的明文，这些明文产生的cache miss 多，在这些明文中，找那些出现频率最少的明文，计算得到的差分作为密钥比特的差分。
+%对于这种攻击，最主要的是要能够获取到这么两个集合，一个是加密时间长的集合，一个是加密时间短的集合。通过我们的保护方案，攻击者能够获得到的是一个最短的加密时间，一个由于延迟而最大的加密时间，以及由于进程调度得到的非真实加密时间。首先由于进程调度得到的时间是一个干扰时间，要被排除在集合之外，其次得到最短加密时间的集合都是查找表全部在cache中时的加密时间，而并不是因为明文不同使得访问查找表不同而导致的加密时间最短，因此这个集合并不是攻击需要的集合，而对于加密时间最长的集合，也是同样的情况，攻击者获取到的集合中的加密时间，都是经过延时以后的最大加密时间，与明文输入的关系已经不存在了，故而不能够用来形成攻击。因此我们的方案可以抵抗这种类型的攻击。
+To perform the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
+ the attackers need a collection of plaintexts with short (long) measured time due to cache hits (misses).
+However, protected by the {\scshape{Warm+Delay}} scheme,
+  any plaintext may be processed in the short time (i.e., TWOCM) due to cache warm,
+  while any plaintext may be done in the long time (i.e., WET) due to delay.
+Therefore, the collections depend on the non-deterministic system activities,
+   but not the data processed;
+   or, the collection contains random plaintexts and the attack results will be random.
+
+
+
+%二是Bernstein的攻击
+%攻击原理（n是input，k是密钥）：
+%?	输入查找表的元素是n⊕k，大小是一个字节。根据查找表的时间，可以判断其是否cache命中，从而获取信息。
+%?	例如，观察被攻击者执行多组不同的n，记录不同的n[13]对应的加密时间，当加密时间最长时，表示cache miss，此时n[13]=147
+%?	假设攻击者可以观察，通过实验已知k来计算这些明文n，当加密时间也最长时，表示k[13]⊕n[13]=8，那么攻击者可以得出k[13]=147⊕8 = 155。
+%上一行成立的条件对于任意的密钥k， the graph of timings as a function of n[13] ⊕ k[13] looks the same，所以，让加密时间最长的n[13]=k[13] ⊕8,因此再攻击受害者以后，就可以获取密钥字节。
+%攻击者使用这种方法攻击时，最重要的是能够通过已知密钥来学习对于n⊕k每个字节对应的加密时间分布，从而获得根据从被攻击者处获取到的加密时间最长来得到输入的n，从而得到密钥比特k。
+%应用我们的方案以后，攻击者使用这种类型的攻击方法，由于查找表在计算前已经load进入cache，AES计算时间一定，并不存在变化，而由于进程调度而导致计算时间的变化已经由delay到了最大加密时间，从而使得攻击者得到的加密时间分布已经不是本身明文对应的加密时间分布，而得到的分布中的高点也并不是因为明文比特不同而造成cache miss所引起的，故攻击者也无法跟据这个分布来进行攻击。我们的方案因此能够对其进行抵抗。
+
+When the attackers build the time pattern for Bernstein's attack \cite{Bernstein2005Cache},
+  it will be found that,
+  the pattern reflects only the system activities and has nothing to do with the data processed.
+Since the system activities of target servers are different from those of the duplicated server
+ and unknown to the attackers,
+  this pattern cannot be used to infer the keys.
+
+%For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the WET in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
+
+%三是碰撞攻击
+%碰撞攻击利用了如下原理：对于查找表中任意一对下标i，j，对于大量的随机的AES加密，使用同样的密钥k，当<i>=<j>时平均时间短，反之平均时间长。
+%第一轮的攻击：
+%Plaintexts satisfying <pi> ⊕ <pj> = <ki> ⊕ <kj> for a pair of bytes i, j should have a lower average encryption time due to the collision.
+%compiles timing data into a table t[i, j, <pi>⊕<pj>] of average encryption times for all i, j
+%If a low average time occurs at t[i, j,Δ], the algorithm estimates that <ki>⊕<kj> = Δ
+%不能完全获取所有密钥。
+%碰撞攻击还可以针对前两轮，也可以针对最后一轮，都是同样的原理。
+%攻击者通过碰撞攻击来进行攻击时，利用的也是由于cache miss的多少造成的加密时间变化，也就是不同的明文输入对应于不同的加密时间。
+%The collision attack relies on the case that when the inputs of the S-box introduce the collision, the encryption time will be shorter.
+%However, in our scheme, the necessary condition of a shorter encryption time is not the collision as the cache warm loads all the lookup tables in the cache, but no OS schedulers nor interrupt handlers exist before and during the encryption. So the table $t[i, j,\langle P_{i}\rangle \oplus \langle P_{j}\rangle]$ observed by attackers can't reflect the relation between encryption time and input plaintexts. So the collision attack doesn't work under our scheme.
+%For the collision attack, attackers using this type attack also take advantages of the AES execution time different by the number of cache misses. That is the attack is also based on the relation between the plaintexts and execution time. Collision attack has several analyse methods but the essence is the same that gain key bits through the relation between plaintexts and execution time. However, with our scheme, the different plaintexts have the same execution time. The variety of the execution time comes from the process scheduling or interrupt not the input plaintexts. Therefore the changes in the table $ t[i, j,\langle P_{i}\rangle \oplus \langle P_{j}\rangle]$ gained by the attackers using the collision attack are not generated by the cache miss but the scheduling or the interrupt. In other words, the table losses the relations generated by the cache miss between the plaintexts and the execution time. So the collision attack doesn't work under our defense scheme.
+
+%而使用我们的保护方案以后，对于不同的明文，得到相同的加密时间，对于攻击者而言，获取到的table t[i, j, <pi>⊕<pj>]并非由于不同明文所造成的cache miss引起的，失去了和明文的对应关系，因此攻击也并不会起到作用。因此我们的方案也能够进行保护。
+%
+%因此说，我们的方案保证了AES计算的安全性。
+%From the analysis all above, it can be concluded that our defense scheme combining the cache warm and delay methods guarantees the security of the AES execution against the cache timing attacks.
+
+%full warm caiquanwei
+%However, even in this case, some timing variations may still be observed on superscalar processors and can be used for mounting an attack.
+%就是因为一个cycle里执行多条指令，而这些指令访问同一个cache bank，导致冲突
+%The efficiency of the attack and the positions of the involved key bits then wary with the processor, the compiler and the implementation.
+%攻击者为了实现full warm，还需要removing all system calls and array manipulations performed in [1].
+%与CPU型号有关，与编译选项有关
+%攻击者首先全warm，然后第一步，应该是针对dumplicate server进行训练（对一个byte而言，对其所有的组合进行验证；针对各个组合，确定最长的加密时间所对应的内容，若该内容对应位置的比特为1，则计数增1，否则计数-1，若计数大于阈值，则可以预测该位置内容，否则该位置内容为不确定的。 第二步，对victom server进行同样的步骤，确定明文各位置对应的bit； 第三部，k= a ^ p，其中a为第一步确定的内容，p为第二部确定的内容。）
+%The statistical attack method can even be extended [CLS06（即本论文）] to exploit timing variation of individual bits of the key instead of whole bytes. （Cache-Collision Timing Attacks Against AES中描述）
+%（Efficient Cache Attacks on AES, and Countermeasures 挂名shamir）中描述Canteaut et al. [18（本论文）] describes a variant of Bernstein’s attack which focuses on internal collisions (following Tsunoo et al.) and provides a more in-depth experimental analysis its properties and applicability are similar to Bernstein’s attack [18]（本论文） reports an 85% chance of recovering 20 bits using 230 encryptions after a 230 learning phase, even for the “lightweight” target of OpenSSL AES invocation.
+
+%尝试方法：，x86上专门提供了lfence，sfence,和mfence 指令来停止流水线：
