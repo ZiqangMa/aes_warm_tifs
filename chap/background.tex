@@ -21,18 +21,22 @@ can be implemented as table lookup operations \cite{Daemen2002The}.
 % and a 256-byte lookup table $T_{4}$ in the last round.
 \texttt{AddRoundKey} consists of bitwise \texttt{XOR} operations on the state.
 The common implementation of the lookup tables needs four 1KB tables $T_{0}, T_{1}, T_{2}$ and $T_{3}$, which are used in all rounds.
-$$
-T_{0}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x))  T_{1}[x] = (3\cdot S(x), 2\cdot S(x), S(x), S(x))
-$$
-$$
-T_{2}[x] = (S(x), 3\cdot S(x), 2\cdot S(x), S(x))  T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))
-$$
+\setlength{\arraycolsep}{0.0em}
+\begin{eqnarray}
+&T_{0}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber\\
+&T_{1}[x] = (3\cdot S(x), 2\cdot S(x), S(x), S(x))\nonumber\\
+&T_{2}[x] = (S(x), 3\cdot S(x), 2\cdot S(x), S(x))\nonumber\\
+&T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))\nonumber
+\end{eqnarray}
+\setlength{\arraycolsep}{5pt}
 Where S(x) stands for the result of an AES S-box lookup for the input value x.
-In this paper, we use the AES implementation with a 2KB lookup table in RAM. 
-This lookup table is 
-$$
-T_{2}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))
-$$
+In this paper, we use the AES implementation with a 2KB lookup table in RAM.
+This lookup table is
+\setlength{\arraycolsep}{0.0em}
+\resizebox{\linewidth}{!}{\begin{footnotesize}\begin{eqnarray}
+T[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber
+\end{eqnarray}\end{footnotesize}}
+\setlength{\arraycolsep}{5pt}
 The four lookup tables needed by AES computation are formed by this 2KB table.
 
 
