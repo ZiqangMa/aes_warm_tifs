@@ -33,9 +33,12 @@ Where S(x) stands for the result of an AES S-box lookup for the input value x.
 In this paper, we use the AES implementation with a 2KB lookup table in RAM.
 This lookup table is
 \setlength{\arraycolsep}{0.0em}
-\resizebox{\linewidth}{!}{\begin{footnotesize}\begin{eqnarray}
+%\resizebox{\linewidth}{!}{
+\begin{footnotesize}
+\begin{eqnarray}%\footnotesize
 T[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber
-\end{eqnarray}\end{footnotesize}}
+\end{eqnarray}
+\end{footnotesize}
 \setlength{\arraycolsep}{5pt}
 The four lookup tables needed by AES computation are formed by this 2KB table.
 

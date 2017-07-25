@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.3.13)  24 JUL 2017 17:18
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.3.13)  25 JUL 2017 15:39
 entering extended mode
 **C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_warm_
 *journal/mainbody.tex
@@ -413,150 +413,8 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <9> not available
 
 ("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
  journal\chap/introduction.tex"
-
-LaTeX Warning: Citation `Acii2005Improving' on page 1 undefined on input line 2
-7.
-
-
-LaTeX Warning: Citation `Ac2006Trace' on page 1 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Bonneau2006Cache' on page 1 undefined on input line 27
-.
-
-
-LaTeX Warning: Citation `Bernstein2005Cache' on page 1 undefined on input line 
-27.
-
-
-LaTeX Warning: Citation `Gullasch2011Cache' on page 1 undefined on input line 2
-7.
-
-
-LaTeX Warning: Citation `Kocher1996Timing' on page 1 undefined on input line 27
-.
-
-
-LaTeX Warning: Citation `Neve2006A' on page 1 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Osvik2006Cache' on page 1 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Tsunoo2003Cryptanalysis' on page 1 undefined on input 
-line 27.
-
-
-LaTeX Warning: Citation `Tromer2010Efficient' on page 1 undefined on input line
- 27.
-
-
-LaTeX Warning: Citation `Electromagnetic-sidechannel' on page 1 undefined on in
-put line 28.
-
-
-LaTeX Warning: Citation `power-pc' on page 1 undefined on input line 28.
-
-
-LaTeX Warning: Citation `Bertoni2005AES' on page 1 undefined on input line 28.
-
-
-LaTeX Warning: Citation `electric-potential-sidechannel' on page 1 undefined on
- input line 29.
-
-
-LaTeX Warning: Citation `Acoustic-sidechannel' on page 1 undefined on input lin
-e 29.
-
-
-LaTeX Warning: Citation `Tsunoo2002Cryptanalysis' on page 1 undefined on input 
-line 36.
-
-
-LaTeX Warning: Citation `Bernstein2005Cache' on page 1 undefined on input line 
-36.
-
-
-LaTeX Warning: Citation `Bonneau2006Cache' on page 1 undefined on input line 36
-.
-
-
-LaTeX Warning: Citation `Neve2006A' on page 1 undefined on input line 36.
-
-
-LaTeX Warning: Citation `Brumley2011Remote' on page 1 undefined on input line 3
-6.
-
-
-LaTeX Warning: Citation `Brumley2005Remote' on page 1 undefined on input line 3
-6.
-
-
-LaTeX Warning: Citation `Ac2007Cache' on page 1 undefined on input line 45.
-
-
-LaTeX Warning: Citation `Bernstein2005Cache' on page 1 undefined on input line 
-45.
-
-
-LaTeX Warning: Citation `Bonneau2006Cache' on page 1 undefined on input line 45
-.
-
-
-LaTeX Warning: Citation `Tsunoo2002Cryptanalysis' on page 1 undefined on input 
-line 45.
-
-
-LaTeX Warning: Citation `Tsunoo2003Cryptanalysis' on page 1 undefined on input 
-line 45.
-
-
-LaTeX Warning: Citation `Ac2007Cache' on page 1 undefined on input line 58.
-
-
-LaTeX Warning: Citation `atici2016remote' on page 1 undefined on input line 58.
-
-
-
-LaTeX Warning: Citation `Bernstein2005Cache' on page 1 undefined on input line 
-58.
-
-
-LaTeX Warning: Citation `saraswat2014remote' on page 1 undefined on input line 
-58.
-
-
-LaTeX Warning: Citation `YinqianZhang2012-cross-vm' on page 1 undefined on inpu
-t line 68.
-
-
-LaTeX Warning: Citation `get-off-my-cloud' on page 1 undefined on input line 68
-.
-
-
-LaTeX Warning: Citation `flushreload' on page 1 undefined on input line 68.
-
-
-LaTeX Warning: Citation `Gullasch2011Cache' on page 1 undefined on input line 6
-8.
-
-
-LaTeX Warning: Citation `Osvik2006Cache' on page 1 undefined on input line 87.
-
-
-LaTeX Warning: Citation `Gullasch2011Cache' on page 1 undefined on input line 8
-7.
-
-
-LaTeX Warning: Citation `Bernstein2005Cache' on page 1 undefined on input line 
-87.
-
-
-LaTeX Warning: Citation `Canteaut2006Understanding' on page 1 undefined on inpu
-t line 87.
-
 LaTeX Font Info:    Try loading font information for U+msa on input line 107.
-(D:\CTEX\MiKTeX\tex\latex\amsfonts\umsa.fd
+ (D:\CTEX\MiKTeX\tex\latex\amsfonts\umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 107.
@@ -566,41 +424,7 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) [1{D:/CTEX/UserData/pdftex/config/pdftex.map{Unicode.sfd}{UGBK.sfd}}
 
 
-]
-
-LaTeX Warning: Citation `Daemen2002The' on page 2 undefined on input line 126.
-
-
-LaTeX Warning: Reference `sec:background' on page 2 undefined on input line 167
-.
-
-
-LaTeX Warning: Reference `sec:eliminating' on page 2 undefined on input line 16
-8.
-
-
-LaTeX Warning: Reference `sec:performanceproof' on page 2 undefined on input li
-ne 169.
-
-
-LaTeX Warning: Reference `sec:implementationEvalution' on page 2 undefined on i
-nput line 169.
-
-
-LaTeX Warning: Reference `sec:discussion' on page 2 undefined on input line 170
-.
-
-
-LaTeX Warning: Reference `sec:conclusion' on page 2 undefined on input line 171
-.
-
-
-LaTeX Warning: Reference `appendixa' on page 2 undefined on input line 172.
-
-
-LaTeX Warning: Reference `appendixb' on page 2 undefined on input line 173.
-
-)
+])
 ("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
  journal\chap/background.tex"
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 13.
@@ -612,29 +436,354 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--14
 1/ptm/m/n/8 , \OT1/pcr/m/n/8 ShiftRows \OT1/ptm/m/n/8 and
  []
 
+[2] [3])
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/elimatingcacheattack.tex" [4]
 
-LaTeX Warning: Citation `Daemen2002The' on page 2 undefined on input line 18.
+LaTeX Warning: Reference `subsec:fullwarm' on page 5 undefined on input line 26
+4.
 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.36 ...\nonumber\end{eqnarray}\end{footnotesize}}
-                                                  
-? 
-! Emergency stop.
-<inserted text> 
-                \endgroup 
-l.36 ...\nonumber\end{eqnarray}\end{footnotesize}}
-                                                  
-End of file on the terminal!
 
- 
+Underfull \hbox (badness 4595) in paragraph at lines 260--265
+[]\OT1/ptm/b/n/10 Case 1\OT1/ptm/m/n/10 : The ex-e-cu-tion time of \OT1/ptm/m/s
+c/10 Cryp-t() \OT1/ptm/m/n/10 is in
+ []
+
+
+Underfull \hbox (badness 3260) in paragraph at lines 265--269
+[]\OT1/ptm/b/n/10 Case 2\OT1/ptm/m/n/10 : The time of en-cryp-tion/de-cryp-tion
+ is in
+ []
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/analysis.tex" [5]
+Overfull \hbox (142.41846pt too wide) in paragraph at lines 112--121
+ [][] 
+ []
+
+[6] <pic/markov1.pdf, id=37, 680.64787pt x 247.7757pt>
+File: pic/markov1.pdf Graphic file (type pdf)
+ <use pic/markov1.pdf>
+Package pdftex.def Info: pic/markov1.pdf used on input line 159.
+(pdftex.def)             Requested size: 412.80157pt x 150.27336pt.
+
+Overfull \hbox (160.80157pt too wide) in paragraph at lines 159--159
+ [][] 
+ []
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 167.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 173.
+
+
+
+Overfull \hbox (118.29462pt too wide) in paragraph at lines 222--229
+ [][] 
+ []
+
+[7 <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_war
+m_ journal/pic/markov1.pdf>]
+Overfull \hbox (143.95076pt too wide) in paragraph at lines 292--301
+ [][] 
+ []
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/implementation.tex"
+<pic/TWOCM_allwarm.pdf, id=57, 441.09402pt x 137.42241pt>
+File: pic/TWOCM_allwarm.pdf Graphic file (type pdf)
+
+<use pic/TWOCM_allwarm.pdf>
+Package pdftex.def Info: pic/TWOCM_allwarm.pdf used on input line 40.
+(pdftex.def)             Requested size: 361.19843pt x 112.53821pt.
+
+Overfull \hbox (109.19843pt too wide) in paragraph at lines 40--41
+ [][] 
+ []
+
+<pic/fwopensslworst.pdf, id=58, 435.24095pt x 170.11656pt>
+File: pic/fwopensslworst.pdf Graphic file (type pdf)
+
+<use pic/fwopensslworst.pdf>
+Package pdftex.def Info: pic/fwopensslworst.pdf used on input line 62.
+(pdftex.def)             Requested size: 309.60315pt x 121.01462pt.
+
+<pic/fwopensslbest.pdf, id=59, 439.03825pt x 178.57816pt>
+File: pic/fwopensslbest.pdf Graphic file (type pdf)
+
+<use pic/fwopensslbest.pdf>
+Package pdftex.def Info: pic/fwopensslbest.pdf used on input line 69.
+(pdftex.def)             Requested size: 309.60315pt x 125.93031pt.
+
+Overfull \hbox (64.60327pt too wide) in paragraph at lines 62--70
+ [][] 
+ []
+
+
+Overfull \hbox (64.60327pt too wide) in paragraph at lines 62--70
+ [] 
+ []
+
+<pic/TWOCM_onenotin.pdf, id=60, 412.60919pt x 108.15105pt>
+File: pic/TWOCM_onenotin.pdf Graphic file (type pdf)
+
+<use pic/TWOCM_onenotin.pdf>
+Package pdftex.def Info: pic/TWOCM_onenotin.pdf used on input line 77.
+(pdftex.def)             Requested size: 283.80157pt x 74.38994pt.
+
+Overfull \hbox (31.80157pt too wide) in paragraph at lines 77--77
+ [][] 
+ []
+
+[8]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 99.
+
+Overfull \hbox (70.40308pt too wide) in paragraph at lines 154--155
+[][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (70.40308pt too wide) in paragraph at lines 156--157
+[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/evaluation.tex" [9 <C:/Users/mzq/Desktop/马自强实验室工作
+/AES_warm工作/论文/AES_warm_ journal/pic/TWOCM_allwarm.pdf> <C:/Users/mzq/D
+esktop/马自强实验室工作/AES_warm工作/论文/AES_warm_ journal/pic/fwo
+pensslworst.pdf> <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/
+论文/AES_warm_ journal/pic/fwopensslbest.pdf> <C:/Users/mzq/Desktop/马自强
+实验室工作/AES_warm工作/论文/AES_warm_ journal/pic/TWOCM_onenotin.pdf>
+] <pic/ori_scheme_distri.pdf, id=112, 453.09767pt x 139.22916pt>
+File: pic/ori_scheme_distri.pdf Graphic file (type pdf)
+
+<use pic/ori_scheme_distri.pdf>
+Package pdftex.def Info: pic/ori_scheme_distri.pdf used on input line 40.
+(pdftex.def)             Requested size: 309.60315pt x 95.13557pt.
+
+Overfull \hbox (57.60315pt too wide) in paragraph at lines 40--40
+ [][] 
+ []
+
+
+Overfull \hbox (91.93617pt too wide) in paragraph at lines 72--81
+ [][] 
+ []
+
+<pic/performance_comparison.pdf, id=113, 726.79329pt x 397.60646pt>
+File: pic/performance_comparison.pdf Graphic file (type pdf)
+
+<use pic/performance_comparison.pdf>
+Package pdftex.def Info: pic/performance_comparison.pdf used on input line 86.
+(pdftex.def)             Requested size: 412.80157pt x 225.83112pt.
+
+Overfull \hbox (160.80157pt too wide) in paragraph at lines 86--86
+ [][] 
+ []
+
+<pic/diff_scheme_compare.pdf, id=114, 433.01575pt x 220.97656pt>
+File: pic/diff_scheme_compare.pdf Graphic file (type pdf)
+
+<use pic/diff_scheme_compare.pdf>
+Package pdftex.def Info: pic/diff_scheme_compare.pdf used on input line 99.
+(pdftex.def)             Requested size: 412.80157pt x 210.66496pt.
+
+Overfull \hbox (160.80157pt too wide) in paragraph at lines 99--99
+ [][] 
+ []
+
+[10 <C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_wa
+rm_ journal/pic/ori_scheme_distri.pdf> <C:/Users/mzq/Desktop/马自强实验室
+工作/AES_warm工作/论文/AES_warm_ journal/pic/performance_comparison.pdf> 
+<C:/Users/mzq/Desktop/马自强实验室工作/AES_warm工作/论文/AES_warm_ 
+journal/pic/diff_scheme_compare.pdf>]
+
+LaTeX Warning: Reference `' on page 11 undefined on input line 114.
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/discussions.tex")
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/conclusion.tex")
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\chap/appdenix.tex" [11]
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 21.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 21.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 93.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 93.
+
+
+Overfull \hbox (24.33002pt too wide) detected at line 93
+[]
+ []
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 104.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 104.
+
+
+
+Overfull \hbox (4.78078pt too wide) detected at line 111
+\OML/cmm/m/it/8 f\OT1/cmr/m/n/8 (\OML/cmm/m/it/8 k[]\OT1/cmr/m/n/8 ) = (\OML/cm
+m/m/it/8 P[] \OT1/cmr/m/n/8 + \OML/cmm/m/it/8 P[]\OT1/cmr/m/n/8 )(2\OML/cmm/m/i
+t/8 P[] \OMS/cmsy/m/n/8   \OT1/cmr/m/n/8 1 + \OML/cmm/m/it/8 P[]P[]\OT1/cmr/m/n
+/8 (1 \OMS/cmsy/m/n/8   \OML/cmm/m/it/8 P[]\OT1/cmr/m/n/8 ))\OML/cmm/m/it/8 :
+ []
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 130.
+
+
+LaTeX Font Info:    Calculating math sizes for size <> on input line 132.
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 132.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 135.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 140.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 145.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 150.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 155.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 160.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 165.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 170.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 175.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 180.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 185.
+
+
+)
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\mainbody.bbl"
+Underfull \hbox (badness 2875) in paragraph at lines 43--45
+[]\OT1/ptm/m/n/8 D. J. Bern-stein, ``Cache-timing at-tack-s on AES,'' $http : /
+ / cr . yp . to /
+ []
+
+[12]
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+Missing character: There is no � in font ptmri7t!
+ [13]) [14]
+("C:\Users\mzq\Desktop\马自强实验室工作\AES_warm工作\论文\AES_warm_
+ journal\mainbody.aux")
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 4.5pt have occurred.
+
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 6530 strings out of 495354
- 96203 string characters out of 3183859
- 162665 words of memory out of 3000000
- 9614 multiletter control sequences out of 15000+200000
- 44910 words of font info for 91 fonts, out of 3000000 for 9000
+ 6777 strings out of 495354
+ 101754 string characters out of 3183859
+ 172665 words of memory out of 3000000
+ 9815 multiletter control sequences out of 15000+200000
+ 55853 words of font info for 117 fonts, out of 3000000 for 9000
  17 hyphenation exceptions out of 8191
- 36i,9n,38p,520b,334s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 36i,16n,39p,1343b,898s stack positions out of 5000i,500n,10000p,200000b,50000s
+{D:/CTEX/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<D:/CTEX/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmmi10.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
+i5.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><D:/CTEX/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb><D:/CTEX/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmmi8.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><D
+:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/CTEX/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr5.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr6.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/CTEX/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/CTEX/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><
+D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/CTEX/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmsy8.pfb><D:/CTEX/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmsy9.pfb><D:/CTEX/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><D:/CTEX/MiKTeX/
+fonts/type1/urw/times/utmb8a.pfb><D:/CTEX/MiKTeX/fonts/type1/urw/times/utmbi8a.
+pfb><D:/CTEX/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><D:/CTEX/MiKTeX/fonts/type
+1/urw/times/utmri8a.pfb>
+Output written on mainbody.pdf (14 pages, 1515241 bytes).
+PDF statistics:
+ 248 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+
