@@ -25,16 +25,22 @@
 \usepackage{amsmath,amssymb,amsthm}
 \newtheorem{theorem}{Theorem}
 \usepackage{graphicx}
-\usepackage{subfigure}
+%\usepackage{subfigure}
 \usepackage{url}
 \usepackage{multirow}
 \usepackage{listings}
 \usepackage{cite}
 
+
 %\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
-\usepackage{caption}
 \usepackage{xcolor}
 \usepackage{color}
+
+\ifCLASSOPTIONcompsoc
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+\usepackage[caption=false,font=footnotesize]{subfig}
+\fi
 
 %\setcounter{secnumdepth}{3}
 

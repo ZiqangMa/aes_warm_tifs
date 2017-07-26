@@ -151,14 +151,14 @@ To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two other cache w
 
 To prove the second case, we categorize the system state into three cases: (1) all the lookup tables are in the cache ($S_{full}$), (2) the lookup entries not in the cache are not accessed ($S_{nonas}$), and (3) the lookup entries not in the cache are accessed ($S_{as}$). We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
 $S_{nonas}$ and $S_{as}$ indicate the states that one or more cache lines of lookup tables are evicted.
-Figure~\ref{pic:statetrans} shown the state transition diagram.
+\figurename~\ref{pic:statetrans} shown the state transition diagram.
 In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache. We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional \vwarm~respectively, and the values are as follows.
 
-\begin{figure}[t]
+\begin{figure*}[!t]
   \centering
-  \includegraphics[width=0.8\textwidth]{pic/markov1.pdf}\\
+  \includegraphics[width=0.7\textwidth]{pic/markov1.pdf}\\
   \caption{The Markov state-transferring probability diagram.}\label{pic:statetrans}
-\end{figure}
+\end{figure*}
 
 %\begin{footnotesize}
 \setlength{\arraycolsep}{0.0em}
@@ -171,7 +171,7 @@ In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that th
 \begin{eqnarray}
 \label{equ:pic}
 \scriptsize
-&\Pi_{full}^{c} = \frac{1-P_{nona}}{1-P_{nona}+P_{evict}}\ , \Pi_{nonas}^{c} = \frac{P_{nona}P_{evict}}{1-P_{nona}+P_{evict}}\ , \nonumber\\ 
+&\Pi_{full}^{c} = \frac{1-P_{nona}}{1-P_{nona}+P_{evict}}\ , \Pi_{nonas}^{c} = \frac{P_{nona}P_{evict}}{1-P_{nona}+P_{evict}}\ , \nonumber\\
 &\Pi_{as}^{c} = \frac{P_{evict}(1-P_{nona})}{1-P_{nona}+P_{evict}}
 \end{eqnarray}
 \setlength{\arraycolsep}{5pt}

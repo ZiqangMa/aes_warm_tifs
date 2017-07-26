@@ -37,8 +37,8 @@ Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution 
 %\subfigure[different inputs]{
 %\centering
 %\begin{minipage}[b]{0.6\textwidth}
-\includegraphics[width=0.7\textwidth]{pic/TWOCM_allwarm.pdf}
-
+\includegraphics[width=0.4\textwidth]{pic/TWOCM_allwarm.pdf}
+%\includegraphics[width=2.5in]{pic/TWOCM_allwarm.pdf}
 %\end{minipage}
 %}
 %\subfigure[same inputs]{
@@ -51,30 +51,58 @@ Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution 
  \caption{The distribution of AES encryption time in full warm condition.} \label{fig:fullwarmese-diffinput}
 \end{figure}
 
-\begin{figure}[t]
+%\begin{figure}[t]
+%\centering
+%\subfigure[the worst case]{
+%\centering
+%\begin{minipage}[b]{0.5\textwidth}
+%\includegraphics[width=\textwidth]{pic/fwopensslworst.pdf}
+%\label{fig:fullwarmworst}
+%\end{minipage}
+%}
+%\subfigure[the best case]{
+%\centering
+%\begin{minipage}[b]{0.5\textwidth}
+%\includegraphics[width=\textwidth]{pic/fwopensslbest.pdf}
+%\label{fig:fullwarmbest}
+%\end{minipage}
+%}
+% \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}
+%\end{figure}
+
+
+
+\begin{figure}[!t]
+%\centering
+%    \begin{minipage}[t]{\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
+%    %\centering
+%    \includegraphics[width=\textwidth]{pic/fwopensslworst.pdf}
+%    \caption*{(a) the worst case}%加*可以去掉默认前缀，作为图片单独的说明
+%    \label{fig:fullwarmworst}
+%    \end{minipage}
+%    \begin{minipage}[t]{\linewidth}%需要几张添加即可，注意设定合适的linewidth
+%    %\centering
+%    \includegraphics[width=\textwidth]{pic/fwopensslbest.pdf}
+%    \caption*{(b) the best case}
+%    \label{fig:fullwarmbest}
+%    \end{minipage}
+%    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition..}%n张图片共享的说明
 \centering
-\subfigure[the worst case]{
-\centering
-\begin{minipage}[b]{0.6\textwidth}
-\includegraphics[width=1\textwidth]{pic/fwopensslworst.pdf}
-\label{fig:fullwarmworst}
-\end{minipage}
-}
-\subfigure[the best case]{
-\centering
-\begin{minipage}[b]{0.6\textwidth}
-\includegraphics[width=1\textwidth]{pic/fwopensslbest.pdf}
-\label{fig:fullwarmbest}
-\end{minipage}
-}
- \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}
+\subfloat[the worst case]{\includegraphics[width=2.5in]{pic/fwopensslworst.pdf}
+\label{fig:fullwarmworst}}
+\vfil
+\subfloat[the best case]{\includegraphics[width=2.5in]{pic/fwopensslbest.pdf}
+\label{fig:fullwarmbest}}
+\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}
+\label{fig_sim}
 \end{figure}
 
 %In our environment, for each of $2^{30}$ random plaintexts, we perform the encryption after loading  all the lookup tables into cache. Figure~\ref{fig:fullwarmese-diffinput} describes the distribution of encrypting time.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.55\textwidth]{pic/TWOCM_onenotin.pdf}\\
+  \includegraphics[width=0.4\textwidth]{pic/TWOCM_onenotin.pdf}\\
+  %\includegraphics[width=2.5in]{pic/TWOCM_onenotin.pdf}\\
   \caption{The distribution of AES execution time only  not warm one cache line.}\label{fig:twocm}
 \end{figure}
 

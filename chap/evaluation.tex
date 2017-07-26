@@ -37,7 +37,7 @@ the average execution time of our scheme is less than $1.29$ times of the unprot
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
-  \includegraphics[width=0.6\textwidth]{pic/ori_scheme_distri.pdf}\\
+  \includegraphics[width=0.4\textwidth]{pic/ori_scheme_distri.pdf}\\
   \caption{The observed AES execution time with different plaintext.}\label{pic:sec}
 \end{figure}
 
@@ -81,9 +81,9 @@ From Table~\ref{tbl:pevict}, we find  $P_{evict}$ is less than 0.005 always,
 \end{table}
 
 
-\begin{figure}
+\begin{figure}[t]
     \centering
-    \includegraphics[width=0.8\textwidth]{pic/performance_comparison.pdf}\\
+    \includegraphics[width=0.5\textwidth]{pic/performance_comparison.pdf}\\
     \caption{AES execution performance in different scenarios.}
     \label{pic:eval} %% label for entire figure
 \end{figure}
@@ -94,9 +94,9 @@ Furthermore, we evaluate the performance of our scheme with different defense me
  For each method, we we perform $2^{30}$ AES encryptions within random plaintexts.
   It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
 
-\begin{figure}
+\begin{figure}[t]
     \centering
-    \includegraphics[width=0.8\textwidth]{pic/diff_scheme_compare.pdf}\\
+    \includegraphics[width=0.4\textwidth]{pic/diff_scheme_compare.pdf}\\
     \caption{Performance of different defense methods.}
     \label{pic:diffscheme} %% label for entire figure
 \end{figure}
