@@ -50,7 +50,7 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 \begin{document}
 
-\title{Eliminating Remote Cache Timing Side Channels with Optimized Performance}
+\title{Eliminating Remote Cache Timing Side Channels with Optimal Performance}
 %\titlerunning{Eliminating Remote Cache Timing Side Channels}
 %\toctitle{Eliminating Remote Cache Timing Side Channels with Optimized Performance}
 
@@ -74,26 +74,27 @@ GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this %
 %通用的防御就是warm和delay，有提出；但是至今没有被深入的研究。
 %本文提出了Warm+Delay, a framework for symmetric algorithms to eliminating xxx.
 % Then, we
-Cache side channels allow a remote attacker
-    to recover the cryptographic keys,
-   by repeatedly invoking the encryption/decryption functions and measuring the execution time.
-In this paper,
- we present {\scshape{Warm+Delay}}, a protection against remote cache timing side-channel attacks,
-    which conditionally warms the caches by reading constant tables
-      and also conditionally delays the executions.
-With this protection,
-the encryption/decryption execution time is always independent of data processed
- (i.e., keys and plaintexts/ciphertexts),
-  which determines the cache access;
- so
-  it is effective to eliminate remote cache timing side channels.
-The {\scshape{Warm+Delay}} scheme is algorithm-independent,
-   and works without any privileged operations on the system.
-We apply this scheme to AES, and analyze that it achieves the optimized performance.
-Experimental results
-    (\emph{a}) confirm the security, by examining the execution time which does not reflect the data cache access,
-  and (\emph{b}) validate the optimization,
-  by comparing it with different strategies of warm and delay.
+Cache timing side channels allow a remote attacker to recover the cryptographic keys,
+ by repeatedly invoking the encryption/decryption functions and measuring the execution time.
+{\scshape{Warm}} and {\scshape{Delay}}, are two common countermeasures against remote cache-based timing side channels,
+ by reading constant data into caches before cryptographic operations
+  and inserting padding instructions after these operations, respectively.
+Any of these schemes destroys the relationship between the execution time
+  and the cache misses/hits which are determined by the secret key,
+  but introduces extra operations and performance overheads.
+In this paper, we integrate these two schemes into a framework
+ that conditionally and alternatively adopts {\scshape{Warm}} and {\scshape{Delay}}.
+The proposed {\scshape{Warm+Delay}} framework
+ first eliminates the remote cache timing side channels,
+  and is applicable to any cryptographic algorithms and computing platforms.
+More importantly,
+ we apply this framework to AES, 
+ and analyze that it achieves \emph{the optimal performance with the least extra operations}.
+We implement this framework on Linux with Intel Core CPUs to protect AES.
+Experimental results of the prototype show that,
+(\emph{a}) the execution time does not reflect cache access and outperforms different integration strategies of warm and delay, and
+(\emph{b}) it works without any privileged operations on the system.
+
 
 
 %  Methods to defend against the cache side channel attacks are implemented a lot, but still exist some problems such as excess extra overhead, relying on hardware modification, non-portability etc.

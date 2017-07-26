@@ -16,16 +16,16 @@
 \citation{Adams1997The}
 \citation{openssh}
 \citation{drepper2007every}
-\citation{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis}
-\citation{Ac2007Cache}
-\citation{Tsunoo2003Cryptanalysis}
-\citation{aesimp}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Background and Related Works}{2}}
 \newlabel{sec:background}{{II}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}AES and Block Cipher}{2}}
 \newlabel{back:aes}{{\unhbox \voidb@x \hbox {II-A}}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Cache Timing Side Channel}{2}}
 \newlabel{subsec:remoteattack}{{\unhbox \voidb@x \hbox {II-B}}{2}}
+\citation{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis}
+\citation{Ac2007Cache}
+\citation{Tsunoo2003Cryptanalysis}
+\citation{aesimp}
 \citation{Bernstein2005Cache}
 \citation{Cock2014The}
 \citation{Page2003Defending}
@@ -86,11 +86,9 @@
 \newlabel{lemma:warmaftermiss}{{4}{7}}
 \newlabel{equ:pip}{{3}{7}}
 \newlabel{equ:pic}{{4}{7}}
-\newlabel{equ:tpc1}{{5}{7}}
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces The values of $k_{0}$ corresponding to $P_{evict}$.\relax }}{7}}
 \newlabel{tbl:kvalue}{{II}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces The introduced time by performing warmup operation or not (in cycle).\relax }}{7}}
-\newlabel{tbl:scheduaes}{{III}{7}}
+\newlabel{equ:tpc1}{{5}{7}}
 \citation{openssl,polarssl}
 \citation{polarssl}
 \citation{openssl}
@@ -101,6 +99,8 @@
 \citation{guan2014copker}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The Markov state-transferring probability diagram.\relax }}{8}}
 \newlabel{pic:statetrans}{{1}{8}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces The introduced time by performing warmup operation or not (in cycle).\relax }}{8}}
+\newlabel{tbl:scheduaes}{{III}{8}}
 \@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces the minimum value of the $P_{delay}$ in different cases.\relax }}{8}}
 \newlabel{tbl:pdelayvalue}{{IV}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-D}}Other Key Lengths and Other Implementations}{8}}
@@ -126,29 +126,20 @@
 \citation{Onur2007Yet}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The observed AES execution time with different plaintext.\relax }}{10}}
 \newlabel{pic:sec}{{5}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces The value of $P_{evict}$ under different workload.\relax }}{10}}
-\newlabel{tbl:pevict}{{V}{10}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces AES execution performance in different scenarios.\relax }}{10}}
 \newlabel{pic:eval}{{6}{10}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Performance of different defense methods.\relax }}{10}}
 \newlabel{pic:diffscheme}{{7}{10}}
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Discussions}{10}}
-\newlabel{sec:discussion}{{VI}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Effect of Instruction Caches}{10}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces The value of $P_{evict}$ under different workload.\relax }}{10}}
+\newlabel{tbl:pevict}{{V}{10}}
 \citation{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}
 \citation{Neve2006Advances,Osvik2006Cache,Gullasch2011Cache,Irazoqui2014Wait}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Discussions}{11}}
+\newlabel{sec:discussion}{{VI}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Effect of Instruction Caches}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-B}}Other Cache-based Side Channels}{11}}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion}{11}}
 \newlabel{sec:conclusion}{{VII}{11}}
-\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: The the range of $k$}{11}}
-\newlabel{appendixa}{{A}{11}}
-\newlabel{equ:ypwarm}{{7}{11}}
-\newlabel{equ:detail}{{8}{11}}
-\newlabel{equ:pa}{{9}{11}}
-\newlabel{equ:pal0}{{10}{11}}
-\newlabel{equ:pal1}{{11}{11}}
-\newlabel{equ:f1}{{14}{11}}
-\newlabel{equ:fk1}{{15}{11}}
 \bibstyle{IEEEtran}
 \bibdata{bib/Reference}
 \bibcite{Acii2005Improving}{1}
@@ -158,6 +149,18 @@
 \bibcite{Gullasch2011Cache}{5}
 \bibcite{Kocher1996Timing}{6}
 \bibcite{Neve2006A}{7}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: The the range of $k$}{12}}
+\newlabel{appendixa}{{A}{12}}
+\newlabel{equ:ypwarm}{{7}{12}}
+\newlabel{equ:detail}{{8}{12}}
+\newlabel{equ:pa}{{9}{12}}
+\newlabel{equ:pal0}{{10}{12}}
+\newlabel{equ:pal1}{{11}{12}}
+\newlabel{equ:f1}{{14}{12}}
+\newlabel{equ:fk1}{{15}{12}}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  B: The $P_{delay}$ in different AES key lengthes and different AES implementations }{12}}
+\newlabel{appendixb}{{B}{12}}
+\@writefile{toc}{\contentsline {section}{References}{12}}
 \bibcite{Osvik2006Cache}{8}
 \bibcite{Tsunoo2003Cryptanalysis}{9}
 \bibcite{Tromer2010Efficient}{10}
@@ -183,9 +186,6 @@
 \bibcite{drepper2007every}{30}
 \bibcite{aesimp}{31}
 \bibcite{Cock2014The}{32}
-\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  B: The $P_{delay}$ in different AES key lengthes and different AES implementations }{12}}
-\newlabel{appendixb}{{B}{12}}
-\@writefile{toc}{\contentsline {section}{References}{12}}
 \bibcite{Page2003Defending}{33}
 \bibcite{kasper2009faster}{34}
 \bibcite{K2008A}{35}
@@ -224,7 +224,7 @@
 \bibcite{Lauradoux2005Collision}{68}
 \bibcite{Neve2006Advances}{69}
 \bibcite{Irazoqui2014Wait}{70}
-\@writefile{toc}{\contentsline {section}{Biographies}{13}}
-\@writefile{toc}{\contentsline {subsection}{Michael Shell}{13}}
-\@writefile{toc}{\contentsline {subsection}{John Doe}{13}}
-\@writefile{toc}{\contentsline {subsection}{Jane Doe}{13}}
+\@writefile{toc}{\contentsline {section}{Biographies}{14}}
+\@writefile{toc}{\contentsline {subsection}{Michael Shell}{14}}
+\@writefile{toc}{\contentsline {subsection}{John Doe}{14}}
+\@writefile{toc}{\contentsline {subsection}{Jane Doe}{14}}
