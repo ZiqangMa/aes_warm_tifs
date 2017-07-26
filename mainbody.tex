@@ -79,21 +79,22 @@ Cache timing side channels allow a remote attacker to recover the cryptographic 
 {\scshape{Warm}} and {\scshape{Delay}}, are two common countermeasures against remote cache-based timing side channels,
  by reading constant data into caches before cryptographic operations
   and inserting padding instructions after these operations, respectively.
-Any of these schemes destroys the relationship between the execution time
+These schemes destroy the relationship between the execution time
   and the cache misses/hits which are determined by the secret key,
   but introduces extra operations and performance overheads.
 In this paper, we integrate these two schemes into a framework
- that conditionally and alternatively adopts {\scshape{Warm}} and {\scshape{Delay}}.
+ that adopts {\scshape{Warm}} and {\scshape{Delay}}  complementarily.
 The proposed {\scshape{Warm+Delay}} framework
- first eliminates the remote cache timing side channels,
+  eliminates the remote cache timing side channels,
   and is applicable to any cryptographic algorithms and computing platforms.
 More importantly,
  we apply this framework to AES, 
  and analyze that it achieves \emph{the optimal performance with the least extra operations}.
 We implement this framework on Linux with Intel Core CPUs to protect AES.
 Experimental results of the prototype show that,
-(\emph{a}) the execution time does not reflect cache access and outperforms different integration strategies of warm and delay, and
-(\emph{b}) it works without any privileged operations on the system.
+(\emph{a}) the execution time does not reflect cache access,
+ (\emph{b}) the {\scshape{Warm+Delay}} framework outperforms different integration strategies of warm and delay, and
+(\emph{c}) it works without any privileged operations on the system.
 
 
 

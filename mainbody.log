@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2017.5.3)  26 JUL 2017 20:29
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2017.5.3)  26 JUL 2017 22:23
 entering extended mode
-**mainbody.tex
-(C:\Users\DCS\aes_warm_tifs\mainbody.tex
+**C:/Users/DCS/aes_warm_tifs/mainbody.tex
+(C:/Users/DCS/aes_warm_tifs/mainbody.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for loaded.
 (C:\Users\DCS\aes_warm_tifs\IEEEtran.cls
@@ -401,12 +401,14 @@ Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 79.
  (C:\Users\DCS\aes_warm_tifs\chap/introduction.tex
-LaTeX Font Info:    Try loading font information for U+msa on input line 107.
+Underfull \vbox (badness 1024) has occurred while \output is active []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 97.
 
 (C:\CTEX\MiKTeX\tex\latex\amsfonts\umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 107.
+LaTeX Font Info:    Try loading font information for U+msb on input line 97.
 
 (C:\CTEX\MiKTeX\tex\latex\amsfonts\umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -693,9 +695,6 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
  6776 strings out of 495354
@@ -704,7 +703,7 @@ Here is how much of TeX's memory you used:
  9816 multiletter control sequences out of 15000+200000
  55853 words of font info for 117 fonts, out of 3000000 for 9000
  17 hyphenation exceptions out of 8191
- 36i,16n,46p,1257b,898s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,16n,46p,1284b,898s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/CTEX/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<C:/CTEX/MiKTeX/fonts/type1/p
 ublic/amsfonts/cm/cmmi10.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
 i5.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/CTEX/MiKTeX
@@ -721,7 +720,7 @@ m/cmsy9.pfb><C:/CTEX/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/CTEX/MiKTeX/
 fonts/type1/urw/times/utmb8a.pfb><C:/CTEX/MiKTeX/fonts/type1/urw/times/utmbi8a.
 pfb><C:/CTEX/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/CTEX/MiKTeX/fonts/type
 1/urw/times/utmri8a.pfb>
-Output written on mainbody.pdf (14 pages, 1515078 bytes).
+Output written on mainbody.pdf (14 pages, 1514928 bytes).
 PDF statistics:
  248 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
