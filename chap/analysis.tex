@@ -102,13 +102,22 @@ E(T_{delay}) = P_{delay} * (W-B) = (1- ((1-\frac{C}{2048})^{160})^{N})(W-B)
 \end{footnotesize}
 The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$, then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}$.
 
-\begin{table}[t]
-  \centering
-  %\small
-  \scriptsize
-  %\footnotesize
-  %\normalsize
+\begin{table*}[t]
+%    \renewcommand{\arraystretch}{1.3}
+%    \caption{A Simple Example Table}
+%    \label{table_example}
+%    \centering
+%    \begin{tabular}{c||c}
+%    \hline
+%    \bfseries First & \bfseries Next\\
+%    \hline\hline
+%    1.0 & 2.0\\
+%    \hline
+%    \end{tabular}
+%    \end{table}
+  \renewcommand{\arraystretch}{1.3}
   \caption{Reduced and  introduced time by not loading $N$ cache lines (in cycle).}\label{tbl:warmcontent}
+  \centering
    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
    \hline
    {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30    & 32\\
@@ -118,12 +127,13 @@ The average time saved by not loading one cache line from RAM is denoted as $t_{
    {$\Delta T_{warm}$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5 & 1391.88 & 1670.25 & 1781.60 \\
    \hline
    \end{tabular}
-\end{table}
+\end{table*}
 
 Therefore, we have: (1) if there exists $N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (2) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
 
 In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $W$ (i.e. WET) is 2834 CPU cycles, while the shortest AES execution time $B$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
-\qed\end{proof}
+%\qed
+\end{proof}
 
 In our {\scshape{Warm+Delay}} scheme, we perform \vwarm  after the AES execution. If the execution time is less than the WET, we perform \vwarm~and then \vdelay. Therefore, the time of \vwarm~becomes part of delay. In this case, the overhead of \vwarm is further reduced. When this case occurs, the extra time reduced by not warming some cache line is zero, if the AES execution time plus \vwarm~time is less than WET. Otherwise, the extra overhead (e.g. overhead beyond WET) is still less than \vwarm. In this situation, warming all cache lines is still the better choice.% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
@@ -210,12 +220,13 @@ the maximum of $t_{delay}$ is $2525.00$ cycles,
 the minimum of $t_{warm}$ is $124$ cycles (accessing the lookup tables from caches).
 The maximum of $t_{warm}$ is $1781.60$ when all the lookup tables in RAM.
 Therefore, the range of $k$ is: $1 < k < 20.36$.% When at least one cache line of lookup tables is loaded from RAM, $1 < k < 18.01$.
- Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
+Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
 Therefore, the  conditional \vwarm~provides  better performance than the probabilistic \vwarm.
-\qed\end{proof}
+%\qed
+\end{proof}
 
 
-\begin{table}[t]%[!hbt]
+\begin{table*}[t]%[!hbt]
   \centering
   \small
   \caption{The values of $k_{0}$ corresponding to $P_{evict}$.}\label{tbl:kvalue}
@@ -226,7 +237,7 @@ Therefore, the  conditional \vwarm~provides  better performance than the probabi
    {$k_{0}$} & $\infty$ & 216.7 & 109.8 & 57.4 & 40.7 & 33.1 & 29.0 & 26.7 & 25.4 & 24.8 & 24.6 &24.7 \\
    \hline
    \end{tabular}
-\end{table}
+\end{table*}
 
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
 
@@ -283,10 +294,10 @@ Table~\ref{tbl:scheduaes} shows that performing \vwarm achieves better performan
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
-\begin{table}[t]
+\begin{table*}[t]
   \centering
   %\small
-  \scriptsize
+  %\scriptsize
   %\footnotesize
   \caption{The introduced time by performing warmup operation or not (in cycle).}\label{tbl:scheduaes}
    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -298,7 +309,7 @@ Table~\ref{tbl:scheduaes} shows that performing \vwarm achieves better performan
    {$E(T_{warm})$} & 175.80 & 227.60 & 279.4 & 383.00 & 642.00 & 901.00 & 1160.00 & 1419.00 & 1678.00 & 1781.60 \\
    \hline
    \end{tabular}
-\end{table}
+\end{table*}
 
 \noindent\textbf{Periodical schedule function is called without scheduling during AES execution.}
 As no other process invoked, the lookup tables are not evicted.
