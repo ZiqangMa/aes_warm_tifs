@@ -83,19 +83,20 @@ Cache timing side channels allow a remote attacker to recover the cryptographic 
 These countermeasures destroy the relationship between the execution time
   and the cache misses/hits which are determined by the secret key,
   but introduce extra operations.
-There extra operations sometimes are unnecessary,
+However, the extra operations sometimes are unnecessary,
    and bring great performance overheads.
 In this paper, we integrate these two countermeasure into a scheme
  that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
+++++++++
 The proposed {\scshape{Warm+Delay}} scheme
-  eliminates remote cache timing side channels effectively,
+   effectively eliminates remote cache timing side channels,
   and is applicable to different cryptographic algorithms and computing platforms.
 More importantly,
  we apply this scheme to AES,
  and analyze that it achieves \emph{the optimal performance with the least extra operations}.
 We implement it on Linux with Intel Core CPUs to protect AES.
 Experimental results of the prototype show that,
-(\emph{a}) the execution time does not reflect cache access,
+(\emph{a}) the execution time does not leak information about cache access,
  (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
 (\emph{c}) the implementation works without any privileged operations on the system.
 
