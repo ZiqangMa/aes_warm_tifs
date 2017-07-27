@@ -48,25 +48,24 @@ We examine these principles with our proposed scheme, and derive practical condi
 %\vspace{-2mm}
 %The analysis of \vdelay~is independent of the encryption algorithm used in the scheme.
 \begin{theorem} In the \vdelay~operation, delay to WET imposes the minimal overhead while effectively defending against timing side-channel attacks.\end{theorem}
-\begin{proof}
+\begin{IEEEproof}
 From the attackers' viewpoint, there are three types of encryption times that are useless (i.e. the execution time is independent of the plaintext input): the shortest time, WET, and any value that is larger than WET. The shortest time means that all the lookup tables are loaded into the cache with no cache miss during encryption. The WET corresponds to the longest execution path, when all lookup tables are not in the cache. When the execution time is longer than WET, the encryption has been disturbed by the OS (e.g. scheduler or interrupt handler), and it is impossible for the attacker to find the real encryption time.
 
 If we delay the encryption time to a random value or a discrete value less than WET, there still exists an observable relationship between the encryption time and the input. The remote attacker can find the relationship by excessively invoking the encryption. Therefore, delaying to WET imposes the shortest delay that is effective against the side-channel attacks.
 %\qed
-\end{proof}
+\end{IEEEproof}
 
 
 
 \begin{theorem} Performing the \vdelay~operation when the encryption time is in $(TWOCM, WET)$ results the smallest number of \vdelay~operations. % when we cannot distinguish the reason why encryption takes longer than $TWOCM$ (cache miss or the OS scheduler and  interrupt handler).
 \end{theorem} % 这里when后的部分需要吗
 %******BL: 我也觉得后面半句可以不要，因为下文有解释。我先把这半句注释掉了
-\begin{proof}
-
+\begin{IEEEproof}
 If the AES execution time is less than TWOCM, it means no cache miss has occurred, so that the encryption time is independent of the input. When the observed encryption time is no less than WET, it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
 
 When the execution time is in $(TWOCM, WET)$, it is because of cache miss, OS scheduler, or interrupt handler (the overhead is less than WET). The proposed scheme cannot distinguish the actual reason. However, the attacker can distinguish it by repeatedly invoking the encryption using the same input, and further perform timing attacks. Therefore, \vdelay~is  necessary. % in this case.
 %\qed
-\end{proof}
+\end{IEEEproof}
 
 \subsection{Performance Analysis of Warm}
 %\vspace{-1mm}
@@ -76,7 +75,7 @@ We will show that in this case our {\scshape{Warm+Delay}} scheme gets the best p
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
 \begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
-\begin{proof}
+\begin{IEEEproof}
 In AES, \vwarm~loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
 cache miss may happen, which will in turn trigger \vdelay~operation. Therefore, the benefit of not loading $N$ ($N>0$) cache lines of lookup tables is the saved loading time in \vwarm, while the potential cost is the added time due to \vdelay. In the following, we will prove that the expected cost is greater than the benefit, regardless of $N$.
 
@@ -133,7 +132,7 @@ Therefore, we have: (1) if there exists $N$ that $\Delta T_{warm} > E(T_{delay})
 
 In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $W$ (i.e. WET) is 2834 CPU cycles, while the shortest AES execution time $B$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 %\qed
-\end{proof}
+\end{IEEEproof}
 
 In our {\scshape{Warm+Delay}} scheme, we perform \vwarm  after the AES execution. If the execution time is less than the WET, we perform \vwarm~and then \vdelay. Therefore, the time of \vwarm~becomes part of delay. In this case, the overhead of \vwarm is further reduced. When this case occurs, the extra time reduced by not warming some cache line is zero, if the AES execution time plus \vwarm~time is less than WET. Otherwise, the extra overhead (e.g. overhead beyond WET) is still less than \vwarm. In this situation, warming all cache lines is still the better choice.% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
@@ -144,12 +143,9 @@ For example, loading all AES lookup tables needs 5KB, while loading all tables f
 
 %************************************分隔符******************************************
 \begin{theorem}\label{lemma:warmaftermiss} For commodity computers, performing  \vwarm~when cache-miss occurred during the previous execution results the minimum extra time.\end{theorem}
-\begin{proof}
-
+\begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the \vwarm~operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
 %Thus, a naive solution would be performing the \vwarm~operation to load all the lookup tables into the cache before every AES execution, that is we perform the \vwarm~operation each time, which is proved to introduce more extra time later.
-
-
 To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two other cache warm strategies:
 \begin{itemize}
   \item{ \textbf{Less} \vwarm~\textbf{operations}. When there is a cache miss in the previous AES execution, we perform  \vwarm~with a probability less than 1.
@@ -223,7 +219,7 @@ Therefore, the range of $k$ is: $1 < k < 20.36$.% When at least one cache line o
 Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
 Therefore, the  conditional \vwarm~provides  better performance than the probabilistic \vwarm.
 %\qed
-\end{proof}
+\end{IEEEproof}
 
 
 \begin{table*}[t]%[!hbt]

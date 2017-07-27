@@ -167,19 +167,21 @@ In the implementation, we need to perform the following operations to achieve th
 %x86: unify/rewrite SMP TSC sync code
 
 \lstset{
+language=[ANSI]C,
 basicstyle=\small\ttfamily,
 numbersep=5pt,
-xleftmargin=20pt,
-frame=tb,
-framexleftmargin=20pt
+xleftmargin=2pt,
+breaklines=true,
+%frame=tb,
+frame=shadowbox,
+framexleftmargin=2pt
 }
 
 \renewcommand*\thelstnumber{\arabic{lstnumber}:}
 
 \begin{lstlisting}[caption={{The implementation of {\scshape{Delay()}}.}}]
 volatile int delay(uint64_t t_delay){
-    uint64_t n = (double)t_delay > 12.886 ?
-            (uint64_t)((double)t_delay/2.995-4.302) : 0;
+    uint64_t n = (double)t_delay>12.886 ? (uint64_t)((double)t_delay/2.995-4.302) : 0;
     for (; n>0; n--)
         asm volatile ("xor %%eax, %%eax;" : : : "%eax");
 }
