@@ -17,15 +17,15 @@ The instructions of block ciphers
 %The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
 
 As the effect of instruction caches on the execution time is indistinguishable from that of data caches,
-  we determine TWOCM when all instructions of encryption/decryption are cached;
+  we determine $T_{NM}$ when all instructions of encryption/decryption are cached;
  and the value will be greater if it is done when the instructions are uncached.
 However,    when the encryption/decryption functions are invoked and all the instructions are cached,
-such a greater TWOCM will offer attack opportunities
+such a greater $T_{NM}$ will offer attack opportunities
  because the measured time may leak some information about data cache access.
 %As the instruction cache miss and data cache miss are indistinguishable from the execution time,
-%our scheme chooses $TWOCM$ which ensures no cache miss of the instruction or data cache exists to defend against the remote cache timing  side channel attacks.
+%our scheme chooses $T_{NM}$ which ensures no cache miss of the instruction or data cache exists to defend against the remote cache timing  side channel attacks.
 Similarly,
- we determine  WET as the execution time
+ we determine  $T_{W}$ as the execution time
   when all instructions are not in instruction caches (and all lookup tables are not in data caches).
 Otherwise,
  the measured time may also leak some information about data cache access.
@@ -73,17 +73,17 @@ Otherwise,
 %Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution that the first address of the array is the same as the lookup table module 4096.
 
 
-%When {\scshape{Warm+Delay}} scheme is adopted, the observed encryption time is either in the interval $(0,TWOCM]$ or $[WET, \infty)$.
-%The loaded state attack cannot infer any key bit directly, when $TWOCM = 381$.
+%When {\scshape{Warm+Delay}} scheme is adopted, the observed encryption time is either in the interval $(0,T_{NM}]$ or $[T_{W}, \infty)$.
+%The loaded state attack cannot infer any key bit directly, when $T_{NM} = 381$.
 %
-%However, for different plaintexts, the probability that the observed time of one encryption falls into $[WET, \infty)$, varies from $0$ to $8.42*10^{-3}$ (The probability interval is obtained by performing $10^{4}$ encryption for  each of $2^{20}$ random plaintext.).
+%However, for different plaintexts, the probability that the observed time of one encryption falls into $[T_{W}, \infty)$, varies from $0$ to $8.42*10^{-3}$ (The probability interval is obtained by performing $10^{4}$ encryption for  each of $2^{20}$ random plaintext.).
 %The adversary may attempt to infer the plaintexts for the loaded initial state attack by encrypting the plaintext multiple times.
-%The {\scshape{Warm+Delay}} scheme may choose a smaller TWOCM, to make the difference of probability negligible, with the performance degradation.
+%The {\scshape{Warm+Delay}} scheme may choose a smaller T_{NM}, to make the difference of probability negligible, with the performance degradation.
 %
 
 
 
-%For example, when TWOCM is 332 cycles, the probability that the observed time of one encryption varies from 0.39 to 0.48.
+%For example, when T_{NM} is 332 cycles, the probability that the observed time of one encryption varies from 0.39 to 0.48.
 
 % some timing variations may still be observed, especially on superscalar processors  \cite{Canteaut2006Understanding}.
 % The variations are related to the input data,
@@ -106,44 +106,44 @@ Otherwise,
 
 
 
-%The collection of timing data greater TWOCM in Figure \ref{fig:fullwarmese-diffinput} (called \emph{the fully-warmed attack collection}),
+%The collection of timing data greater T_{NM} in Figure \ref{fig:fullwarmese-diffinput} (called \emph{the fully-warmed attack collection}),
 % is exploited to launch cache timing side-channel attacks \cite{Canteaut2006Understanding},
 % even when all lookup tables are in caches.
 %After the {\scshape{Warm+Delay}} scheme is adopted,
- %    this collection is delayed to WET and even easier to be identified.
+ %    this collection is delayed to T_{W} and even easier to be identified.
 %So the attackers still exist on these platforms,
 %  in the case that there is no system activity.
 
-%When using our the value of $TWOCM$ (350 in our experiment) already makes the variational time enlarge to $WET$. However, these variations caused in the full warm condition still rely on the inputs.
+%When using our the value of $T_{NM}$ (350 in our experiment) already makes the variational time enlarge to $T_{W}$. However, these variations caused in the full warm condition still rely on the inputs.
 
 %In the case that no any system activities,
 %  attackers can
-%send requests with the same plaintext repeatedly to distinguish the full warm condition with others. So, just enlarging to $WET$ can't eliminate the attack in~\cite{Canteaut2006Understanding}.
+%send requests with the same plaintext repeatedly to distinguish the full warm condition with others. So, just enlarging to $T_{W}$ can't eliminate the attack in~\cite{Canteaut2006Understanding}.
 
 %In the {\scshape{Warm+Delay}} scheme,
-% we choose a threshold smaller than TWOCM as the condition to execute {\scshape{Warm()}} and {\scshape{Delay()}}
+% we choose a threshold smaller than T_{NM} as the condition to execute {\scshape{Warm()}} and {\scshape{Delay()}}
 %   (Line 5 in Algorithm \ref{alg:aesdefense}),
 %  to prevent these attacks on fully-warmed caches.
 %By choose a smaller threshold,
-%  more and more executions of encryption/decryption will be delayed to WET,
+%  more and more executions of encryption/decryption will be delayed to T_{W},
 %   as well as the fully-warmed attack collection.
 %When the ratio of delayed time in the  attack case of Figure \ref{fig:fullwarmese-diffinput}
 %   is approximately equal to that in the unexploitable case of Figure \ref{fig:fullwarmese-sameinput},
 %   the attackers cannot distinguish the fully-warmed attack collection (with a high enough probability).
-%From the Figure~\ref{fig:fullwarmese}, if the number of AES execution time with different inputs which is lager than $TWOCM$ is in the same order of magnitude with the same inputs, the attacker can't distinguish the full warm condition.
-%So, the choice of the $TWOCM$ can't use the previous method.
+%From the Figure~\ref{fig:fullwarmese}, if the number of AES execution time with different inputs which is lager than $T_{NM}$ is in the same order of magnitude with the same inputs, the attacker can't distinguish the full warm condition.
+%So, the choice of the $T_{NM}$ can't use the previous method.
 
 %In the experiment platform,
 %  we choose 332ms as the threshold, to prevent the fully-warmed cache timing attacks.
 %Then about 48%
-%We choose the value that the number of AES execution time larger than it is in the same order of magnitude when using different inputs and same inputs as the $TWOCM$.
-%In this way we can eliminate the full warm attack. However, this process decreases the performance of the AES. For example, in our experiment environment, we choose 336 as TWOCM, which can satisfy the requirement. There are about 18.5\% of AES executions should be enlarged to WET, while when not considering the full warm case, the number is just about 0.28\% in low overhead and 0.41\% in high memory reading overhead.
+%We choose the value that the number of AES execution time larger than it is in the same order of magnitude when using different inputs and same inputs as the $T_{NM}$.
+%In this way we can eliminate the full warm attack. However, this process decreases the performance of the AES. For example, in our experiment environment, we choose 336 as T_{NM}, which can satisfy the requirement. There are about 18.5\% of AES executions should be enlarged to T_{W}, while when not considering the full warm case, the number is just about 0.28\% in low overhead and 0.41\% in high memory reading overhead.
 
 
 
 %, the author finds even the lookup tables are all in the cache the AES execution time can change due to the computer architecture. The peak of the distribution of AES execution time nearby the fastest value can be used to attack. We make an experiment that measure the distribution of AES execution time on different CPUs to find out the influence by the architecture. We perform the AES on Intel Core2 Q8200, Intel Core i5, Intel Core i7 and Xeon*** and find that the peak which can be utilized almost disappears and is smaller and smaller when the performance of the CPU is better.
 
-%For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the WET. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
+%For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the T_{W}. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
 
 \subsection{Other Cache-based Side Channels}
 Beside the timing attack,

@@ -16,7 +16,7 @@ The implementation of AES employs the OpenSSL-1.0.2c~\cite{openssl} with a 2K lo
 As we aim to provide the optimized performance while eliminating remote cache timing side
 channels, efficient {\scshape{GetTime()}}, {\scshape{Warm()}} and {\scshape{Delay()}}
   are finished;
-and the constant parameters (TWOCM and WET) are determined properly.
+and the constant parameters ($T_{NM}$ and $T_{W}$) are determined properly.
  Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
 
 \noindent\textbf{AES implementation.}
@@ -106,8 +106,8 @@ Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution 
   \caption{The distribution of AES execution time only  not warm one cache line.}\label{fig:twocm}
 \end{figure}
 
-\noindent\textbf{TWOCM.}
-TWOCM is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+\noindent\textbf{$T_{NM}$.}
+$T_{NM}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
 and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
 In our environment it is $331$ cycles. Figure~\ref{fig:twocm}
@@ -116,12 +116,12 @@ In our environment it is $331$ cycles. Figure~\ref{fig:twocm}
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
 In Figure \ref{fig:twocm}, the little data around 375 cycles are due to the above reasons,
 and the data after 415 are caused by the cache miss.
-Finally, we choose 355 cycles as TWOCM.
+Finally, we choose 355 cycles as $T_{NM}$.
 This value is chosen to ensure that all tables are in L1 caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
-\noindent\textbf{WET.}
-before measure WET, we flush both the data and instructions out of L1/2/3 caches, so WET is the worst AES execution time and unrelated to the cache states.
-WET is 2834 CPU cycles in this case.
+\noindent\textbf{$T_{W}$.}
+before measure $T_{W}$, we flush both the data and instructions out of L1/2/3 caches, so $T_{W}$ is the worst AES execution time and unrelated to the cache states.
+$T_{W}$ is 2834 CPU cycles in this case.
 
 
 \noindent\textbf{{\scshape{Warm()}}.}
@@ -196,6 +196,6 @@ The precision is 3 cycles, much smaller than the noise of remote environments, s
 Implementation of {\scshape{Delay()}} is provided in Listing 1.1.
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is larger than the comparison operation.
-To achieve better performance,  we perform {\scshape{GetTime()}} only when $delay - start < WET$,
+To achieve better performance,  we perform {\scshape{GetTime()}} only when $delay - start < T_{W}$,
    instead of every time after {\scshape{Warm()}}.
 In this way, if the input of {\scshape{Delay()}} is less than zero, it simply returns.
