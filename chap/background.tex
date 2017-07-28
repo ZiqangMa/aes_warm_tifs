@@ -1,7 +1,7 @@
 \section{Background and Related Works}
 \label{sec:background}
 %\vspace{-1mm}
-\subsection{AES and Block Cipher}
+\subsection{AES and Block Cipher Implementation}
 \label{back:aes}
 %\vspace{-1mm}
 % 通用的描述
@@ -19,9 +19,9 @@ These steps except \texttt{AddRoundKey},
 %For the implementation of AES in OpenSSL-1.1.0e~\cite{openssl}, four lookup tables, $T_{0}, T_{1}, T_{2}, T_{3}$,  each of which is 1KB,
 %  are used in each round exception the last one,
 % and a 256-byte lookup table $T_{4}$ in the last round.
-\texttt{AddRoundKey} consists of bitwise \texttt{XOR} operations on the state.
+\texttt{AddRoundKey} consists of bitwise-XOR operations on the state.
 
-The straightforward AES implementation needs four 1KB tables, $T_{0}, T_{1}, T_{2}$ and $T_{3}$, as follows,
+The straightforward AES implementation needs four 1KB tables in all rounds, $T_{0}, T_{1}, T_{2}$ and $T_{3}$, as follows,
  where $S(x)$ is the result of an AES S-box lookup for the input $x$.
 \setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
@@ -31,17 +31,19 @@ The straightforward AES implementation needs four 1KB tables, $T_{0}, T_{1}, T_{
 &T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))\nonumber
 \end{eqnarray}\setlength{\arraycolsep}{5pt}\\
 
-In this paper, we use the compact AES implementation with a 2KB lookup table in RAM.
-This lookup table is
-\setlength{\arraycolsep}{0.0em}
-%\resizebox{\linewidth}{!}{
-%\begin{footnotesize}
-\begin{eqnarray}%\footnotesize
-T[x] = &(2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber
-\end{eqnarray}
-%\end{footnotesize}
-\setlength{\arraycolsep}{5pt}
-The four lookup tables needed by AES computation are formed by this 2KB table.
+These four tables are encoded into a 2KB lookup table in the compact AES implementation,
+$T[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))$.
+Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[x]$.
+
+%\setlength{\arraycolsep}{0.0em}
+%%\resizebox{\linewidth}{!}{
+%%\begin{footnotesize}
+%\begin{eqnarray}%\footnotesize
+%T[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber
+%\end{eqnarray}
+%%\end{footnotesize}
+%\setlength{\arraycolsep}{5pt}
+
 
 
 %where s(x) and \cdot stand for the result of an AES S-box lookup for the input
@@ -72,9 +74,9 @@ The four lookup tables needed by AES computation are formed by this 2KB table.
 %\end{split}\end{equation}
 %We use the mbed TLS (formerly known as PolarSSL) as the experimental subject. Its AES code is implemented with this design above. However, our protection model can also be employed in other implementations based on the lookup tables.
 
-There are similar implementations of other block ciphers:
-  table lookup operations and other basic operations,
-  and no data dependent branch in the execution path.
+There are similar implementations of other block ciphers,
+  consisting of table lookup operations and basic computations while
+   no data-dependent branch in the execution path.
 For example, 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
 %  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
 %Our scheme works for the symmetric encryption algorithm based on the lookup tables.
@@ -92,7 +94,7 @@ For example, 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1
 %cache in general
 Caches, a small amount of high-speed memory cells located between CPU cores and RAM,
  are designed to temporarily store the data recently accessed by CPU cores,
-  avoiding accessing the slow RAM.
+  avoiding accessing the slow RAM chips.
 % As the speed gap between RAM and CPU increases, multiple levels of caches are implemented, and lower-levels caches have smaller size but achieve higher speed.
 %The cache consists of a hierarchy of memory components located between the CPU cores and the main memory. The cache is a small piece of storage area used to reduce the average access time to the main memory. Modern processors often have 3 levels of cache memory, with the first level(L1) being the closest to the CPU registers having the fastest access speed.Generally, only the L1 cache is split into instruction cache and data cache. The higher level cache is much bigger than the lower and contains the context of the lower level cache.
 %cache structure
@@ -101,7 +103,7 @@ When the CPU core attempts to access a data block,
   the operation takes place in caches if the data have been cached (i.e., cache hit);
   otherwise,
    the data block is firstly read from RAM into caches  (i.e., cache miss)
-   and then this operation is performed in caches.
+   and then the operation is performed in caches.
 
 
 % the cache control logic unit judges whether it is in the cache.
@@ -133,16 +135,16 @@ When the CPU core attempts to access a data block,
 %Different types of CPU don't have the same cache structure even coming from the same company. The Intel CPU which is the most widely used at present is chosen for illustrating our defense scheme in this paper. Our experimental platform selects the Intel Core2 Q8200 CPU which contains two separate cache-sharing core sets, and each has two cores. Each core has a L1D cache of 32 KB, 8-way set associative, 64-byte cache line size and also an instruction cache of 32 KB. The two cores of each cache set share a unified L2 cache of 2 MB, 8-way set associative, 64-byte cache line size.
 
 %这里for different plaintexts 是否合适？
-Cache timing side-channel attacks exploit the fact that
+Cache timing side-channel attacks on block cipher implementations exploit the fact that
  accessing cached data is about two orders of magnitude faster than those in RAM,
  to recover the keys based on the execution time.
 Typically, it takes 3 to 4 cycles for a read operation in caches,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
 %Different remote cache timing side channel attacks are proposed, and according the analysis on the execution time,
 %they can be classified into three types: the statistical attack, the Bernstein's attack and the collision attack.
-Two typical remote cache-based side channels for block ciphers are outlined in the following.
+Two typical remote cache-based side channels for block ciphers are outlined as follows.
 
-\noindent\textbf{The internal collision attack.}
+\noindent\textbf{Internal collision attack.}
 Each cache line contains multiple lookup table entries,
  and the internal collision is used to denote accessing the entries in the same cache line.
 The internal collision attack is applied to DES, 3DES and the first round of AES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis},
@@ -197,7 +199,7 @@ Then the difference of some key bits can be inferred as the values (i.e., $p_{(i
 
 %Considering the structure of DES, only 16 accesses are needed for each S-box during the encryption. Relatively to the 64 entries of an S-box, the number of 16 accesses is rather small, resulting in a high probability of accessing different elements of the separate S-boxes. So the authors implement the elimination table attack on a a Pentium III CPU having a cache load size of 32-bytes. As a result, the key is recovered by a success rate greater than 90\% with $2^{23}$ known plaintexts and $2^{24}$ calculations.
 
-\noindent\textbf{The Bernstein's attack.}
+\noindent\textbf{Bernstein's attack.}
 Bernstein's attack \cite{Bernstein2005Cache} is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on the lookup table index.
 The attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
 For each byte of the key, the attacker obtains the lookup table index ($p_i \oplus k_i$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
@@ -243,12 +245,14 @@ Then, the attacker infers the key of the victim server, with the obtained lookup
 
 
 
-\subsection{Countermeasure}
+\subsection{Countermeasures against Cache Timing Side Channels}
 Although eliminating timing side channels remains difficult~\cite{Cock2014The},
-different countermeasures have been proposed on hardware, software and OS levels.
-All the defense methods can be divided into three categories: eliminating cache misses, adding confusion to cache misses and their combination.
+different countermeasures have been proposed on the  levels of hardware, software and OS.
+These defense methods eliminate the execution time difference of cache hits/misses,
+    introduce confusion to the execution time to obscure the difference,
+    or both.
 
-\noindent\textbf{Eliminating cache misses.}
+\noindent\textbf{Eliminating the execution time difference.}
 The most direct method to defend against the cache side channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical. At present, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is an hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations are suffered from high performance overload compared with using lookup tables.
 There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
 
@@ -257,7 +261,7 @@ Cache warm is one way to eliminating the cache misses~\cite{Osvik2006Cache,Page2
 Another way to eliminate cache misses is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
 The new cache design~\cite{Kong2009Hardware,Wang2007New} uses partition-locked caches to prevent cache interference.
 Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
-SecDCP technique~\cite{wang2016secdcp} can change the size of cache partitions at run time for better performance.
+SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time for better performance.
 Although they can effectively defend against the cache timing attacks, their deficiencies are obvious as these schemes have
 limited practical usage and cannot be deployed on ready-made commodity hardware.
 
@@ -273,7 +277,7 @@ Some schemes combine the two strategies to defend against the cache timing attac
 
 Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding, isolating shared resources and lazily cleansing state to form a robust defense. It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
 
-PRET~\cite{lickly2008predictable,liu2009elimination}, a hardware architecture, is designed to replace caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
+The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
 
 %
