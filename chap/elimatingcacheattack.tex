@@ -121,13 +121,9 @@ Delay directly controls the time measured by attackers,
 %Some of the methods need to modify the algorithm code and some need the privilege. These methods can't be used in our scheme due to our goals.]]]
 
 
-<<<<<<< HEAD
+
 The proposed {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
-Given a block cipher, the execution time without cache misses (TWOCM) and the worst execution time (WET)
-=======
-The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 Given a block cipher, the execution time without cache misses ($T_{NM}$) and the worst execution time ($T_{W}$)
->>>>>>> 5c744914321bcde387c8e5086f759fe3d55ab9f7
   are constant on a certain platform.
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -185,11 +181,7 @@ In this algorithm,
   there are two constant parameters, $T_{W}$ and $T_{NM}$.
 $T_{W}$ is defined as the period for one execution of encryption/decryption,
   in the case that none of lookup tables is cached before the execution.
-<<<<<<< HEAD
-TWOCM is defined as the (possible maximal) period for one execution of encryption/decryption,
-=======
-$T_{NM}$ is defined as the maximal period for one execution of encryption/decryption,
->>>>>>> 5c744914321bcde387c8e5086f759fe3d55ab9f7
+$T_{NM}$ is defined as the (possible maximal) period for one execution of encryption/decryption,
   in the case that all lookup tables are in caches before the execution.
 These two parameters are determined when there is no concurrent interrupts, task scheduling or other system activities.
 

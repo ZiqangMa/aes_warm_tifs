@@ -16,13 +16,8 @@ The instructions of block ciphers
    which causes instruction cache misses and increases the execution time.
 %The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
 
-<<<<<<< HEAD
 As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
-  we determine TWOCM when all instructions of encryption/decryption are cached;
-=======
-As the effect of instruction caches on the execution time is indistinguishable from that of data caches,
   we determine $T_{NM}$ when all instructions of encryption/decryption are cached;
->>>>>>> 5c744914321bcde387c8e5086f759fe3d55ab9f7
  and the value will be greater if it is done when the instructions are uncached.
 However,    when the encryption/decryption functions are invoked and all the instructions are cached,
 such a greater $T_{NM}$ will offer attack opportunities
