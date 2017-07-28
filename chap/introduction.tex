@@ -22,14 +22,15 @@
     %Gullasch2011Cache access-driven attack, 近乎实时攻击，所需的样本量很少，非特权的spy进程，也是先学习，后猜测的过程。针对AES
     %Osvik2005Cache: evict+time，on AES
     %Tromer2010Efficient 是Osvik2005Cache的journal版本
-In the implementations of a cryptographic algorithm,
-   the cryptographic keys could be leaked through side channels on
+In the practical implementations of a cryptographic algorithm,
+   the cryptographic keys could be leaked through various side channels on
     timing \cite{Acii2005Improving,Ac2006Trace,Bonneau2006Cache,Bernstein2005Cache,Gullasch2011Cache,Kocher1996Timing,Neve2006A,Osvik2006Cache,Tsunoo2003Cryptanalysis,Tromer2010Efficient}, % 引用一些在不同的方法上，有开创性的
     electromagnetic fields \cite{Electromagnetic-sidechannel}, power \cite{power-pc,Bertoni2005AES},
  ground electric potential \cite{electric-potential-sidechannel} or acoustic emanations \cite{Acoustic-sidechannel},
-  even when the algorithm is theoretically secure.
-  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
-  Among all kinds of side channels, timing attack is widely used due to easy realization.
+  even when the algorithm is semantically secure.
+%  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
+  Among these side channels,
+   timing attacks are widely used due to easy realization.
   Specially, remote timing side channels allow an attacker without
     any system or physical privilege on the computer,
     to recover the keys
