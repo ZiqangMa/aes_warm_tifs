@@ -63,7 +63,7 @@ Compared with other side channels
  remote timing cache-based side-channel attacks do not require special equipments
     or extra physical access to the system.
  Moreover,
-  they just need the ability to invoke the necessary encryptions/decryptions without any extra operations or spy processes running on the target system,
+  remote attacks only require the privilege to invoke the necessary encryptions/decryptions without any extra operations or spy processes running on the target system,
 compared with other cache-based side-channel attacks
 %   such as cross-VM side-channel attack, FLUSH+RELOAD, and access-driven cache-attacks
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
@@ -71,6 +71,7 @@ compared with other cache-based side-channel attacks
 Since little acquirements are needed, this type attack is easy to deploy and hard to defense. There already exists many defense methods to eliminate the remote cache side channels. The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
 Although the existing methods can offer some security guarantee, most of them have some drawbacks. Some methods which are implemented on hardware to control the cache lack universality. Some using particular implementation to make algorithms constant time are just suitable to specific algorithms.
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads. It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
+\textbf{[[need citations above]]}
 
 %%
 %Intro：
@@ -86,7 +87,8 @@ Two elementary operations,
   \emph{warm} (i.e., to fill cache lines by reading constant tables)
   and \emph{delay} (i.e., to insert padding instructions after the encryption/decryption operations),
   have been proposed to prevent cache side-channel attacks \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}. %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
-Our scheme combines these two operations as follows to reduce extra overheads,
+\textbf{[their shortcoming here]}
+Our scheme integrate these two operations as follows to reduce extra overheads,
    to gain the optimized performance while ensure security.
 \begin{enumerate}
 \item
@@ -118,13 +120,17 @@ Note that warm also consumes CPU cycles.
 
 The proposed {\scshape{Warm+Delay}} scheme does not require any privileged operation on the system.
 The conditions to perform warm and delay, are defined as regular timing.
-Reading constant tables, padding instructions, and timing are commonly supported in computer systems.
+Reading constant tables, padding instructions, and timing are commonly supported in computer systems,
+   no privileged operations.
 The scheme is independent of algorithms and implementations.
    It does not depend on any special design or feature of block ciphers,
 and it is applicable to different implementations, except that the lookup tables are accessible in the warm operations.
 
-We apply this scheme to AES, and analyze the situations that it produces the optimized performance.
-It achieves the optimized performance for the AES-128 implementation with 2KB lookup tables \cite{Daemen2002The},
+We apply this scheme to AES, and analyze the situations that it produces the optimal performance.
+It is found that, in common computer systems,
+ it achieves the optimal performance of AES with different key sizes (128, 192, 256 bits)
+    and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables).
+In particular, it achieves the optimized performance for the AES-128 implementation with 2KB lookup tables \cite{Daemen2002The},
 when (\emph{a}) the probability
  that some entries of lookup tables are evict from caches by system activities during the executions of encryption/decryption, denoted as $P_{evict}$, is less than $0.2$, and
  (\emph{b}) the ratio of
@@ -143,10 +149,11 @@ Experiment results on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
   demonstrate that, the measured time does  not reflect the data cache access.
 We also validate the optimization in different scenarios,
  by comparing it with different strategies of warm and delay.
-To the best of our knowledge,
-  this work is the first protection against cache timing side channels with the analysis of optimized performance.
 
-In summary, our contributions are listed below:
+To the best of our knowledge,
+  this work is the first protection against cache timing side channels with optimal performance.
+The optimal performance is analyzed  theoretically and validated by experiments.
+Our contributions are as follows:
 \begin{itemize}
 \item
 We present {\scshape{Warm+Delay}}, a defense mechanism efficiently combining warm and delay operations to eliminate remote cache timing side channels.

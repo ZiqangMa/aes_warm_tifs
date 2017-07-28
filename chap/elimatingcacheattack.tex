@@ -10,14 +10,14 @@ Then, the defense scheme is described,
 %\vspace{-1mm}
 \label{sec:assumption}
 %goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
-We focus on the remote cache side-channel attacks on block ciphers.
+We focus on the \emph{remote cache side-channel attacks} on block ciphers.
 The algorithms of block ciphers are publicly known, but the keys are kept secret before the attacks are launched.
 The implementation details such as source code, operating systems, cache hierarchy and other hardware configurations,
   are also publicly known;
   but the running states are unknown  to the  remote attackers due to non-deterministic interrupts, task scheduling and other system activities.
 In particular,
- the implementation is based on lookup tables,
-  and the execution time depends mostly on cache misses and hits.
+ the implementation of block ciphers is based on lookup tables,
+  and the execution time depends mostly on cache access of the lookup tables.
 
  For the attackers, we assume that they can
   arbitrarily invoke the encryption/decryption functions
@@ -27,17 +27,17 @@ That means,
  so they can continuously invoke the functions to cache
         all tables % with a high probability,
     or invoke no function for a long time to let
-           all tables be evicted, with a high probability.
-We assume that attackers cannot run any processes on the target systems,
- and they just can obtain the overall execution time of the block ciphers
-  but cannot get the middle-state of the ciphers.
+           all tables be evicted, with an extreme high probability.
+We assume an unprivileged attacker that cannot run any processes on the target systems to get the middle-state of the ciphers,
+ and they just can obtain the overall execution time of the block ciphers.
+
 
 In our model, the target operating system and the underlying hardware are regarded as security.
  We expect that attackers do not have physical access to the hardware and can not run any processes on the target as well.
   We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
-  
+
 We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
- And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.  
+ And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.
 
 
 
@@ -96,7 +96,7 @@ Then, it provides optimized performance by configuring appropriate parameters
 %
 %敌手可以随时对算法进行调用，且没有限制。
 %\vspace{-1mm}
-\subsection{The \scshape{Warm+Delay} Scheme}
+\subsection{The {\scshape{Warm+Delay}} Scheme}
 \label{sec:scheme}
 %\vspace{-2mm}
 % 我们的防御方案，最主要的目的是为了保护cache时间攻击，同时，对于防御方案，有一些要求，首先是要运行在用户态下，其次是要与算法无关的，可移植的，同时，防御方案对算法本身并不进行修改。再次是要能够使得在安全性保证的前提下，效率达到最大。
@@ -121,7 +121,7 @@ Delay directly controls the time measured by attackers,
 %Some of the methods need to modify the algorithm code and some need the privilege. These methods can't be used in our scheme due to our goals.]]]
 
 
-The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
+The proposed {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 Given a block cipher, the execution time without cache misses (TWOCM) and the worst execution time (WET)
   are constant on a certain platform.
 
@@ -152,6 +152,16 @@ Given a block cipher, the execution time without cache misses (TWOCM) and the wo
     \end{algorithm}
 %\vspace{-1mm}
 
+
+Principles. Warm before function, delay after function.
+As least as possible.
+Conditions are defined as time, no special privileges.
+The same as the timing side-channel attackers.
+We focus on the situation where a mass data are processed.
+A naive scheme, is ; but ...
+then, ... improved;
+\textbf{+++++}
+
 Three operations are introduced by this defense scheme:
         \emph{a}) {\scshape{Warm()}}, cache warm by accessing lookup tables as constant data,
         \emph{b}) {\scshape{Delay()}}, delay by padding instructions,
@@ -170,7 +180,7 @@ In this algorithm,
   there are two constant parameters, WET and TWOCM.
 WET is defined as the period for one execution of encryption/decryption,
   in the case that none of lookup tables is cached before the execution.
-TWOCM is defined as the maximal period for one execution of encryption/decryption,
+TWOCM is defined as the (possible maximal) period for one execution of encryption/decryption,
   in the case that all lookup tables are in caches before the execution.
 These two parameters are determined when there is no concurrent interrupts, task scheduling or other system activities.
 
@@ -193,7 +203,8 @@ In general,
 So {\scshape{Warm()}} takes effect in the next execution of encryption/decryption.
 Therefore,
   if {\scshape{ProtectedCrypt()}} has been idle for a long time,
-   we suggest an additional invocation of {\scshape{Warm()}} before {\scshape{ProtectedCrypt()}}.
+   we suggest an additional invocation of {\scshape{Warm()}} before {\scshape{ProtectedCrypt()}},
+     not shown in Algorithm~\ref{alg:aesdefense}.
 Note that,
   even if this ``initial'' warm is not performed,
    the security is still ensured by delay and
@@ -235,7 +246,7 @@ Note that,
 \subsection{Security Analysis}
 %\vspace{-1mm}
 The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}}.
-The cache timing side channels come from the relation between the measured time and the data processed;
+The cache timing side channels come from the relation between the measured execution time and the data processed;
    that is, different data (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
 We ensure that the measured time does not leak any information about the status of cache lines,
@@ -276,7 +287,7 @@ We prove that,
 
 In summary,
   Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
-  and in Case 3, the actual execution time is  obscured by unknown system activities.
+  and in Case 3, the execution time is  obscured by non-deterministic system activities, which are unknown to attackers.
 Moreover, the  sequence of Cases 1, 2, and 3,
   cannot be exploited to construct cache timing side channels.
 In Case 1,

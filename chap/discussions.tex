@@ -16,7 +16,7 @@ The instructions of block ciphers
    which causes instruction cache misses and increases the execution time.
 %The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
 
-As the effect of instruction caches on the execution time is indistinguishable from that of data caches,
+As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
   we determine TWOCM when all instructions of encryption/decryption are cached;
  and the value will be greater if it is done when the instructions are uncached.
 However,    when the encryption/decryption functions are invoked and all the instructions are cached,
@@ -167,6 +167,7 @@ On the other hand,
   warm is effective for these attacks,
   provided that the cached lookup tables are not evicted by system activities or the local spy process.
 
+will be our future work.
 %  to So the attackers can obtain the information of every cache line at every access.
 %Therefore, the \verb+delay+ operation, used to confuse the cache miss, is useless for the trace-driven attack.
 %However, as our scheme adopts \verb+warmup+ attempting to avoid the cache miss by keeping all the lookup tables in the cache, the cipher execution starts with no cold miss. So the actual trace-based attacks can't be evoked.

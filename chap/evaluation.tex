@@ -90,7 +90,9 @@ From Table~\ref{tbl:pevict}, we find  $P_{evict}$ is less than 0.005 always,
 
 
 \noindent\textbf{Performance of different defense methods.}
-Furthermore, we evaluate the performance of our scheme with different defense methods: AESNI, bitsliced AES implementation, compact table implementation.
+\textbf{[[if possible, also in different scenarios as Fig. 6; more comprehensive]]}
+Furthermore, we evaluate the performance of our scheme with different defense methods:
+ AESNI, bitsliced AES implementation, compact table implementation \textbf{[[citation here, where the code from ----]]}.
  For each method, we we perform $2^{30}$ AES encryptions within random plaintexts.
   It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
 
@@ -118,7 +120,7 @@ The HTTPS throughput is shown in Figure~\ref{}.
     %随着请求数据增大，变化如何
     Furthermore, we compare the throughput using different defense methods involved in TLS protocol.
       Our defense scheme has the largest throughput among these methods.
-
+\textbf{[[[five implementations in figure 7, all integrated into TLS? is it possible?]]]}
 
 
 
