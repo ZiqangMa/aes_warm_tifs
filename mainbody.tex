@@ -75,7 +75,7 @@ GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this %
 %通用的防御就是warm和delay，有提出；但是至今没有被深入的研究。
 %本文提出了Warm+Delay, a framework for symmetric algorithms to eliminating xxx.
 % Then, we
-Cache timing side channels allow a remote attacker to recover the cryptographic keys,
+Cache timing side channels allow a remote attacker to disclose the cryptographic keys,
  by repeatedly invoking the encryption/decryption functions and measuring the execution time.
 {\scshape{Warm}} and {\scshape{Delay}} are two common countermeasures against remote cache-based timing side channels,
  by reading constant data into caches before cryptographic functions
@@ -84,13 +84,13 @@ These countermeasures destroy the relationship between the execution time
   and the cache misses/hits which are determined by the secret key,
   but introduce extra operations.
 However, the extra operations sometimes are unnecessary,
-   and bring great performance overheads.
+   and then bring great performance overheads.
 In this paper, we integrate these two countermeasure into a scheme
  that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
 ++++++++
 The proposed {\scshape{Warm+Delay}} scheme
    effectively eliminates remote cache timing side channels,
-  and is applicable to different cryptographic algorithms and computing platforms.
+  and is applicable to different block ciphers and computing platforms.
 More importantly,
  we apply this scheme to AES,
  and analyze that it achieves \emph{the optimal performance with the least extra operations}.
@@ -111,7 +111,7 @@ Experimental results of the prototype show that,
 \end{abstract}
 
 \begin{IEEEkeywords}
-AES, cache side channel, optimized performance, block cipher, timing side channel.
+AES, cache side channel, block cipher, performance, timing side channel.
 \end{IEEEkeywords}
 
 \IEEEpeerreviewmaketitle
