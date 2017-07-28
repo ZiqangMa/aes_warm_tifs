@@ -121,8 +121,13 @@ Delay directly controls the time measured by attackers,
 %Some of the methods need to modify the algorithm code and some need the privilege. These methods can't be used in our scheme due to our goals.]]]
 
 
+<<<<<<< HEAD
 The proposed {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 Given a block cipher, the execution time without cache misses (TWOCM) and the worst execution time (WET)
+=======
+The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
+Given a block cipher, the execution time without cache misses ($T_{NM}$) and the worst execution time ($T_{W}$)
+>>>>>>> 5c744914321bcde387c8e5086f759fe3d55ab9f7
   are constant on a certain platform.
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -139,12 +144,12 @@ Given a block cipher, the execution time without cache misses (TWOCM) and the wo
                 \State $start \gets \Call{GetTime}$
                 \State $\Call{Crypt}{key, in, out}$     {   } $//$ encrypt or decrypt
                 \State $end \gets \Call{GetTime}$
-                \If {$end - start > TWOCM$}
+                \If {$end - start > T_{NM}$}
                     %\State $state \gets 1$
                     \State $\Call{Warm}$
                     \State $delay \gets \Call{GetTime}$
-                    \If {$delay - start < WET $}
-                        \State $\Call{Delay}{WET-delay+start}$
+                    \If {$delay - start < T_{W} $}
+                        \State $\Call{Delay}{T_{W}-delay+start}$
                     \EndIf
                 \EndIf
            \EndFunction
@@ -177,10 +182,14 @@ We do not query the status of cache lines to judge whether an entry of the looku
        which are unavailable on common platforms.
 
 In this algorithm,
-  there are two constant parameters, WET and TWOCM.
-WET is defined as the period for one execution of encryption/decryption,
+  there are two constant parameters, $T_{W}$ and $T_{NM}$.
+$T_{W}$ is defined as the period for one execution of encryption/decryption,
   in the case that none of lookup tables is cached before the execution.
+<<<<<<< HEAD
 TWOCM is defined as the (possible maximal) period for one execution of encryption/decryption,
+=======
+$T_{NM}$ is defined as the maximal period for one execution of encryption/decryption,
+>>>>>>> 5c744914321bcde387c8e5086f759fe3d55ab9f7
   in the case that all lookup tables are in caches before the execution.
 These two parameters are determined when there is no concurrent interrupts, task scheduling or other system activities.
 
@@ -218,7 +227,7 @@ Note that,
 
 
 %[[[[\textbf{ this content shall be in Section Implementation}.
-%Further, although the design of our scheme is independent of the software and hardware, the implementation details vary according to the underlying hardwares and softwares. For example, we adopts the \verb+rdtscp+ instruction provided by Intel to get the timestamp efficiently. The threshold (\verb+ENC_THRESHOLD+) and WET are related to the hardware, operating system and the implementation of the encryption algorithm, and can be calculated by performing the multiple encryption in the environment previously. ]]]]
+%Further, although the design of our scheme is independent of the software and hardware, the implementation details vary according to the underlying hardwares and softwares. For example, we adopts the \verb+rdtscp+ instruction provided by Intel to get the timestamp efficiently. The threshold (\verb+ENC_THRESHOLD+) and T_{W} are related to the hardware, operating system and the implementation of the encryption algorithm, and can be calculated by performing the multiple encryption in the environment previously. ]]]]
 
 
 %[[this table may be needed in \textbf{Section Analysis of Optimization}]]
@@ -258,26 +267,26 @@ We ensure that the measured time does not leak any information about the status 
 
 %[[[[[[[\textbf{this paragraph shall not be here. Section 4?}
 %To achieve the optimal performance, our scheme only performs the cache warm in the necessary cases: the encryption time is larger than the \verb+ENC_THRESHOLD+ (line $5$ in Algorithm~\ref{alg:aesdefense}) which means some of the needed lookup tables are evicted from the cache.
-%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than WET(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to WET for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
+%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{W}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{W} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
 %]]]]]]]
 
 
 According to Algorithm~\ref{alg:aesdefense}, the measured time, i.e., the execution time of {\scshape{ProtectedCrypt()}},
-  falls into two intervals $(0, TWOCM]$ and $[WET, \infty )$.
+  falls into two intervals $(0, T_{NM}]$ and $[T_{W}, \infty )$.
 We prove that,
  no information about the status of cache lines  %lookup tables cached or data processed
   leaks through the time measured by attackers.
 \begin{itemize}
-  \item \textbf{Case 1}: The execution time of {\scshape{Crypt()}} is in $(0, TWOCM]$.
+  \item \textbf{Case 1}: The execution time of {\scshape{Crypt()}} is in $(0, T_{NM}]$.
    It is almost a fixed value for arbitrary data processed, as all tables are cached.
     When all table entries are in caches,
     the access time for any entry is constant,
-     resulting in a fixed execution time.\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[WET, \infty )$.
-  \item \textbf{Case 2}: The time of encryption/decryption is in $(TWOCM, WET$). It will be delayed to $WET$,
+     resulting in a fixed execution time.\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
+  \item \textbf{Case 2}: The time of encryption/decryption is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
     which is the execution time as all accessed lookup tables are uncached.
     That is, the encryption/decryption is executed equivalently without any caches.
     In this case, the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time is greater than $WET$.
+  \item \textbf{Case 3}: The execution time is greater than $T_{W}$.
     It results from task scheduling or  interrupts.
    As explained in Section~\ref{sec:assumption},
      the running states such as interrupts, task scheduling and other system activities,
@@ -312,8 +321,8 @@ we explain that our scheme successfully prevent typical remote cache timing side
 To perform the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
  the attackers need a collection of plaintexts with short (long) measured time due to cache hits (misses).
 However, protected by the {\scshape{Warm+Delay}} scheme,
-  any plaintext may be processed in the short time (i.e., TWOCM) due to cache warm,
-  while any plaintext may be done in the long time (i.e., WET) due to delay.
+  any plaintext may be processed in the short time (i.e., $T_{NM}$) due to cache warm,
+  while any plaintext may be done in the long time (i.e., $T_{W}$) due to delay.
 Therefore, the collections depend on the non-deterministic system activities,
    but not the data processed;
    or, the collection contains random plaintexts and the attack results will be random.
@@ -336,7 +345,7 @@ Since the system activities of target servers are different from those of the du
  and unknown to the attackers,
   this pattern cannot be used to infer the keys.
 
-%For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the WET in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
+%For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the T_{W} in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
 
 %三是碰撞攻击
 %碰撞攻击利用了如下原理：对于查找表中任意一对下标i，j，对于大量的随机的AES加密，使用同样的密钥k，当<i>=<j>时平均时间短，反之平均时间长。
