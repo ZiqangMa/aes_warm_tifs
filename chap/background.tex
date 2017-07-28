@@ -6,16 +6,16 @@
 %\vspace{-1mm}
 % 通用的描述
 AES is a popular block cipher with
-128-bit input blocks,
+128-bit blocks,
   and the key is 128, 192 or 256 in bits.
 AES encryption (or decryption) consists of a certain round of transformations
  and the number depends on the key length.
 Each round transformation consists of \texttt{SubBytes}, \texttt{ShiftRows},
- \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state.\footnote{The last round only performs \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey}.}
+ \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state.\footnote{The last round performs \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey} only.}
 % 应该能够说明：包括了什么操作？某些操作用了lookup table，就是访问data；lookup table是与key/data有关系。
 % 别的操作，是什么？能够让大家觉得不会有timing差异产生。
 These steps except \texttt{AddRoundKey},
-can be implemented as table lookup operations \cite{Daemen2002The}.
+ are usually implemented as lookup operations on constant tables \cite{Daemen2002The}.
 %For the implementation of AES in OpenSSL-1.1.0e~\cite{openssl}, four lookup tables, $T_{0}, T_{1}, T_{2}, T_{3}$,  each of which is 1KB,
 %  are used in each round exception the last one,
 % and a 256-byte lookup table $T_{4}$ in the last round.
