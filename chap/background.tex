@@ -20,24 +20,24 @@ These steps except \texttt{AddRoundKey},
 %  are used in each round exception the last one,
 % and a 256-byte lookup table $T_{4}$ in the last round.
 \texttt{AddRoundKey} consists of bitwise \texttt{XOR} operations on the state.
-The common implementation of the lookup tables needs four 1KB tables $T_{0}, T_{1}, T_{2}$ and $T_{3}$, which are used in all rounds.
+
+The straightforward AES implementation needs four 1KB tables, $T_{0}, T_{1}, T_{2}$ and $T_{3}$, as follows,
+ where $S(x)$ is the result of an AES S-box lookup for the input $x$.
 \setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
 &T_{0}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber\\
 &T_{1}[x] = (3\cdot S(x), 2\cdot S(x), S(x), S(x))\nonumber\\
 &T_{2}[x] = (S(x), 3\cdot S(x), 2\cdot S(x), S(x))\nonumber\\
 &T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))\nonumber
-\end{eqnarray}
-\setlength{\arraycolsep}{5pt}
-Where S(x) stands for the result of an AES S-box lookup for the input value x.
-In this paper, we use the AES implementation with a 2KB lookup table in RAM.
+\end{eqnarray}\setlength{\arraycolsep}{5pt}\\
+
+In this paper, we use the compact AES implementation with a 2KB lookup table in RAM.
 This lookup table is
 \setlength{\arraycolsep}{0.0em}
 %\resizebox{\linewidth}{!}{
 %\begin{footnotesize}
 \begin{eqnarray}%\footnotesize
-T[x] = &(2\cdot S(x), S(x), S(x), 3\cdot S(x), \nonumber\\
-&  \:\:\;\;\:\:\;\; 2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber
+T[x] = &(2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber
 \end{eqnarray}
 %\end{footnotesize}
 \setlength{\arraycolsep}{5pt}
@@ -73,7 +73,7 @@ The four lookup tables needed by AES computation are formed by this 2KB table.
 %We use the mbed TLS (formerly known as PolarSSL) as the experimental subject. Its AES code is implemented with this design above. However, our protection model can also be employed in other implementations based on the lookup tables.
 
 There are similar implementations of other block ciphers:
-  only table lookup and other basic operations,
+  table lookup operations and other basic operations,
   and no data dependent branch in the execution path.
 For example, 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
 %  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
