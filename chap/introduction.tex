@@ -29,20 +29,20 @@ In the practical implementations of a cryptographic algorithm,
  ground electric potential \cite{electric-potential-sidechannel} or acoustic emanations \cite{Acoustic-sidechannel},
   even when the algorithm is semantically secure.
 %  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
-  Among these side channels,
-   timing attacks are widely used due to easy realization.
+  Among these vulnerabilities, 
+   timing side channels are widely used due to easy realization.
+   which is a big threat to the security system
   Specially, remote timing side channels allow an attacker without
     any system or physical privilege on the computer,
-    to recover the keys
-   by repeatedly invoking the encryption/decryption functions and measuring the execution time \cite{Tsunoo2002Cryptanalysis,Bernstein2005Cache,Bonneau2006Cache,Neve2006A,Brumley2011Remote,Brumley2005Remote},
-   which is a big threat to the security system.
+    to disclose the keys
+   by repeatedly invoking the encryption/decryption functions and measuring the execution time \cite{Tsunoo2002Cryptanalysis,Bernstein2005Cache,Bonneau2006Cache,Neve2006A,Brumley2011Remote,Brumley2005Remote}.
 % 公钥算法的timing，也很明显，但是与cache无关？引用remote cache攻击
 %Public key algorithms have proved the most vulnerable to timing attacks because they typically perform lengthy mathematical operations, the running time of which depends directly on the data due to branch statements
 %Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
-The remote timing side channels exploiting the time difference of cache misses and hits,
-    called the \emph{remote cache timing side channels} in this paper,
+Remote timing side channels exploiting the time difference of cache misses and hits,
+    called \emph{remote cache timing side channels} in this paper,
  are discovered in many cryptographic implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
 In various implementations of block ciphers,
   table lookup operations are the primary time-consuming operations.
