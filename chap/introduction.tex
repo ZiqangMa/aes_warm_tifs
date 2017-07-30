@@ -30,7 +30,7 @@ In  practical implementations of a cryptographic algorithm,
   even when the algorithm is semantically secure.
 %  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
   Among these vulnerabilities,
-   timing side channel attacks are easily launched without any special devices.
+   timing side-channel attacks are easily launched without any special devices.
 In particular, remote timing side channels allow an attacker without
     any system or physical privilege on the computer,
     to disclose the keys
@@ -40,17 +40,17 @@ In particular, remote timing side channels allow an attacker without
 %Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
-Remote timing side channels based on the time difference of data cache misses and hits,
+Remote timing side channels passively exploiting the time difference of data cache misses and hits,
     called \emph{remote cache timing side channels} in this paper,
  are widely found in lots of cryptographic implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
 In these implementations,
   table lookup is the primary time-consuming operation.
 Because accessing data in caches is much faster than those in RAM chips,
- cache misses and hits in table lookup 
+ cache misses and hits in table lookup
     remarkably influence the overall execution time of block ciphers.
 Therefore,
    from the execution time, the attackers are able to infer the inputs of table lookup operations that are determined by the secret keys (and also the plaintext/ciphertext).
-   
+
 %Different inputs of table lookup cause different cache access behavior so that the overall time differs, which are related to the secret keys,    and then the information about keys leaks.
 
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
@@ -61,18 +61,25 @@ Therefore,
 Compared with other side channels
  on electromagnetic fields, power,
  ground electric potential and acoustic emanations,
- remote timing cache-based side-channel attacks do not require special equipments
-    or extra physical access to the system.
+ cache-based timing side-channel attacks do not require special equipments
+    or extra physical access to the victim computer system.
  Moreover,
-  remote attacks only require the privilege to invoke the necessary encryptions/decryptions without any extra operations or spy processes running on the target system,
-compared with other cache-based side-channel attacks
+  such remote attacks only require the least privilege to (remotely) invoke the necessary encryption/decryption functions,
+while other active cache-based side-channel attacks involve operations
+ by a task sharing caches with the victim cryptographic engine
 %   such as cross-VM side-channel attack, FLUSH+RELOAD, and access-driven cache-attacks
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
+
++++++++++++++++++++++++++
 
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
 Different methods are proposed against the remote cache side channels. The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
 Although the existing methods can offer some security guarantee, most of them have some drawbacks. Some methods which are implemented on hardware to control the cache lack universality. Some using particular implementation to make algorithms constant time are just suitable to specific algorithms.
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads. It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
+Two elementary operations,
+  \emph{warm} (i.e., to fill cache lines by reading constant tables)
+  and \emph{delay} (i.e., to insert padding instructions after the encryption/decryption operations),
+  have been proposed to prevent cache side-channel attacks \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}. %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
 \textbf{[[need citations above]]}
 
 %%
@@ -84,15 +91,12 @@ Some introducing many extra operations to eliminate or confuse the cache misses 
 %Because of the prevalence and severity of the attack, many defense mechanisms have been proposed to eliminate the cache side channels.
 
 However, performance.
+\textbf{[their shortcoming here]}
 
 In this paper, we present {\scshape{Warm+Delay}}, a universal defense mechanism to eliminate remote cache timing side channels.
  Meanwhile we achieve the optimized performance both in theoretical analysis and actual implementation.
-Two elementary operations,
-  \emph{warm} (i.e., to fill cache lines by reading constant tables)
-  and \emph{delay} (i.e., to insert padding instructions after the encryption/decryption operations),
-  have been proposed to prevent cache side-channel attacks \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}. %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
-\textbf{[their shortcoming here]}
-Our scheme integrate these two operations as follows to reduce extra overheads,
+
+Our scheme integrate these two operations to reduce extra overheads,
    to gain the optimized performance while ensure security.
 \begin{enumerate}
 \item

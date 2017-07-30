@@ -21,7 +21,7 @@ In particular,
   and the execution time depends mostly on the cache access of lookup tables.
 
 The attackers are able to
-  invoke the encryption/decryption functions arbitrarily 
+  invoke the encryption/decryption functions arbitrarily
   and measure the time for each invocation.
 The attackers control the invocation,
  so they can continuously invoke the functions to cache
@@ -312,7 +312,7 @@ Cases 2 and 3 happen only if encryption/decryption is interrupted
 %1、	通过对攻击方法的研究，攻击者进行进攻时，所依赖的是AES计算时间变化，这种变化是由于明文输入不同而导致计算时访问查找表不同，从而产生访问cache或者访问内存导致的时间变化。因此，也就是说明文输入的不同反应了AES计算时间的变化。只要能够破坏明文输入和计算时间的关系，也就是说攻击者获得的AES计算时间集合和AES的输入并不存在这种对应关系的时候，攻击就不能够进行了。
 
 In the following,
-we explain that our scheme successfully prevent typical remote cache timing side channel attacks.
+we explain that our scheme successfully prevent typical remote cache timing side-channel attacks.
 %	对各个不同类型的攻击，用我们的防御方案以后，可以获得哪些数据，通过这些数据不能够实施这些攻击。
 %通过对AES的各种cache时间攻击进行分析，可以将时间攻击分为三种典型的类型：
 %一是统计攻击：
