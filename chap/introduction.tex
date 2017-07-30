@@ -73,7 +73,10 @@ while other active cache-based side-channel attacks involve operations
 +++++++++++++++++++++++++
 
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
-Different methods are proposed against the remote cache side channels. The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
+Different methods are proposed against the remote cache side channels.
+ {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms.
+ 
+ The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
 Although the existing methods can offer some security guarantee, most of them have some drawbacks. Some methods which are implemented on hardware to control the cache lack universality. Some using particular implementation to make algorithms constant time are just suitable to specific algorithms.
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads. It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
 Two elementary operations,
@@ -132,10 +135,11 @@ Reading constant tables, padding instructions, and timing are commonly supported
    no privileged operations.
 The scheme is independent of algorithms and implementations.
    It does not depend on any special design or feature of block ciphers,
-and it is applicable to different implementations, except that the lookup tables are accessible in the warm operations.
+and it is applicable to different implementations.
+%  except that the lookup tables are accessible in the warm operations.
 
 We apply this scheme to AES, and analyze the situations that it produces the optimal performance.
-It is found that, in common computer systems,
+It is found that, in commodity computer systems,
  it achieves the optimal performance of AES with different key sizes (128, 192, 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables).
 In particular, it achieves the optimized performance for the AES-128 implementation with 2KB lookup tables \cite{Daemen2002The},
@@ -164,12 +168,11 @@ The optimal performance is analyzed  theoretically and validated by experiments.
 Our contributions are as follows:
 \begin{itemize}
 \item
-We present {\scshape{Warm+Delay}}, a defense mechanism efficiently combining warm and delay operations to eliminate remote cache timing side channels.
-\item
-We theoretically analyze the defense scheme and find the optimal way to use the warm and delay operation with security.
-\item
+We present {\scshape{Warm+Delay}},
+   a defense mechanism efficiently combining warm and delay operations to eliminate remote cache timing side channels.
 The scheme is algorithm-independent and need no special privilege, so it can be widely used in all block ciphers with lookup tables.
 \item
+We theoretically analyze the defense scheme and find the optimal way to use the warm and delay operation with security.
 We apply the scheme into AES and verify the security and performance both in theory and experiments.
 \end{itemize}
 
@@ -182,8 +185,9 @@ We apply the scheme into AES and verify the security and performance both in the
 The remainder of this paper is organized as follows.
 Section \ref{sec:background} presents the background and related works.
 Section \ref{sec:eliminating} describes the {\scshape{Warm+Delay}} scheme and analyzes its security.
-Section \ref{sec:performanceproof} proves that our scheme achieves the optimized performance, which is verified by the evaluation in Section \ref{sec:implementationEvalution}.
+Section \ref{sec:performanceproof} proves that our scheme achieves the optimal performance,
+ which is verified in Section \ref{sec:implementationEvalution}.
 Section \ref{sec:discussion} contains extended discussions.
 Section \ref{sec:conclusion} draws the conclusion.
-Appendix \ref{appendixa} provides the proof of the optimized performance in details,
- while Appendix \ref{appendixb} analyzes various implementations of AES with different key lengths.
+%Appendix \ref{appendixa} provides the proof of the optimized performance in details,
+% while Appendix \ref{appendixb} analyzes various implementations of AES with different key lengths.
