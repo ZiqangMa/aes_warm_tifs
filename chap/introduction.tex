@@ -70,7 +70,7 @@ compared with other cache-based side-channel attacks
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
 
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
-There already exists many defense methods to eliminate the remote cache side channels. The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
+Different methods are proposed against the remote cache side channels. The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
 Although the existing methods can offer some security guarantee, most of them have some drawbacks. Some methods which are implemented on hardware to control the cache lack universality. Some using particular implementation to make algorithms constant time are just suitable to specific algorithms.
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads. It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
 \textbf{[[need citations above]]}
@@ -82,6 +82,8 @@ Some introducing many extra operations to eliminate or confuse the cache misses 
 %	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
 
 %Because of the prevalence and severity of the attack, many defense mechanisms have been proposed to eliminate the cache side channels.
+
+However, performance.
 
 In this paper, we present {\scshape{Warm+Delay}}, a universal defense mechanism to eliminate remote cache timing side channels.
  Meanwhile we achieve the optimized performance both in theoretical analysis and actual implementation.
