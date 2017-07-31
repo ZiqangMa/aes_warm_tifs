@@ -25,10 +25,11 @@ The attackers are able to
   and measure the time for each invocation.
 The attackers control the invocation,
  so they can continuously invoke the functions to cache
-        all tables % with a high probability,
+        all lookup tables % with a high probability,
     or invoke no function for a long time to let
            all tables be evicted from caches, with an extreme high probability.
-We assume an unprivileged attacker that cannot run any processes on the target systems to get the middle-state of the ciphers,
+We assume an unprivileged attacker that cannot run any processes on the target systems
+   to concurrently modify (or read) the cache state of the system (shared with the cryptographic engine)
  and they just can obtain the overall execution time of the block ciphers.
 
 
