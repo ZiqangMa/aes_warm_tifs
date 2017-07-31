@@ -94,11 +94,12 @@ Two elementary operations,
 However, performance.
 \textbf{[their shortcoming here]}
 
-In this paper, we present {\scshape{Warm+Delay}}, a universal defense mechanism to eliminate remote cache timing side channels.
- Meanwhile we achieve the optimized performance both in theoretical analysis and actual implementation.
-
-Our scheme integrate these two operations to reduce extra overheads,
-   and gain the optimized performance while ensure security.
+In this paper, we integrate {\scshape{Warm}} and {\scshape{Delay}} into an algorithm-independent mechanism
+   to eliminate remote cache timing side channels.
+Different from existing schemes,
+   the proposed {\scshape{Warm+Delay}} scheme achieves the optimal performance (that is, no unnecessary operations)
+    while ensure that not information is leaked through timing.
+The optimal performance is analyzed theoretically and validated experimentally.
 \begin{enumerate}
 \item
 Destroy the relationship between the execution time and cache misses/hits,
