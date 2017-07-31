@@ -97,11 +97,19 @@ However, performance.
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
 %	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
 
+<<<<<<< HEAD
 In this paper, we present {\scshape{Warm+Delay}}, a universal defense mechanism to eliminate remote cache timing side channels.
  Meanwhile we achieve the optimized performance both in theoretical analysis and actual implementation.
 
 Our scheme integrate these two operations to reduce extra overheads,
    and gain the optimized performance while ensure security.
+=======
+However, performance.
+\textbf{[their shortcoming here]}
+
+In this paper, we integrate {\scshape{Warm}} and {\scshape{Delay}} into a mechanism
+   to eliminate remote cache timing side channels.
+>>>>>>> 1ca2160cc2da0b89ab8b9b93264ca6e1f33d41c7
 \begin{enumerate}
 \item
 Destroy the relationship between the execution time and cache misses/hits,
@@ -125,7 +133,6 @@ So, some useless padding instructions are utilized to perform warm instead.
 Note that warm also consumes CPU cycles.
 \end{enumerate}
 
-
 %1. the时间与data无关，或者是全部都在cache的时间，或者是全部都不在cache的时间；使得无法推导data相关
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
@@ -139,7 +146,12 @@ The scheme is independent of algorithms and implementations.
 and it is applicable to different implementations.
 %  except that the lookup tables are accessible in the warm operations.
 
-We apply this scheme to AES, and analyze the situations that it produces the optimal performance.
+Different from existing schemes,
+   the proposed {\scshape{Warm+Delay}} scheme achieves the optimal performance (that is, no unnecessary operations)
+    while ensure that not information is leaked through timing.
+The optimal performance is analyzed theoretically and validated experimentally.
+
+In particular, we apply this scheme to AES, and analyze the situations that it produces the optimal performance.
 It is found that, in commodity computer systems,
  it achieves the optimal performance of AES with different key sizes (128, 192, 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables).
