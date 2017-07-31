@@ -75,7 +75,7 @@ while other active cache-based side-channel attacks involve operations
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
 Different methods are proposed against the remote cache side channels.
  {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms.
- 
+
  The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
 Although the existing methods can offer some security guarantee, most of them have some drawbacks. Some methods which are implemented on hardware to control the cache lack universality. Some using particular implementation to make algorithms constant time are just suitable to specific algorithms.
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads. It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
@@ -91,8 +91,6 @@ Two elementary operations,
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
 %	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
 
-%Because of the prevalence and severity of the attack, many defense mechanisms have been proposed to eliminate the cache side channels.
-
 However, performance.
 \textbf{[their shortcoming here]}
 
@@ -100,7 +98,7 @@ In this paper, we present {\scshape{Warm+Delay}}, a universal defense mechanism 
  Meanwhile we achieve the optimized performance both in theoretical analysis and actual implementation.
 
 Our scheme integrate these two operations to reduce extra overheads,
-   to gain the optimized performance while ensure security.
+   and gain the optimized performance while ensure security.
 \begin{enumerate}
 \item
 Destroy the relationship between the execution time and cache misses/hits,
