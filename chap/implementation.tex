@@ -181,7 +181,7 @@ To achieve better performance,  we perform {\scshape{GetTime()}} only when $dela
    instead of every time after {\scshape{Warm()}}.
 In this way, if the input of {\scshape{Delay()}} is less than zero, it simply returns.
 
-\noindent\textbf{$T_{NM}$.}
+\noindent\textbf{$\mathbf{T_{NM}}$.}
 $T_{NM}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
 and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
@@ -194,6 +194,6 @@ and the data after 415 are caused by the cache miss.
 Finally, we choose 355 cycles as $T_{NM}$.
 This value is chosen to ensure that all tables are in L1 caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
-\noindent\textbf{$T_{W}$.}
+\noindent\textbf{$\mathbf{T_{W}}$.}
 before measure $T_{W}$, we flush both the data and instructions out of L1/2/3 caches, so $T_{W}$ is the worst AES execution time and unrelated to the cache states.
 $T_{W}$ is 2834 CPU cycles in this case.
