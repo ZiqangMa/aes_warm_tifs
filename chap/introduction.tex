@@ -76,7 +76,7 @@ while other active cache-based side-channel attacks involve operations
 Different methods are proposed against the remote cache side channels.
  The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
 Although the existing methods can offer some security guarantee, most of them have some drawbacks.
- Some methods which are implemented on hardware to control the cache lack universality~\cite{Cock2014The,Dan2005Partitioned,Yinqian2013D} . 
+ Some methods which are implemented on hardware to control the cache lack universality~\cite{Cock2014The,Dan2005Partitioned,Yinqian2013D} .
   Some using particular implementation to make algorithms constant time are just suitable to specific algorithms~\cite{kasper2009faster,K2008A,Taha2014Cache}.
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads~\cite{Gullasch2011Cache,jayasinghe2010remote,Osvik2006Cache,Zhang2011Predictive}.
 It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
@@ -87,9 +87,10 @@ It is difficult to perform a universal and high efficient method to defend again
        Because all tables are in the cache, the cache misses are eliminated.
    {\scshape{Delay}} inserts padding instructions after the encryption/decryption operations.
      This makes all execution time extend to a constant value so that the cache misses are indistinguishable.
-However, the two mechanisms introduce some extra operations that decrease the performance. 
-  
-\textbf{[their shortcoming here]}
+However, the two mechanisms often introduce some extra operations.
+ Meanwhile, {\scshape{Warm}} is not always effective due to the existence of interruption,
+  and {\scshape{Delay}} will tremendously impact the performance if used only.
+
 
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
 %Intro：
