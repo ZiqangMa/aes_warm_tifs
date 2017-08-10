@@ -85,25 +85,28 @@ We will show that in this case our {\scshape{Warm+Delay}} scheme gets the best p
 In AES, \vwarm~loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
 cache miss may happen, which will in turn trigger \vdelay~operation. Therefore, the benefit of not loading $N$ ($N>0$) cache lines of lookup tables is the saved loading time in \vwarm, while the potential cost is the added time due to \vdelay. In the following, we will prove that the expected cost is greater than the benefit, regardless of $N$.
 
-For AES with 2KB lookup table implementation, it just use one lookup table $T_{e}$ with 2KB.
-We assume that the size of a cache line is $C$ Bytes, hence, $T_{e}$ needs $2048/C$ cache lines.
+For AES with 2KB lookup table implementation, it just use one lookup table $L_{2k}$ with 2KB.
+We assume that the size of a cache line is $C$ Bytes, hence, $L_{2k}$ needs $2048/C$ cache lines.
 %For a cache line utilized by AES look up tables, the probability that it loads $T_{0}, T_{1}, T_{2}, T_{3}$ is $16/17$, while the probability it loads the content of $T_{4}$ is $1/17$.
 
-We assume that each round of AES is independent in terms of cache access. $T_{e}$ is accessed $16$ times in each of AES rounds besides the last round.
-Therefore, the probability that one cache line of $T_{e}$ is not accessed in all rounds is $P_{e} = (1-\frac{C}{2048})^{160}$.
+We assume that each round of AES is independent in terms of cache access, so the inputs of each round are random.
+ $L_{2k}$ is accessed $16$ times in each of AES rounds besides the last round.
+  Meanwhile, the access of cache lines in $L_{2k}$ is uniformly distributed based on the structure of the lookup table in the memory.
+Therefore, the probability that a certain cache line of $L_{2k}$ is not accessed in all rounds is $P_{1} = (1-\frac{C}{2048})^{160}$.
 %The expected probability that any cache line is not accessed in one AES execution is $P_{e} = \frac{16}{17}P_{0-3}+ \frac{1}{17}P_{4}$.
-Hence, the probability that $N$ cache lines are not accessed in one execution is $P_{e}^N$. Therefore, the probability of \emph{invoking \vdelay~while $N$ cache lines of lookup tables are not in the cache} is shown in Equation~\ref{equ:delay}.
+Hence, the probability that $N$ certain cache lines are not accessed in one execution is $P_{N} = (1-\frac{NC}{2048})^{160}$.
+ Therefore, the probability of \emph{invoking \vdelay~while $N$ cache lines of lookup tables are not in the cache} is shown in Equation~\ref{equ:delay}.
   \begin{equation}
   \label{equ:delay}
- P_{delay} = 1- (P_{e})^{N}
+ P_{delay} = 1- (1-\frac{NC}{2048})^{160}
 \end{equation}
 
-We assume the execution time of $T_{W}$ is $W$, and the shortest execution time ($T_{NM}$) is $B$, then the expected overhead (i.e. the cost) of not loading $N$ cache line of lookup tables (and invoking \vdelay) is
+The worst execution time is $T_{W}$, and the shortest execution time is $T_{NM}$, then the expected overhead (i.e. the cost) of not loading $N$ cache line of lookup tables (and invoking \vdelay) is
 %\begin{footnotesize}
  \begin{eqnarray}
  \label{equ:tdelay}
-&E(T_{delay})&={ } P_{delay} * (W-B)  \nonumber \\
-&&= (1- ((1-\frac{C}{2048})^{160})^{N})(W-B)
+&E(T_{delay})&={ } P_{delay} * (T_{W}-T_{NM})  \nonumber \\
+&&= (1- (1-\frac{NC}{2048})^{160})(T_{W}-T_{NM})
 \end{eqnarray}
 %\end{footnotesize}
 The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$, then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}$.
@@ -137,7 +140,7 @@ The average time saved by not loading one cache line from RAM is denoted as $t_{
 
 Therefore, we have: (1) if there exists $N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (2) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
 
-In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $W$ (i.e. $T_{W}$) is 2834 CPU cycles, while the shortest AES execution time $B$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
+In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 %\qed
 \end{IEEEproof}
 
