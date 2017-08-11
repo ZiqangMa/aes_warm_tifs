@@ -131,16 +131,16 @@ The average time saved by not loading one cache line from RAM is denoted as $t_{
    \hline
    {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30    & 32\\
    \hline
-   {$E(T_{delay})$} & 2509.29 & 2524.90 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   {$E(T_{delay})$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    \hline
-   {$\Delta T_{warm}$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5 & 1391.88 & 1670.25 & 1781.60 \\
+   {$\Delta T_{warm}$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5s & 1391.88 & 1670.25 & 1781.60 \\
    \hline
    \end{tabular}
 \end{table*}
 
 Therefore, we have: (1) if there exists $N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (2) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
 
-In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
+In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 %\qed
 \end{IEEEproof}
 
@@ -236,7 +236,7 @@ Therefore, the  conditional \vwarm~provides  better performance than the probabi
 \begin{table*}[t]%[!hbt]
   \centering
   \small
-  \caption{The values of $k_{0}$ corresponding to $P_{evict}$.}\label{tbl:kvalue}
+  \caption{The values of $k_{0}$ corresponding to $P_{evict}$. ($P_{delay} = 0.907$)}\label{tbl:kvalue}
    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
    \hline
    {$P_{evict}$} & 0   & 0.05  & 0.1 & 0.2   & 0.3   & 0.4   & 0.5  & 0.6   & 0.7    & 0.8  & 0.9 & 1 \\
