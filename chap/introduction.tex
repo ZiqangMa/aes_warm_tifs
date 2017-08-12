@@ -42,15 +42,17 @@ In particular, remote timing side channels allow an attacker without
 
 Remote timing side channels passively exploiting the time difference of data cache misses and hits,
     called \emph{remote cache timing side channels} in this paper,
- are widely found in lots of cryptographic implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+ are widely found in various implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
 In these implementations,
-  table lookup is the primary time-consuming operation.
+  table lookup is the primary time-consuming operation in encryption and decryption.
 Because accessing data in caches is much faster than those in RAM chips,
  cache misses and hits in table lookup
     remarkably influence the overall execution time of block ciphers.
 Therefore,
-   from the execution time, the attackers are able to infer the inputs of table lookup operations that are determined by the secret keys (and also the plaintext/ciphertext).
-
+   from the execution time, the attackers are able to infer the inputs of table lookup operations that are determined by the secret keys (and also the known plaintext/ciphertext).
+Generally, for a block cipher,
+  encryption and decryption are symmetric computations with similar basic operations.
+  In the remainder, we emphasize encryption only, but the descriptions and conclusions are also applicable to decryption.
 %Different inputs of table lookup cause different cache access behavior so that the overall time differs, which are related to the secret keys,    and then the information about keys leaks.
 
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
@@ -73,16 +75,19 @@ while other active cache-based side-channel attacks involve operations
 +++++++++++++++++++++++++
 
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
-Different methods are proposed against the remote cache side channels.
- The key point is to break the relationship between secret keys and the execution time by eliminating the cache misses or confusing the cache misses.
-Although the existing methods can offer some security guarantee, most of them have some drawbacks.
- Some methods which are implemented on hardware to control the cache lack universality~\cite{Cock2014The,Dan2005Partitioned,Yinqian2013D} .
-  Some using particular implementation to make algorithms constant time are just suitable to specific algorithms~\cite{kasper2009faster,K2008A,Taha2014Cache}.
-Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads~\cite{Gullasch2011Cache,jayasinghe2010remote,Osvik2006Cache,Zhang2011Predictive}.
-It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
-
-{\scshape{Warm}} and  {\scshape{Delay}}, two typical algorithm-independent mechanisms,
-  have been proposed to prevent cache side-channel attacks~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}.
+Different methods are proposed against cache timing side channels,
+  by destroying the relationship between the secret keys and the execution time.
+Intuitively,
+     in order to eliminate remote cache-based timing side channels for the implementation of block ciphers,
+  the basic algorithm-independent mechanism is
+    to perform encryption, \emph{a})  with all lookup tables inside/outside caches,
+    or \emph{b}) in a constant period of time.
+%    \footnote{Typical values of this constant are, the execution time without any caches, and the time when lookup tables are outside caches and loaded into caches during the encryption.}
+%Although the existing methods can offer some security guarantee, most of them have some drawbacks.
+%It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
+{\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms,
+  have been proposed to prevent cache side-channel attacks~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
+  \footnote{without caches are another choice, but another goal is efficiency.}
     {\scshape{Warm}} fills cache lines by reading constant lookup tables before the encryption/decryption operations.
        Because all tables are in the cache, the cache misses are eliminated.
    {\scshape{Delay}} inserts padding instructions after the encryption/decryption operations.
