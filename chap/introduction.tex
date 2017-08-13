@@ -61,7 +61,7 @@ Generally, for a block cipher,
 %Remote timing cache side channels widely exists in the software implementations of cryptographic algorithms,
 %  and are practical to be exploited~\cite{Ac2007Cache,atici2016remote,Bernstein2005Cache,saraswat2014remote}.
 Compared with other side channels
- on electromagnetic fields, power,
+ on power, electromagnetic fields, 
  ground electric potential and acoustic emanations,
  cache-based timing side-channel attacks do not require special equipments
     or extra physical access to the victim computer system.
@@ -72,30 +72,30 @@ while other active cache-based side-channel attacks involve operations
 %   such as cross-VM side-channel attack, FLUSH+RELOAD, and access-driven cache-attacks
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
 
-+++++++++++++++++++++++++
-
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
-Different methods are proposed against cache timing side channels,
+Different methods are proposed against cache timing side-channel attacks,
   by destroying the relationship between the secret keys and the execution time.
 Intuitively,
-     in order to eliminate remote cache-based timing side channels for the implementation of block ciphers,
-  the basic algorithm-independent mechanism is
+  the basic design is
     to perform encryption, \emph{a})  with all lookup tables inside/outside caches,
     or \emph{b}) in a constant period of time.
-%    \footnote{Typical values of this constant are, the execution time without any caches, and the time when lookup tables are outside caches and loaded into caches during the encryption.}
 %Although the existing methods can offer some security guarantee, most of them have some drawbacks.
 %It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
-{\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms,
-  have been proposed to prevent cache side-channel attacks~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
-  \footnote{without caches are another choice, but another goal is efficiency.}
-    {\scshape{Warm}} fills cache lines by reading constant lookup tables before the encryption/decryption operations.
-       Because all tables are in the cache, the cache misses are eliminated.
-   {\scshape{Delay}} inserts padding instructions after the encryption/decryption operations.
-     This makes all execution time extend to a constant value so that the cache misses are indistinguishable.
-However, the two mechanisms often introduce some extra operations.
- Meanwhile, {\scshape{Warm}} is not always effective due to the existence of interruption,
-  and {\scshape{Delay}} will tremendously impact the performance if used only.
+In particular,
+ {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms
+    to eliminate cache timing side channels \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
+    {\scshape{Warm}} fills cache lines by reading constant lookup tables \emph{before} the encryption operations,
+    and 
+    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations;\footnote{To perform encryption
+     without caches is another choice, and a typical strategy of {\scshape{Delay}} 
+     is to finish the encryption operation in the execution time without any caches.}
+  so the execution time measured by the attackers does not reflect the cache misses/hits \emph{during} encryption. 
 
+These two mechanisms prevent cache-based timing attacks at different phases,
+    but introduce extra operations and degrade the performance greatly.
+As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementation of block ciphers,
+  can we find the best way to integrate them into a scheme
+   achieving the optimal performance while effectively eliminating remote cache timing side channels?
 
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
 %Intro：
