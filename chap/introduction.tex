@@ -61,7 +61,7 @@ Generally, for a block cipher,
 %Remote timing cache side channels widely exists in the software implementations of cryptographic algorithms,
 %  and are practical to be exploited~\cite{Ac2007Cache,atici2016remote,Bernstein2005Cache,saraswat2014remote}.
 Compared with other side channels
- on power, electromagnetic fields, 
+ on power, electromagnetic fields,
  ground electric potential and acoustic emanations,
  cache-based timing side-channel attacks do not require special equipments
     or extra physical access to the victim computer system.
@@ -85,34 +85,34 @@ In particular,
  {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms
     to eliminate cache timing side channels \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant lookup tables \emph{before} the encryption operations,
-    and 
+    and
     {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations;\footnote{To perform encryption
-     without caches is another choice, and a typical strategy of {\scshape{Delay}} 
-     is to finish the encryption operation in the execution time without any caches.}
-  so the execution time measured by the attackers does not reflect the cache misses/hits \emph{during} encryption. 
+     always without caches is another choice, but it is inefficient.
+     Besides, a typical strategy of {\scshape{Delay}}
+     is to finish the encryption operation in constant time that is equal to the execution time without any caches.}
+  so the execution time measured by the attackers does not reflect the cache misses/hits \emph{during} encryption.
 
 These two mechanisms prevent cache-based timing attacks at different phases,
     but introduce extra operations and degrade the performance greatly.
-As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementation of block ciphers,
-  can we find the best way to integrate them into a scheme
-   achieving the optimal performance while effectively eliminating remote cache timing side channels?
-
+As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementations of block ciphers,
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
 %Intro：
 %	各种Side channel威胁到密码系统的安全性，包括timing、电磁、xxxx、xxx。利用Side channel攻击者能够获得密钥。Timing side channel是其中容易发起的一种，因为只需要计时、不需要专门的设备。
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
 %	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
-
-
-In this paper, we integrate {\scshape{Warm}} and {\scshape{Delay}} into a mechanism
-   to eliminate remote cache timing side channels.
-
+    we attempt to integrate them into a scheme
+   achieving the optimal performance while effectively eliminating remote cache timing side channels.
+In particular,
+    the following principles are enforced in the integrated scheme:
 \begin{enumerate}
 \item
-Destroy the relationship between the execution time and cache misses/hits,
-  to ensure security.
-That is, the measured execution time reflects either the best case (i.e., all lookup tables are cached),
+Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
+   i.e., it is performed with all lookup tables in caches
+   or it is finished after a constant period of time.
+%Destroy the relationship between the execution time and cache misses/hits,   to ensure security.
+In particular, the measured time reflects either the best case (i.e., all lookup tables are cached),
      or the worst case (i.e., none of tables is in caches).
+     
 \item
 Prefer warm for the best case, to optimize the performance.
 Warm before executing the encryption/decryption operations,
