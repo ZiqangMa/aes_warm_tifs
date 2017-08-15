@@ -273,7 +273,7 @@ We prove that,
    It is almost a fixed value for arbitrary data processed, as all tables are cached.
     When all table entries are in caches,
     the access time for any entry is constant,
-     resulting in a fixed execution time.\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
+     resulting in a fixed execution time.%\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
   \item \textbf{Case 2}: The time of encryption/decryption is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
     which is the execution time as all accessed lookup tables are uncached.
     That is, the encryption/decryption is executed equivalently without any caches.
