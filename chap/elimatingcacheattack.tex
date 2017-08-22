@@ -119,6 +119,16 @@ Our scheme integrates two strategies to eliminate remote cache timing side chann
 %Our scheme combines the two methods together to ensure the security and optimize the performance.
   %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
 
+The combination of the two strategies follows some principles:
+\begin{enumerate}
+  \item 
+    {\scshape{Warm}} is performed before the protected function while {\scshape{Delay}} is performed after the protected function.
+  \item 
+    The number of {\scshape{Warm}} and {\scshape{Delay}} operations should be as least as possible.
+  \item 
+    The integration of {\scshape{Warm}} and {\scshape{Delay}} should ensure the security of the protected function against the remote cache timing side-channel attackers.
+  %\item 
+\end{enumerate}
 
 %Principles. Warm before function, delay after function.
 %As least as possible.
