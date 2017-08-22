@@ -128,15 +128,19 @@ The combination of the two strategies follows some principles:
     The integration of {\scshape{Warm}} and {\scshape{Delay}} should ensure the security of the protected function against the remote cache timing side-channel attackers.
   %\item
 \end{enumerate}
+
 Our defense scheme focuses on the situation where a mass data are processed.
  A naive scheme can be performing {\scshape{Warm}} and {\scshape{Delay}} every time the protected function is called.
  But obviously it will introduce many extra operations influencing the performance seriously although the security can be guaranteed.
   Then we just perform {\scshape{Delay}} when the execution time of the protected function is larger than the time without cache misses,
-   and before the next execution perform {\scshape{Warm}}. 
+   and before the next execution perform {\scshape{Warm}}.
     In this way the performance of the scheme is much improved.
  However, the time of performing {\scshape{Warm}} is variable and this variation can reflect the state of cache access of the last execution.
-  We can flush the cache before performing {\scshape{Warm}} to make the execution constant time, but it brings new extra overhead.  
-   In our scheme, we perform the {\scshape{Warm}} before the next execution, but doing it ahead  
+  We can flush the cache before performing {\scshape{Warm}} to make the execution constant time, but it brings new extra overhead.
+   In our scheme, if the {\scshape{Warm}} is needed, we perform it after the last execution.
+    Thus, the time of {\scshape{Warm}} becomes part of the {\scshape{Delay}} in the last execution. 
+     Therefore, the time of {\scshape{Warm}} cannot be detected and we do not need to flush the cache.
+      Also the performance of the scheme is improved further.
 %Principles. Warm before function, delay after function.
 %As least as possible.
 %Conditions are defined as time, no special privileges.
