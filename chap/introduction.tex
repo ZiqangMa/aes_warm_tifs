@@ -52,7 +52,7 @@ Therefore,
    from the execution time, the attackers are able to infer the inputs of table lookup operations that are determined by the secret keys (and also the known plaintext/ciphertext).
 Generally, for a block cipher,
   encryption and decryption are symmetric computations with similar basic operations.
-  In the remainder, we emphasize encryption only, but the descriptions and conclusions are also applicable to decryption.
+  In the remainder, we emphasize encryption only, but the designs and conclusions are applicable to decryption.
 %Different inputs of table lookup cause different cache access behavior so that the overall time differs, which are related to the secret keys,    and then the information about keys leaks.
 
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
@@ -88,7 +88,7 @@ In particular,
     and
     {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations;\footnote{To perform encryption
      always without caches is another choice, but it is inefficient.
-     Besides, a typical strategy of {\scshape{Delay}}
+     In fact, a typical strategy of {\scshape{Delay}}
      is to finish the encryption operation in constant time that is equal to the execution time without any caches.}
   so the execution time measured by the attackers does not reflect the cache misses/hits \emph{during} encryption.
 
@@ -110,30 +110,35 @@ Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
    i.e., it is performed with all lookup tables in caches
    or it is finished after a constant period of time.
 %Destroy the relationship between the execution time and cache misses/hits,   to ensure security.
-In particular, the measured time reflects either the best case (i.e., all lookup tables are cached),
-     or the worst case (i.e., none of tables is in caches).
+The measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
+     or the worst case (i.e., it is delayed to the execution time without any caches).
 
 \item
+In order to optimize the performance,
+  {\scshape{Warm}} is preferred to {\scshape{Delay}};
+  i.e.,
+    finish  encryption operations as more as possible, with all lookup tables in caches.
+Note that,
+    compared with the best case protected by {\scshape{Warm}},
+  the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
+Only when the effect of {\scshape{Warm}} is destroyed by system activities, such as interrupts and task scheduling,
+    and then information on the secret key might be leaked,
+  the execution time is delayed as in the worst case.
 
-Prefer {\scshape{Warm}} to {\scshapge{Delay}}, to optimize the performance.
-Warm before executing the encryption/decryption operations,
-  if not all tables are cached.
-However, cached data may be evicted by system activities and
-    the effect of warm is destroyed;
-  in this case,
-    the time of encryption/decryption may reflect the data cache access,
-   and then delay operation makes the execution to be the worst case.
 \item
 % 将warm放到delay的时间中
-If delay is performed,
-  warm is also done for the next encryption/decryption operation to raise the performance.
-So, some useless padding instructions are utilized to perform warm instead.
-Note that warm also consumes CPU cycles.
+When {\scshape{Delay}} is performed,
+  {\scshape{Warm}} is also done as a part of inserted instructions
+   for the next encryption.
+So, the cost of {\scshape{Warm}} is masked by padding instructions.  % are utilized to perform warm instead.
+%Note that warm also consumes CPU cycles.
 \end{enumerate}
 
 %1. the时间与data无关，或者是全部都在cache的时间，或者是全部都不在cache的时间；使得无法推导data相关
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
+
++++ I rewrite to here. -- Linjq
 
 The proposed {\scshape{Warm+Delay}} scheme does not require any privileged operation on the system.
 The conditions to perform warm and delay, are defined as regular timing.
