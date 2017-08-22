@@ -133,65 +133,158 @@ From the above analysis, we find that when $1< k \leq k_{0}$, $E(T^{p}) \geq E(T
 
 \section{The $P_{delay}$ in different AES key lengthes and different AES implementations }
 \label{appendixb}
-We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the probability of performing delay operation with $N$ cache line size of lookup tables not in the cache. So when the AES implementation uses 4.25KB lookup tables, the $P_{delay}$ for AES-128 AES-192 and AES-256 are as follows respectively:
-\begin{equation}
-    %\scriptsize
-    P_{delay}^{128} = 1- \frac{1}{\binom{68}{N}}\sum_{x_4=\max(0,N-64)}^{\min(4,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{4}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{4})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{36}}}}},
-\end{equation}
+We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the probability of performing delay operation with $N$ cache line size of lookup tables not in the cache. So when the AES implementation uses 4.25KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+\begin{align}
+%\begin{flalign}
+%\begin{split}
+    P_{delay}^{128} = &1-   \nonumber \\
+    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,36)}}}}},
+%\end{split}
+%\end{flalign}
+\end{align}
 %for AES-192 is
-\begin{equation}
+\begin{align}
     %\scriptsize
-    P_{delay}^{192} = 1- \frac{1}{\binom{68}{N}}\sum_{x_4=\max(0,N-64)}^{\min(4,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{4}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{4})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{44}}}}},
-\end{equation}
+    P_{delay}^{192} = &1-  \nonumber \\
+    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,44)}}}}},
+\end{align}
 %for AES-256 is
-\begin{equation}
+\begin{align}
     %\scriptsize
-    P_{delay}^{256} = 1- \frac{1}{\binom{68}{N}}\sum_{x_4=\max(0,N-64)}^{\min(4,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{4}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{4})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{52}}}}}.
-\end{equation}
-where 
-\begin{equation*}
-  x_0+x_1+x_2+x_3+x_4=N.
-\end{equation*}
+    P_{delay}^{256} = &1-  \nonumber \\
+    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,52)}}}}},
+\end{align}
 
-When the AES implementation uses 5KB lookup tables, the $P_{delay}$ for AES-128 AES-192 and AES-256 are as follows respectively:
-\begin{equation}
-    %\scriptsize
-    P_{delay}^{128} = 1- \frac{1}{\binom{80}{N}}\sum_{x_4=\max(0,N-64)}^{\min(16,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{16}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{16})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{36}}}}},
-\end{equation}
-%for AES-192 is
-\begin{equation}
-    %\scriptsize
-    P_{delay}^{192} = 1- \frac{1}{\binom{80}{N}}\sum_{x_4=\max(0,N-64)}^{\min(16,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{16}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{16})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{44}}}}},
-\end{equation}
-%for AES-256 is
-\begin{equation}
-    %\scriptsize
-    P_{delay}^{256} = 1- \frac{1}{\binom{80}{N}}\sum_{x_4=\max(0,N-64)}^{\min(16,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{16}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{16})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{52}}}}}.
-\end{equation}
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{128} = 1- \frac{1}{\binom{68}{N}}\sum_{x_4=\max(0,N-64)}^{\min(4,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{4}{x_4}(1-\frac{x_4}{4})^{16}\prod_{i=0}^{3}{\binom{16}{x_i}(1-\frac{x_i}{16})^{36}}}}}},
+%\end{equation}
+%%for AES-192 is
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{192} = 1- \frac{1}{\binom{68}{N}}\sum_{x_4=\max(0,N-64)}^{\min(4,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{4}{x_4}(1-\frac{x_4}{4})^{16}\prod_{i=0}^{3}{\binom{16}{x_i}(1-\frac{x_i}{16})^{44}}}}}},
+%\end{equation}
+%%for AES-256 is
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{256} = 1- \frac{1}{\binom{68}{N}}\sum_{x_4=\max(0,N-64)}^{\min(4,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{4}{x_4}(1-\frac{x_4}{4})^{16}\prod_{i=0}^{3}{\binom{16}{x_0}(1-\frac{x_i}{16})^{52}}}}}}.
+%\end{equation}
+
 where
-\begin{equation*}
-  x_0+x_1+x_2+x_3+x_4=N.
-\end{equation*}
+  \begin{eqnarray*}
+  % \nonumber to remove numbering (before each equation)
+    &&f(x) = \binom{256/C}{x}(1-\frac{xC}{256})^{16} \\
+    &&g(x,y) = \binom{1024/C}{x}(1-\frac{xC}{1024})^{y} \\
+    &&x_0+x_1+x_2+x_3+x_4 = N \\
+    &&x_{4b} = \max(0,N-4096/C) \\
+    &&x_{4e} = \min(256/C,N) \\
+    &&x_{0b} = \max(0,N-x_4-3072/C) \\
+    &&x_{0e} = \min(1024/C,N-x_4) \\
+    &&x_{1b} = \max(0,N-x_4-x_0-2048/C) \\
+    &&x_{1e} = \min(1024/C,N-x_4-x_0) \\
+    &&x_{2b} = \max(0,N-x_4-x_0-x_1-1024/C) \\
+    &&x_{2e} = \min(1024/C,N-x_4-x_0-x_1)
+  \end{eqnarray*}
+
+When the AES implementation uses 5KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+\begin{align}
+    P_{delay}^{128} = &1-   \nonumber \\
+    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}},
+\end{align}
+%for AES-192 is
+\begin{align}
+    %\scriptsize
+    P_{delay}^{192} = &1-  \nonumber \\
+    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,44)}}}}},
+\end{align}
+%for AES-256 is
+\begin{align}
+    %\scriptsize
+    P_{delay}^{256} = &1-  \nonumber \\
+    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,52)}}}}},
+\end{align}
+where
+  \begin{eqnarray*}
+  % \nonumber to remove numbering (before each equation)
+    &&f(x,y) = \binom{1024/C}{x}(1-\frac{xC}{1024})^{y} \\
+    &&x_0+x_1+x_2+x_3+x_4 = N \\
+    &&x_{4b} = \max(0,N-4096/C) \\
+    &&x_{4e} = \min(1024/C,N) \\
+    &&x_{0b} = \max(0,N-x_4-3072/C) \\
+    &&x_{0e} = \min(1024/C,N-x_4) \\
+    &&x_{1b} = \max(0,N-x_4-x_0-2048/C) \\
+    &&x_{1e} = \min(1024/C,N-x_4-x_0) \\
+    &&x_{2b} = \max(0,N-x_4-x_0-x_1-1024/C) \\
+    &&x_{2e} = \min(1024/C,N-x_4-x_0-x_1)
+  \end{eqnarray*}
+
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{128} = 1- \frac{1}{\binom{80}{N}}\sum_{x_4=\max(0,N-64)}^{\min(16,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{16}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{16})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{36}}}}},
+%\end{equation}
+%%for AES-192 is
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{192} = 1- \frac{1}{\binom{80}{N}}\sum_{x_4=\max(0,N-64)}^{\min(16,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{16}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{16})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{44}}}}},
+%\end{equation}
+%%for AES-256 is
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{256} = 1- \frac{1}{\binom{80}{N}}\sum_{x_4=\max(0,N-64)}^{\min(16,N)}{\sum_{x_0=\max(0,N-x_4-48)}^{\min(16,N-x_4)}{\sum_{x_1=\max(0,N-x_4-x_0-32)}^{\min(16,N-x_4-x_0)}{ \sum_{x_2=\max(0,N-x_4-x_0-x_1-16)}^{min(16,N-x_4-x_0-x_1)}{\binom{16}{x_4}\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} (1-\frac{x_4}{16})^{16}\prod_{i=0}^{3}{(1-\frac{x_i}{16})^{52}}}}}.
+%\end{equation}
+%where
+%\begin{equation*}
+%  x_0+x_1+x_2+x_3+x_4=N.
+%\end{equation*}
 
 When the AES implementation uses 4KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
-\begin{equation}
-    %\scriptsize
-    P_{delay}^{128} = 1- \frac{1}{\binom{64}{N}}\sum_{x_0=\max(0,N-48)}^{\min(16,N)}{\sum_{x_1=\max(0,N-x_0-32)}^{\min(16,N-x_0)}{ \sum_{x_2=\max(0,N-x_0-x_1-16)}^{min(16,N-x_0-x_1)}{\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} \prod_{i=0}^{3}{(1-\frac{x_i}{16})^{40}}}},
-\end{equation}
+\begin{align}
+    P_{delay}^{128} = &1-   \nonumber \\
+    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,40)}}}},
+\end{align}
 %for AES-192 is
-\begin{equation}
+\begin{align}
     %\scriptsize
-    P_{delay}^{192} = 1- \frac{1}{\binom{64}{N}}\sum_{x_0=\max(0,N-48)}^{\min(16,N)}{\sum_{x_1=\max(0,N-x_0-32)}^{\min(16,N-x_0)}{ \sum_{x_2=\max(0,N-x_0-x_1-16)}^{min(16,N-x_0-x_1)}{\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} \prod_{i=0}^{3}{(1-\frac{x_i}{16})^{48}}}},
-\end{equation}
+    P_{delay}^{192} = &1-  \nonumber \\
+    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,48)}}}},
+\end{align}
 %for AES-256 is
-\begin{equation}
+\begin{align}
     %\scriptsize
-    P_{delay}^{256} = 1- \frac{1}{\binom{64}{N}}\sum_{x_0=\max(0,N-48)}^{\min(16,N)}{\sum_{x_1=\max(0,N-x_0-32)}^{\min(16,N-x_0)}{ \sum_{x_2=\max(0,N-x_0-x_1-16)}^{min(16,N-x_0-x_1)}{\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} \prod_{i=0}^{3}{(1-\frac{x_i}{16})^{56}}}}.
-\end{equation}
+    P_{delay}^{256} = &1-  \nonumber \\
+    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,56)}}}},
+\end{align}
 where
-\begin{equation*}
-  x_0+x_1+x_2+x_3=N.
-\end{equation*}
+  \begin{eqnarray*}
+  % \nonumber to remove numbering (before each equation)
+    &&f(x,y) = \binom{1024/C}{x}(1-\frac{xC}{1024})^{y} \\
+    &&x_0+x_1+x_2+x_3 = N \\
+    &&x_{0b} = \max(0,N-3072/C) \\
+    &&x_{0e} = \min(1024/C,N) \\
+    &&x_{1b} = \max(0,N-x_0-2048/C) \\
+    &&x_{1e} = \min(1024/C,N-x_0) \\
+    &&x_{2b} = \max(0,N-x_0-x_1-1024/C) \\
+    &&x_{2e} = \min(1024/C,N-x_0-x_1)
+  \end{eqnarray*}
+
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{128} = 1- \frac{1}{\binom{64}{N}}\sum_{x_0=\max(0,N-48)}^{\min(16,N)}{\sum_{x_1=\max(0,N-x_0-32)}^{\min(16,N-x_0)}{ \sum_{x_2=\max(0,N-x_0-x_1-16)}^{min(16,N-x_0-x_1)}{\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} \prod_{i=0}^{3}{(1-\frac{x_i}{16})^{40}}}},
+%\end{equation}
+%%for AES-192 is
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{192} = 1- \frac{1}{\binom{64}{N}}\sum_{x_0=\max(0,N-48)}^{\min(16,N)}{\sum_{x_1=\max(0,N-x_0-32)}^{\min(16,N-x_0)}{ \sum_{x_2=\max(0,N-x_0-x_1-16)}^{min(16,N-x_0-x_1)}{\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} \prod_{i=0}^{3}{(1-\frac{x_i}{16})^{48}}}},
+%\end{equation}
+%%for AES-256 is
+%\begin{equation}
+%    %\scriptsize
+%    P_{delay}^{256} = 1- \frac{1}{\binom{64}{N}}\sum_{x_0=\max(0,N-48)}^{\min(16,N)}{\sum_{x_1=\max(0,N-x_0-32)}^{\min(16,N-x_0)}{ \sum_{x_2=\max(0,N-x_0-x_1-16)}^{min(16,N-x_0-x_1)}{\binom{16}{x_0}\binom{16}{x_1}\binom{16}{x_2}\binom{16}{x_3}} \prod_{i=0}^{3}{(1-\frac{x_i}{16})^{56}}}}.
+%\end{equation}
+%where
+%\begin{equation*}
+%  x_0+x_1+x_2+x_3=N.
+%\end{equation*}
 
 When the AES implementation uses 2KB lookup table, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{equation}

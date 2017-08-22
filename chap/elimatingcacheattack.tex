@@ -107,20 +107,27 @@ Then, it provides optimized performance by configuring appropriate parameters
 Our scheme integrates two strategies to eliminate remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
     \emph{a}) {\scshape{Warm}}, load the lookup tables into caches before the encryption/decryption operation;
   and \emph{b}) {\scshape{Delay}},     insert padding instructions after the encryption/decryption operation.
-These two operations cooperatively destroy the relationship between the time measured by attackers and
-  the cache misses/hits during the execution of encryption/decryption.
-In practice,
-  warm cannot completely eliminate the cache timing side channels by itself,
-  because the effect of cache warm may be countered by system activities,
-     which evict lookup tables from caches.
-Delay directly controls the time measured by attackers,
-    but it degrades the performance significantly.
+%These two operations cooperatively destroy the relationship between the time measured by attackers and
+%  the cache misses/hits during the execution of encryption/decryption.
+%In practice,
+%  warm cannot completely eliminate the cache timing side channels by itself,
+%  because the effect of cache warm may be countered by system activities,
+%     which evict lookup tables from caches.
+%Delay directly controls the time measured by attackers,
+%    but it degrades the performance significantly.
+
 %Our scheme combines the two methods together to ensure the security and optimize the performance.
   %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
 
-%[[[\textbf{This content shall be in Related Work}. adding dummy access to the lookup tables, changing the instructions order, performing a random permutation of the lookup tables.
-%Some of the methods need to modify the algorithm code and some need the privilege. These methods can't be used in our scheme due to our goals.]]]
 
+%Principles. Warm before function, delay after function.
+%As least as possible.
+%Conditions are defined as time, no special privileges.
+%The same as the timing side-channel attackers.
+%We focus on the situation where a mass data are processed.
+%A naive scheme, is ; but ...
+%then, ... improved;
+%\textbf{+++++}
 
 The proposed {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 Given a block cipher, the execution time without cache misses ($T_{NM}$) and the worst execution time ($T_{W}$)
@@ -151,17 +158,6 @@ Given a block cipher, the execution time without cache misses ($T_{NM}$) and the
            \EndFunction
         \end{algorithmic}
     \end{algorithm}
-%\vspace{-1mm}
-
-
-Principles. Warm before function, delay after function.
-As least as possible.
-Conditions are defined as time, no special privileges.
-The same as the timing side-channel attackers.
-We focus on the situation where a mass data are processed.
-A naive scheme, is ; but ...
-then, ... improved;
-\textbf{+++++}
 
 Three operations are introduced by this defense scheme:
         \emph{a}) {\scshape{Warm()}}, cache warm by accessing lookup tables as constant data,
