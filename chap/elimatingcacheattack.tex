@@ -99,7 +99,6 @@ Then, it provides optimized performance by configuring appropriate parameters
 %\vspace{-1mm}
 \subsection{The {\scshape{Warm+Delay}} Scheme}
 \label{sec:scheme}
-%\vspace{-2mm}
 % 我们的防御方案，最主要的目的是为了保护cache时间攻击，同时，对于防御方案，有一些要求，首先是要运行在用户态下，其次是要与算法无关的，可移植的，同时，防御方案对算法本身并不进行修改。再次是要能够使得在安全性保证的前提下，效率达到最大。
 % 对于cache 攻击的软件防御一般分为两种方式，消除cache miss 和 混淆cache miss，使用warm可以消除，混淆的方法有多种，可以时间扭曲，随机置换表等。但是很多方法需要对算法本身进行修改，其中使用给每次计算进行延时的方法，可以有效混淆cache miss。 我们进过仔细分析，warm可以使查找表都在cache中，从而消除cache miss，但是在实际情况中，由于cache碰撞，进程调度等原因，并不能保证查找表一定在cache中。而对于延时的方法，会严重影响AES的效率。因此，经过仔细分析，我们提出了如下防御方案，结合了warm和delay的操作，将其融合在一起。下面的例子是以AES为例，但可以被移植到其他使用查找表来实现的对称算法。
 
@@ -121,15 +120,23 @@ Our scheme integrates two strategies to eliminate remote cache timing side chann
 
 The combination of the two strategies follows some principles:
 \begin{enumerate}
-  \item 
+  \item
     {\scshape{Warm}} is performed before the protected function while {\scshape{Delay}} is performed after the protected function.
-  \item 
-    The number of {\scshape{Warm}} and {\scshape{Delay}} operations should be as least as possible.
-  \item 
+  \item
+    The number of {\scshape{Warm}} and {\scshape{Delay}} should be as least as possible.
+  \item
     The integration of {\scshape{Warm}} and {\scshape{Delay}} should ensure the security of the protected function against the remote cache timing side-channel attackers.
-  %\item 
+  %\item
 \end{enumerate}
-
+Our defense scheme focuses on the situation where a mass data are processed.
+ A naive scheme can be performing {\scshape{Warm}} and {\scshape{Delay}} every time the protected function is called.
+ But obviously it will introduce many extra operations influencing the performance seriously although the security can be guaranteed.
+  Then we just perform {\scshape{Delay}} when the execution time of the protected function is larger than the time without cache misses,
+   and before the next execution perform {\scshape{Warm}}. 
+    In this way the performance of the scheme is much improved.
+ However, the time of performing {\scshape{Warm}} is variable and this variation can reflect the state of cache access of the last execution.
+  We can flush the cache before performing {\scshape{Warm}} to make the execution constant time, but it brings new extra overhead.  
+   In our scheme, we perform the {\scshape{Warm}} before the next execution, but doing it ahead  
 %Principles. Warm before function, delay after function.
 %As least as possible.
 %Conditions are defined as time, no special privileges.
