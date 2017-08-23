@@ -12,10 +12,11 @@
 
 \subsection{Overview}
 \label{sec:eval}
-%\vspace{-1mm}
-In this section, we show that our solution is optimal.
+In this section, we demonstrate that our solution is optimal.
+In principle, the basic framework of the defense strategy consists of \vwarm  and \vdelay.
+ The main point is to optimize the use of \vwarm and \vdelay.
 %In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce \vwarm~(i.e., cache warm) to improve performance.
-Intuitively, all of the following principles need to be satisfied in order to achieve the optimal performance:
+in practice, all of the following principles need to be satisfied in order to achieve the optimal performance:
 
 \begin{itemize}
     \item In the {\vdelay} operation, the imposed delay, or the execution time with added delay, is the shortest.
