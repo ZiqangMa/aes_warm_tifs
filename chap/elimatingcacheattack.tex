@@ -138,7 +138,7 @@ Our defense scheme focuses on the situation where a mass data are processed.
  However, the time of performing {\scshape{Warm}} is variable and this variation can reflect the state of cache access of the last execution.
   We can flush the cache before performing {\scshape{Warm}} to make the execution constant time, but it brings new extra overhead.
    In our scheme, if the {\scshape{Warm}} is needed, we perform it after the last execution.
-    Thus, the time of {\scshape{Warm}} becomes part of the {\scshape{Delay}} in the last execution. 
+    Thus, the time of {\scshape{Warm}} becomes part of the {\scshape{Delay}} in the last execution.
      Therefore, the time of {\scshape{Warm}} cannot be detected and we do not need to flush the cache.
       Also the performance of the scheme is improved further.
 %Principles. Warm before function, delay after function.
@@ -263,7 +263,7 @@ Note that,
 
 \subsection{Security Analysis}
 %\vspace{-1mm}
-The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}}.
+The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}}, but not {\scshape{Crypt()}}.
 The cache timing side channels come from the relation between the measured execution time and the data processed;
    that is, different data (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
@@ -291,7 +291,7 @@ We prove that,
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time.%\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
-  \item \textbf{Case 2}: The time of encryption/decryption is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
+  \item \textbf{Case 2}: The execution time of {\scshape{Crypt()}} is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
     which is the execution time as all accessed lookup tables are uncached.
     That is, the encryption/decryption is executed equivalently without any caches.
     In this case, the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
@@ -299,13 +299,14 @@ We prove that,
     It results from task scheduling or  interrupts.
    As explained in Section~\ref{sec:assumption},
      the running states such as interrupts, task scheduling and other system activities,
-       are unknown to the remote attackers,
+       are random and unknown to the remote attackers,
        so the attackers cannot obtain the actual execution time of encryption/decryption to infer the keys.
 \end{itemize}
 
 In summary,
   Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
   and in Case 3, the execution time is  obscured by non-deterministic system activities, which are unknown to attackers.
+
 Moreover, the  sequence of Cases 1, 2, and 3,
   cannot be exploited to construct cache timing side channels.
 In Case 1,

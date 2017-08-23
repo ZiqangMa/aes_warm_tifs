@@ -13,7 +13,7 @@
 \subsection{Overview}
 \label{sec:eval}
 %\vspace{-1mm}
-In this section, we show that our solution is optimal in the category of approaches that do not modify encryption algorithm code.
+In this section, we show that our solution is optimal.
 %In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce \vwarm~(i.e., cache warm) to improve performance.
 Intuitively, all of the following principles need to be satisfied in order to achieve the optimal performance:
 
@@ -29,9 +29,9 @@ Intuitively, all of the following principles need to be satisfied in order to ac
 We examine these principles with our proposed scheme, and derive practical conditions which make it optimal. We first examine the performance of \vdelay, and then analyze the \vwarm~operation with  AES-128 with 2KB lookup tables \cite{openssl}.
  In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which leads to more \vdelay~in the future). Then we identify the best timing for the \vwarm~operation. Eventually, we derive a practical condition, so that our scheme is optimal. That is, performing warm operation when the execution time lies in $(T_{NM}, \infty)$ is the optimal method in our experiment environment.
 
-Last, we discuss the impact of different key lengths and different implementations,
-  to show that, the conditions are applicable to these typical key lengths and implementations.
-That is, the proposed {\scshape{Warm+Delay}} scheme also achieves the optimal performance.
+Last, we promote the conclusion to different key lengths and different implementations,
+  and show that, the conditions are applicable to these typical key lengths and implementations.
+That is, the proposed {\scshape{Warm+Delay}} scheme achieves the optimal performance for block ciphers with lookup tables.
 
 %In our \vwd~scheme, we perform delay operation when the execution time is in $(T_{NM}, T_{W})$, and delay it to $T_{W}$. The \vwarm~(cache warm) operation in our scheme loads all the lookup tables into the cache. Hence, the overhead depends on the size of the lookup tables and the implementation of algorithms. We implement our scheme in AES-128 with 4.25KB lookup tables in the proof in Section 4.3. In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which leads to more \vwarm~in the future). Then we identify the best timing for the \vwarm~operation. In particular, we will discuss three cache-access states: (1) all the lookup tables are in the cache ($S_{full}$); (2) the lookup entries not in the cache are not accessed ($S_{nonas}$); (3) and the entries not in the cache are accessed ($S_{as}$). We will compare the additional time introduced by our scheme vs. other methods. Eventually, we derive a practical condition, so that our scheme is optimal when the condition is satisfied. That is, performing warmup operation when the execution time lies in $(T_{NM}, \infty)$ is the optimal method in our experiment environment.
 
