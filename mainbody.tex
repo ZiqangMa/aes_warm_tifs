@@ -78,7 +78,7 @@ B. Luo is with Anonymous University; E-mail: bluo\@ku.edu.}% <-this % stops a sp
 %本文提出了Warm+Delay, a framework for symmetric algorithms to eliminating xxx.
 % Then, we
 Cache timing side channels allow a remote attacker to disclose the cryptographic keys,
- by repeatedly invoking the encryption/decryption functions and measuring the execution time.
+ only by repeatedly invoking the encryption/decryption functions and measuring the execution time.
 {\scshape{Warm}} and {\scshape{Delay}} are two common countermeasures against remote cache-based timing side channels,
  by reading constant data into caches before cryptographic functions
   and inserting padding instructions after these functions, respectively.
@@ -89,7 +89,11 @@ However, the extra operations are sometimes unnecessary,
    and then bring great performance overheads.
 In this paper, we integrate these two countermeasure into a scheme
  that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
-++++++++
+Before each encryption/decryption,
+   the constant data are warmed into caches if the last encryption/decryption is not finished in the time;
+ and {\scshape{Delay}} plays as the last line of defense: after the encryption/decryption,
+Moreover, when {\scshape{Delay}} is necessary,
+ Warm are performed as inserted padding instructions, to further optimize the performance.
 The proposed {\scshape{Warm+Delay}} scheme
    effectively eliminates remote cache timing side channels,
   and is applicable to different block ciphers and computing platforms.
