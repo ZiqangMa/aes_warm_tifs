@@ -117,7 +117,7 @@ The measured time reflects either the best case (i.e., all lookup tables are cac
 In order to optimize the performance,
   {\scshape{Warm}} is preferred to {\scshape{Delay}};
   i.e.,
-    finish  encryption operations as more as possible, with all lookup tables in caches.
+    finish  encryption operations as many as possible, with all lookup tables in caches.
 Note that,
     compared with the best case protected by {\scshape{Warm}},
   the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
@@ -128,7 +128,7 @@ Only when the effect of {\scshape{Warm}} is broken  by system activities, such a
 \item
 % 将warm放到delay的时间中
 When {\scshape{Delay}} is performed,
-  {\scshape{Warm}} is also done as a part of inserted instructions
+  {\scshape{Warm}} is  done as a part of inserted instructions
    for the next encryption.
 So, the cost of {\scshape{Warm}} is masked by padding instructions.  % are utilized to perform warm instead.
 %Note that warm also consumes CPU cycles.
@@ -138,48 +138,53 @@ So, the cost of {\scshape{Warm}} is masked by padding instructions.  % are utili
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-+++ I rewrite to here. -- Linjq
-
-The proposed {\scshape{Warm+Delay}} scheme does not require any privileged operation on the system.
-The conditions to perform warm and delay, are defined as regular timing.
-Reading constant tables, padding instructions, and timing are commonly supported in computer systems,
-   no privileged operations.
-The scheme is independent of algorithms and implementations.
-   It does not depend on any special design or feature of block ciphers,
-and it is applicable to different implementations.
-%  except that the lookup tables are accessible in the warm operations.
-
-Different from existing schemes,
-   the proposed {\scshape{Warm+Delay}} scheme achieves the optimal performance (that is, no unnecessary operations)
-    while ensure that not information is leaked through timing.
-The optimal performance is analyzed theoretically and validated experimentally.
-
+Different from existing cache side channel defenses,
+   the proposed {\scshape{Warm+Delay}} scheme 
+    eliminates remote cache timing side channels
+   while achieves the optimal performance (that is, \emph{no unnecessary lookup table read operations
+   or inserted padding instructions}).
 In particular, we apply this scheme to AES, and analyze the situations that it produces the optimal performance.
 It is found that, in commodity computer systems,
- it achieves the optimal performance of AES with different key sizes (128, 192, 256 bits)
+ the proposed scheme achieves the optimal performance with different key sizes (128, 192, 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables).
-In particular, it achieves the optimized performance for the AES-128 implementation with 2KB lookup tables \cite{Daemen2002The},
+For example,
+    the protected AES-128 implementation with 2KB lookup tables \cite{Daemen2002The} achieves the optimal performance,
 when (\emph{a}) the probability
- that some entries of lookup tables are evict from caches by system activities during the executions of encryption/decryption, denoted as $P_{evict}$, is less than $0.2$, and
+ that some entries of lookup tables are evicted from caches
+  due to system activities during encryption, denoted as $P_{evict}$, {\color{red}is less than $0.2$}, and
  (\emph{b}) the ratio of
-  the delayed time  to the time of reading constant tables from  either caches or RAM,
-  denoted as $k$, is less than $57.4$.
-These conditions hold for continuous AES executions in commodity systems,
-  and confirmed experimentally by the prototype.
-In fact, our scheme produces the optimized performance for  various AES implementations (the lookup tables in size of 2K, 4KB, 4.25KB and 5KB) in different key length (128, 192 and 256 bits), when $P_{evict} < 0.2$ and $k < 42.41$.
+  the delayed time of padding instructions to the time of reading constant tables from  either caches or RAM,
+  denoted as $k$, {\color{red}is less than $57.4$}.
+These conditions hold %for continuous AES executions
+ in commodity computer systems,
+  which is confirmed by experimental results of the prototype.
+In fact, our protection scheme produces the optimal performance for various AES implementations (the lookup tables in size of 2K, 4KB, 4.25KB and 5KB) of different key sizes (128, 192 and 256 bits), {\color{red}when $P_{evict} < 0.2$ and $k < 42.41$}.
 These conditions also hold in commodity systems.
 
 
    % 各种输入是攻击情况，仍然是相同的分布。这一块的实验，我们没有做。是否需要做？
    % 对于original，在图上，哪些是可以利用来攻击的，应该有所标注【或者使用文字】。
-We implement the {\scshape{Warm+Delay}} scheme with AES.
-Experiment results on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
-  demonstrate that, the measured time does  not reflect the data cache access.
-We also validate the optimization in different scenarios,
- by comparing it with different strategies of warm and delay.
+The proposed scheme does not require any privileged operation on the system.
+The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
+Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
+    without special privileges.
+The scheme is independent of algorithms and implementations.
+   It does not depend on any special design or feature of block ciphers,
+and it is applicable to different implementations.
+%  except that the lookup tables are accessible in the warm operations.
+
+
+We implement the {\scshape{Warm+Delay}} scheme with AES-128.
+Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
+  demonstrate that, the execution time measured by attackers does not 
+        reflect the cache misses/hits during encryption.
+We confirm the optimization in different scenarios,
+ by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
+
+--- Linjq rewrite here.
 
 To the best of our knowledge,
-  this work is the first protection against cache timing side channels with optimal performance.
+  this work is the first protection against cache timing side channels with quantitative performance analysis.
 The optimal performance is analyzed  theoretically and validated by experiments.
 Our contributions are as follows:
 \begin{itemize}
@@ -190,6 +195,7 @@ The scheme is algorithm-independent and need no special privilege, so it can be 
 \item
 We theoretically analyze the defense scheme and find the optimal way to use the warm and delay operation with security.
 We apply the scheme into AES and verify the security and performance both in theory and experiments.
+The optimal performance is analyzed theoretically and validated experimentally.
 \end{itemize}
 
 
