@@ -90,8 +90,11 @@ However, the extra operations are sometimes unnecessary,
 In this paper, we integrate these two countermeasure into a scheme
  that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
 Before each encryption/decryption,
-   the constant data are warmed into caches if the last encryption/decryption is not finished in the time;
- and {\scshape{Delay}} plays as the last line of defense: after the encryption/decryption,
+   the constant data are warmed into caches if the last cryptographic function invocation is not finished
+     at the expected speed.
+Because the effect of {\scshape{Warm}} may be broken by system activities,
+   {\scshape{Delay}} plays as another line of defense: after each encryption/decryption,
+     padding instructions are inserted if the execution time may be exploited to .
 Moreover, when {\scshape{Delay}} is necessary,
  Warm are performed as inserted padding instructions, to further optimize the performance.
 The proposed {\scshape{Warm+Delay}} scheme
