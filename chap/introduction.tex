@@ -139,7 +139,7 @@ So, the cost of {\scshape{Warm}} is masked by padding instructions.  % are utili
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
 Different from existing cache side channel defenses,
-   the proposed {\scshape{Warm+Delay}} scheme 
+   the proposed {\scshape{Warm+Delay}} scheme
     eliminates remote cache timing side channels
    while achieves the optimal performance (that is, \emph{no unnecessary lookup table read operations
    or inserted padding instructions}).
@@ -176,7 +176,7 @@ and it is applicable to different implementations.
 
 We implement the {\scshape{Warm+Delay}} scheme with AES-128.
 Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
-  demonstrate that, the execution time measured by attackers does not 
+  demonstrate that, the execution time measured by attackers does not
         reflect the cache misses/hits during encryption.
 We confirm the optimization in different scenarios,
  by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
@@ -185,19 +185,20 @@ We confirm the optimization in different scenarios,
 
 To the best of our knowledge,
   this work is the first protection against cache timing side channels with quantitative performance analysis.
-The {\scshape{Warm+Delay}} is 
-
-
-The optimal performance is analyzed  theoretically and validated by experiments.
 Our contributions are as follows:
 \begin{itemize}
 \item
-We present {\scshape{Warm+Delay}},
-   a defense mechanism efficiently based on warm and delay operations which are all algorithm-independent, to eliminate remote cache timing side channels.
-The scheme is algorithm-independent and need no special privilege, so it can be widely used in all block ciphers with lookup tables.
-\item
+We integrate {\scshape{Warm}} and {\scshape{Delay}} into a scheme that
+   achieves the optimal performance with the least extra operations while effectively eliminates remote cache timing side channels.
+
+The {\scshape{Warm+Delay}} scheme 
+   a defense mechanism efficiently based on warm and delay operations
+The optimal performance is analyzed  theoretically and validated by experiments.
 We theoretically analyze the defense scheme and find the optimal way to use the warm and delay operation with security.
 We apply the scheme into AES and verify the security and performance both in theory and experiments.
+\item
+    which are all algorithm-independent.
+The scheme is algorithm-independent and need no special privilege, so it can be widely used in all block ciphers with lookup tables.
 \end{itemize}
 
 
