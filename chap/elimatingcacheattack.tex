@@ -40,7 +40,7 @@ We assume an unprivileged attacker that cannot run a processes on the target sys
 This work focuses on the remote cache timing side-channel attacks, 
   which are launched with the least privileges (or capabilities) of attackers;
 %We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
-other cache timing side-channels by active attackers (such as xxxx) are out of the scope of this paper.
+other cache timing side-channels by active attackers {\color{red}(such as xxxx)} are out of the scope of this paper.
 %We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
 % And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.
 %
@@ -56,22 +56,22 @@ other cache timing side-channels by active attackers (such as xxxx) are out of t
 %
 %
 We attempt to eliminate remote cache timing side channels,
-  with the following properties: ]]]]]]]]]]]
+  with the following properties: 
 \begin{itemize}
   \item It is applicable to various block ciphers and transparent to implementations.
   The scheme is algorithm-independent and
-        works well for any implementation %of block ciphers
-           without any modifying the source code  of encryption/decryption.
+        works well for different implementations %of block ciphers
+           without modifying the source code.
 %  It doesn't need to modify the encryption algorithm code, and can be applied to all the symmetric encryption algorithm implementations based on the lookup tables.
 
   \item It requires no  privileged operations on the system.
   All operations introduced by the defense scheme, are available in common computer systems.
    It works well either in user space or kernel space,
-     to protect the cryptographic operations in user mode and kernel mode, respectively.
+     to protect the block cipher implemented in user mode and kernel mode, respectively.
   \item
    The parameters are configurable to optimize the performance.
-Then, it provides optimized performance by configuring appropriate parameters
-    for different algorithms and computing platforms.
+Then, it produces the optimal performance by configuring appropriate parameters
+    for different block-cipher implementations and computing platforms.
 \end{itemize}
 
 
@@ -105,6 +105,7 @@ Then, it provides optimized performance by configuring appropriate parameters
 % 我们的防御方案，最主要的目的是为了保护cache时间攻击，同时，对于防御方案，有一些要求，首先是要运行在用户态下，其次是要与算法无关的，可移植的，同时，防御方案对算法本身并不进行修改。再次是要能够使得在安全性保证的前提下，效率达到最大。
 % 对于cache 攻击的软件防御一般分为两种方式，消除cache miss 和 混淆cache miss，使用warm可以消除，混淆的方法有多种，可以时间扭曲，随机置换表等。但是很多方法需要对算法本身进行修改，其中使用给每次计算进行延时的方法，可以有效混淆cache miss。 我们进过仔细分析，warm可以使查找表都在cache中，从而消除cache miss，但是在实际情况中，由于cache碰撞，进程调度等原因，并不能保证查找表一定在cache中。而对于延时的方法，会严重影响AES的效率。因此，经过仔细分析，我们提出了如下防御方案，结合了warm和delay的操作，将其融合在一起。下面的例子是以AES为例，但可以被移植到其他使用查找表来实现的对称算法。
 
+]]]]]]]]]
 
 The scheme integrates two basic countermeasures against remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
     \emph{a}) {\scshape{Warm}}, load the lookup tables into caches before encryption;
@@ -121,19 +122,23 @@ The scheme integrates two basic countermeasures against remote cache timing side
 %Our scheme combines the two methods together to ensure the security and optimize the performance.
   %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
 %
-The integration follows some principles:
-\begin{enumerate}
-  \item
-    {\scshape{Warm}} is performed before the protected function while {\scshape{Delay}} is performed after the protected function.
-  \item
-    The number of {\scshape{Warm}} and {\scshape{Delay}} should be as least as possible.
-  \item
-    The integration of {\scshape{Warm}} and {\scshape{Delay}} should ensure the security of the protected function against the remote cache timing side-channel attackers.
-  %\item
-\end{enumerate}
 
-Our defense scheme focuses on the situation where a mass data are processed.
- A naive scheme can be performing {\scshape{Warm}} and {\scshape{Delay}} every time the protected function is called.
+%The integration follows some principles:
+%\begin{enumerate}
+%  \item
+%    {\scshape{Warm}} is performed before the protected function while {\scshape{Delay}} is performed after the protected function.
+%  \item
+%    The number of {\scshape{Warm}} and {\scshape{Delay}} should be as least as possible.
+%  \item
+%    The integration of {\scshape{Warm}} and {\scshape{Delay}} should ensure the security of the protected function against the remote cache timing side-channel attackers.
+%  %\item
+%\end{enumerate}
+
+Security and performance.
+Therefore, we focus on the situation where a mass data are processed,
+  where the performance matters.
+
+A naive scheme is to perform {\scshape{Warm}} and {\scshape{Delay}} every time the protected function is called.
  But obviously it will introduce many extra operations influencing the performance seriously although the security can be guaranteed.
   Then we just perform {\scshape{Delay}} when the execution time of the protected function is larger than the time without cache misses,
    and before the next execution perform {\scshape{Warm}}.
