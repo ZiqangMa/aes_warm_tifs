@@ -1,7 +1,9 @@
 \section{Eliminating Remote Cache Timing Side Channels}
 \label{sec:eliminating}
 %\vspace{-2mm}
-This section first presents the threat mode and design goals.
+--Linjq restart here.
+
+This section firstly presents the threat mode and design goals.
 Then, the {\scshape{Warm+Delay}} scheme is described,
  and we explain that it effectively eliminates remote cache timing side channels.
 
@@ -21,39 +23,40 @@ In particular,
   and the execution time depends mostly on the cache access of lookup tables.
 
 The attackers are able to
-  invoke the encryption/decryption functions arbitrarily
+  invoke the encryption function arbitrarily
   and measure the time for each invocation.
 The attackers control the invocation,
- so they can continuously invoke the functions to cache
+ so they could continuously invoke the function to cache
         all lookup tables % with a high probability,
     or invoke no function for a long time to let
-           all tables be evicted from caches, with an extreme high probability.
-We assume an unprivileged attacker that cannot run any processes on the target systems
-   to concurrently modify (or read) the cache state of the system (shared with the cryptographic engine)
- and they just can obtain the overall execution time of the block ciphers.
+           all tables be evicted from caches, with an extremely high probability.
 
+We assume an unprivileged attacker that cannot run a processes on the target systems
+   to concurrently modify (or probe) the cache state of the system, % (shared with the cryptographic engine)
+ and they just measure the overall execution time of the block ciphers.
+%In our model, the target operating system and the underlying hardware are regarded as security.
+ We expect that attackers do not have physical access to the hardware. % and cannot run any processes on the target as well.
 
-In our model, the target operating system and the underlying hardware are regarded as security.
- We expect that attackers do not have physical access to the hardware and can not run any processes on the target as well.
-  We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
-
-We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
- And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.
-
-
-
+This work focuses on the remote cache timing side-channel attacks, 
+  which are launched with the least privileges (or capabilities) of attackers;
+%We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
+other cache timing side-channels by active attackers (such as xxxx) are out of the scope of this paper.
+%We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
+% And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.
+%
+%
 % as in some attacks \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,Lauradoux2005Collision}.
-
-
+%
+%
 %require the special initial state of the cache, our scheme allows the attackers to set the initial state of the cache as they need.
-
+%
 %We assume the attackers have the ability to perform all known remote cache timing side channel attacks on the target device which adopts the conventional cache memory.
 % Therefore, the attackers are able to invoke the encryption function without any limit; have the necessary information of the target device including the cache size, the cache line size and set associativity;
 %[?? and can observe the aggregate profile of the encryption, i.e., total numbers of cache hits and misses. ??]
-
-
+%
+%
 We attempt to eliminate remote cache timing side channels,
-  with the following properties:
+  with the following properties: ]]]]]]]]]]]
 \begin{itemize}
   \item It is applicable to various block ciphers and transparent to implementations.
   The scheme is algorithm-independent and
@@ -103,9 +106,9 @@ Then, it provides optimized performance by configuring appropriate parameters
 % 对于cache 攻击的软件防御一般分为两种方式，消除cache miss 和 混淆cache miss，使用warm可以消除，混淆的方法有多种，可以时间扭曲，随机置换表等。但是很多方法需要对算法本身进行修改，其中使用给每次计算进行延时的方法，可以有效混淆cache miss。 我们进过仔细分析，warm可以使查找表都在cache中，从而消除cache miss，但是在实际情况中，由于cache碰撞，进程调度等原因，并不能保证查找表一定在cache中。而对于延时的方法，会严重影响AES的效率。因此，经过仔细分析，我们提出了如下防御方案，结合了warm和delay的操作，将其融合在一起。下面的例子是以AES为例，但可以被移植到其他使用查找表来实现的对称算法。
 
 
-Our scheme integrates two strategies to eliminate remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
-    \emph{a}) {\scshape{Warm}}, load the lookup tables into caches before the encryption/decryption operation;
-  and \emph{b}) {\scshape{Delay}},     insert padding instructions after the encryption/decryption operation.
+The scheme integrates two basic countermeasures against remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
+    \emph{a}) {\scshape{Warm}}, load the lookup tables into caches before encryption;
+  and \emph{b}) {\scshape{Delay}},     insert padding instructions after encryption.
 %These two operations cooperatively destroy the relationship between the time measured by attackers and
 %  the cache misses/hits during the execution of encryption/decryption.
 %In practice,
@@ -114,11 +117,11 @@ Our scheme integrates two strategies to eliminate remote cache timing side chann
 %     which evict lookup tables from caches.
 %Delay directly controls the time measured by attackers,
 %    but it degrades the performance significantly.
-
+%
 %Our scheme combines the two methods together to ensure the security and optimize the performance.
   %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
-
-The combination of the two strategies follows some principles:
+%
+The integration follows some principles:
 \begin{enumerate}
   \item
     {\scshape{Warm}} is performed before the protected function while {\scshape{Delay}} is performed after the protected function.

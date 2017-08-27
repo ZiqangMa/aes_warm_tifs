@@ -141,21 +141,26 @@ Typically, it takes 3 to 4 cycles for a read operation in caches,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
 %Different remote cache timing side channel attacks are proposed, and according the analysis on the execution time,
 %they can be classified into three types: the statistical attack, the Bernstein's attack and the collision attack.
-Two typical remote cache-based side channels for block ciphers are outlined as follows.
+Two typical remote cache-based side channels of block ciphers are outlined as follows.
+
+-- Linjq check here.
 
 \noindent\textbf{Internal collision attack.}
-Each cache line contains multiple lookup table entries,
- and the internal collision is used to denote accessing the entries in the same cache line.
-The internal collision attack is applied to DES, 3DES and the first round of AES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis},
- and extended to the second round and last round of AES~\cite{Ac2007Cache}.
- This attack is based on the correlation between the encryption time and the average number of cache hits (or misses).
-For AES,
+Data in caches are loaded and evicted in cache lines.
+Each cache line (64 bytes) usually contains multiple lookup table entries,
+ and accessing the entries in a same cache line is called an internal collision.
+% the internal collision is used to denote accessing the entries in the same cache line.
+The internal collision attack works for DES, 3DES and the first round of AES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis},
+ and is extended to the second and last rounds of AES~\cite{Ac2007Cache}.
+ This attack exploits the relationship between the encryption time and the number of cache hits.
+Let's take the first round of AES as an example,
 %the observation on 600-MHz Pentium III CPU, reflects that longer encryption time implies lower frequency of cache misses in the first round~\footnote{This observation depends on the CPU type and the implementation of AES.}.
-the input plaintext and the first $128$ bits of the key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$ respectively,
-the inputs of the lookup table $i$ $(0 \leq i \leq 3)$ in the first round, are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
-When any two of $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$ refer to the entries of the lookup table in the same cache line,
- a shorter encryption time appears\footnote{According to \cite{Tsunoo2003Cryptanalysis}, a longer encryption time results for the implementation~\cite{aesimp} of AES running on 600-MHz Pentium III CPUs.}.
-Then the difference of some key bits can be inferred as the values (i.e., $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$, $0 \leq j < k \leq 3$) counted most often,
+the plaintext and the round key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$, respectively,
+and the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
+When any two inputs access the lookup table entries in a same cache line,
+ it results in shorter execution time.
+ %\footnote{According to \cite{Tsunoo2003Cryptanalysis}, a longer encryption time results for the implementation~\cite{aesimp} of AES running on 600-MHz Pentium III CPUs.}.
+{\color{red}Then, the difference of some key bits is disclosed as the values (i.e., $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$, $0 \leq j < k \leq 3$) counted most often,}
    which is used to extract the secret key.
 %A cache miss occurs when the inputs of each lookup table are different.
 %In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
@@ -199,7 +204,7 @@ Then the difference of some key bits can be inferred as the values (i.e., $p_{(i
 %Considering the structure of DES, only 16 accesses are needed for each S-box during the encryption. Relatively to the 64 entries of an S-box, the number of 16 accesses is rather small, resulting in a high probability of accessing different elements of the separate S-boxes. So the authors implement the elimination table attack on a a Pentium III CPU having a cache load size of 32-bytes. As a result, the key is recovered by a success rate greater than 90\% with $2^{23}$ known plaintexts and $2^{24}$ calculations.
 
 \noindent\textbf{Bernstein's attack.}
-Bernstein's attack \cite{Bernstein2005Cache} is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on the lookup table index.
+It is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on the lookup table index \cite{Bernstein2005Cache}.
 The attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
 For each byte of the key, the attacker obtains the lookup table index ($p_i \oplus k_i$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
 Then, the attacker infers the key of the victim server, with the obtained lookup table index and known plaintexts.
@@ -284,6 +289,7 @@ Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding,
 
 The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
+]]]]]]]]]]]]
 
 %
 %AES-NI
