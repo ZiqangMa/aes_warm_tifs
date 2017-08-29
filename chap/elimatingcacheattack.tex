@@ -37,7 +37,7 @@ We assume an unprivileged attacker that cannot run a processes on the target sys
 %In our model, the target operating system and the underlying hardware are regarded as security.
  We expect that attackers do not have physical access to the hardware. % and cannot run any processes on the target as well.
 
-This work focuses on the remote cache timing side-channel attacks, 
+This work focuses on the remote cache timing side-channel attacks,
   which are launched with the least privileges (or capabilities) of attackers;
 %We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
 other cache timing side-channels by active attackers {\color{red}(such as xxxx)} are out of the scope of this paper.
@@ -56,7 +56,7 @@ other cache timing side-channels by active attackers {\color{red}(such as xxxx)}
 %
 %
 We attempt to eliminate remote cache timing side channels,
-  with the following properties: 
+  with the following properties:
 \begin{itemize}
   \item It is applicable to various block ciphers and transparent to implementations.
   The scheme is algorithm-independent and
@@ -105,8 +105,6 @@ Then, it produces the optimal performance by configuring appropriate parameters
 % 我们的防御方案，最主要的目的是为了保护cache时间攻击，同时，对于防御方案，有一些要求，首先是要运行在用户态下，其次是要与算法无关的，可移植的，同时，防御方案对算法本身并不进行修改。再次是要能够使得在安全性保证的前提下，效率达到最大。
 % 对于cache 攻击的软件防御一般分为两种方式，消除cache miss 和 混淆cache miss，使用warm可以消除，混淆的方法有多种，可以时间扭曲，随机置换表等。但是很多方法需要对算法本身进行修改，其中使用给每次计算进行延时的方法，可以有效混淆cache miss。 我们进过仔细分析，warm可以使查找表都在cache中，从而消除cache miss，但是在实际情况中，由于cache碰撞，进程调度等原因，并不能保证查找表一定在cache中。而对于延时的方法，会严重影响AES的效率。因此，经过仔细分析，我们提出了如下防御方案，结合了warm和delay的操作，将其融合在一起。下面的例子是以AES为例，但可以被移植到其他使用查找表来实现的对称算法。
 
-]]]]]]]]]
-
 The scheme integrates two basic countermeasures against remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
     \emph{a}) {\scshape{Warm}}, load the lookup tables into caches before encryption;
   and \emph{b}) {\scshape{Delay}},     insert padding instructions after encryption.
@@ -122,7 +120,7 @@ The scheme integrates two basic countermeasures against remote cache timing side
 %Our scheme combines the two methods together to ensure the security and optimize the performance.
   %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
 %
-
+%
 %The integration follows some principles:
 %\begin{enumerate}
 %  \item
@@ -133,22 +131,33 @@ The scheme integrates two basic countermeasures against remote cache timing side
 %    The integration of {\scshape{Warm}} and {\scshape{Delay}} should ensure the security of the protected function against the remote cache timing side-channel attackers.
 %  %\item
 %\end{enumerate}
+We attempt to optimize the performance while ensure the security.
+Therefore, we focus on the situation where large amounts of data are encrypted and the speed of encryption matters.
 
-Security and performance.
-Therefore, we focus on the situation where a mass data are processed,
-  where the performance matters.
+A naive scheme is to perform both {\scshape{Warm}} and {\scshape{Delay}} every time the protected cryptographic function is invoked.
+ But it introduces too many extra operations and the performance is seriously degraded, although the security is ensured.
+So we perform {\scshape{Delay}} as a backup line of defense,
+    or only when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
+         (i.e., is not equal to the expected execution time with all tables cached).
+Next,
+  when we consider that the cryptographic function is invoked continuously,
+%   and before the next execution perform {\scshape{Warm}}.
+%    In this way the performance of the scheme is much improved.
+ the time of performing {\scshape{Warm}} varies and this variation may reflect the cache access of the last encryption.
+We could evict all tables from caches before {\scshape{Warm}} to eliminate the variation, but it brings another extra overhead.
+Finally,
+    we find that,
+     the conditions to perform {\scshape{Warm}} and {\scshape{Delay}} are similar.
+That is,
+    when the execution time is greater than the expected time with all tables cached,
+        {\scshape{Delay}} is necessary to eliminate the risk and {\scshape{Warm}} is also necessary for the next encryption because probably some table entry is  uncached.
+So,
+   in our scheme, 
+   we perform {\scshape{Warm}} as a part of inserted instructions by {\scshape{Delay}},
+   if it is needed.
+   This design further improves the performance, and the variation of {\scshape{Warm}} is masked.
+%     Therefore, the time of {\scshape{Warm}} cannot be detected and we do not need to flush the cache.
 
-A naive scheme is to perform {\scshape{Warm}} and {\scshape{Delay}} every time the protected function is called.
- But obviously it will introduce many extra operations influencing the performance seriously although the security can be guaranteed.
-  Then we just perform {\scshape{Delay}} when the execution time of the protected function is larger than the time without cache misses,
-   and before the next execution perform {\scshape{Warm}}.
-    In this way the performance of the scheme is much improved.
- However, the time of performing {\scshape{Warm}} is variable and this variation can reflect the state of cache access of the last execution.
-  We can flush the cache before performing {\scshape{Warm}} to make the execution constant time, but it brings new extra overhead.
-   In our scheme, if the {\scshape{Warm}} is needed, we perform it after the last execution.
-    Thus, the time of {\scshape{Warm}} becomes part of the {\scshape{Delay}} in the last execution.
-     Therefore, the time of {\scshape{Warm}} cannot be detected and we do not need to flush the cache.
-      Also the performance of the scheme is improved further.
 %Principles. Warm before function, delay after function.
 %As least as possible.
 %Conditions are defined as time, no special privileges.
@@ -158,9 +167,12 @@ A naive scheme is to perform {\scshape{Warm}} and {\scshape{Delay}} every time t
 %then, ... improved;
 %\textbf{+++++}
 
-The proposed {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
-Given a block cipher, the execution time without cache misses ($T_{NM}$) and the worst execution time ($T_{W}$)
-  are constant on a certain platform.
+
+The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
+Given a block cipher, the execution time without cache misses (or with all tables cached, denoted as $T_{NM}$)
+ and the worst execution time with all tables uncached before encryption (and cached during encryption, denoted as $T_{W}$)
+  are constant on a certain computing platform.
+Note that, during an execution of encryption, some table entries are cached automatically.
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -188,7 +200,11 @@ Given a block cipher, the execution time without cache misses ($T_{NM}$) and the
         \end{algorithmic}
     \end{algorithm}
 
-Three operations are introduced by this defense scheme:
+
+]]]]]]]]]
+
+Three operations in addition to encryption,
+  are introduced by this defense scheme:
         \emph{a}) {\scshape{Warm()}}, cache warm by accessing lookup tables as constant data,
         \emph{b}) {\scshape{Delay()}}, delay by padding instructions,
         and \emph{c}) {\scshape{GetTime()}}, timing for the conditions of warm and delay.
@@ -198,7 +214,7 @@ Moreover, they are implementation-transparent,
 
 These operations are supported in common computer systems,
  either in user mode or kernel mode.
-The conditions of warm and delay are defined by timing.
+%The conditions of warm and delay are defined by timing.
 We do not query the status of cache lines to judge whether an entry of the lookup tables is in caches or not,
        which are unavailable on common platforms.
 
@@ -224,7 +240,7 @@ These two parameters are determined when there is no concurrent interrupts, task
 % 说明一下，为什么warm在delay之前。而不是之后。
 
 In general,
-  {\scshape{ProtectedCrypt()}} are invoked continuously in a loop, to process a great deal of data,
+  {\scshape{ProtectedCrypt()}} are invoked continuously, to process a great deal of data,
   and the performance matters in such cases.
 So {\scshape{Warm()}} takes effect in the next execution of encryption/decryption.
 Therefore,
