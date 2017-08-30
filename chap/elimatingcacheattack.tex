@@ -152,7 +152,7 @@ That is,
     when the execution time is greater than the expected time with all tables cached,
         {\scshape{Delay}} is necessary to eliminate the risk and {\scshape{Warm}} is also necessary for the next encryption because probably some table entry is  uncached.
 So,
-   in our scheme, 
+   in our scheme,
    we perform {\scshape{Warm}} as a part of inserted instructions by {\scshape{Delay}},
    if it is needed.
    This design further improves the performance, and the variation of {\scshape{Warm}} is masked.
@@ -169,10 +169,16 @@ So,
 
 
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
-Given a block cipher, the execution time without cache misses (or with all tables cached, denoted as $T_{NM}$)
- and the worst execution time with all tables uncached before encryption (and cached during encryption, denoted as $T_{W}$)
+In this algorithm,
+  there are two parameters, $T_{W}$ and $T_{NM}$.
+$T_{NM}$ is defined as the time period for one execution of encryption,
+  in the case that all lookup tables are in caches before the execution.
+$T_{W}$ is defined as the period for one execution of encryption,
+  in the case that none of table entries is cached before the execution.
+These two parameters are measured when there is no concurrent interrupts, task scheduling or other system activities.
+Given a block cipher, $T_{NM}$ and $T_{W}$
   are constant on a certain computing platform.
-Note that, during an execution of encryption, some table entries are cached automatically.
+
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -201,30 +207,18 @@ Note that, during an execution of encryption, some table entries are cached auto
     \end{algorithm}
 
 
-]]]]]]]]]
-
-Three operations in addition to encryption,
+In addition to encryption, three operations 
   are introduced by this defense scheme:
-        \emph{a}) {\scshape{Warm()}}, cache warm by accessing lookup tables as constant data,
-        \emph{b}) {\scshape{Delay()}}, delay by padding instructions,
-        and \emph{c}) {\scshape{GetTime()}}, timing for the conditions of warm and delay.
-All these operations are algorithms-independent.
-Moreover, they are implementation-transparent,
-        except that the address of lookup tables is needed in cache warm.
-
-These operations are supported in common computer systems,
+        \emph{a}) {\scshape{Warm()}}, access lookup tables as constant data,
+        \emph{b}) {\scshape{Delay()}}, insert padding instructions,
+        and \emph{c}) {\scshape{GetTime()}}, get the current time as the conditions of {\scshape{Warm()}} and {\scshape{Delay()}}.
+All these operations are algorithms-independent and implementation-transparent,
+        except that the address of lookup tables is needed in {\scshape{Warm()}}.
+These operations are supported in commodity computer systems,
  either in user mode or kernel mode.
 %The conditions of warm and delay are defined by timing.
-We do not query the status of cache lines to judge whether an entry of the lookup tables is in caches or not,
-       which are unavailable on common platforms.
-
-In this algorithm,
-  there are two constant parameters, $T_{W}$ and $T_{NM}$.
-$T_{W}$ is defined as the period for one execution of encryption/decryption,
-  in the case that none of lookup tables is cached before the execution.
-$T_{NM}$ is defined as the (possible maximal) period for one execution of encryption/decryption,
-  in the case that all lookup tables are in caches before the execution.
-These two parameters are determined when there is no concurrent interrupts, task scheduling or other system activities.
+We do not query the status of any cache line to determine whether an entry of the lookup tables is in caches or not,
+       which are generally unavailable on common computing platforms.
 
 %上面是说有两种类型的防御策略，消除cache miss 和混淆cache miss
 % 这里是想说，这些方法中有些需要修改算法实现，有些需要特权等级（内核态，或者root用户），而 warm 和delay是不需要的，满足我们的需求。
@@ -239,18 +233,20 @@ These two parameters are determined when there is no concurrent interrupts, task
 %   protected_crypt()
 % 说明一下，为什么warm在delay之前。而不是之后。
 
-In general,
-  {\scshape{ProtectedCrypt()}} are invoked continuously, to process a great deal of data,
-  and the performance matters in such cases.
-So {\scshape{Warm()}} takes effect in the next execution of encryption/decryption.
+In general,  {\scshape{ProtectedCrypt()}} are invoked continuously to process large amounts of data,
+  where the performance matters.
+So {\scshape{Warm()}} takes effect in the next execution of encryption.
 Therefore,
   if {\scshape{ProtectedCrypt()}} has been idle for a long time,
-   we suggest an additional invocation of {\scshape{Warm()}} before {\scshape{ProtectedCrypt()}},
+   we suggest an additional ``initial'' invocation of {\scshape{Warm()}} before the loop of {\scshape{ProtectedCrypt()}},
      not shown in Algorithm~\ref{alg:aesdefense}.
 Note that,
-  even if this ``initial'' warm is not performed,
-   the security is still ensured by delay and
+  even if this initial {\scshape{Warm()}}  is not performed,
+   the security is still ensured by {\scshape{Delay()}} afterward and
     the impact of performance is  negligible if the loop of {\scshape{ProtectedCrypt()}} is long enough.
+%Moreover,
+%    after an execution of encryption, some table entries are cached automatically for the next execution.
+
 
 %Programmers are advised to perform the cache warm operation once before the encryption, and it is for the performance. The function $PROTECTED\_CRYPT()$ once can just operate one block plaintext. %这里是说调用者如何调用算法。
 %Moreover, the \verb+warmup+ operations  are necessary  to provide better performance in the following two  cases where  not all the lookup tables are in the cache:
@@ -284,10 +280,13 @@ Note that,
 %\end{table}
 
 
+]]]]]]]]]
+
 
 \subsection{Security Analysis}
 %\vspace{-1mm}
-The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}}, but not {\scshape{Crypt()}}.
+The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}},
+ but not internal {\scshape{Crypt()}}.
 The cache timing side channels come from the relation between the measured execution time and the data processed;
    that is, different data (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
