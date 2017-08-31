@@ -207,7 +207,7 @@ Given a block cipher, $T_{NM}$ and $T_{W}$
     \end{algorithm}
 
 
-In addition to encryption, three operations 
+In addition to encryption, three operations
   are introduced by this defense scheme:
         \emph{a}) {\scshape{Warm()}}, access lookup tables as constant data,
         \emph{b}) {\scshape{Delay()}}, insert padding instructions,
@@ -280,18 +280,15 @@ Note that,
 %\end{table}
 
 
-]]]]]]]]]
-
-
 \subsection{Security Analysis}
 %\vspace{-1mm}
 The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}},
  but not internal {\scshape{Crypt()}}.
-The cache timing side channels come from the relation between the measured execution time and the data processed;
+The cache timing side channels result from the relation between the measured execution time and the data processed;
    that is, different data (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
-We ensure that the measured time does not leak any information about the status of cache lines,
-   and then destroy the  relationship between the execution time and data processed in encryption/decryption.
+We ensure that the measured time does not leak any exploitable information about the status of cache lines,
+   and then destroy the  relationship between the execution time and data processed during encryption.
 %In our scheme we put the cache warm operation after the encryption/decryption, So the time costs by the cache warm can be hidden.
 %这句话是想说，将warm放在加密之后，可以将warm的时间隐藏在delay中间。
 %So the attackers can gain the cache warm time. The warm time is related to the previous execution, so the attackers can infer the cache access information from it. So the cache warm operation should be after the encryption/decryption.% 这句是说如果warm放在了开始，那么如果前一次AES进行了delay的操作，需要进行warm，如果warm在这次AES 之前做，那么攻击者就能够获取到warm的时间，从而根据warm的时间推断上一次AES执行时对cache的访问情况，因为warm的时间长短就体现了访问查找表的内容。因此如果需要warm，必须在AES计算之后进行。
@@ -305,25 +302,25 @@ We ensure that the measured time does not leak any information about the status 
 
 According to Algorithm~\ref{alg:aesdefense}, the measured time, i.e., the execution time of {\scshape{ProtectedCrypt()}},
   falls into two intervals $(0, T_{NM}]$ and $[T_{W}, \infty )$.
-We prove that,
+Next, we prove that,
  no information about the status of cache lines  %lookup tables cached or data processed
   leaks through the time measured by attackers.
 \begin{itemize}
   \item \textbf{Case 1}: The execution time of {\scshape{Crypt()}} is in $(0, T_{NM}]$.
-   It is almost a fixed value for arbitrary data processed, as all tables are cached.
+   In fact, it is almost a fixed value for arbitrary data processed, as all tables are cached and the time is $T_{NM}$.
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time.%\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
   \item \textbf{Case 2}: The execution time of {\scshape{Crypt()}} is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
-    which is the execution time as all accessed lookup tables are uncached.
-    That is, the encryption/decryption is executed equivalently without any caches.
+    which is the execution time as all accessed lookup tables are uncached before encryption.
+    That is, the encryption is executed equivalently without any caches.
     In this case, the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
   \item \textbf{Case 3}: The execution time is greater than $T_{W}$.
-    It results from task scheduling or  interrupts.
+    It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
-     the running states such as interrupts, task scheduling and other system activities,
+     the running states including the system activities,
        are random and unknown to the remote attackers,
-       so the attackers cannot obtain the actual execution time of encryption/decryption to infer the keys.
+       so the attackers cannot find the actual execution time of encryption to infer the keys.
 \end{itemize}
 
 In summary,
@@ -335,8 +332,8 @@ Moreover, the  sequence of Cases 1, 2, and 3,
 In Case 1,
     the measured time is almost constant,
   and no exploitable differential information exists.
-Cases 2 and 3 happen only if encryption/decryption is interrupted
- by non-deterministic activities,
+Cases 2 and 3 happen only if encryption is interrupted
+ by non-deterministic system activities,
    and the differential information is determined by the system events but not the keys.
 
 %case 4: The attacker fails to obtain any other information from which interval the encryption time falls in.
@@ -344,8 +341,9 @@ Cases 2 and 3 happen only if encryption/decryption is interrupted
 
 %1、	通过对攻击方法的研究，攻击者进行进攻时，所依赖的是AES计算时间变化，这种变化是由于明文输入不同而导致计算时访问查找表不同，从而产生访问cache或者访问内存导致的时间变化。因此，也就是说明文输入的不同反应了AES计算时间的变化。只要能够破坏明文输入和计算时间的关系，也就是说攻击者获得的AES计算时间集合和AES的输入并不存在这种对应关系的时候，攻击就不能够进行了。
 
+
 In the following,
-we explain that our scheme successfully prevent typical remote cache timing side-channel attacks.
+we further explain that our scheme successfully prevent typical remote cache timing side-channel attacks.
 %	对各个不同类型的攻击，用我们的防御方案以后，可以获得哪些数据，通过这些数据不能够实施这些攻击。
 %通过对AES的各种cache时间攻击进行分析，可以将时间攻击分为三种典型的类型：
 %一是统计攻击：
@@ -353,12 +351,12 @@ we explain that our scheme successfully prevent typical remote cache timing side
 %对于这种攻击，最主要的是要能够获取到这么两个集合，一个是加密时间长的集合，一个是加密时间短的集合。通过我们的保护方案，攻击者能够获得到的是一个最短的加密时间，一个由于延迟而最大的加密时间，以及由于进程调度得到的非真实加密时间。首先由于进程调度得到的时间是一个干扰时间，要被排除在集合之外，其次得到最短加密时间的集合都是查找表全部在cache中时的加密时间，而并不是因为明文不同使得访问查找表不同而导致的加密时间最短，因此这个集合并不是攻击需要的集合，而对于加密时间最长的集合，也是同样的情况，攻击者获取到的集合中的加密时间，都是经过延时以后的最大加密时间，与明文输入的关系已经不存在了，故而不能够用来形成攻击。因此我们的方案可以抵抗这种类型的攻击。
 To perform the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
  the attackers need a collection of plaintexts with short (long) measured time due to cache hits (misses).
-However, protected by the {\scshape{Warm+Delay}} scheme,
-  any plaintext may be processed in the short time (i.e., $T_{NM}$) due to cache warm,
-  while any plaintext may be done in the long time (i.e., $T_{W}$) due to delay.
-Therefore, the collections depend on the non-deterministic system activities,
+However, protected by the proposed {\scshape{Warm+Delay}} scheme,
+  any plaintext is processed in the short time (i.e., $T_{NM}$) due to cache warm,
+  while it is done in the long time (i.e., $T_{W}$ or longer) due to system activities after {\scshape{Delay}}.
+Therefore, the distribution of the collections depends on the non-deterministic system activities,
    but not the data processed;
-   or, the collection contains random plaintexts and the attack results will be random.
+ or, the attack results will be random.
 
 
 
@@ -374,9 +372,9 @@ Therefore, the collections depend on the non-deterministic system activities,
 When the attackers build the time pattern for Bernstein's attack \cite{Bernstein2005Cache},
   it will be found that,
   the pattern reflects only the system activities and has nothing to do with the data processed.
-Since the system activities of target servers are different from those of the duplicated server
+Since the system activities of the target servers are different from those of the duplicated server
  and unknown to the attackers,
-  this pattern cannot be used to infer the keys.
+  this pattern cannot be used to infer the keys in the target server.
 
 %For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the T_{W} in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
 
