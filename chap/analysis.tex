@@ -15,20 +15,20 @@
 
 ]]]]]]]]]
 
-In this section, we demonstrate that our solution is optimal.
-Apply it to AES, analyze the situations that it produces the optimal performance.
-
-In principle, the basic framework of the defense strategy consists of \vwarm  and \vdelay.
- The main point is to optimize the use of \vwarm and \vdelay.
+In this section, we prove that the {\scshape{Warm+Delay}} achieves the optimal performance with the least extra operations,
+ by applying it to AES and analyzing  the situations that it produces the optimal performance.
+In the scheme,
+        the extra operations are introduced by {\scshape{Warm}} and {\scshape{Delay}},
+ so the main point is to optimize the use of {\scshape{Warm}} and {\scshape{Delay}}.
 %In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce \vwarm~(i.e., cache warm) to improve performance.
-in practice, all of the following principles need to be satisfied in order to achieve the optimal performance:
+In practice, the following principles need to be satisfied to achieve the optimal performance:
 
 \begin{itemize}
-    \item In the {\vdelay} operation, the imposed delay, or the execution time with added delay, is the shortest.
+    \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
     \item The number of {\vdelay} operations is minimum.
-    \item In the {\vwarm} operation, only minimum data is loaded into cache. % as little as possible.
+    \item In the {\vwarm} operation, only the minimum necessary data are loaded into caches. % as little as possible.
     \item The number of  {\vwarm} operations is minimum.
-    \item {\vwarm} is more efficient than {\vdelay}, \vwarm~is preferred over {\vdelay}. % than \verb+delay+.
+    \item Because {\vwarm} is much more efficient than {\vdelay},{\footnote{It is true for any computing platforms in practice; otherwise, caches are useless .}} {\vwarm} is preferred over {\vdelay}. % than \verb+delay+.
 \end{itemize}
 \textbf{[[[the above sequence shall adjusted. according to the order of the following proofs and statements]]]}
 
