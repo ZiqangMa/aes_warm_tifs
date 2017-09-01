@@ -13,8 +13,6 @@
 \subsection{Overview}
 \label{sec:eval}
 
-]]]]]]]]]
-
 In this section, we prove that the {\scshape{Warm+Delay}} achieves the optimal performance with the least extra operations,
  by applying it to AES and analyzing  the situations that it produces the optimal performance.
 In the scheme,
@@ -28,14 +26,17 @@ In practice, the following principles need to be satisfied to achieve the optima
     \item The number of {\vdelay} operations is minimum.
     \item In the {\vwarm} operation, only the minimum necessary data are loaded into caches. % as little as possible.
     \item The number of  {\vwarm} operations is minimum.
-    \item Because {\vwarm} is much more efficient than {\vdelay},{\footnote{It is true for any computing platforms in practice; otherwise, caches are useless .}} {\vwarm} is preferred over {\vdelay}. % than \verb+delay+.
+    \item Because {\vwarm} is much more efficient than {\vdelay},{\footnote{It is true for any computing platform in practice; otherwise, caches are useless in performance improvement.}} {\vwarm} is preferred over {\vdelay}. % than \verb+delay+.
 \end{itemize}
-\textbf{[[[the above sequence shall adjusted. according to the order of the following proofs and statements]]]}
 
-We examine these principles with our proposed scheme, and derive practical conditions which make it optimal. We first examine the performance of \vdelay, and then analyze the \vwarm~operation with  AES-128 with 2KB lookup tables \cite{openssl}.
- In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which leads to more \vdelay~in the future). Then we identify the best timing for the \vwarm~operation. Eventually, we derive a practical condition, so that our scheme is optimal. That is, performing warm operation when the execution time lies in $(T_{NM}, \infty)$ is the optimal method in our experiment environment.
+]]]]]]]]]
 
-Last, we promote the conclusion to different key lengths and different implementations,
+We examine these principles with our proposed scheme, and derive the practical conditions which make it optimal.
+We first examine the performance of \vdelay, and then analyze the \vwarm~operation for AES-128 with 2KB lookup tables \cite{openssl}.
+
+In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which leads to more \vdelay~in the future). Then we identify the best timing for the \vwarm~operation. Eventually, we derive a practical condition, so that our scheme is optimal. That is, performing warm operation when the execution time lies in $(T_{NM}, \infty)$ is the optimal method in our experiment environment.
+
+Last, we extend the conclusion to different key lengths and different implementations,
   and show that, the conditions are applicable to these typical key lengths and implementations.
 That is, the proposed {\scshape{Warm+Delay}} scheme achieves the optimal performance for block ciphers with lookup tables.
 
