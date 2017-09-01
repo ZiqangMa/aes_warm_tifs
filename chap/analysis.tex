@@ -16,6 +16,8 @@
 ]]]]]]]]]
 
 In this section, we demonstrate that our solution is optimal.
+Apply it to AES, analyze the situations that it produces the optimal performance.
+
 In principle, the basic framework of the defense strategy consists of \vwarm  and \vdelay.
  The main point is to optimize the use of \vwarm and \vdelay.
 %In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce \vwarm~(i.e., cache warm) to improve performance.
@@ -53,7 +55,7 @@ That is, the proposed {\scshape{Warm+Delay}} scheme achieves the optimal perform
 %然后对warm 和delay 分别进行详细证明。
 %\end{CJK}
 
-\subsection{Performance Analysis of Delay}
+\subsection{Performance Analysis of \vdelay}
 %\vspace{-2mm}
 %The analysis of \vdelay~is independent of the encryption algorithm used in the scheme.
 \begin{theorem} In the \vdelay~operation, delay to $T_{W}$ imposes the minimal overhead while effectively defending against timing side-channel attacks.\end{theorem}
@@ -77,7 +79,7 @@ When the execution time is in $(T_{NM}, T_{W})$, it is because of cache miss, OS
 %\qed
 \end{IEEEproof}
 
-\subsection{Performance Analysis of Warm}
+\subsection{Performance Analysis of \vwarm}
 %\vspace{-1mm}
 We apply the \vwd~scheme to AES-128 implemented as described in Section \ref{back:aes}.
 The \vwarm~operation is applied to the lookup tables, which consume 2KB in total.
@@ -372,7 +374,7 @@ The relation between the cache state and execution time is as follows:
 %  \item The interval between two AES executions is too large or perform AES discontinuously. %在AES不连续的时候，建议进行warm操作。
 %\end{itemize}
 
-\subsection{Other Key Lengths and Other Implementations}
+\subsection{Different Key Lengths and Implementations}
 %\vspace{-1mm}
 \label{analy:otherkey}
 %shall be discussed here!

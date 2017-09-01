@@ -3,7 +3,7 @@
 
 %This section includes some extended discussions on the {\scshape{Warm+Delay}} scheme.
 
-\subsection{Effect of Instruction Caches}
+\subsection{Instruction Cache}
 %\vspace{-1mm}
 Firstly,
   the implementation of block ciphers is not subject
@@ -145,7 +145,7 @@ Otherwise,
 
 %For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the T_{W}. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
 
-\subsection{Other Cache-based Side Channels}
+\subsection{Other Cache-based Timing Side Channels}
 Beside the timing attack,
    there are two other kinds of cache-based side-channel attacks:
     the trace-driven attack and the access-driven attack.
@@ -170,18 +170,18 @@ On the other hand,
 will be our future work.
 
 
-\subsection{Timing variations in fully warmed condition}
-In the evaluation, we use the AES implementation with a 2KB lookup table. 
+\subsection{Timing Variations with Fully Cached Lookup Tables}
+In the evaluation, we use the AES implementation with a 2KB lookup table.
  Based on the cache structure, the L1D cache of 32KB is divided into 64 cache sets and each set has 8 cache lines.
-  The 2KB lookup table takes up one cache line of 32 cache sets. 
+  The 2KB lookup table takes up one cache line of 32 cache sets.
    So we can declare a 2KB array taking up the reminder cache sets to be used as the stack, just making the address successive with the lookup table module 4096.
 
-However, when using larger lookup tables, all cache sets will be occupied by default due to the continuity of lookup tables in the RAM. 
- In these conditions, to avoid the impact of read-write of same cache sets and to be able to declare a 2KB array as the stack, first we should make the lookup tables only take up the 32 cache sets. 
+However, when using larger lookup tables, all cache sets will be occupied by default due to the continuity of lookup tables in the RAM.
+ In these conditions, to avoid the impact of read-write of same cache sets and to be able to declare a 2KB array as the stack, first we should make the lookup tables only take up the 32 cache sets.
   This can be done by making the lookup tables discontinuous.
    When using 4KB lookup tables, we can make the first address of $T_2$ the same as $T_0$ module 4096, which makes them take up the same cache sets. So 4KB lookup tables only occupy 32 cache sets and the 2KB array can take up the other 32 cache sets.
-    The same is true for 4.25KB and 5KB lookup tables. We can make them only take up 32 cache sets and leave the others for the 2KB array. 
-   
+    The same is true for 4.25KB and 5KB lookup tables. We can make them only take up 32 cache sets and leave the others for the 2KB array.
+
 
 %  to So the attackers can obtain the information of every cache line at every access.
 %Therefore, the \verb+delay+ operation, used to confuse the cache miss, is useless for the trace-driven attack.
