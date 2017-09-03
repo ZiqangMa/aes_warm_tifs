@@ -285,7 +285,7 @@ Note that,
 The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}},
  but not internal {\scshape{Crypt()}}.
 The cache timing side channels result from the relation between the measured execution time and the data processed;
-   that is, different data (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
+   that is, different data processed (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
 We ensure that the measured time does not leak any exploitable information about the status of cache lines,
    and then destroy the  relationship between the execution time and data processed during encryption.

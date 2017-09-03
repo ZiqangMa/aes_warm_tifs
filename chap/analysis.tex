@@ -34,7 +34,7 @@ We first examine the performance of \vdelay, and then analyze the {\vwarm} opera
 In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which probably leads to more {\vdelay} in the future).
 Then we identify the best condition for the {\vwarm} operation,
   and eventually derive the practical condition so that our scheme is optimal.
-That is, performing {\vwarm} when the execution time of encryption lies in $(T_{NM}, \infty)$ is the optimal 
+That is, performing {\vwarm} when the execution time of encryption lies in $(T_{NM}, \infty)$ is the optimal
  in commodity systems.
 
 Last, we extend the conclusion to different key lengths of AES and different implementations,
@@ -57,31 +57,51 @@ That is, the proposed {\scshape{Warm+Delay}} scheme achieves the optimal perform
 %然后对warm 和delay 分别进行详细证明。
 %\end{CJK}
 
-]]]]]
-
 \subsection{Performance Analysis of \vdelay}
 %\vspace{-2mm}
 %The analysis of \vdelay~is independent of the encryption algorithm used in the scheme.
-\begin{theorem} In the \vdelay~operation, delay to $T_{W}$ imposes the minimal overhead
+\begin{theorem} In the {\vdelay} operation, delay to $T_{W}$ imposes the minimal overhead
    while effectively eliminates the cache timing side channels.
 \end{theorem}
 
 \begin{IEEEproof}
-From the attackers' viewpoint, there are three types of encryption times that are useless (i.e. the execution time is independent of the plaintext input): the shortest time, $T_{W}$, and any value that is larger than $T_{W}$. The shortest time means that all the lookup tables are loaded into the cache with no cache miss during encryption. The $T_{W}$ corresponds to the longest execution path, when all lookup tables are not in the cache. When the execution time is longer than $T_{W}$, the encryption has been disturbed by the OS (e.g. scheduler or interrupt handler), and it is impossible for the attacker to find the real encryption time.
+From the attackers' point of view,
+   there are three types of measured time that are unexploitable
+    (i.e. the execution time does not reflect the cache misses/hits of \emph{specific} lookup table entries):
+    $T_{NM}$, $T_{W}$, and any value greater than $T_{W}$.
+$T_{NM}$  means that \emph{all} accessed entries are in caches before encryption.
+$T_{W}$ corresponds to the longest execution path, when all lookup tables are not cached before encryption (and they are loaded into caches as the encryption operation is performed).
+ When the measured time is longer than $T_{W}$,
+  encryption is disturbed by system activities (e.g. interrupts and task scheduling),
+   and it is impossible for the attackers to exclude the disturbance and find the exact execution time of encryption.
 
-If we delay the encryption time to a random value or a discrete value less than $T_{W}$, there still exists an observable relationship between the encryption time and the input. The remote attacker can find the relationship by excessively invoking the encryption. Therefore, delaying to $T_{W}$ imposes the shortest delay that is effective against the side-channel attacks.
+If we delay the execution time to any value less than $T_{W}$,
+ a little information about the cache access leaks.
+Or, if we delay it to a random value, which may be greater or less than $T_{W}$,
+    the attackers could exclude the results greater than $T_{W}$
+      and the other results are still exploitable.
+Such methods reduce the attack accuracy on each invocation,
+  but does not eliminate the cache timing side channels completely.
+Therefore, delay to $T_{W}$ imposes the minimal overhead 
+   while effectively eliminates the cache timing side channels.
 %\qed
 \end{IEEEproof}
 
 
-
-\begin{theorem} Performing the {\vdelay} operation when the encryption time of encryption
+\begin{theorem} Performing the {\vdelay} operation when the execution time of encryption
  is in $(T_{NM}, T_{W})$ results in the smallest number of {\vdelay} operations. % when we cannot distinguish the reason why encryption takes longer than $T_{NM}$ (cache miss or the OS scheduler and  interrupt handler).
 \end{theorem} % 这里when后的部分需要吗
 %******BL: 我也觉得后面半句可以不要，因为下文有解释。我先把这半句注释掉了
 
 \begin{IEEEproof}
-If the AES execution time is less than $T_{NM}$, it means no cache miss has occurred, so that the encryption time is independent of the input. When the observed encryption time is no less than $T_{W}$, it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
+If the execution time of encryption is equal to or less than $T_{NM}$, no cache miss occurs;
+ the execution time is independent of keys and plaintexts/ciphertexts in this case.
+
+
+]]]]]
+
+If the encryption time is greater than $T_{W}$,
+ it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
 
 When the execution time is in $(T_{NM}, T_{W})$, it is because of cache miss, OS scheduler, or interrupt handler (the overhead is less than $T_{W}$). The proposed scheme cannot distinguish the actual reason. However, the attacker can distinguish it by repeatedly invoking the encryption using the same input, and further perform timing attacks. Therefore, \vdelay~is  necessary. % in this case.
 %\qed
