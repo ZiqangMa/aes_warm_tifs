@@ -93,12 +93,17 @@ Therefore, delay to $T_{W}$ imposes the minimal overhead
 \end{theorem} % 这里when后的部分需要吗
 %******BL: 我也觉得后面半句可以不要，因为下文有解释。我先把这半句注释掉了
 
-\begin{IEEEproof}
-If the execution time of encryption is equal to or less than $T_{NM}$, no cache miss occurs;
- the execution time is independent of keys and plaintexts/ciphertexts in this case.
-
 
 ]]]]]
+
+
+\begin{IEEEproof}
+If the execution time of encryption is equal to or less than $T_{NM}$, no cache miss occurs;
+if the execution time is equal to $T_W$, ??????;
+            it is the ??
+The execution time is independent of keys and plaintexts/ciphertexts in these cases,
+  and {\vdelay} is unnecessary.
+
 
 If the encryption time is greater than $T_{W}$,
  it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
