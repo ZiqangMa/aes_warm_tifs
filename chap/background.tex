@@ -11,7 +11,7 @@ AES is a popular block cipher with
 AES encryption (or decryption) consists of a certain round of transformations
  and the number depends on the key length.
 Each round transformation consists of \texttt{SubBytes}, \texttt{ShiftRows},
- \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state.\footnote{The last round performs \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey} only.}
+ \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state.\footnote{The last round of AES performs only \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey}.}
 % 应该能够说明：包括了什么操作？某些操作用了lookup table，就是访问data；lookup table是与key/data有关系。
 % 别的操作，是什么？能够让大家觉得不会有timing差异产生。
 These steps except \texttt{AddRoundKey},
