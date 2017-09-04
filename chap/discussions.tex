@@ -145,30 +145,6 @@ Otherwise,
 
 %For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the T_{W}. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
 
-\subsection{Other Cache-based Timing Side Channels}
-Beside the timing attack,
-   there are two other kinds of cache-based side-channel attacks:
-    the trace-driven attack and the access-driven attack.
-Firstly,
-  both of these attacks require special privileges on the target system.
-During the execution of encryption/decryption,
-  the trace-driven attackers monitor the variations of electromagnetic fields or power
-  to capture the profile of cache activities and deduce cache hits and misses
-  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace},
-  while the access-driven attackers run a spy process on the target server accessing shared caches,
-   to infer the cache status periodically \cite{Neve2006Advances,Osvik2006Cache,Gullasch2011Cache,Irazoqui2014Wait}.
-The attackers with such privileges are not considered in our scheme,
-  and will be considered in our future work.
-
-
-In principle, delay is not effective for trace-driven and access-driven attacks,
-because cache misses and hits exist during the execution of encryption/decryption.
-On the other hand,
-  warm is effective for these attacks,
-  provided that the cached lookup tables are not evicted by system activities or the local spy process.
-
-will be our future work.
-
 
 \subsection{Timing Variations with Fully Cached Lookup Tables}
 In the evaluation, we use the AES implementation with a 2KB lookup table.
@@ -210,4 +186,28 @@ However, when using larger lookup tables, all cache sets will be occupied by def
 
 
 
+
+\subsection{Other Cache-based Timing Side Channels}
+Beside the timing attack,
+   there are two other kinds of cache-based side-channel attacks:
+    the trace-driven attack and the access-driven attack.
+Firstly,
+  both of these attacks require special privileges on the target system.
+During the execution of encryption/decryption,
+  the trace-driven attackers monitor the variations of electromagnetic fields or power
+  to capture the profile of cache activities and deduce cache hits and misses
+  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace},
+  while the access-driven attackers run a spy process on the target server accessing shared caches,
+   to infer the cache status periodically \cite{Neve2006Advances,Osvik2006Cache,Gullasch2011Cache,Irazoqui2014Wait}.
+The attackers with such privileges are not considered in our scheme,
+  and will be considered in our future work.
+
+
+In principle, delay is not effective for trace-driven and access-driven attacks,
+because cache misses and hits exist during the execution of encryption/decryption.
+On the other hand,
+  warm is effective for these attacks,
+  provided that the cached lookup tables are not evicted by system activities or the local spy process.
+
+will be our future work.
 
