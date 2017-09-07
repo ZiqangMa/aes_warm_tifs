@@ -134,11 +134,12 @@ In order to ensure these operations are not obsoleted
  the variables are declared with the keyword \verb+volatile+.
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay()}}.}
-The system calls such as \verb+usleep()+ and \verb+nanosleep()+,
-   are not satisfied with the accuracy requirement,
-   and they switch the state of AES execution process to {TASK\_INTERRUPTIBLE}, which may make the lookup tables evicted from caches. increase the probability.
-We implement the {\vdelay} operation
- by executing xor repeatedly, achieving a high precision without modifying the cache state.
+The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
+   do not satisfy the resolution requirement,
+   and they switch the process state to {TASK\_INTERRUPTIBLE}, which may cause the lookup tables to be evicted from caches.
+On the contrary,   
+   we implement the {\vdelay} operation
+ by executing XOR repeatedly as follows, achieving a high resolution without modifying the cache state.
 We measure the time cost for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50).
 The relation between the time delayed  and the loop number of \verb+xor+ instruction is calculated through the least squares method. The equation is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
 The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
