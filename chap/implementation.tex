@@ -2,26 +2,32 @@
 \label{sec:implementationEvalution}
 %更多的细节考虑，应该放在这里
 %\vspace{-1mm}
-The evaluation platform is a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
- This CPU has $4$ cores and each core has a $32$KB L1 data cache. The operating system is 32-bit Linux with kernel version 3.6.2.
-
 [[[[[Linjq start here!!
+
+We evaluate the  scheme on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
+ This CPU has $4$ cores and each core has $32$KB L1 data caches,
+  and the operating system is 32-bit Linux with kernel version 3.6.2.
 
 \subsection{Implementation}
 
 %\vspace{-1mm}
 % AES  mbed TLS-2.4.2
 %In this section,
-We apply the {\scshape{Warm+Delay}} scheme to AES-128. %to validate the security and evaluate the performance.
-The implementation of AES employs the OpenSSL-1.0.2c~\cite{openssl} with a 2K lookup table.
-As we aim to provide the optimized performance while eliminating remote cache timing side
-channels, efficient {\scshape{GetTime()}}, {\scshape{Warm()}} and {\scshape{Delay()}}
+We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K lookup table, %to validate the security and evaluate the performance.
+  which is directly borrowed from OpenSSL-1.0.2c \cite{openssl}.
+As we attempt to optimize performance while eliminate remote cache timing side channels,
+ efficient {\scshape{GetTime()}}, {\scshape{Warm()}} and {\scshape{Delay()}}
   are finished;
 and the constant parameters ($T_{NM}$ and $T_{W}$) are determined properly.
  Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
 
+]]]]]
+
 \vspace{1mm}\noindent\textbf{AES implementation.}
-Even when all lookup tables are in the L1 cache, the encryption time still has some variations(Figure~\ref{fig:fullwarmese-diffinput}). There are two main reasons. One is the cache bank conflict. Each cache bank can only serve one request at a time. So, multiple accesses to the same cache bank are slower than to different banks. The other is read-write conflict that the load from L1 cache takes slightly more time if it involves the same set of cache lines as a recent store.
+
+
+
+Even when all lookup tables are in the L1 cache, the encryption time still has some variations (Figure~\ref{fig:fullwarmese-diffinput}). There are two main reasons. One is the cache bank conflict. Each cache bank can only serve one request at a time. So, multiple accesses to the same cache bank are slower than to different banks. The other is read-write conflict that the load from L1 cache takes slightly more time if it involves the same set of cache lines as a recent store.
 These variations can be exploited by attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
 
 For the cache bank conflict,
