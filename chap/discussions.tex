@@ -28,7 +28,7 @@ Similarly,
  we determine  $T_{W}$ as the execution time
   when all instructions are not in instruction caches (and all lookup tables are not in data caches).
 Otherwise,
- the measured time may also leak some information about data cache access.
+ the measured time might also leak some information about data cache access.
 
 %As the instructions are loaded into the cache per block in size of **** Byte, while the size of AES encryption is *** Byte, we can add a lightweight function before the AES encryption, which is invoked before every AES encryption to avoid instruction cache miss during the AES execution.
 
