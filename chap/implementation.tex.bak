@@ -106,11 +106,24 @@ Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution 
 \end{figure}
 
 
-\noindent\textbf{{\scshape{Warm()}}.}
+\vspace{1mm}\noindent\textbf{{\scshape{Warm()}}.}
 It accesses all blocks of the lookup table to load them into L1D cache and every time access one byte of each block of 64 bytes (i.e., the size of one cache line).
 In order to prevent the compiler optimization, the variables in the function are declared with keyword \verb+volatile+.
 
-\noindent\textbf{{\scshape{GetTime()}}.}
+\vspace{1mm}\noindent\textbf{{\scshape{Delay()}}.}
+The \verb+usleep()+ and \verb+nanosleep()+ are inappropriate, as they don't have enough accuracy, and they switch the state of AES execution process to {TASK\_INTERRUPTIBLE}, which may make the lookup tables evicted from caches.
+We provide a new delay operation by executing xor instruction repeatedly, achieving a high precision without modifying the cache state.
+We measure the time cost for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50).
+The relation between the time delayed  and the loop number of \verb+xor+ instruction is calculated through the least squares method. The equation is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
+The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
+Implementation of {\scshape{Delay()}} is provided in Listing 1.1.
+
+Besides, the cost of \verb+RDTSCP+ is 36 cycles which is larger than the comparison operation.
+To achieve better performance,  we perform {\scshape{GetTime()}} only when $delay - start < T_{W}$,
+   instead of every time after {\scshape{Warm()}}.
+In this way, if the input of {\scshape{Delay()}} is less than zero, it simply returns.
+
+\vspace{1mm}\noindent\textbf{{\scshape{GetTime()}}.}
 %The function in Listing 1.1 returns the current time in high precision (e.g. in clock cycles) with low cost.
 We adopt the instruction \verb+RDTSCP+ to implement {\scshape{GetTime()}}, to obtain the current time in high precision (clock cycles) with low cost.
 %The instruction \verb+RDTSCP+ has high precision (in clock cycle) and is adopted in our implementation.
@@ -167,26 +180,13 @@ volatile int delay(uint64_t t_delay){
 }
 \end{lstlisting}
 
-\noindent\textbf{{\scshape{Delay()}}.}
-The \verb+usleep()+ and \verb+nanosleep()+ are inappropriate, as they don't have enough accuracy, and they switch the state of AES execution process to {TASK\_INTERRUPTIBLE}, which may make the lookup tables evicted from caches.
-We provide a new delay operation by executing xor instruction repeatedly, achieving a high precision without modifying the cache state.
-We measure the time cost for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50).
-The relation between the time delayed  and the loop number of \verb+xor+ instruction is calculated through the least squares method. The equation is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
-The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
-Implementation of {\scshape{Delay()}} is provided in Listing 1.1.
 
-Besides, the cost of \verb+RDTSCP+ is 36 cycles which is larger than the comparison operation.
-To achieve better performance,  we perform {\scshape{GetTime()}} only when $delay - start < T_{W}$,
-   instead of every time after {\scshape{Warm()}}.
-In this way, if the input of {\scshape{Delay()}} is less than zero, it simply returns.
-
-
-\noindent\textbf{$\mathbf{T_{W}}$.}
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{W}}$.}
 before measure $T_{W}$, we flush both the data and instructions out of L1/2/3 caches, so $T_{W}$ is the worst AES execution time and unrelated to the cache states.
 $T_{W}$ is 2834 CPU cycles in this case.
 
 
-\noindent\textbf{$\mathbf{T_{NM}}$.}
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{NM}}$.}
 $T_{NM}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
 and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
