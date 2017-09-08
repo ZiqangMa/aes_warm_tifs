@@ -26,7 +26,14 @@ As mentioned above, we use the AES-128 implementation of OpenSSL-1.0.2c.
 However, even when all lookup tables are in the L1 cache,
   the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
 ]]]]]]]]]]]]
-There are two reasons. One is the cache bank conflict. Each cache bank can only serve one request at a time.
+There are two reasons. One is the cache bank conflict. 
+Cache bank is designed to improve the processor performance by Intel. 
+To alleviate the issue, Intel introduced a cache
+design consisting of multiple banks. Each of the banks
+serves part of the cache line specified by the offset in the
+cache line. The banks can operate independently and serve
+requests concurrently.
+But each cache bank can only serve one request at a time.
 So, multiple accesses to the same cache bank are slower than to different banks.
 For the cache bank conflict,
  we first disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1 cache.
@@ -129,7 +136,7 @@ In the implementation, we need to perform the following operations to achieve th
 \vspace{1mm}\noindent\textbf{{\scshape{Warm()}}.}
 It loads all entries of the lookup table into the L1D cache
    by accessing one byte of each block of 64 bytes (i.e., the size of one cache line).
-In order to ensure these operations are not obsoleted 
+In order to ensure these operations are not obsoleted
   due to the compiler optimization,
  the variables are declared with the keyword \verb+volatile+.
 

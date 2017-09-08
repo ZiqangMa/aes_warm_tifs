@@ -127,8 +127,8 @@ that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 ]]]]]]]]]]]]]]]
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
-\begin{theorem}\label{theorm:warmall} 
-For \vwarm operation, if there exists $N>0$ making the time saved by not warming $N$ cache lines larger than the expected overhead of invoking \vdelay, not warming $N$ cache lines provides better performance. Otherwise, loading all lookup tables into the cache is the best. 
+\begin{theorem}\label{theorm:warmall}
+For \vwarm operation, if there exists $N>0$ making the time saved by not warming $N$ cache lines larger than the expected overhead of invoking \vdelay, not warming $N$ cache lines provides better performance. Otherwise, loading all lookup tables into the cache is the best.
 \end{theorem}
 \begin{IEEEproof}
 In AES, {\vwarm}  loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
@@ -205,7 +205,12 @@ For example, loading all AES lookup tables needs 5KB, while loading all tables f
 %How about Intel CPU, ARM CPU? L1D cache size?
 
 %************************************·Ö¸ô·û******************************************
-\begin{theorem}\label{lemma:warmaftermiss} For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.\end{theorem}
+%\begin{theorem}\label{lemma:warmaftermiss}
+%For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
+%\end{theorem}
+\begin{theorem}\label{lemma:warmaftermiss}
+$t_{delay}$ is the time to perform \vdelay while $t_{warm}$ is the time to perform \vwarm. Let $k=t_{delay} / t_{warm}$, so in the condition that $1 \leq k \leq k_{0}$($k_{0}$ is in Equation~\ref{equ:kzero}), performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time.
+\end{theorem}
 \begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
 %Thus, a naive solution would be performing the {\vwarm}  operation to load all the lookup tables into the cache before every AES execution, that is we perform the {\vwarm}  operation each time, which is proved to introduce more extra time later.
@@ -272,22 +277,27 @@ We use $k=t_{delay} / t_{warm}$, so $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k 
 k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}*P_{delay}*(1-P_{delay})}
 \end{equation}
 
+\end{IEEEproof}
+
 %$T^{p} > T^{C}$.
+\begin{corollary}
+Performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
+\end{corollary}
 From Equation~\ref{equ:kzero}, if we regard $k_{0}$ as the function of $P_{evict}$, we can get that $k_{0}$ is a monotony decrease function when $P_{delay} \geq 0.5$. That is when $P_{evict} = 1$, $k_{0}$ gets the minimum value.
 Also if we regard $k_{0}$ as the function of $P_{delay}$, we can get that $k_{0}$ is a monotony increase function when $P_{delay} \geq 0.5$ for arbitrary $P_{evict}$.
 
 From Equation~\ref{equ:delay}, we get $P_{delay} \geq 0.994$.
 So the minimum value $k_{0} = 336.3$ when $P_{evict} = 1$.(The range of $k_{0}$ is listed in  Table~\ref{tbl:kvalue} when $P_{delay} = 0.994$)
  When $P_{delay}$ gets larger, $k_{0}$ gets larger. %, which will cause the range of $k$ to increase correspondingly.
-For example, in the environment described in Section~\ref{sec:performanceproof},
+In the environment described in Section~\ref{sec:performanceproof},
 the maximum of $t_{delay}$ is $2525.00$ cycles,
 the minimum of $t_{warm}$ is $124$ cycles (accessing the lookup tables from caches).
 The maximum of $t_{warm}$ is $1781.60$ when all the lookup tables in RAM.
 Therefore, the range of $k$ is: $1 < k < 20.36$ satisfying the condition of $E(T^{p}) > E(T^{c})$.
 %Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
-Therefore, the  conditional {\vwarm}  provides  better performance than the probabilistic \vwarm.
+Therefore, the  conditional {\vwarm}  provides  better performance than the probabilistic \vwarm, that is performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 %\qed
-\end{IEEEproof}
+%\end{IEEEproof}
 
 
 \begin{table*}[t]%[!hbt]
