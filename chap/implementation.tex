@@ -27,12 +27,10 @@ However, even when all lookup tables are in the L1 cache,
   the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
 ]]]]]]]]]]]]
 There are two reasons. One is the cache bank conflict. 
-Cache bank is designed to improve the processor performance by Intel. 
-To alleviate the issue, Intel introduced a cache
-design consisting of multiple banks. Each of the banks
-serves part of the cache line specified by the offset in the
-cache line. The banks can operate independently and serve
-requests concurrently.
+Cache bank is designed to improve the processor performance. 
+Intel introduced a cache design consisting of multiple banks. 
+Each of the banks serves part of the cache line specified by the offset in the cache line. 
+The banks can operate independently and serve requests concurrently.
 But each cache bank can only serve one request at a time.
 So, multiple accesses to the same cache bank are slower than to different banks.
 For the cache bank conflict,
@@ -49,24 +47,24 @@ The starting address of the array is made next to the lookup table module 4096, 
 Finally,
  the distribution of the AES encryption time is shown in Figure~\ref{fig:fullwarmbest}.
 %Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution that the first address of the array is the same as the lookup table module 4096.
-\begin{figure}[t]
-\centering
-%\subfigure[different inputs]{
+%\begin{figure}[t]
 %\centering
-%\begin{minipage}[b]{0.6\textwidth}
-\includegraphics[width=0.4\textwidth]{pic/TWOCM_allwarm.pdf}
-%\includegraphics[width=2.5in]{pic/TWOCM_allwarm.pdf}
-%\end{minipage}
-%}
-%\subfigure[same inputs]{
-%\centering
-%\begin{minipage}[b]{0.6\textwidth}
-%\includegraphics[width=1\textwidth]{pic/fullwarmsin.pdf}
-%\label{fig:fullwarmese-sameinput}
-%\end{minipage}
-%}
- \caption{The distribution of AES encryption time in full warm condition.} \label{fig:fullwarmese-diffinput}
-\end{figure}
+%%\subfigure[different inputs]{
+%%\centering
+%%\begin{minipage}[b]{0.6\textwidth}
+%\includegraphics[width=0.4\textwidth]{pic/TWOCM_allwarm.pdf}
+%%\includegraphics[width=2.5in]{pic/TWOCM_allwarm.pdf}
+%%\end{minipage}
+%%}
+%%\subfigure[same inputs]{
+%%\centering
+%%\begin{minipage}[b]{0.6\textwidth}
+%%\includegraphics[width=1\textwidth]{pic/fullwarmsin.pdf}
+%%\label{fig:fullwarmese-sameinput}
+%%\end{minipage}
+%%}
+% \caption{The distribution of AES encryption time in full warm condition.} \label{fig:fullwarmese-diffinput}
+%\end{figure}
 
 %\begin{figure}[t]
 %\centering
@@ -105,10 +103,10 @@ Finally,
 %    \end{minipage}
 %    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition..}%n张图片共享的说明
 \centering
-\subfloat[the worst case]{\includegraphics[width=2.5in]{pic/fwopensslworst.pdf}
+\subfloat[in normal case]{\includegraphics[width=2.8in]{pic/TWOCM_allwarm.pdf}
 \label{fig:fullwarmworst}}
 \vfil
-\subfloat[the best case]{\includegraphics[width=2.5in]{pic/fwopensslbest.pdf}
+\subfloat[the best case]{\includegraphics[width=2.8in]{pic/fwopensslbest.pdf}
 \label{fig:fullwarmbest}}
 \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
 \end{figure}
