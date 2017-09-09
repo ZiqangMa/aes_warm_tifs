@@ -82,7 +82,7 @@ Or, if we delay it to a random value, which may be greater or less than $T_{W}$,
       and the other results are still exploitable.
 Such methods reduce the attack accuracy on each invocation,
   but does not eliminate the cache timing side channels completely.
-Therefore, delay to $T_{W}$ imposes the minimal overhead 
+Therefore, delay to $T_{W}$ imposes the minimal overhead
    while effectively eliminates the cache timing side channels.
 %\qed
 \end{IEEEproof}
@@ -97,7 +97,7 @@ Therefore, delay to $T_{W}$ imposes the minimal overhead
 \begin{IEEEproof}
 As described above,
  if the execution time of encryption is equal to or less than $T_{NM}$, no cache miss occurs,
-  and 
+  and
 if the execution time is equal to $T_W$ or greater, it is unexploitable.
 The execution time is independent of keys and plaintexts/ciphertexts in these cases,
   so {\vdelay} is unnecessary.
@@ -126,7 +126,10 @@ that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 
 ]]]]]]]]]]]]]]]
 
-\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
+%\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
+\begin{theorem}\label{theorm:warmall}
+For \vwarm operation, if there exists $N>0$ making the time saved by not warming $N$ cache lines larger than the expected overhead of invoking \vdelay, not warming $N$ cache lines provides better performance. Otherwise, loading all lookup tables into the cache is the best.
+\end{theorem}
 \begin{IEEEproof}
 In AES, {\vwarm}  loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
 cache miss may happen, which will in turn trigger {\vdelay}  operation. Therefore, the benefit of not loading $N$ ($N>0$) cache lines of lookup tables is the saved loading time in \vwarm, while the potential cost is the added time due to \vdelay. In the following, we will prove that the expected cost is greater than the benefit, regardless of $N$.
@@ -185,10 +188,14 @@ The average time saved by not loading one cache line from RAM is denoted as $t_{
 \end{table*}
 
 Therefore, we have: (1) if there exists $N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (2) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
-
-In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 %\qed
 \end{IEEEproof}
+
+\begin{corollary}
+Loading all the AES lookup tables into the cache is the best \vwarm operation for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
+\end{corollary}
+In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
+
 
 In our {\scshape{Warm+Delay}} scheme, we perform \vwarm  after the AES execution. If the execution time is less than the $T_{W}$, we perform {\vwarm}  and then \vdelay. Therefore, the time of {\vwarm}  becomes part of delay. In this case, the overhead of \vwarm is further reduced. When this case occurs, the extra time reduced by not warming some cache line is zero, if the AES execution time plus {\vwarm}  time is less than $T_{W}$. Otherwise, the extra overhead (e.g. overhead beyond $T_{W}$) is still less than \vwarm. In this situation, warming all cache lines is still the better choice.% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
@@ -198,7 +205,12 @@ For example, loading all AES lookup tables needs 5KB, while loading all tables f
 %How about Intel CPU, ARM CPU? L1D cache size?
 
 %************************************分隔符******************************************
-\begin{theorem}\label{lemma:warmaftermiss} For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.\end{theorem}
+%\begin{theorem}\label{lemma:warmaftermiss}
+%For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
+%\end{theorem}
+\begin{theorem}\label{lemma:warmaftermiss}
+$t_{delay}$ is the time to perform \vdelay while $t_{warm}$ is the time to perform \vwarm. Let $k=t_{delay} / t_{warm}$, so in the condition that $1 \leq k \leq k_{0}$($k_{0}$ is in Equation~\ref{equ:kzero}), performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time.
+\end{theorem}
 \begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
 %Thus, a naive solution would be performing the {\vwarm}  operation to load all the lookup tables into the cache before every AES execution, that is we perform the {\vwarm}  operation each time, which is proved to introduce more extra time later.
@@ -265,22 +277,27 @@ We use $k=t_{delay} / t_{warm}$, so $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k 
 k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}*P_{delay}*(1-P_{delay})}
 \end{equation}
 
+\end{IEEEproof}
+
 %$T^{p} > T^{C}$.
+\begin{corollary}
+Performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
+\end{corollary}
 From Equation~\ref{equ:kzero}, if we regard $k_{0}$ as the function of $P_{evict}$, we can get that $k_{0}$ is a monotony decrease function when $P_{delay} \geq 0.5$. That is when $P_{evict} = 1$, $k_{0}$ gets the minimum value.
 Also if we regard $k_{0}$ as the function of $P_{delay}$, we can get that $k_{0}$ is a monotony increase function when $P_{delay} \geq 0.5$ for arbitrary $P_{evict}$.
 
 From Equation~\ref{equ:delay}, we get $P_{delay} \geq 0.994$.
 So the minimum value $k_{0} = 336.3$ when $P_{evict} = 1$.(The range of $k_{0}$ is listed in  Table~\ref{tbl:kvalue} when $P_{delay} = 0.994$)
  When $P_{delay}$ gets larger, $k_{0}$ gets larger. %, which will cause the range of $k$ to increase correspondingly.
-For example, in the environment described in Section~\ref{sec:performanceproof},
+In the environment described in Section~\ref{sec:performanceproof},
 the maximum of $t_{delay}$ is $2525.00$ cycles,
 the minimum of $t_{warm}$ is $124$ cycles (accessing the lookup tables from caches).
 The maximum of $t_{warm}$ is $1781.60$ when all the lookup tables in RAM.
 Therefore, the range of $k$ is: $1 < k < 20.36$ satisfying the condition of $E(T^{p}) > E(T^{c})$.
 %Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
-Therefore, the  conditional {\vwarm}  provides  better performance than the probabilistic \vwarm.
+Therefore, the  conditional {\vwarm}  provides  better performance than the probabilistic \vwarm, that is performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 %\qed
-\end{IEEEproof}
+%\end{IEEEproof}
 
 
 \begin{table*}[t]%[!hbt]
