@@ -124,15 +124,15 @@ We show that, in this case, the {\scshape{Warm+Delay}} scheme produces the best 
 that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
-Denote the size of a cache line as $C$, 
+Denote the size of a cache line as $C$,
     the size of the lookup table as $L$ ($L \gg C$),
     and the time cost to load a cache line as $T_{cl}$,
   So we have the following theorem,
   for an AES implementation of $R$ rounds.
 
-%The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$, 
+%The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
 
-  
+
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
 \begin{theorem}\label{theorm:warmall}
@@ -150,11 +150,11 @@ Not loading $N$ ($N>0$) cache lines of table entries saves the execution time of
  while the potential cost is the extra execution of \vdelay.
 
 Firstly, the cost of loading data into $N$ cache lines in the {\vwarm} operation is $N T_{cl}$.
- 
+
 ]]]]]]]]]]]]]]]
 
 %In AES, {\vwarm}  loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
-% cache miss may happen, which will in turn trigger {\vdelay}  operation. Therefore, 
+% cache miss may happen, which will in turn trigger {\vdelay}  operation. Therefore,
 
 %For {\vwarm} operation, if there exists $N>0$ making the time saved by not warming $N$ cache lines larger than the expected overhead of invoking {\vdelay}, not warming $N$ cache lines provides better performance. Otherwise, loading all lookup tables into the cache is the best.
 
@@ -218,8 +218,8 @@ then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}
    \end{tabular}
 \end{table*}
 
-Therefore, we have: (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. 
- 
+Therefore, we have: (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
+
  (2) if there $\exists N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
 %\qed
 \end{IEEEproof}
@@ -318,7 +318,7 @@ k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}
 %$T^{p} > T^{C}$.
 \begin{corollary}
 Performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time,
- in commodity computer systems. 
+ in commodity computer systems.
 \end{corollary}
 
 for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
