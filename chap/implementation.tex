@@ -149,19 +149,19 @@ On the contrary,
    we implement the {\vdelay} operation
  by executing XOR repeatedly as follows, achieving a high resolution without modifying the cache state.
 
-\begin{figure}[t]
+\begin{figure}[!t]
     \centering
     \includegraphics[width=0.5\textwidth]{pic/delay.pdf}\\
     \caption{AES execution performance in different scenarios.}
     \label{pic:delay} %% label for entire figure
 \end{figure}
 
-We measure the time for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50), as shown in \figurename~\ref{pic:delay}.
-The relation between the time delayed ($T_d$) and the loop number of \verb+xor+ instruction ($n$) is calculated through the least squares method. The result is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
+We measure the time for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
+The relation between the time delayed ($T_d$) and the loop number of \verb+xor+ instruction ($n$) is calculated through the least squares method. The result is $t_{delay} = 2.9886n + 15.68$, and the coefficient of determination is 0.99996.
 The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
 Implementation of {\scshape{Delay()}} is provided in Listing 1.
-If the input of {\scshape{Delay()}} is less than zero, it simply returns.
-????
+We do not use a table of $t_{delay}$ and $n$ with the purpose of reducing the use of caches in our scheme.
+
 
 
 %(3) using \verb+RDTSC+ alone will not prevent the CPU from reordering it, we add \verb+CPUID+ instruction, a serializing call,   before \verb+RDTSC+ to avoid the reordering.
@@ -205,7 +205,7 @@ framexleftmargin=2pt
 
 \begin{lstlisting}[caption={{The implementation of {\scshape{Delay()}}.}}]
 volatile int delay(uint64_t t_delay){
-    uint64_t n = (double)t_delay>12.886 ? (uint64_t)((double)t_delay/2.995-4.302) : 0;
+    uint64_t n = (double)t_delay>15.68 ? (uint64_t)((double) t_delay/2.9886-5.2466) : 0;
     for (; n>0; n--)
         asm volatile ("xor %%eax, %%eax;" : : : "%eax");
 }
