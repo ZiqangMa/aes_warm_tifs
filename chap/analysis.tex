@@ -60,7 +60,8 @@ That is, the proposed {\scshape{Warm+Delay}} scheme achieves the optimal perform
 \subsection{Performance Analysis of \vdelay}
 %\vspace{-2mm}
 %The analysis of {\vdelay}  is independent of the encryption algorithm used in the scheme.
-\begin{theorem} In the {\vdelay} operation, delay to $T_{W}$ imposes the minimal overhead
+\begin{theorem}
+\label{delay2tw} In the {\vdelay} operation, delay to $T_{W}$ imposes the minimal overhead
    while effectively eliminates the cache timing side channels.
 \end{theorem}
 
@@ -135,22 +136,29 @@ Denote the size of a cache line as $C$,
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
 \begin{theorem}\label{theorm:warmall}
-If $N T_{nc} < E(T_{delay})$ for any $N > 0$,
+If $\Delta T_{warm} < E(T_{delay})$ for any $\frac{L}{C} \geq N > 0$,
  then loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
  than any part of entries,
-where $E(T_{delay}) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
+where $\Delta T_{warm} = N T_{cl}$ and $E(T_{delay}) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
 \end{theorem}
 
 \begin{IEEEproof}
 It takes $T_{cl}$ to load data into a cache line in the {\vwarm} operation;
  on the other hand,
  if some entry is uncached, it may trigger an extra {\vdelay} operation.
-Not loading $N$ ($N>0$) cache lines of table entries saves the execution time of \vwarm,
+Not loading $N$ ($\frac{L}{C} \geq N > 0$) cache lines of table entries saves the execution time of \vwarm,
  while the potential cost is the extra execution of \vdelay.
 
-Firstly, the cost of loading data into $N$ cache lines in the {\vwarm} operation is $N T_{cl}$.
+Since $L \gg C$, we needs $L/C$ cache lines to hold the lookup table.
+In each round of AES encryption,
+ the lookup table is accessed for $16$ times.
+We assume that, in each round, the input of \texttt{SubBytes} is random and then
+    each table entry is accessed  uniformly.
+Hence,
+ the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption (denoted as $P_{N}$),
+  is $P_N = (1-\frac{NC}{L})^{16 R}$.
 
-]]]]]]]]]]]]]]]
+
 
 %In AES, {\vwarm}  loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
 % cache miss may happen, which will in turn trigger {\vdelay}  operation. Therefore,
@@ -158,37 +166,87 @@ Firstly, the cost of loading data into $N$ cache lines in the {\vwarm} operation
 %For {\vwarm} operation, if there exists $N>0$ making the time saved by not warming $N$ cache lines larger than the expected overhead of invoking {\vdelay}, not warming $N$ cache lines provides better performance. Otherwise, loading all lookup tables into the cache is the best.
 
 
+%For AES with 2KB lookup table implementation, it just use one lookup table $L_{2k}$ with 2KB.
+%For a cache line utilized by AES look up tables, the probability that it loads $T_{0}, T_{1}, T_{2}, T_{3}$ is $16/17$, while the probability it loads the content of $T_{4}$ is $1/17$.
+
+%Therefore, the probability that a certain cache line of $L_{2k}$ is not accessed in all rounds is $P_{1} = (1-\frac{C}{L})^{160}$.
+%The expected probability that any cache line is not accessed in one AES execution is $P_{e} = \frac{16}{17}P_{0-3}+ \frac{1}{17}P_{4}$.
+If a table entry is uncached but accessed during the execution of AES encryption,
+   the execution time is greater than $T_{NM}$ and {\vdelay} is performed.
+Therefore, provided that $N$ cache lines of table entries are not in caches,
+    the probability of {\vdelay} is listed as follows.
+
+  \begin{equation}
+  \label{equ:delay}
+ P_{delay} = 1- (1-\frac{NC}{L})^{16 R}
+\end{equation}
+
+The execution time shall be $T_W$ according to Theorem \ref{delay2tw},
+ while it is $T_{NM}$ if all entries are in caches.
+So the expected overhead (or the time cost) of extra {\vdelay} due to not loading $N$ cache lines of table entries is
+
 \begin{eqnarray}
  \label{equ:tdelay}
 &E(T_{delay})&={ } P_{delay} * (T_{W}-T_{NM})  \nonumber \\
 &&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})
 \end{eqnarray}
 
-%For AES with 2KB lookup table implementation, it just use one lookup table $L_{2k}$ with 2KB.
-The lookup table needs $L/C$ cache lines.
-%For a cache line utilized by AES look up tables, the probability that it loads $T_{0}, T_{1}, T_{2}, T_{3}$ is $16/17$, while the probability it loads the content of $T_{4}$ is $1/17$.
+Finally,
+the cost of loading data into $N$ cache lines in the {\vwarm} operation is $\Delta T_{warm} = N T_{cl}$,
+  and we have:
+(1)
+If $\Delta T_{warm} < E(T_{delay})$ for any $\frac{L}{C} \geq N > 0$,
+ loading all entries of the lookup table into caches in the {\vwarm} operation provides the optimal performance;
+% (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
+and (2) if there exists $N$ satisfying that $\Delta T_{warm} > E(T_{delay})$, not loading $N$ cache lines of table entries is better performance.
+%  and (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines provides equivalent performance.
+%\qed
+\end{IEEEproof}
 
-We assume that each round of AES is independent in terms of cache access, so the inputs of each round are random.
-The lookup table is accessed $16$ times in each of AES rounds. $16 R$
-  Meanwhile, the access of cache lines in $L_{2k}$ is uniformly distributed based on the structure of the lookup table in the memory.
-Therefore, the probability that a certain cache line of $L_{2k}$ is not accessed in all rounds is $P_{1} = (1-\frac{C}{L})^{160}$.
-%The expected probability that any cache line is not accessed in one AES execution is $P_{e} = \frac{16}{17}P_{0-3}+ \frac{1}{17}P_{4}$.
-Hence, the probability that $N$ certain cache lines are not accessed in one execution is $P_{N} = (1-\frac{NC}{L})^{160}$.
- Therefore, the probability of \emph{invoking {\vdelay}  while $N$ cache lines of lookup tables are not in the cache} is shown in Equation~\ref{equ:delay}.
-  \begin{equation}
-  \label{equ:delay}
- P_{delay} = 1- (1-\frac{NC}{L})^{16 R}
-\end{equation}
 
-The worst execution time is $T_{W}$, and the shortest execution time is $T_{NM}$, then the expected overhead (i.e. the cost) of not loading $N$ cache line of lookup tables (and invoking \vdelay) is
-%\begin{footnotesize}
-\begin{eqnarray}
- \label{equ:tdelay}
-&E(T_{delay})&={ } P_{delay} * (T_{W}-T_{NM})  \nonumber \\
-&&= (1- (1-\frac{NC}{L})^{160})(T_{W}-T_{NM})
-\end{eqnarray}
-%\end{footnotesize}
-then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}$.
+In the proposed {\scshape{Warm+Delay}} scheme, {\vwarm} is performed  after encryption
+    as a part of the {\vdelay} operation, shown in Algorithm \ref{alg:aesdefense}.
+So the \emph{actual} cost of loading data into $N$ cache lines in {\vwarm} is less than $\Delta T_{warm}$.
+For example,
+    when the time of {\scshape{Crypt()}} plus {\vwarm} is less than  $T_W$ (Line 8 in Algorithm \ref{alg:aesdefense},
+    which is the most case),
+  the  cost of {\vwarm} is actually zero.
+
+Therefore,
+  the average cost of loading data into $N$ cache lines in the {\vwarm} operation is \emph{actually} less than $\Delta T_{warm}$,
+      so loading all entries in {\vwarm} still provides better performance
+ than any part of entries if $\Delta T_{warm} < E(T_{delay})$ for any $\frac{L}{C} \geq N > 0$.
+
+
+% Therefore, the time of {\vwarm}  becomes part of delay.
+% When this case occurs, the extra time reduced by warming some cache line is zero,
+% if the AES execution time plus {\vwarm}  time is less than $T_{W}$.
+
+
+% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET 时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
+
+\begin{corollary}
+
+For the AES-128 implementation with a 2KB lookup table
+in commodity computer systems,
+loading all entries of the lookup table into caches in the {\vwarm} operation
+   provides better performance than any part of entries.
+\end{corollary}
+
+Firstly,
+ with commodity hardware, the cache is enough to load all entries of the lookup table.
+For example, AES is implemented with the lookup table of 2KB, 4KB, 4.25KB or 5KB,
+   and the lookup table of DES/3DES is 2KB.
+However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
+
+]]]]]]]
+
+In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
+
+(10 rounds)
+
+ for 
+In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 
 \begin{table*}[t]
 %    \renewcommand{\arraystretch}{1.3}
@@ -216,31 +274,6 @@ then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}
    \hline
    \end{tabular}
 \end{table*}
-
-Therefore, we have: (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
-
- (2) if there $\exists N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
-%\qed
-\end{IEEEproof}
-
-In the {\scshape{Warm+Delay}} scheme in Algorithm \ref{alg:aesdefense}, {\vwarm} is performed  after encryption.
-
- If the execution time is less than the $T_{W}$, we perform {\vwarm}  and then \vdelay. Therefore, the time of {\vwarm}  becomes part of delay. In this case, the overhead of \vwarm is further reduced. When this case occurs, the extra time reduced by not warming some cache line is zero, if the AES execution time plus {\vwarm}  time is less than $T_{W}$. Otherwise, the extra overhead (e.g. overhead beyond $T_{W}$) is still less than \vwarm. In this situation, warming all cache lines is still the better choice.% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
-
-\begin{corollary}
-
-For the AES-128 (10 rounds) implementation with a 2KB lookup table
-in commodity computer systems,
-loading all entries of the lookup table into caches in the {\vwarm} operation
-   provides better performance than any part of entries.
-\end{corollary}
-
-Firstly,
- in commodity hardware, the cache is enough to load all lookup tables.
-For example, loading all AES lookup tables needs 5KB, while loading all tables for 3DES needs 2KB. However, the typical L1D cache size is 32 or 64KB for Intel CPU, and 16KB or 32KB for ARM CPU.
-
- for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
-In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 
 
 %For example, L1D xxx, AES xx KB, 3DES xx KB
@@ -410,7 +443,7 @@ Therefore, our scheme is still better.
 In this case,  $end - start > T_{W}$, {\vwarm}  will be triggered in our scheme. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
 As the process scheduling and interruption occur, we assume that $N$ cache lines of lookup tables are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
-Hence, the extra overhead introduced by using {\vwarm}  to load all lookup tables is $E(T_{warm,N}) = N*t_{nc} + (32-N)*t_{c}$, where $t_c$ and $t_{nc}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead, denoted as $E(T_{delay})$, is shown in Equation~\ref{equ:tdelay}.
+Hence, the extra overhead introduced by using {\vwarm}  to load all lookup tables is $E(T_{warm,N}) = N T_{cl} + (32-N)*t_{c}$, where $t_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead, denoted as $E(T_{delay})$, is shown in Equation~\ref{equ:tdelay}.
 Table~\ref{tbl:scheduaes} shows that performing \vwarm achieves better performance.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
@@ -495,9 +528,9 @@ The relation between the cache state and execution time is as follows:
    \hline
    {table size}           & AES-128      & AES-192 & AES-256   \\
    \hline
-   {4.25KB} & 0.907 & 0.944 & 0.966 \\
-   \hline
    {5KB} & 0.85 & 0.88 & 0.90  \\
+   \hline
+   {4.25KB} & 0.907 & 0.944 & 0.966 \\
    \hline
    {4KB} & 0.924 & 0.954 & 0.973  \\
    \hline
