@@ -26,10 +26,10 @@ As mentioned above, we use the AES-128 implementation of OpenSSL-1.0.2c.
 However, even when all lookup tables are in the L1 cache,
   the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
 ]]]]]]]]]]]]
-There are two reasons. One is the cache bank conflict. 
-Cache bank is designed to improve the processor performance. 
-Intel introduced a cache design consisting of multiple banks. 
-Each of the banks serves part of the cache line specified by the offset in the cache line. 
+There are two reasons. One is the cache bank conflict.
+Cache bank is designed to improve the processor performance.
+Intel introduced a cache design consisting of multiple banks.
+Each of the banks serves part of the cache line specified by the offset in the cache line.
 The banks can operate independently and serve requests concurrently.
 But each cache bank can only serve one request at a time.
 So, multiple accesses to the same cache bank are slower than to different banks.
@@ -130,6 +130,9 @@ In the implementation, we need to perform the following operations to achieve th
 (1) as the TSCs on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
+Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation.
+so,  we perform {\scshape{GetTime()}} only ifq $end - start < T_{W}$,
+   instead of every time after {\scshape{Warm()}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Warm()}}.}
 It loads all entries of the lookup table into the L1D cache
@@ -139,21 +142,20 @@ In order to ensure these operations are not obsoleted
  the variables are declared with the keyword \verb+volatile+.
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay()}}.}
-The system calls such as \verb+usleep()+ and \verb+nanosleep()+,
-   are not satisfied with the accuracy requirement,
-   and they switch the state of AES execution process to {TASK\_INTERRUPTIBLE}, which may make the lookup tables evicted from caches. increase the probability.
-We implement the {\vdelay} operation
- by executing xor repeatedly, achieving a high precision without modifying the cache state.
-We measure the time cost for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50).
-The relation between the time delayed  and the loop number of \verb+xor+ instruction is calculated through the least squares method. The equation is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
+The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
+   do not satisfy the resolution requirement,
+   and they switch the process state to {TASK\_INTERRUPTIBLE}, which may cause the lookup tables to be evicted from caches.
+On the contrary,
+   we implement the {\vdelay} operation
+ by executing XOR repeatedly as follows, achieving a high resolution without modifying the cache state.
+
+We measure the time for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50), as shown in Figure .
+The relation between the time delayed ($T_d$) and the loop number of \verb+xor+ instruction ($n$) is calculated through the least squares method. The result is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
 The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
 Implementation of {\scshape{Delay()}} is provided in Listing 1.
 If the input of {\scshape{Delay()}} is less than zero, it simply returns.
 ????
 
-Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation.
-so,  we perform {\scshape{GetTime()}} only if $end - start < T_{W}$,
-   instead of every time after {\scshape{Warm()}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
 
 %(3) using \verb+RDTSC+ alone will not prevent the CPU from reordering it, we add \verb+CPUID+ instruction, a serializing call,   before \verb+RDTSC+ to avoid the reordering.
 %\verb+RDTSCP+, a new Intel instruction can be directly adopted without adding \verb+CPUID+ instruction,  with the same precision and accuracy as \verb+RDTSC+, but a lower cost.
@@ -211,8 +213,8 @@ In our environment it is $331$ cycles.
  \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
    while all lookup tables except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
-In \figurename~\ref{fig:twocm}, the little data around 375 cycles are due to read-write conflict in the 2KB stack,
-and the data after 415 are caused by the cache miss.
+{\color{red}In \figurename~\ref{fig:twocm}, the little data around 375 cycles are due to read-write conflict in the 2KB stack,
+and the data after 415 are caused by the cache miss. \textbf{(why rw conflict in stack)?????}}
 We use the stack switch technique to eliminate the read-write conflict, at the same time it makes the AES execution time much more concentrated as shown in \figurename~\ref{fig:sim}.
  This helps the determination of $T_{NM}$ can be more accurate and reasonable.
   Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{NM}$ that might occur.
