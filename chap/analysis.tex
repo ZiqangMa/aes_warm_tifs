@@ -124,14 +124,14 @@ We show that, in this case, the {\scshape{Warm+Delay}} scheme produces the best 
 that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
-Denote the size of a cache line as $C$, 
+Denote the size of a cache line as $C$,
     and the time cost to load a cache line as $T_{cl}$.
   So we have the following theorem,
   for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
-%The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$, 
+%The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
 
-  
+
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
 \begin{theorem}\label{theorm:warmall}
@@ -149,11 +149,11 @@ Not loading $N$ ($N>0$) cache lines of table entries saves the execution time of
  while the potential cost is the extra execution of \vdelay.
 
 Firstly, the cost of loading data into $N$ cache lines in the {\vwarm} operation is $N T_{cl}$.
- 
+
 ]]]]]]]]]]]]]]]
 
 %In AES, {\vwarm}  loads all lookup tables into cache. In the case that at least one corresponding cache line is \emph{not} loaded,
-% cache miss may happen, which will in turn trigger {\vdelay}  operation. Therefore, 
+% cache miss may happen, which will in turn trigger {\vdelay}  operation. Therefore,
 
 %For {\vwarm} operation, if there exists $N>0$ making the time saved by not warming $N$ cache lines larger than the expected overhead of invoking {\vdelay}, not warming $N$ cache lines provides better performance. Otherwise, loading all lookup tables into the cache is the best.
 
@@ -169,7 +169,7 @@ The lookup table needs $L/C$ cache lines.
 %For a cache line utilized by AES look up tables, the probability that it loads $T_{0}, T_{1}, T_{2}, T_{3}$ is $16/17$, while the probability it loads the content of $T_{4}$ is $1/17$.
 
 We assume that each round of AES is independent in terms of cache access, so the inputs of each round are random.
- $L_{2k}$ is accessed $16$ times in each of AES rounds {\color{red} besides the last round. $16 R$ or $16 (R-1)$???8} 
+The lookup table is accessed $16$ times in each of AES rounds. $16 R$
   Meanwhile, the access of cache lines in $L_{2k}$ is uniformly distributed based on the structure of the lookup table in the memory.
 Therefore, the probability that a certain cache line of $L_{2k}$ is not accessed in all rounds is $P_{1} = (1-\frac{C}{L})^{160}$.
 %The expected probability that any cache line is not accessed in one AES execution is $P_{e} = \frac{16}{17}P_{0-3}+ \frac{1}{17}P_{4}$.
@@ -177,7 +177,7 @@ Hence, the probability that $N$ certain cache lines are not accessed in one exec
  Therefore, the probability of \emph{invoking {\vdelay}  while $N$ cache lines of lookup tables are not in the cache} is shown in Equation~\ref{equ:delay}.
   \begin{equation}
   \label{equ:delay}
- P_{delay} = 1- (1-\frac{NC}{L})^{160}
+ P_{delay} = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
 The worst execution time is $T_{W}$, and the shortest execution time is $T_{NM}$, then the expected overhead (i.e. the cost) of not loading $N$ cache line of lookup tables (and invoking \vdelay) is
@@ -217,27 +217,32 @@ then the benefit of not loading $N$ cache lines is $\Delta T_{warm} = N * t_{nc}
    \end{tabular}
 \end{table*}
 
-Therefore, we have: (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better. 
- 
+Therefore, we have: (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
+
  (2) if there $\exists N$ that $\Delta T_{warm} > E(T_{delay}) $, not warming $N$ cache lines provides better performance. (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines are equivalent.
 %\qed
 \end{IEEEproof}
 
 In the {\scshape{Warm+Delay}} scheme in Algorithm \ref{alg:aesdefense}, {\vwarm} is performed  after encryption.
- 
+
  If the execution time is less than the $T_{W}$, we perform {\vwarm}  and then \vdelay. Therefore, the time of {\vwarm}  becomes part of delay. In this case, the overhead of \vwarm is further reduced. When this case occurs, the extra time reduced by not warming some cache line is zero, if the AES execution time plus {\vwarm}  time is less than $T_{W}$. Otherwise, the extra overhead (e.g. overhead beyond $T_{W}$) is still less than \vwarm. In this situation, warming all cache lines is still the better choice.% 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
 \begin{corollary}
+
+For the AES-128 (10 rounds) implementation with a 2KB lookup table
 in commodity computer systems,
-AES-128 with 2K table,
-Loading all the AES lookup tables into the cache is the best \vwarm operation.
+loading all entries of the lookup table into caches in the {\vwarm} operation
+   provides better performance than any part of entries.
 \end{corollary}
+
+Firstly,
+ in commodity hardware, the cache is enough to load all lookup tables.
+For example, loading all AES lookup tables needs 5KB, while loading all tables for 3DES needs 2KB. However, the typical L1D cache size is 32 or 64KB for Intel CPU, and 16KB or 32KB for ARM CPU.
+
  for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
 In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $t_{nc}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
 
 
-Note, in commodity hardware, the cache is enough to load all lookup tables.
-For example, loading all AES lookup tables needs 5KB, while loading all tables for 3DES needs 2KB. However, the typical L1D cache size is 32 or 64KB for Intel CPU, and 16KB or 32KB for ARM CPU.
 %For example, L1D xxx, AES xx KB, 3DES xx KB
 %How about Intel CPU, ARM CPU? L1D cache size?
 
@@ -245,8 +250,10 @@ For example, loading all AES lookup tables needs 5KB, while loading all tables f
 %\begin{theorem}\label{lemma:warmaftermiss}
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
+$t_{delay}$ is the time to perform \vdelay while $t_{warm}$ is the time to perform \vwarm. Let $k=t_{delay} / t_{warm}$, so in the condition that $1 \leq k \leq k_{0}$($k_{0}$ is in Equation~\ref{equ:kzero}).
+
 \begin{theorem}\label{lemma:warmaftermiss}
-$t_{delay}$ is the time to perform \vdelay while $t_{warm}$ is the time to perform \vwarm. Let $k=t_{delay} / t_{warm}$, so in the condition that $1 \leq k \leq k_{0}$($k_{0}$ is in Equation~\ref{equ:kzero}), performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time.
+performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time.
 \end{theorem}
 \begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
@@ -319,7 +326,7 @@ k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}
 %$T^{p} > T^{C}$.
 \begin{corollary}
 Performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time,
- in commodity computer systems. 
+ in commodity computer systems.
 \end{corollary}
 
 for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
