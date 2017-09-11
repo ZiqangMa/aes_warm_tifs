@@ -249,14 +249,19 @@ For example, AES is implemented with the lookup table of 2KB, 4KB, 4.25KB or 5KB
    and the lookup table of DES/3DES is 2KB.
 However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
 
-]]]]]]]
 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
+$T_{W}$, $T_{NM}$, and $T_{cl}$ are 2834, 309, 55.68 in CPU cycles.
+Table~\ref{tbl:warmcontent} shows $\Delta T_{warm}$ and $E(T_{delay})$,
+    when $R = 10$, $L = 2KB$, and $C = 64B$.
+We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
+So  loading all entries in {\vwarm} produces the optimal performance.
 
-(10 rounds)
+]]]]]]]]
 
- for 
-In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.  From Table~\ref{tbl:warmcontent}, we can see that the cost of not loading $N$ ($N>0$) cache lines of lookup tables is much higher than the benefit. Therefore, loading all the lookup tables into the cache provides the best performance in \vwarm.
+
+ %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles. 
+ 
 
 \begin{table*}[t]
 %    \renewcommand{\arraystretch}{1.3}
@@ -278,9 +283,9 @@ In our experiment hardware, the size of a cache line $C$ is 64 bytes. The time $
    \hline
    {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30    & 32\\
    \hline
-   {$E(T_{delay})$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
-   \hline
    {$\Delta T_{warm}$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5s & 1391.88 & 1670.25 & 1781.60 \\
+   \hline
+   {$E(T_{delay})$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    \hline
    \end{tabular}
 \end{table*}
