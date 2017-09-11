@@ -37,7 +37,7 @@ For the cache bank conflict,
  we first disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1 cache.
 All the following experiments, Hyper-Threading is disabled.
 
-Figure~\ref{fig:fullwarmese-diffinput} shows the distribution of the execution time for $2^{30}$ random plaintexts.
+Figure~\ref{fig:fullwarmworst} shows the distribution of the execution time for $2^{30}$ random plaintexts.
 The other is read-write conflict that the load from L1 cache takes slightly more time if it involves the same set of cache lines as a recent store.
 %  Then in the remote environment, the attackers cannot run the attack process on the target,    so the attack in \cite{} can not be launched.
 We avoid the read-write conflict by exploiting the stack switch technique~\cite{guan2014copker}. The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
@@ -147,12 +147,12 @@ We implement the {\vdelay} operation
 We measure the time cost for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 2000 and the step is 50).
 The relation between the time delayed  and the loop number of \verb+xor+ instruction is calculated through the least squares method. The equation is $t_{delay} = 2.995n + 12.886$, and the coefficient of determination is 0.999993.
 The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
-Implementation of {\scshape{Delay()}} is provided in Listing 1.1.
+Implementation of {\scshape{Delay()}} is provided in Listing 1.
 If the input of {\scshape{Delay()}} is less than zero, it simply returns.
 ????
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation.
-so,  we perform {\scshape{GetTime()}} only ifq $end - start < T_{W}$,
+so,  we perform {\scshape{GetTime()}} only if $end - start < T_{W}$,
    instead of every time after {\scshape{Warm()}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
 
 %(3) using \verb+RDTSC+ alone will not prevent the CPU from reordering it, we add \verb+CPUID+ instruction, a serializing call,   before \verb+RDTSC+ to avoid the reordering.
