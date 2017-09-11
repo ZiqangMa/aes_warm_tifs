@@ -126,12 +126,22 @@ that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
 Denote the size of a cache line as $C$,
+<<<<<<< HEAD
+    the size of the lookup table as $L$ ($L \gg C$),
+    and the time cost to load a cache line as $T_{cl}$,
+=======
     and the time cost to load a cache line as $T_{cl}$.
+>>>>>>> 7914fe9e6cab04b98473f15a65b48c0cf2fc937b
   So we have the following theorem,
   for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
 %The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
 
+<<<<<<< HEAD
+%The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
+
+=======
+>>>>>>> 7914fe9e6cab04b98473f15a65b48c0cf2fc937b
 
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
