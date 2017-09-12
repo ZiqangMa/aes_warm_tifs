@@ -135,18 +135,21 @@ Denote the size of a cache line as $C$,
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
 \begin{theorem}\label{theorm:warmall}
-If $\Delta T_{warm} < E(T_{delay})$ for any $\frac{L}{C} \geq N > 0$,
+If $B_{warm}(N) < D_{delay}(N)$ for any $\frac{L}{C} \geq N > 0$,
+%\Delta T_{warm} < E(T_{delay})$ ,
  then loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
  than any part of entries,
-where $\Delta T_{warm} = N T_{cl}$ and $E(T_{delay}) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
+where $B_{warm}(N) = N T_{cl}$ and $D_{delay}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
 \end{theorem}
 
 \begin{IEEEproof}
 It takes $T_{cl}$ to load data into a cache line in the {\vwarm} operation;
  on the other hand,
- if some entry is uncached, it may trigger an extra {\vdelay} operation.
+ if some entry is uncached,
+  the execution time of AES encryption may become longer and it may trigger an extra {\vdelay} operation.
 Not loading $N$ ($\frac{L}{C} \geq N > 0$) cache lines of table entries saves the execution time of \vwarm,
- while the potential cost is the extra execution of \vdelay.
+ while the potential cost is 
+    the longer execution of encryption  and the extra execution of \vdelay.
 
 Since $L \gg C$, we needs $L/C$ cache lines to hold the lookup table.
 In each round of AES encryption,
@@ -240,7 +243,8 @@ However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB 
 
 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{W}$, $T_{NM}$, and $T_{cl}$ are 2834, 309, 55.68 in CPU cycles (see Section \ref{xxxxxx} for details).
+$T_{W}$, $T_{NM}$, and $T_{cl}$ are {\color{red}2834, 309, 55.68 in CPU cycles, respectively}
+ (see Section \ref{sec:implementation} for details).
 Table~\ref{tbl:warmcontent} shows $\Delta T_{warm}$ and $E(T_{delay})$,
     when $R = 10$, $L = 2KB$, and $C = 64B$.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
@@ -290,7 +294,8 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 $t_{delay}$ is the time to perform \vdelay while $t_{warm}$ is the time to perform \vwarm. Let $k=t_{delay} / t_{warm}$, so in the condition that $1 \leq k \leq k_{0}$($k_{0}$ is in Equation~\ref{equ:kzero}).
 
 \begin{theorem}\label{lemma:warmaftermiss}
-performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time.
+performing  {\vwarm}  when cache-miss occurs during the previous execution,
+  results in the least extra operations.
 \end{theorem}
 \begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
