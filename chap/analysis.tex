@@ -148,7 +148,7 @@ It takes $T_{cl} > 0$ to load data into a cache line in the {\vwarm} operation;
  if some entry is uncached,
   the execution time of AES encryption may become longer and it may trigger an extra {\vdelay} operation.
 Not loading $N$ ($\frac{L}{C} \geq N > 0$) cache lines of table entries saves the execution time of \vwarm,
- while the potential cost is 
+ while the potential cost is
     the longer execution of encryption  and the extra execution of \vdelay.
 
 Since $L \gg C$, we needs $L/C$ cache lines to hold the lookup table.
@@ -183,11 +183,8 @@ Therefore, provided that $N$ cache lines of table entries are not in caches,
  \bar{P}_N = 1-P_N = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
-<<<<<<< HEAD
-When \vdelay is performed, the execution time shall be $T_W$ according to Theorem \ref{delay2tw},
-=======
+
 The execution time shall be delayed to at least $T_W$ according to Theorem \ref{delay2tw},
->>>>>>> 3213e193916c6d38f7240f1fec2d382fa3602d9d
  while it is $T_{NM}$ if all entries are in caches.
 So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is
 
@@ -198,11 +195,7 @@ So the expected overhead (or the time cost) due to not loading $N$ cache lines o
 \end{eqnarray}
 
 Finally,
-<<<<<<< HEAD
-the cost of loading data into $N$ cache lines in the {\vwarm} operation is $\Delta T_{warm} = N T_{cl}$.
-=======
 the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is $B_{nl}(N) = N T_{cl}$,
->>>>>>> 3213e193916c6d38f7240f1fec2d382fa3602d9d
   and we have:
 (1)
 If $B_{nl}(N) < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$,
@@ -258,16 +251,8 @@ Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
 So  loading all entries in {\vwarm} produces the optimal performance.
 
-<<<<<<< HEAD
-]]]]]]]]
-
 
  %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
-
-=======
- %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles. 
- 
->>>>>>> 3213e193916c6d38f7240f1fec2d382fa3602d9d
 
 \begin{table*}[t]
 %    \renewcommand{\arraystretch}{1.3}
@@ -304,7 +289,7 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 %\begin{theorem}\label{lemma:warmaftermiss}
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
-Denote the execution time of {\vdelay} and {\vwarm} as 
+Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
 $T_{delay}$ varies in different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
@@ -362,7 +347,7 @@ In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that th
 \setlength{\arraycolsep}{5pt}
 %\end{footnotesize}
 
-The expected extra time introduced by the probabilistic and conditional {\vwarm}  are denoted as $E(T^{p})$ and $E(T^{c})$, respectively. 
+The expected extra time introduced by the probabilistic and conditional {\vwarm}  are denoted as $E(T^{p})$ and $E(T^{c})$, respectively.
 Then,
 %\begin{footnotesize}
 \begin{eqnarray}
