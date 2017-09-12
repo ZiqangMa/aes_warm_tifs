@@ -209,11 +209,11 @@ Given a block cipher, $T_{NM}$ and $T_{W}$
 
 In addition to encryption, three operations
   are introduced by this defense scheme:
-        \emph{a}) {\scshape{Warm()}}, access lookup tables as constant data,
-        \emph{b}) {\scshape{Delay()}}, insert padding instructions,
-        and \emph{c}) {\scshape{GetTime()}}, get the current time as the conditions of {\scshape{Warm()}} and {\scshape{Delay()}}.
+        \emph{a}) {\scshape{Warm}}, access lookup tables as constant data,
+        \emph{b}) {\scshape{Delay}}, insert padding instructions,
+        and \emph{c}) {\scshape{GetTime}}, get the current time as the conditions of {\scshape{Warm}} and {\scshape{Delay}}.
 All these operations are algorithms-independent and implementation-transparent,
-        except that the address of lookup tables is needed in {\scshape{Warm()}}.
+        except that the address of lookup tables is needed in {\scshape{Warm}}.
 These operations are supported in commodity computer systems,
  either in user mode or kernel mode.
 %The conditions of warm and delay are defined by timing.
@@ -233,17 +233,17 @@ We do not query the status of any cache line to determine whether an entry of th
 %   protected_crypt()
 % 说明一下，为什么warm在delay之前。而不是之后。
 
-In general,  {\scshape{ProtectedCrypt()}} are invoked continuously to process large amounts of data,
+In general,  {\scshape{ProtectedCrypt}} are invoked continuously to process large amounts of data,
   where the performance matters.
-So {\scshape{Warm()}} takes effect in the next execution of encryption.
+So {\scshape{Warm}} takes effect in the next execution of encryption.
 Therefore,
-  if {\scshape{ProtectedCrypt()}} has been idle for a long time,
-   we suggest an additional ``initial'' invocation of {\scshape{Warm()}} before the loop of {\scshape{ProtectedCrypt()}},
+  if {\scshape{ProtectedCrypt}} has been idle for a long time,
+   we suggest an additional ``initial'' invocation of {\scshape{Warm}} before the loop of {\scshape{ProtectedCrypt}},
      not shown in Algorithm~\ref{alg:aesdefense}.
 Note that,
-  even if this initial {\scshape{Warm()}}  is not performed,
-   the security is still ensured by {\scshape{Delay()}} afterward and
-    the impact of performance is  negligible if the loop of {\scshape{ProtectedCrypt()}} is long enough.
+  even if this initial {\scshape{Warm}}  is not performed,
+   the security is still ensured by {\scshape{Delay}} afterward and
+    the impact of performance is  negligible if the loop of {\scshape{ProtectedCrypt}} is long enough.
 %Moreover,
 %    after an execution of encryption, some table entries are cached automatically for the next execution.
 
@@ -282,8 +282,8 @@ Note that,
 
 \subsection{Security Analysis}
 %\vspace{-1mm}
-The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt()}},
- but not internal {\scshape{Crypt()}}.
+The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt}},
+ but not internal {\scshape{Crypt}}.
 The cache timing side channels result from the relation between the measured execution time and the data processed;
    that is, different data processed (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
@@ -300,22 +300,22 @@ We ensure that the measured time does not leak any exploitable information about
 %]]]]]]]
 
 
-According to Algorithm~\ref{alg:aesdefense}, the measured time, i.e., the execution time of {\scshape{ProtectedCrypt()}},
+According to Algorithm~\ref{alg:aesdefense}, the measured time, i.e., the execution time of {\scshape{ProtectedCrypt}},
   falls into two intervals $(0, T_{NM}]$ and $[T_{W}, \infty )$.
 Next, we prove that,
  no information about the status of cache lines  %lookup tables cached or data processed
   leaks through the time measured by attackers.
 \begin{itemize}
-  \item \textbf{Case 1}: The execution time of {\scshape{Crypt()}} is in $(0, T_{NM}]$.
+  \item \textbf{Case 1}: The execution time of {\scshape{Crypt}} is in $(0, T_{NM}]$.
    In fact, it is almost a fixed value for arbitrary data processed, as all tables are cached and the time is $T_{NM}$.
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time.%\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
-  \item \textbf{Case 2}: The execution time of {\scshape{Crypt()}} is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
+  \item \textbf{Case 2}: The execution time is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
     which is the execution time as all accessed lookup tables are uncached before encryption.
     That is, the encryption is executed equivalently without any caches.
     In this case, the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time is greater than $T_{W}$.
+  \item \textbf{Case 3}: The execution time of {\scshape{Crypt}} is greater than $T_{W}$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,

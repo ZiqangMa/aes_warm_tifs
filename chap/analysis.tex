@@ -1,8 +1,8 @@
 \section{Analysis of Optimal Performance}
 \label{sec:performanceproof}
 %\vspace{-1mm}
-\def \vdelay {{\scshape{Delay()}}}
-\def \vwarm {{\scshape{Warm()}}}
+\def \vdelay {{\scshape{Delay}}}
+\def \vwarm {{\scshape{Warm}}}
 \def \vwd {{\scshape{Warm+Delay}}}
 
 
@@ -212,7 +212,7 @@ In the proposed {\scshape{Warm+Delay}} scheme, {\vwarm} is performed  after encr
 So the \emph{actual} cost of loading data into $N$ cache lines (or
    the benefit of not loading these data) in {\vwarm} is less than $B_{nl}(N)$.
 For example,
-    when the time of {\scshape{Crypt()}} plus {\vwarm} is less than  $T_W$ (Line 8 in Algorithm \ref{alg:aesdefense}),
+    when the time of {\scshape{Crypt}} plus {\vwarm} is less than  $T_W$ (Line 8 in Algorithm \ref{alg:aesdefense}),
   the  cost of {\vwarm} is actually zero.
 
 Therefore,
@@ -293,17 +293,33 @@ Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
 $T_{delay}$ varies in different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
-Let $k = T_{delay} / T_{warm}$, and
-we have the following theorem.
 
 
 ]]]]]]]]
 
+Let's consider the state of continuous invocation,
+    for each execution of AES encryption,
+  and there are three states: we categorize the system state into three cases:
+   (1) all the lookup tables are in the cache ($S_{full}$),
+   (2) the lookup entries not in the cache are not accessed ($S_{nonas}$), and
+   (3) the lookup entries not in the cache are accessed ($S_{as}$).
+$S_{nonas}$ and $S_{as}$ indicate the states that one or more cache lines of lookup tables are evicted.
+
+Let $k = T_{delay} / T_{warm}$, and
+we have the following theorem.
+
+
+In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
+
+\begin{equation}
+\label{equ:kzero}
+k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}*P_{delay}*(1-P_{delay})}
+\end{equation}
 
 
 \begin{theorem}\label{lemma:warmaftermiss}
 If $1 \leq k \leq k_{0}$ ($k_{0}$ is in Equation~\ref{equ:kzero}),
- performing  {\vwarm}  when cache-miss occurs during the previous execution of encryption,
+ performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{theorem}
 
@@ -319,10 +335,9 @@ To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two other cache w
   \item \textbf{More} {\vwarm}  \textbf{operations}.  Performing the {\vwarm}  operation with a probability $P_{warm}$, regardless of the cache state after the previous execution. Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
 \end{itemize}
 
-To prove the second case, we categorize the system state into three cases: (1) all the lookup tables are in the cache ($S_{full}$), (2) the lookup entries not in the cache are not accessed ($S_{nonas}$), and (3) the lookup entries not in the cache are accessed ($S_{as}$). We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
-$S_{nonas}$ and $S_{as}$ indicate the states that one or more cache lines of lookup tables are evicted.
+We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
 \figurename~\ref{pic:statetrans} shown the state transition diagram.
-In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache. We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional {\vwarm}  respectively, and the values are as follows.
+We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional {\vwarm}  respectively, and the values are as follows.
 
 \begin{figure*}[!t]
   \centering
@@ -367,11 +382,6 @@ We use $k=t_{delay} / t_{warm}$, so $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k 
 %\label{equ:kres}
 %    1 \leq k \leq k_{0}
 %$$
-
-\begin{equation}
-\label{equ:kzero}
-k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}*P_{delay}*(1-P_{delay})}
-\end{equation}
 
 \end{IEEEproof}
 
@@ -495,7 +505,7 @@ However, {\vwarm}   is a better choice, as we cannot predict whether the lookup 
 
 \noindent\textbf{The relationship between the cache state and execution time.}
 In Theorems 3 and 4, we prove that performing  {\vwarm}  when not all lookup tables are in caches, results the smallest extra time.
-However, in our scheme, we perform the {\scshape{Warm()}} operation according to the previous AES execution time,
+However, in our scheme, we perform the {\scshape{Warm}} operation according to the previous AES execution time,
  as we are technically unable to observe the cache state without introducing additional overhead.
 % \footnote{Otherwise, we perform  the warmup operation before each execution, which is less efficient as proved in Theorem 4.}.% 这个脚注是什么意思？为什么？
 The relation between the cache state and execution time is as follows:
