@@ -126,22 +126,11 @@ that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
 Denote the size of a cache line as $C$,
-<<<<<<< HEAD
-    the size of the lookup table as $L$ ($L \gg C$),
-    and the time cost to load a cache line as $T_{cl}$,
-=======
     and the time cost to load a cache line as $T_{cl}$.
->>>>>>> 7914fe9e6cab04b98473f15a65b48c0cf2fc937b
   So we have the following theorem,
   for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
 %The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
-
-<<<<<<< HEAD
-%The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
-
-=======
->>>>>>> 7914fe9e6cab04b98473f15a65b48c0cf2fc937b
 
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
@@ -251,7 +240,7 @@ However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB 
 
 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{W}$, $T_{NM}$, and $T_{cl}$ are 2834, 309, 55.68 in CPU cycles.
+$T_{W}$, $T_{NM}$, and $T_{cl}$ are 2834, 309, 55.68 in CPU cycles (see Section \ref{xxxxxx} for details).
 Table~\ref{tbl:warmcontent} shows $\Delta T_{warm}$ and $E(T_{delay})$,
     when $R = 10$, $L = 2KB$, and $C = 64B$.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
