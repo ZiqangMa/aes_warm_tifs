@@ -244,6 +244,7 @@ loading all entries of the lookup table into caches in the {\vwarm} operation
    provides better performance than any part of entries.
 \end{corollary}
 
+\begin{IEEEproof}
 Firstly,
  with commodity hardware, the cache is enough to load all entries of the lookup table.
 For example, AES is implemented with the lookup table of 2KB, 4KB, 4.25KB or 5KB,
@@ -258,6 +259,7 @@ Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
     when $R = 10$, $L = 2KB$, and $C = 64B$.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
 So  loading all entries in {\vwarm} produces the optimal performance.
+\end{IEEEproof}
 
 
  %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
@@ -313,11 +315,12 @@ Let's consider the state of continuous invocation,
    (3) the lookup entries not in the cache are accessed ($S_{as}$).
 $S_{nonas}$ and $S_{as}$ indicate the states that one or more cache lines of lookup tables are evicted.
 
+$P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
+
 Let $k = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
 
-In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
 
 \begin{equation}
 \label{equ:kzero}
@@ -385,7 +388,7 @@ E(T^{p})-E(T^{c})&=&\Pi_{as}^{p} * t_{delay} - \Pi_{as}^{c} * t_{delay} \nonumbe
 %T^{p} - T^{c} =& \frac{1}{(P_{warm}+P_{evict})(P_{delay}+P_{evict})}((P_{delay}+P_{evict})*P_{warm}^{2} + \\ & P_{evict}*(P_{delay}+P_{evict})(1-P_{delay})*P_{warm} -\\ & k*P_{delay}*P_{evict}*P_{warm}+ k*P_{delay}^{2}*P_{evict})t_{warm}
 %\end{split}\end{equation}%这个公式太长了，是不是可以在这里不写，放到附录里？
 
-We use $k=t_{delay} / t_{warm}$, so $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k \leq k_{0}$. %from the equation we can get that when
+We use so $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k \leq k_{0}$. %from the equation we can get that when
 %$$
 %\label{equ:kres}
 %    1 \leq k \leq k_{0}
@@ -401,6 +404,7 @@ performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{corollary}
 
+\begin{IEEEproof}
 for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
 From Equation~\ref{equ:kzero}, if we regard $k_{0}$ as the function of $P_{evict}$, we can get that $k_{0}$ is a monotony decrease function when $P_{delay} \geq 0.5$. That is when $P_{evict} = 1$, $k_{0}$ gets the minimum value.
 Also if we regard $k_{0}$ as the function of $P_{delay}$, we can get that $k_{0}$ is a monotony increase function when $P_{delay} \geq 0.5$ for arbitrary $P_{evict}$.
@@ -415,6 +419,7 @@ The maximum of $t_{warm}$ is $1781.60$ when all the lookup tables in RAM.
 Therefore, the range of $k$ is: $1 < k < 20.36$ satisfying the condition of $E(T^{p}) > E(T^{c})$.
 %Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
 Therefore, the  conditional {\vwarm}  provides  better performance than the probabilistic \vwarm, that is performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
+\end{IEEEproof}
 %\qed
 %\end{IEEEproof}
 
@@ -483,7 +488,7 @@ In this case,  $end - start > T_{W}$, {\vwarm}  will be triggered in our scheme.
 As the process scheduling and interruption occur, we assume that $N$ cache lines of lookup tables are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
 Hence, the extra overhead introduced by using {\vwarm}  to load all lookup tables is $E(T_{warm,N}) = N T_{cl} + (32-N)*t_{c}$, where $t_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead, denoted as $E(T_{delay})$, is shown in Equation~\ref{equ:tdelay}.
-Table~\ref{tbl:scheduaes} shows that performing \vwarm achieves better performance.
+Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
