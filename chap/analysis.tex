@@ -299,24 +299,24 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 %\begin{theorem}\label{lemma:warmaftermiss}
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
-Denote the execution time of {\vdelay} and {\vwarm} as
-    $T_{delay}$ and $T_{warm}$, respectively.
-$T_{delay}$ varies in different executions,
-    while $T_{warm}$ depends on the number of loaded cache lines of table entries.
-
 
 ]]]]]]]]
 
-Let's consider the state of continuous invocation,
-    for each execution of AES encryption,
-  and there are three states: we categorize the system state into three cases:
-   (1) all the lookup tables are in the cache ($S_{full}$),
-   (2) the lookup entries not in the cache are not accessed ($S_{nonas}$), and
-   (3) the lookup entries not in the cache are accessed ($S_{as}$).
-$S_{nonas}$ and $S_{as}$ indicate the states that one or more cache lines of lookup tables are evicted.
+Next, let's consider the cache state of lookup tables during the continuous invocations of AES encryption.
+For each execution of AES encryption,
+  and there are three possible states:
+{\color{red}   (1) all entries of the lookup table are in caches, denoted as $S_{c}$,
+   (2) some entries are uncached, and at least one of them is accessed during the AES encryption, denoted as $S_{\bar{c}, a}$,
+ and  (3) some entries are uncached, but none of them is accessed during the AES encryption, denoted as $S_{\bar{c}, \bar{a}}$.}
+\emph{\textbf{are these statements correct? and accurate?}}
+$S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
 $P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
 
+Denote the execution time of {\vdelay} and {\vwarm} as
+    $T_{delay}$ and $T_{warm}$, respectively.
+$T_{delay}$ varies for different executions,
+    while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 Let $k = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
