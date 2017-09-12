@@ -290,6 +290,8 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 %\end{theorem}
 Denote the execution time of {\vdelay} and {\vwarm} as 
     $T_{delay}$ and $T_{warm}$, respectively.
+$T_{delay}$ varies in different executions,
+    while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 Let $k = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
@@ -344,7 +346,7 @@ In the diagram, $P_{nona}$ (equals to $1- P_{delay}$) is the probability that th
 \setlength{\arraycolsep}{5pt}
 %\end{footnotesize}
 
-The expected extra time introduced by the probabilistic and conditional {\vwarm}  are denoted as $E(T^{p})$ and $E(T^{c})$, respectively. $t_{delay}$ and $t_{warm}$ are the time needed to perform \emph{one} {\vdelay}  and \emph{one} {\vwarm}  operation\footnote{$t_{delay}$ varies for different executions and $t_{warm}$ varies when loading different size of lookup tables.}.
+The expected extra time introduced by the probabilistic and conditional {\vwarm}  are denoted as $E(T^{p})$ and $E(T^{c})$, respectively. 
 Then,
 %\begin{footnotesize}
 \begin{eqnarray}
