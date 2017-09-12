@@ -311,7 +311,7 @@ For each execution of AES encryption,
 \emph{\textbf{are these statements correct? and accurate?}}
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
-$P_{nona}$ (equals to $1- P_{delay}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
+$P_{nona}$ (equals to $P_{N}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
 
 Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
@@ -324,7 +324,7 @@ we have the following theorem.
 
 \begin{equation}
 \label{equ:kzero}
-k_{0} = \frac{(P_{delay}+P_{evict})*(1+P_{evict}-P_{evict}*P_{delay})}{P_{evict}*P_{delay}*(1-P_{delay})}
+k_{0} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evict}*\bar{P}_N*(1-\bar{P}_N)}
 \end{equation}
 
 
