@@ -126,7 +126,7 @@ that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
 Denote the size of a cache line as $C$,
-    and the time cost to load a cache line as $T_{cl}$.
+    and the time cost to load a cache line from RAM to L1D cache as $T_{cl}$.
   So we have the following theorem,
   for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
@@ -180,7 +180,7 @@ Therefore, provided that $N$ cache lines of table entries are not in caches,
  P_{delay} = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
-The execution time shall be $T_W$ according to Theorem \ref{delay2tw},
+When \vdelay is performed, the execution time shall be $T_W$ according to Theorem \ref{delay2tw},
  while it is $T_{NM}$ if all entries are in caches.
 So the expected overhead (or the time cost) of extra {\vdelay} due to not loading $N$ cache lines of table entries is
 
@@ -191,7 +191,7 @@ So the expected overhead (or the time cost) of extra {\vdelay} due to not loadin
 \end{eqnarray}
 
 Finally,
-the cost of loading data into $N$ cache lines in the {\vwarm} operation is $\Delta T_{warm} = N T_{cl}$,
+the cost of loading data into $N$ cache lines in the {\vwarm} operation is $\Delta T_{warm} = N T_{cl}$.
   and we have:
 (1)
 If $\Delta T_{warm} < E(T_{delay})$ for any $\frac{L}{C} \geq N > 0$,
@@ -249,8 +249,8 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 ]]]]]]]]
 
 
- %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles. 
- 
+ %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
+
 
 \begin{table*}[t]
 %    \renewcommand{\arraystretch}{1.3}
