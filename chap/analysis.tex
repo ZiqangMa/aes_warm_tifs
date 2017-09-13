@@ -305,38 +305,40 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 Next, let's consider the cache state of lookup tables during the continuous invocations of AES encryption.
 For each execution of AES encryption,
   and there are three possible states:
-{\color{red}   (1) all entries of the lookup table are in caches, denoted as $S_{c}$,
+(1) all entries of the lookup table are in caches, denoted as $S_{c}$,
    (2) some entries are uncached, and at least one of them is accessed during the AES encryption, denoted as $S_{\bar{c}, a}$,
- and  (3) some entries are uncached, but none of them is accessed during the AES encryption, denoted as $S_{\bar{c}, \bar{a}}$.}
-\emph{\textbf{are these statements correct? and accurate?}}
+ and  (3) some entries are uncached, but none of them is accessed during the AES encryption, denoted as $S_{\bar{c}, \bar{a}}$.
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
 
+If task scheduling, interrupts or other system activities occur, the entries of lookup tables may be evict from the cache, which probability is denoted as $P_{evict}$.
+While for one AES encryption, some entries are uncached before encryption and it is possible that none of them is accessed during the encryption, and this probability is denoted as $P_{\bar{c},\bar{a}}$.
+
 % 哪些事件导致状态转移？概率表示为。
 % 事件的定义
-warm:
-evict:
-access: P   $\bar{P}$
+%warm:
+%evict:
+%access: P   $\bar{P}$
 
-$P_{nona}$ (equals to $P_{N}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
+%$P_{nona}$ (equals to $P_{N}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
 
 Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
 $T_{delay}$ varies for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
-Let $f = T_{delay} / T_{warm}$, and
+Let $g = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
 
 
 \begin{equation}
 \label{equ:kzero}
-k_{0} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evict}*\bar{P}_N*(1-\bar{P}_N)}
+g_{max} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evict}*\bar{P}_N*(1-\bar{P}_N)}
 \end{equation}
 
 
 \begin{theorem}\label{lemma:warmaftermiss}
-If $f_{min} \leq k \leq f_{max}$ ($k_{0}$ is in Equation~\ref{equ:kzero}),
+If $g_{min} \leq g \leq g_{max}$ ($g_{max}$ is in Equation~\ref{equ:kzero}),
  performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{theorem}
