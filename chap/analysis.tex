@@ -311,13 +311,20 @@ For each execution of AES encryption,
 \emph{\textbf{are these statements correct? and accurate?}}
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
+
+% 哪些事件导致状态转移？概率表示为。
+% 事件的定义
+warm:
+evict:
+access: P   $\bar{P}$
+
 $P_{nona}$ (equals to $P_{N}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
 
 Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
 $T_{delay}$ varies for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
-Let $k = T_{delay} / T_{warm}$, and
+Let $f = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
 
@@ -329,7 +336,7 @@ k_{0} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evict}
 
 
 \begin{theorem}\label{lemma:warmaftermiss}
-If $1 \leq k \leq k_{0}$ ($k_{0}$ is in Equation~\ref{equ:kzero}),
+If $f_{min} \leq k \leq f_{max}$ ($k_{0}$ is in Equation~\ref{equ:kzero}),
  performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{theorem}
