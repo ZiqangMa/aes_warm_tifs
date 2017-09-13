@@ -16,16 +16,34 @@ We evaluate the  scheme on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-
 We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K lookup table, %to validate the security and evaluate the performance.
   which is directly borrowed from OpenSSL-1.0.2c \cite{openssl}.
 As we attempt to optimize performance while eliminate remote cache timing side channels,
- efficient {\scshape{GetTime()}}, {\scshape{Warm()}} and {\scshape{Delay()}}
+ efficient {\scshape{Warm}}, {\scshape{GetTime}},  and {\scshape{Delay}}
   are finished;
 and the constant parameters ($T_{NM}$ and $T_{W}$) are determined properly.
  Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
 
-\vspace{1mm}\noindent\textbf{AES lookup table in caches.}
-As mentioned above, we use the AES-128 implementation of OpenSSL-1.0.2c.
-However, even when all lookup tables are in the L1 cache,
-  the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
 ]]]]]]]]]]]]
+
+\vspace{1mm}\noindent\textbf{{\scshape{Warm}}.}
+It loads all entries of the lookup table into the L1D cache
+   by accessing one byte of each block of 64 bytes (i.e., the size of one cache line).
+In order to ensure these operations are not obsoleted
+  due to the compiler optimization,
+ the variables are declared with the keyword \verb+volatile+.
+
+%\vspace{1mm}\noindent\textbf{Time variations with cached data.}
+%As mentioned above, we use the AES-128 implementation of OpenSSL-1.0.2c.
+However, even when all lookup tables are in the L1D cache,
+  the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
+
+There time variations result from the cache hierarchy of Intel CPUs.
+cache line; cache bank; cache set.???
+
+Each bank serves only one request at a time,
+ and multiple accesses to a same cache bank  .
+
+We disable Hyper-Threading to ensure 
+{\color{red}is it useful? any influence from other core?}
+
 There are two reasons. One is the cache bank conflict.
 Cache bank is designed to improve the processor performance.
 Intel introduced a cache design consisting of multiple banks.
@@ -34,7 +52,7 @@ The banks can operate independently and serve requests concurrently.
 But each cache bank can only serve one request at a time.
 So, multiple accesses to the same cache bank are slower than to different banks.
 For the cache bank conflict,
- we first disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1 cache.
+ we first disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1D cache.
 All the following experiments, Hyper-Threading is disabled.
 
 \figurename~\ref{fig:fullwarmworst} shows the distribution of the execution time for $2^{30}$ random plaintexts.
@@ -121,9 +139,9 @@ Finally,
 \end{figure}
 
 
-\vspace{1mm}\noindent\textbf{{\scshape{GetTime()}}.}
+\vspace{1mm}\noindent\textbf{{\scshape{GetTime}}.}
 %The function in Listing 1.1 returns the current time in high precision (e.g. in clock cycles) with low cost.
-We adopt the instruction \verb+RDTSCP+ to implement {\scshape{GetTime()}}, to obtain the current time in high precision (clock cycles) with low cost.
+We adopt the instruction \verb+RDTSCP+ to implement {\scshape{GetTime}}, to obtain the current time in high precision (clock cycles) with low cost.
 %The instruction \verb+RDTSCP+ has high precision (in clock cycle) and is adopted in our implementation.
 \verb+RDTSCP+ is a serializing call which prevents the CPU from reordering it.
 In the implementation, we need to perform the following operations to achieve the high accuracy:
@@ -131,17 +149,10 @@ In the implementation, we need to perform the following operations to achieve th
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation.
-so,  we perform {\scshape{GetTime()}} only ifq $end - start < T_{W}$,
-   instead of every time after {\scshape{Warm()}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
+so,  we perform {\scshape{GetTime}} only if $end - start < T_{W}$,
+   instead of every time after {\scshape{Warm}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
 
-\vspace{1mm}\noindent\textbf{{\scshape{Warm()}}.}
-It loads all entries of the lookup table into the L1D cache
-   by accessing one byte of each block of 64 bytes (i.e., the size of one cache line).
-In order to ensure these operations are not obsoleted
-  due to the compiler optimization,
- the variables are declared with the keyword \verb+volatile+.
-
-\vspace{1mm}\noindent\textbf{{\scshape{Delay()}}.}
+\vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
 The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
    do not satisfy the resolution requirement,
    and they switch the process state to {TASK\_INTERRUPTIBLE}, which may cause the lookup tables to be evicted from caches.
