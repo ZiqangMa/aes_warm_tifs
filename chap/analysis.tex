@@ -329,18 +329,15 @@ $T_{delay}$ varies for different executions,
 Let $g = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
-
-
-\begin{equation}
-\label{equ:kzero}
-g_{max} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evict}*\bar{P}_N*(1-\bar{P}_N)}
-\end{equation}
-
-
 \begin{theorem}\label{lemma:warmaftermiss}
 If $g_{min} \leq g \leq g_{max}$ ($g_{max}$ is in Equation~\ref{equ:kzero}),
  performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
   results in the least extra time of {\vdelay} and {\vwarm}.
+  Where,
+\begin{equation}
+\label{equ:kzero}
+g_{max} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evict}*\bar{P}_N*(1-\bar{P}_N)}
+\end{equation}
 \end{theorem}
 
 \begin{IEEEproof}
