@@ -282,11 +282,11 @@ So  loading all entries in {\vwarm} produces the optimal performance.
   \centering
    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
    \hline
-   {$N$}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  & {\color{red}31}  & 32\\
+   {$N$}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  & 31  & 32\\
    \hline
-   {$B_{nl}(N)$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5s & 1391.88 & 1670.25 & & 1781.60 \\
+   {$B_{nl}(N)$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5s & 1391.88 & 1670.25 & 1725.93 & 1781.60 \\
    \hline
-   {$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & & 2525.00 \\
+   {$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    \hline
    \end{tabular}
 \end{table*}
@@ -342,16 +342,20 @@ g_{max} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evic
 
 \begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
-%Thus, a naive solution would be performing the {\vwarm}  operation to load all the lookup tables into the cache before every AES execution, that is we perform the {\vwarm}  operation each time, which is proved to introduce more extra time later.
-To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two other cache warm strategies:
+To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two cases:
 \begin{itemize}
-  \item{ \textbf{Less} {\vwarm}  \textbf{operations}. When there is a cache miss in the previous AES execution, we perform  {\vwarm}  with a probability less than 1.
-      In this case, \vdelay is needed.
-      If the next encryption accesses any entry that is currently not in caches, performing {\vwarm}  operation before hand  introduces none extra overhead -- without {\vwarm}   all these entries will still be loaded into caches during encryption.
-      If the next encryption accesses some uncached entries, as proved in Thorem 3, when $N$ cache line size of lookup tables are not cached, not performing {\vwarm}  introduces more extra time.}
-  \item \textbf{More} {\vwarm}  \textbf{operations}.  Performing the {\vwarm}  operation with a probability $P_{warm}$, regardless of the cache state after the previous execution. Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
+  \item When there is a cache miss in the previous AES execution, we perform  {\vwarm}  with a probability less than 1.
+  \item Performing {\vwarm} operation with a probability $P_{warm}$, regardless of the cache state after the previous execution.
 \end{itemize}
 
+ For the first case, {\vdelay} is needed more.
+If the next encryption accesses any entry that is currently not in caches, performing {\vwarm}  operation before hand  introduces none extra overhead -- without {\vwarm} all these entries will still be loaded into caches during encryption.
+      If the next encryption accesses some uncached entries, as proved in Thorem 3, when $N$ cache line size of lookup tables are not cached, not performing {\vwarm}  introduces more extra time.
+      
+      
+Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
+
+      
 We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
 \figurename~\ref{pic:statetrans} shown the state transition diagram.
 We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional {\vwarm}  respectively, and the values are as follows.
@@ -504,13 +508,13 @@ Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better perform
   %\scriptsize
   %\footnotesize
   \caption{The introduced time by performing warmup operation or not (in cycle).}\label{tbl:scheduaes}
-   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
    \hline
-   {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30    & 32\\
+   {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  &31  & 32\\
    \hline
-   {$E(T_{delay})$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   {$E(T_{delay})$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    \hline
-   {$E(T_{warm})$} & 175.80 & 227.60 & 279.4 & 383.00 & 642.00 & 901.00 & 1160.00 & 1419.00 & 1678.00 & 1781.60 \\
+   {$E(T_{warm})$} & 175.80 & 227.60 & 279.4 & 383.00 & 642.00 & 901.00 & 1160.00 & 1419.00 & 1678.00 & 1729.80 & 1781.60 \\
    \hline
    \end{tabular}
 \end{table*}
