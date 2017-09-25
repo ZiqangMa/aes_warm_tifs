@@ -1,7 +1,7 @@
-\section{Eliminating Remote Cache Timing Side Channels}
+\section{Eliminating Remote Cache Timing Side Channels by Integrating {\scshape{Warm}}  and {\scshape{Delay}} }
 \label{sec:eliminating}
 %\vspace{-2mm}
-[[[[[--Linjq restart here.
+[[[[[--Linjq restart here; I skip Section II.
 
 This section firstly presents the threat mode and design goals.
 Then, the {\scshape{Warm+Delay}} scheme is described,
@@ -136,8 +136,8 @@ Therefore, we focus on the situation where large amounts of data are encrypted a
 
 A naive scheme is to perform both {\scshape{Warm}} and {\scshape{Delay}} every time the protected cryptographic function is invoked.
  But it introduces too many extra operations and the performance is seriously degraded, although the security is ensured.
-So we perform {\scshape{Delay}} as a backup line of defense,
-    or only when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
+So we perform {\scshape{Delay}} as the last line of defense,
+    when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
          (i.e., is not equal to the expected execution time with all tables cached).
 Next,
   when we consider that the cryptographic function is invoked continuously,
