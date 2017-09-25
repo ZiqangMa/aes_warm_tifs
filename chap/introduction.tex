@@ -106,7 +106,7 @@ In this paper, we investigate the performance of cryptographic functions protect
 %    we attempt to integrate them into a scheme
 %   achieving the optimal performance while effectively eliminating remote cache timing side channels.
 In particular,
-    the following principles are enforced in the integrated scheme:
+    the following principles are analyzed in the integration:
 \begin{enumerate}
 \item
 Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
@@ -143,18 +143,18 @@ and the performance is further improved.
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-We apply the optimized integration scheme to AES,
+Then, we apply the optimized integration scheme to AES,
     and analyze the situations that it produces the optimal performance.
 It is proven that,
    the integration scheme with appropriate parameters,
-   achieves the optimal performance with the least extra operations;
-    that is, no unnecessary lookup table read operations
+   achieves \emph{the optimal performance with the least extra operations};
+    that is, without unnecessary lookup table read operations
    or inserted padding instructions.
 %In particular, we apply this scheme to AES, 
 %It is found that, 
-In commodity computer systems,
- the integration scheme achieves the optimal performance with different key sizes (128, 192, 256 bits)
-    and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables).
+The optimal performance of  {\scshape{Warm}} and  {\scshape{Delay}} with different key sizes (128, 192, 256 bits)
+    and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables),
+    is found in commodity computer systems.
 For example,
     the protected AES-128 implementation with 2KB lookup tables \cite{Daemen2002The} achieves the optimal performance,
 when (\emph{a}) the probability
