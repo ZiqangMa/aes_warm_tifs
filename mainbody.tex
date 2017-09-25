@@ -52,7 +52,7 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 \begin{document}
 
-\title{Towards the Optimal Performance of Integrating {\scshape{Warm}} and {\scshape{Delay}} to 
+\title{Towards the Optimal Performance of Integrating {\scshape{Warm}} and {\scshape{Delay}} to
 Eliminate Remote Cache Timing Side Channels} % with Optimal Performance}
 %\titlerunning{Eliminating Remote Cache Timing Side Channels}
 %\toctitle{Eliminating Remote Cache Timing Side Channels with Optimized Performance}
@@ -82,32 +82,44 @@ Bo Luo is with Department of Electrical Engineering and Computer Science, the Un
 % Then, we
 Cache timing side channels allow a remote attacker to disclose the cryptographic keys,
  only by repeatedly invoking the encryption/decryption functions and measuring the execution time.
-{\scshape{Warm}} and {\scshape{Delay}} are two common countermeasures against remote cache-based timing side channels,
- by reading constant data into caches before cryptographic functions
-  and inserting padding instructions after these functions, respectively.
-These countermeasures destroy the relationship between the execution time
+{\scshape{Warm}} and {\scshape{Delay}} are two algorithm-independent and implementation-transparent countermeasures
+  against remote cache-based timing side channels.
+% by reading constant data into caches before cryptographic functions
+%  and inserting padding instructions after these functions, respectively.
+They destroy the relationship between the execution time
   and the cache misses/hits which are determined by the secret key,
-  but introduce extra operations.
-However, the extra operations are sometimes unnecessary,
+  but introduce extra operations
+%  . However, the extra operations are sometimes unnecessary,
    and then bring great performance overheads.
-In this paper, we integrate these two countermeasure into a scheme
- that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
-Before each encryption/decryption,
-   the constant data are warmed into caches if the last cryptographic function invocation is not finished
-     at the expected speed.
-Because the effect of {\scshape{Warm}} may be broken by system activities,
-   {\scshape{Delay}} plays as another line of defense: after each encryption/decryption,
-     padding instructions are inserted if the execution time may be exploited to extract the secret key.
-Moreover, when {\scshape{Delay}} is necessary,
- {\scshape{Warm}} is performed as a part of inserted padding instructions, to further optimize the performance.
-The proposed {\scshape{Warm+Delay}} scheme
-   effectively eliminates remote cache timing side channels,
-  and is applicable to different block ciphers and computing platforms.
-More importantly,
- we apply this scheme to AES,
- and analyze that it achieves \emph{the optimal performance with the least extra operations}.
-We implement it on Linux with Intel Core CPUs to protect AES.
-Experimental results of the prototype confirm that,
+
+In this paper, we investigate the performance of cryptographic functions protected by {\scshape{Warm}} and {\scshape{Delay}},
+  and attempt to find the best strategy to integrate these two common countermeasures
+    with the optimal performance while effectively eliminate remote cache side channels.
+To the best of our knowledge,
+  this work is the first to systematically analyze the optimal performance of
+    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  on commodity computer systems.
+%
+%we integrate these two countermeasure into a scheme  that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
+%
+%Before each encryption/decryption,
+%   the constant data are warmed into caches if the last cryptographic function invocation is not finished at the expected speed.
+%Because the effect of {\scshape{Warm}} may be broken by system activities,
+%   {\scshape{Delay}} plays as another line of defense: after each encryption/decryption,
+%     padding instructions are inserted if the execution time may be exploited to extract the secret key.
+%Moreover, when {\scshape{Delay}} is necessary,
+% {\scshape{Warm}} is performed as a part of inserted padding instructions, to further optimize the performance.
+%The proposed {\scshape{Warm+Delay}} scheme
+%   effectively eliminates remote cache timing side channels,
+%  and is applicable to different block ciphers and computing platforms.
+%
+We derive the optimal scheme to integrating {\scshape{Warm}} and {\scshape{Delay}},
+   and apply the scheme to AES.
+It is proven that,
+   the integration scheme with appropriate parameters,
+   achieves the optimal performance with the least extra operations.
+Finally,
+    we implement it on Linux with Intel Core CPUs to protect AES.
+Experimental results confirm that,
 (\emph{a}) the execution time does not leak information about cache access,
  (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
 (\emph{c}) the implementation works without any privileged operations on the system.
