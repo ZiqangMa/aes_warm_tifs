@@ -351,11 +351,11 @@ To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two cases:
  For the first case, {\vdelay} is needed more.
 If the next encryption accesses any entry that is currently not in caches, performing {\vwarm}  operation before hand  introduces none extra overhead -- without {\vwarm} all these entries will still be loaded into caches during encryption.
       If the next encryption accesses some uncached entries, as proved in Thorem 3, when $N$ cache line size of lookup tables are not cached, not performing {\vwarm}  introduces more extra time.
-      
-      
+
+
 Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
 
-      
+
 We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
 \figurename~\ref{pic:statetrans} shown the state transition diagram.
 We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional {\vwarm}  respectively, and the values are as follows.
@@ -593,7 +593,7 @@ The relation between the cache state and execution time is as follows:
    \end{tabular}
 \end{table}
 
-The {\scshape{Warm+Delay}} scheme provides the optimized performance for various implementations of AES~\cite{openssl,polarssl} with different key length, once $1 \leq k \leq k_0$.
+The {\scshape{Warm+Delay}} scheme provides the optimal performance for various implementations of AES~\cite{openssl,polarssl} with different key length, once $1 \leq k \leq k_0$.
 All the proofs above stands, with the only difference be the value of $P_{delay}$ (detailed in Appendix~\ref{appendixb}).
 $P_{delay}$ depends  on the size of lookup tables and the number of iterated rounds.
 For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, the size of lookup tables are 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
@@ -605,7 +605,7 @@ Table~\ref{tbl:pdelayvalue} lists the corresponding minimum $P_{delay}$.
 %For all the situations, the process of the proof of the Theorem 3 and Theorem 4 is almost the same. The main difference is the value of $P_{delay}$. We compute the value of $P_{delay}$ in the Table~\ref{tbl:pdelayvalue}, and find out that the Theorem 3 and Theorem 4 still hold true. %这段是说，对于这些不同的情况，在证明Lemma 3 and Lemma 4的时候，证明方法都是一样的，不同的就是P_{delay}的取值范围不同，但是经过计算，在每种取值范围内，Lemma 3 and Lemma 4都是成立的，也就是都是我们的方案最优。
 
 For other table-lookup block ciphers, we have to determine the $P_{delay}$ according to the algorithm and the implementation.
-Once $1 \leq k \leq k_0$ is satisfied , {\scshape{Warm+Delay}}  provides the optimized  performance.
+Once $1 \leq k \leq k_0$ is satisfied , {\scshape{Warm+Delay}}  provides the optimal performance.
 
 %it is similar to the AES. They just have different values of $P_{delay}$. The three states of the cache is same and they have the same state transition diagram. So it can be proved that the Theorem 3 and Theorem 4 hold true for them.% 这段是说，对于其他算法，Lemma 3 and Lemma 4 的证明也是类似的，同样对于cache有这三种状态，且状态转移图也是一样的，故而证明过程也一样，只是P_{delay}不同而已，可以证明对于其P_{delay}的范围，Lemma 3 and Lemma 4 也是成立的。
 

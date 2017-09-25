@@ -143,7 +143,7 @@ and the performance is further improved.
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-Then, we apply the optimized integration scheme to AES,
+We apply the optimization  integration scheme to AES,
     and analyze the situations that it produces the optimal performance.
 It is proven that,
    the integration scheme with appropriate parameters,
@@ -152,9 +152,9 @@ It is proven that,
    or inserted padding instructions.
 %In particular, we apply this scheme to AES, 
 %It is found that, 
-The optimal performance of  {\scshape{Warm}} and  {\scshape{Delay}} with different key sizes (128, 192, 256 bits)
+The optimal performance of the integrated {\scshape{Warm+Delay}} scheme with different key sizes (128, 192, and 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables),
-    is found in commodity computer systems.
+    is investigated in commodity computer systems.
 For example,
     the protected AES-128 implementation with 2KB lookup tables \cite{Daemen2002The} achieves the optimal performance,
 when (\emph{a}) the probability
@@ -165,14 +165,16 @@ when (\emph{a}) the probability
   denoted as $k$, {\color{red}is less than $57.4$}.
 These conditions hold %for continuous AES executions
  in commodity computer systems,
-  which is confirmed by experimental results of the prototype.
-In fact, our protection scheme produces the optimal performance for various AES implementations (the lookup tables in size of 2KB, 4KB, 4.25KB and 5KB) of different key sizes (128, 192 and 256 bits), {\color{red}when $P_{evict} < 0.2$ and $k < 42.41$}.
-These conditions also hold in commodity systems.
+  which is confirmed by our experiments.
+The conditions for other AES implementations of different key sizes,
+            {\color{red} $P_{evict} < 0.2$ and $k < 42.41$}, also hold in commodity systems.
+%In fact, our protection scheme produces the optimal performance for various AES implementations (the lookup tables in size of 2KB, 4KB, 4.25KB and 5KB) of different key sizes (128, 192 and 256 bits), 
+
 
 
    % 各种输入是攻击情况，仍然是相同的分布。这一块的实验，我们没有做。是否需要做？
    % 对于original，在图上，哪些是可以利用来攻击的，应该有所标注【或者使用文字】。
-The proposed scheme does not require any privileged operation on the system.
+We analyze the performance, assuming that the integrated scheme does not require any privileged operation on the computer system.
 The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
 Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
     without special privileges.
@@ -182,14 +184,12 @@ and it is applicable to different implementations.
 %  except that the lookup tables are accessible in the warm operations.
 
 
-We implement the {\scshape{Warm+Delay}} scheme with AES-128.
-Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
-  demonstrate that, the execution time measured by attackers does not
-        reflect the cache misses/hits during encryption.
-We confirm the optimization in different scenarios,
- by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
-Finally,
-    we implement it on Linux with Intel Core CPUs to protect AES.
+We implement the derived {\scshape{Warm+Delay}} scheme on Linux with Intel Core CPUs for AES-128.
+%Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
+%  demonstrate that, the execution time measured by attackers does not
+%        reflect the cache misses/hits during encryption.
+%We confirm the optimization in different scenarios,
+% by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
 Experimental results confirm that,
 (\emph{a}) the execution time does not leak information about cache access,
  (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
@@ -199,6 +199,9 @@ Experimental results confirm that,
 To the best of our knowledge,
   this work is the first to systematically analyze the optimal performance of
     integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  in commodity computer systems.
+
++++++++++++++
+
 Our contributions are as follows:
 \begin{itemize}
 \item
