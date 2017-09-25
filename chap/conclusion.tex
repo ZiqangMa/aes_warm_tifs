@@ -17,6 +17,19 @@ The scheme eliminates remote cache timing side channels,
 
     achieve the optimal performance, by
 
+We implement the derived {\scshape{Warm+Delay}} scheme on Linux with Intel Core CPUs for AES-128.
+%Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
+%  demonstrate that, the execution time measured by attackers does not
+%        reflect the cache misses/hits during encryption.
+%We confirm the optimization in different scenarios,
+% by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
+Experimental results confirm that,
+(\emph{a}) the execution time does not leak information about cache access,
+ (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
+(\emph{c}) the implementation works without any privileged operations on the system.
+
+
+
 We propose the {\scshape{Warm+Delay}} scheme to eliminate the remote cache timing side-channel attacks,
  for the block ciphers implemented based on lookup tables.
 Our scheme is applicable to all regular block ciphers,

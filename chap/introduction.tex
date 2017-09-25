@@ -184,42 +184,37 @@ and it is applicable to different implementations.
 %  except that the lookup tables are accessible in the warm operations.
 
 
-We implement the derived {\scshape{Warm+Delay}} scheme on Linux with Intel Core CPUs for AES-128.
-%Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
-%  demonstrate that, the execution time measured by attackers does not
-%        reflect the cache misses/hits during encryption.
-%We confirm the optimization in different scenarios,
-% by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
-Experimental results confirm that,
-(\emph{a}) the execution time does not leak information about cache access,
- (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-(\emph{c}) the implementation works without any privileged operations on the system.
-
 
 To the best of our knowledge,
   this work is the first to systematically analyze the optimal performance of
     integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  in commodity computer systems.
-
-+++++++++++++
-
 Our contributions are as follows:
 \begin{itemize}
 \item
-We integrate {\scshape{Warm}} and {\scshape{Delay}} into a scheme that
-   achieves the optimal performance with the least extra operations while effectively eliminates remote cache timing side channels.
-We apply the scheme to AES and analyze the optimal way to integrate {\scshape{Warm}} and {\scshape{Delay}} with security.
-The optimal performance is also validated by experiments.
+We investigate the performance overheads of {\scshape{Warm}} and {\scshape{Delay}},
+    and derive the scheme to integrate these countermeasures
+        with the optimal performance while effectively eliminate remote cache side channels.
+Two basic countermeasures are algorithm-independent and implementation-transparent,
+   and the integration does not require any privileged operation on the computer system.
+We apply the integration scheme to AES,
+   and analyze the situations that it produces the optimal performance.
 
 \item
+We implement the integrated {\scshape{Warm+Delay}} scheme on Linux with Intel Core CPUs for AES-128,
+  and confirm experimentally that it (\emph{a}) eliminates cache timing side channels,
+   (\emph{b}) outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
+   (\emph{c}) works without any privileged operations on the system.
+
+  
+  
 % 继承了基本操作的特性：算法无关、实现无关、平台无关。
 % integration过程也是如此。
-The two basic elements are integrated in the way that the {\scshape{Warm+Delay}} scheme
-  is widely applicable. % to different algorithms, implementations and computing platforms.
-{\scshape{Warm}} and {\scshape{Delay}} are independent of algorithms and implementations,
-    work on various computer systems.
-These features are kept in the integrated scheme,
-  which is applicable to various implementations with lookup tables of different block ciphers,
-     and does not require any privileged operation on the computer system.
+%%The two basic elements are integrated in the way that the {\scshape{Warm+Delay}} scheme
+%%  is widely applicable. % to different algorithms, implementations and computing platforms.
+%%{\scshape{Warm}} and {\scshape{Delay}} are independent of algorithms and implementations,   work on various computer systems.
+%%%These features are kept in the integrated scheme,
+%%%  which is applicable to various implementations with lookup tables of different block ciphers,
+%%%     and does not require any privileged operation on the computer system.
 \end{itemize}
 
 
