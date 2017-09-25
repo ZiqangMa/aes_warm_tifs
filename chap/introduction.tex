@@ -94,35 +94,17 @@ In particular,
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
     but introduce extra operations and degrade the performance greatly.
-
-+++++++++++++++++++++++++++
-
 In this paper, we investigate the performance of cryptographic functions protected by {\scshape{Warm}} and {\scshape{Delay}},
-  and attempt to find the best strategy to integrate these two common countermeasures
-    with the optimal performance while effectively eliminate remote cache side channels.
-We derive the optimal scheme to integrating {\scshape{Warm}} and {\scshape{Delay}},
-   and apply the scheme to AES.
-It is proven that,
-   the integration scheme with appropriate parameters,
-   achieves the optimal performance with the least extra operations.
-Finally,
-    we implement it on Linux with Intel Core CPUs to protect AES.
-Experimental results confirm that,
-(\emph{a}) the execution time does not leak information about cache access,
- (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-(\emph{c}) the implementation works without any privileged operations on the system.
-
-
-
-
-As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementations of block ciphers,
+  and attempt to find the best strategy to integrate these countermeasures.
+%    with the optimal performance while effectively eliminate remote cache side channels.
+%As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementations of block ciphers,
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
 %Intro：
 %	各种Side channel威胁到密码系统的安全性，包括timing、电磁、xxxx、xxx。利用Side channel攻击者能够获得密钥。Timing side channel是其中容易发起的一种，因为只需要计时、不需要专门的设备。
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
 %	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
-    we attempt to integrate them into a scheme
-   achieving the optimal performance while effectively eliminating remote cache timing side channels.
+%    we attempt to integrate them into a scheme
+%   achieving the optimal performance while effectively eliminating remote cache timing side channels.
 In particular,
     the following principles are enforced in the integrated scheme:
 \begin{enumerate}
@@ -143,30 +125,35 @@ Note that,
     compared with the best case protected by {\scshape{Warm}},
   the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
 Only when the effect of {\scshape{Warm}} is broken  by system activities, such as interrupts and task scheduling,
-    and then information on the secret key might be leaked,
-  the execution time is delayed as in the worst case.
+    and then information on the secret key may be leaked,
+  the execution time is delayed in the worst case.
 
 \item
 % 将warm放到delay的时间中
 When {\scshape{Delay}} is performed,
   {\scshape{Warm}} is  done as a part of inserted instructions
    for the next encryption.
-So, the cost of {\scshape{Warm}} is masked by padding instructions.  % are utilized to perform warm instead.
+So, the cost of {\scshape{Warm}} is masked by padding instructions,  % are utilized to perform warm instead.
 %Note that warm also consumes CPU cycles.
+and the performance is further improved.
 \end{enumerate}
+
 
 %1. the时间与data无关，或者是全部都在cache的时间，或者是全部都不在cache的时间；使得无法推导data相关
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-Different from existing cache side channel defenses,
-   the proposed {\scshape{Warm+Delay}} scheme
-    eliminates remote cache timing side channels
-   while achieves the optimal performance (that is, \emph{no unnecessary lookup table read operations
-   or inserted padding instructions}).
-In particular, we apply this scheme to AES, and analyze the situations that it produces the optimal performance.
-It is found that, in commodity computer systems,
- the proposed scheme achieves the optimal performance with different key sizes (128, 192, 256 bits)
+We apply the optimized integration scheme to AES,
+    and analyze the situations that it produces the optimal performance.
+It is proven that,
+   the integration scheme with appropriate parameters,
+   achieves the optimal performance with the least extra operations;
+    that is, no unnecessary lookup table read operations
+   or inserted padding instructions.
+%In particular, we apply this scheme to AES, 
+%It is found that, 
+In commodity computer systems,
+ the integration scheme achieves the optimal performance with different key sizes (128, 192, 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables).
 For example,
     the protected AES-128 implementation with 2KB lookup tables \cite{Daemen2002The} achieves the optimal performance,
@@ -201,10 +188,17 @@ Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
         reflect the cache misses/hits during encryption.
 We confirm the optimization in different scenarios,
  by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
+Finally,
+    we implement it on Linux with Intel Core CPUs to protect AES.
+Experimental results confirm that,
+(\emph{a}) the execution time does not leak information about cache access,
+ (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
+(\emph{c}) the implementation works without any privileged operations on the system.
+
 
 To the best of our knowledge,
   this work is the first to systematically analyze the optimal performance of
-    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  on commodity computer systems.
+    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  in commodity computer systems.
 Our contributions are as follows:
 \begin{itemize}
 \item
