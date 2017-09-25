@@ -30,7 +30,7 @@ In  practical implementations of a cryptographic algorithm,
   even when the algorithm is semantically secure.
 %  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
   Among these vulnerabilities,
-   timing side-channel attacks are easily launched without any special devices.
+   timing side-channel attacks are easily launched without special probe devices.
 In particular, remote timing side channels allow an attacker without
     any system or physical privilege on the computer,
     to disclose the keys
@@ -82,18 +82,39 @@ Intuitively,
 %Although the existing methods can offer some security guarantee, most of them have some drawbacks.
 %It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
 In particular,
- {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent mechanisms
+ {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent and implementation-transparent mechanisms
     to eliminate cache timing side channels \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant lookup tables \emph{before} the encryption operations,
     and
     {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations;\footnote{To perform encryption
      always without caches is another choice, but it is inefficient.
-     In fact, a typical strategy of {\scshape{Delay}}
+     Moreover, a typical strategy of {\scshape{Delay}}
      is to finish the encryption operation in constant time that is equal to the execution time without any caches.}
   so the execution time measured by the attackers does not reflect the cache misses/hits \emph{during} encryption.
 
-These two mechanisms prevent cache-based timing attacks at different phases,
+These two common mechanisms prevent cache-based timing attacks at different phases,
     but introduce extra operations and degrade the performance greatly.
+
++++++++++++++++++++++++++++
+
+In this paper, we investigate the performance of cryptographic functions protected by {\scshape{Warm}} and {\scshape{Delay}},
+  and attempt to find the best strategy to integrate these two common countermeasures
+    with the optimal performance while effectively eliminate remote cache side channels.
+We derive the optimal scheme to integrating {\scshape{Warm}} and {\scshape{Delay}},
+   and apply the scheme to AES.
+It is proven that,
+   the integration scheme with appropriate parameters,
+   achieves the optimal performance with the least extra operations.
+Finally,
+    we implement it on Linux with Intel Core CPUs to protect AES.
+Experimental results confirm that,
+(\emph{a}) the execution time does not leak information about cache access,
+ (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
+(\emph{c}) the implementation works without any privileged operations on the system.
+
+
+
+
 As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementations of block ciphers,
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
 %Intro：
@@ -182,7 +203,8 @@ We confirm the optimization in different scenarios,
  by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
 
 To the best of our knowledge,
-  this work is the first protection against cache timing side channels with quantitative performance analysis.
+  this work is the first to systematically analyze the optimal performance of
+    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  on commodity computer systems.
 Our contributions are as follows:
 \begin{itemize}
 \item
