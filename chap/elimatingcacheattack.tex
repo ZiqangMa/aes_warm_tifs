@@ -352,10 +352,10 @@ we further explain that our scheme successfully prevent typical remote cache tim
 %对于这种攻击，最主要的是要能够获取到这么两个集合，一个是加密时间长的集合，一个是加密时间短的集合。通过我们的保护方案，攻击者能够获得到的是一个最短的加密时间，一个由于延迟而最大的加密时间，以及由于进程调度得到的非真实加密时间。首先由于进程调度得到的时间是一个干扰时间，要被排除在集合之外，其次得到最短加密时间的集合都是查找表全部在cache中时的加密时间，而并不是因为明文不同使得访问查找表不同而导致的加密时间最短，因此这个集合并不是攻击需要的集合，而对于加密时间最长的集合，也是同样的情况，攻击者获取到的集合中的加密时间，都是经过延时以后的最大加密时间，与明文输入的关系已经不存在了，故而不能够用来形成攻击。因此我们的方案可以抵抗这种类型的攻击。
 To perform the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
  the attackers need a collection of plaintexts with short (long) measured time due to cache hits (misses).
-However, protected by the proposed {\scshape{Warm+Delay}} scheme,
-  any plaintext is processed in the short time (i.e., $T_{NM}$) due to cache warm,
-  while it is done in the long time (i.e., $T_{W}$ or longer) due to system activities after {\scshape{Delay}}.
-Therefore, the distribution of the collections depends on the non-deterministic system activities,
+However, protected by the {\scshape{Warm+Delay}} scheme,
+  any plaintext is processed in the short time (i.e., $T_{NM}$) due to {\scshape{Warm}},
+  or done in the long time (i.e., $T_{W}$ or longer) due to system activities after {\scshape{Delay}}.
+Therefore, the distribution of the collection depends on non-deterministic system activities,
    but not the data processed;
  or, the attack results will be random.
 
