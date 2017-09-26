@@ -307,9 +307,7 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
 
-]]]]]]]]
-
-Next, let's consider the cache state of lookup tables during the continuous invocations of AES encryption.
+Next, let's consider the different cache state of lookup tables during the continuous invocations of AES encryption.
 For each execution of AES encryption,
   and there are three possible states:
 (1) all entries of the lookup table are in caches, denoted as $S_{c}$,
@@ -318,9 +316,13 @@ For each execution of AES encryption,
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
 
-If task scheduling, interrupts or other system activities occur during the execution of encryption,
- the entries of lookup tables may be evict from the cache, which probability is denoted as $P_{evict}$.
+]]]]]]]]
+
+If task scheduling, interrupts or any other system activities occur during the execution of encryption,
+ the entries of lookup tables may be evicted from caches, and the probability is denoted as $P_{evict}$.
 For one AES encryption, some entries are uncached before encryption and it is possible that none of them is accessed during the encryption, and this probability is denoted as $P_{\bar{c},\bar{a}}$.
+{\color{red} does the definition mean, `provided that some entries are uncached', the probability that they are unaccessed?
+if yes, we shall denote it as $P_{\bar{a}ccess}$}.
 
 % 哪些事件导致状态转移？概率表示为。
 % 事件的定义
@@ -350,7 +352,7 @@ g_{max} = \frac{(\bar{P}_N+P_{evict})*(1+P_{evict}-P_{evict}*\bar{P}_N)}{P_{evic
 
 \begin{IEEEproof}
 %We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
-To prove Theorem \ref{lemma:warmaftermiss}, we compare it with two cases:
+In order to prove Theorem \ref{lemma:warmaftermiss}, we compare it with two cases:
 \begin{itemize}
   \item When there is a cache miss in the previous AES execution, we perform  {\vwarm}  with a probability less than 1.
   \item Performing {\vwarm} operation with a probability $P_{warm}$, regardless of the cache state after the previous execution.
