@@ -334,8 +334,65 @@ if yes, we shall denote it as $P_{\bar{a}ccess}$}.
 
 Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
-$T_{delay}$ varies for different executions,
+$T_{delay}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
+
+For our scheme, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
+We use $\Pi_{c}^{C}$, $\Pi_{\bar{c}, \bar{a}}^{C}$, $\Pi_{\bar{c}, a}^{C}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+%\setlength{\arraycolsep}{0.0em}
+\begin{eqnarray}
+\label{equ:pic}
+&&\Pi_{c}^{C} = \frac{P_{a2}}{P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})}\ , \nonumber\\
+&&\Pi_{\bar{c}, \bar{a}}^{C} = \frac{P_{evict}(1-P_{a1})}{P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})}\ , \\
+&&\Pi_{\bar{c}, a}^{C} = \frac{P_{evict}P_{a2}}{P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})} .  \nonumber
+\end{eqnarray}
+%\setlength{\arraycolsep}{5pt}
+
+For less warm condition,the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
+We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+%\setlength{\arraycolsep}{0.0em}
+\begin{align}
+\label{equ:pic}
+&\Pi_{c}^{L} = \frac{P_{a1}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{warm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{w})(1-P_{a3})}{P_{a1}P_{a2}^{'}+P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{warm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \\
+&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{w})(1-P_{a3})+P_{evict}P_{a2}^{'}} .  \nonumber
+\end{align}
+%\setlength{\arraycolsep}{5pt}
+
+For more warm condition, the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
+We use $\Pi_{c}^{M}$, $\Pi_{\bar{c}, \bar{a}}^{M}$, $\Pi_{\bar{c}, a}^{M}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+%\setlength{\arraycolsep}{0.0em}
+\begin{align}
+\label{equ:pic}
+&\Pi_{c}^{M} = \frac{1-(1-P_{warm})(1-P_{a2}^{''})}{(1+P_{evict})(1-(1-P_{warm})(1-P_{a2}^{''}))+P_{evict}(1-P_{warm})(1-P_{a1})}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{warm})(1-P_{a2}^{''}))+P_{evict}(1-P_{warm})(1-P_{a1})}\ , \\
+&\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{warm})(1-P_{a2}^{''}))-P_{warm}P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{warm})(1-P_{a2}^{''}))+P_{evict}(1-P_{warm})(1-P_{a1})} .  \nonumber
+\end{align}
+%\setlength{\arraycolsep}{5pt}
+
+our scheme VS Less warm condition:
+
+The expected extra time introduced by less warm condition and conditional {\vwarm}  are denoted as $E(T^{L})$ and $E(T^{C})$, respectively.
+Then,
+%\begin{footnotesize}
+\begin{equation}
+\label{equ:tpc1}
+E(T^{L})-E(T^{C})=\Pi_{\bar{c}, a}^{L} * T_{delay} - \Pi_{\bar{c}, a}^{C} * T_{delay} 
+\end{equation}
+
+
+our scheme VS More warm condition:
+
+The expected extra time introduced by more warm condition and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
+Then,
+%\begin{footnotesize}
+\begin{align}
+\label{equ:tpc1}
+E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{warm_min} \nonumber \\
+ &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
+\end{align}
+
+
 Let $g = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
@@ -370,10 +427,19 @@ We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{co
 \figurename~\ref{pic:statetrans} shown the state transition diagram.
 We use $\Pi_{full}^{p}$ ($\Pi_{full}^{c}$), $\Pi_{nonas}^{p}$ ($\Pi_{nonas}^{c}$), $\Pi_{as}^{p}$ ($\Pi_{as}^{c}$) to represent the limit distribution of the three states  when the Markov chain in stable state for the probabilistic and conditional {\vwarm}  respectively, and the values are as follows.
 
-\begin{figure*}[!t]
-  \centering
-  \includegraphics[width=0.7\textwidth]{pic/markov1.pdf}\\
-  \caption{The Markov state-transferring probability diagram.}\label{pic:statetrans}
+\begin{figure*}[t]
+    \centering
+    \subfloat[Our scheme]{\includegraphics[width=0.33\textwidth]{pic/conditionwarm.pdf}
+    \label{fig:conditioncase}}
+    \hfil
+    \subfloat[Less warm]{\includegraphics[width=0.5\textwidth]{pic/probwarmless.pdf}
+    \label{fig:lesscase}}
+    \hfil
+    \subfloat[More warm]{\includegraphics[width=0.5\textwidth]{pic/probwarmmore.pdf}
+    \label{fig:morecase}}
+    \caption{The Markov state-transferring probability diagram.}
+    \label{pic:statetrans}
+
 \end{figure*}
 
 %\begin{footnotesize}
