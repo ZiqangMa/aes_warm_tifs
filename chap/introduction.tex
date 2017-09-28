@@ -86,8 +86,8 @@ In particular,
     to eliminate cache timing side channels \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant lookup tables \emph{before} the encryption operations,
     and
-    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations;\footnote{To perform encryption
-     always without caches is another choice, but it is inefficient.
+    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations;\footnote{Performing encryption
+     always without caches is another choice, but it is very inefficient.
      Moreover, a typical strategy of {\scshape{Delay}}
      is to finish the encryption operation in constant time that is equal to the execution time without any caches.}
   so the execution time measured by the attackers does not reflect the cache misses/hits \emph{during} encryption.
