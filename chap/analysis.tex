@@ -357,9 +357,9 @@ We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to re
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pic}
-&\Pi_{c}^{L} = \frac{P_{a1}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{warm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{w})(1-P_{a3})}{P_{a1}P_{a2}^{'}+P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{warm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \\
-&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{warm}(1-P_{a1})+P_{evict}(1-P_{w})(1-P_{a3})+P_{evict}P_{a2}^{'}} .  \nonumber
+&\Pi_{c}^{L} = \frac{P_{a1}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \\
+&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}} .  \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
@@ -368,21 +368,12 @@ We use $\Pi_{c}^{M}$, $\Pi_{\bar{c}, \bar{a}}^{M}$, $\Pi_{\bar{c}, a}^{M}$ to re
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pic}
-&\Pi_{c}^{M} = \frac{1-(1-P_{warm})(1-P_{a2}^{''})}{(1+P_{evict})(1-(1-P_{warm})(1-P_{a2}^{''}))+P_{evict}(1-P_{warm})(1-P_{a1})}\ , \nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{warm})(1-P_{a2}^{''}))+P_{evict}(1-P_{warm})(1-P_{a1})}\ , \\
-&\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{warm})(1-P_{a2}^{''}))-P_{warm}P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{warm})(1-P_{a2}^{''}))+P_{evict}(1-P_{warm})(1-P_{a1})} .  \nonumber
+&\Pi_{c}^{M} = \frac{1-(1-P_{Mwarm})(1-P_{a2}^{''})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})}\ , \\
+&\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{Mwarm})(1-P_{a2}^{''}))-P_{Mwarm}P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})} .  \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
-our scheme VS Less warm condition:
-
-The expected extra time introduced by less warm condition and conditional {\vwarm}  are denoted as $E(T^{L})$ and $E(T^{C})$, respectively.
-Then,
-%\begin{footnotesize}
-\begin{equation}
-\label{equ:tpc1}
-E(T^{L})-E(T^{C})=\Pi_{\bar{c}, a}^{L} * T_{delay} - \Pi_{\bar{c}, a}^{C} * T_{delay}
-\end{equation}
 
 
 our scheme VS More warm condition:
@@ -397,18 +388,28 @@ E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{wa
 \end{align}
 
 
-Let $k = T_{delay} / T_{warm}$, and
-we have the following theorem.
+
+Then we have the following theorems.
 
 
 \begin{theorem}\label{lemma:warmnum1}
-  performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
-  results in the least extra time of {\vdelay} and {\vwarm}.
-  Where,
+  The conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+\end{theorem}
+\begin{IEEEproof}
+The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{L})$ and $E(T^{C})$, respectively.
+So,
+%\begin{footnotesize}
 \begin{equation}
+\label{equ:tpc1}
+E(T^{L})-E(T^{C})=\Pi_{\bar{c}, a}^{L} * T_{delay} - \Pi_{\bar{c}, a}^{C} * T_{delay}
+\end{equation}
+
+And then, we get that $E(T^{L}) > E(T^{C})$ for all $P_{Lwarm}\in(0,1)$.
+So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+\end{IEEEproof}
 
 
-
+Let $k = T_{delay} / T_{warm}$, and
 
 \begin{theorem}\label{lemma:warmnum2}
 If $g_{min} \leq g \leq g_{max}$ ($g_{max}$ is in Equation~\ref{equ:kzero}),
@@ -429,12 +430,7 @@ In order to prove Theorem \ref{lemma:warmaftermiss}, we compare it with two case
   \item Performing {\vwarm} operation with a probability $P_{warm}$, regardless of the cache state after the previous execution.
 \end{itemize}
 
- For the first case, {\vdelay} is needed more.
-If the next encryption accesses any entry that is currently not in caches, performing {\vwarm}  operation before hand  introduces none extra overhead -- without {\vwarm} all these entries will still be loaded into caches during encryption.
-      If the next encryption accesses some uncached entries, as proved in Thorem 3, when $N$ cache line size of lookup tables are not cached, not performing {\vwarm}  introduces more extra time.
-
-
-Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
+ Denote this strategy as \emph{probabilistic \vwarm}, while our scheme as \emph{conditional \vwarm}.
 
 
 We use the Markov model to analyse both \emph{probabilistic \vwarm}~and \emph{conditional \vwarm}.
