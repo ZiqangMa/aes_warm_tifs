@@ -337,7 +337,11 @@ Denote the execution time of {\vdelay} and {\vwarm} as
 $T_{delay}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
-For our scheme, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
+In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
+While considering other two cases: (1)performing {\vwarm} with a probability $P_{Lwarm}\in(0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{Mwarm}\in(0,1)$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
+
+
+For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
 We use $\Pi_{c}^{C}$, $\Pi_{\bar{c}, \bar{a}}^{C}$, $\Pi_{\bar{c}, a}^{C}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
@@ -348,7 +352,7 @@ We use $\Pi_{c}^{C}$, $\Pi_{\bar{c}, \bar{a}}^{C}$, $\Pi_{\bar{c}, a}^{C}$ to re
 \end{eqnarray}
 %\setlength{\arraycolsep}{5pt}
 
-For less warm condition,the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
+For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
 We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
@@ -359,7 +363,7 @@ We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to re
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
-For more warm condition, the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
+For more {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
 We use $\Pi_{c}^{M}$, $\Pi_{\bar{c}, \bar{a}}^{M}$, $\Pi_{\bar{c}, a}^{M}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
@@ -377,7 +381,7 @@ Then,
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:tpc1}
-E(T^{L})-E(T^{C})=\Pi_{\bar{c}, a}^{L} * T_{delay} - \Pi_{\bar{c}, a}^{C} * T_{delay} 
+E(T^{L})-E(T^{C})=\Pi_{\bar{c}, a}^{L} * T_{delay} - \Pi_{\bar{c}, a}^{C} * T_{delay}
 \end{equation}
 
 
@@ -393,10 +397,20 @@ E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{wa
 \end{align}
 
 
-Let $g = T_{delay} / T_{warm}$, and
+Let $k = T_{delay} / T_{warm}$, and
 we have the following theorem.
 
-\begin{theorem}\label{lemma:warmaftermiss}
+
+\begin{theorem}\label{lemma:warmnum1}
+  performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
+  results in the least extra time of {\vdelay} and {\vwarm}.
+  Where,
+\begin{equation}
+
+
+
+
+\begin{theorem}\label{lemma:warmnum2}
 If $g_{min} \leq g \leq g_{max}$ ($g_{max}$ is in Equation~\ref{equ:kzero}),
  performing  {\vwarm}  when some cache miss occurs during the previous execution of encryption,
   results in the least extra time of {\vdelay} and {\vwarm}.
