@@ -414,7 +414,7 @@ Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
 If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
     conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy;
 or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$,
-    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy when $g<g_{max}$, 
+    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy when $g<g_{max}$,
         where
 \begin{equation}
 \label{equ:kzero}
@@ -423,11 +423,7 @@ g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}
  \end{theorem}
 
 \begin{IEEEproof}
-
-
-our scheme VS More warm condition:
-
-The expected extra time introduced by more warm condition and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
+The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
 Then,
 %\begin{footnotesize}
 \begin{align}
@@ -436,9 +432,31 @@ E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{wa
  &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
 \end{align}
 
-
+So we get that: (1)when $P_{evict} \leq \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds;
+(2)when $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds if $g<g_{max}$.
+Therefore in these condition conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
+\begin{theorem}\label{lemma:warmnum3}
+If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
+or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$ and $g<g_{max}$,
+    performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
+\end{theorem}
+
+\begin{IEEEproof}
+The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
+Then,
+%\begin{footnotesize}
+\begin{align}
+\label{equ:tpc1}
+E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{warm_{min}} \nonumber \\
+ &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
+\end{align}
+
+So we get that: (1)when $P_{evict} \leq \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds;
+(2)when $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds if $g<g_{max}$.
+Therefore in these condition conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+\end{IEEEproof}
 
 %\begin{IEEEproof}
 %%We cannot directly determine or predict whether the lookup tables are in the cache or not. Therefore, we can only decide whether to perform the {\vwarm}  operation based on the time of the previous execution. %As we just proved, whenever we perform \vwarm, we will load all lookup tables into cache.
