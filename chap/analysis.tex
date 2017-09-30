@@ -464,12 +464,14 @@ $$\left\{
 \begin{aligned}
 &x_{2}P_{Mwarm}+x_{3}P_{Cowarm}=P_{2} \\
 &x_{1}P_{Lwarm}+x_{2}=P_{1} \\
-&x_{1}+x_{2}+x_{3}=1 
+&x_{1}+x_{2}+x_{3}=1
 \end{aligned}
 \right.
 $$
-
-  performing {\vwarm} with a probability $P_{Lwarm}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{Mwarm}\in[0,1]$ in other conditions.
+In this way, the generate warm strategy is divided. It is already proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} if $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
+or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$ and $g<g_{max}$.
+Therefore, with this condition, conditional {\vwarm} has better performance than generate warm strategy for any $P_{1}$ and $P_{2}$.
+That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
 \end{IEEEproof}
 
 %\begin{IEEEproof}
@@ -551,37 +553,40 @@ performing  {\vwarm}  when cache-miss occurs during the previous execution,
 \end{corollary}
 
 \begin{IEEEproof}
-for the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
-From Equation~\ref{equ:kzero}, if we regard $k_{0}$ as the function of $P_{evict}$, we can get that $k_{0}$ is a monotony decrease function when $P_{delay} \geq 0.5$. That is when $P_{evict} = 1$, $k_{0}$ gets the minimum value.
-Also if we regard $k_{0}$ as the function of $P_{delay}$, we can get that $k_{0}$ is a monotony increase function when $P_{delay} \geq 0.5$ for arbitrary $P_{evict}$.
+For the AES-128 implementation with a 2KB lookup table, $P_{a1}$ is larger than 0.994 from Equation~\ref{equ:delay}.
+The range of $P_{a2}$ is $[0.994,1]$.
+For the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
+$T_{delay}$ is $2525.00$ cycles;
+the minimum of $T_{warm}$($T_{warm_{min}}$) is $124$ cycles when accessing the lookup table from L1D caches;
+and the maximum of $T_{warm}$ is $1781.60$ cycles when all the lookup tables in RAM.
+Thus, $M=0.0491$ and the rang of $g$ is $[1.417,20.363]$.
 
-From Equation~\ref{equ:delay}, we get $P_{delay} \geq 0.994$.
-So the minimum value $k_{0} = 336.3$ when $P_{evict} = 1$.(The range of $k_{0}$ is listed in  Table~\ref{tbl:kvalue} when $P_{delay} = 0.994$)
- When $P_{delay}$ gets larger, $k_{0}$ gets larger. %, which will cause the range of $k$ to increase correspondingly.
-In the environment described in Section~\ref{sec:performanceproof},
-the maximum of $t_{delay}$ is $2525.00$ cycles,
-the minimum of $t_{warm}$ is $124$ cycles (accessing the lookup tables from caches).
-The maximum of $t_{warm}$ is $1781.60$ when all the lookup tables in RAM.
-Therefore, the range of $k$ is: $1 < k < 20.36$ satisfying the condition of $E(T^{p}) > E(T^{c})$.
-%Also, we confirmed experimentally in Section~\ref{sec:eliminating} that $P_{evict}$ is always less than 0.005.
-Therefore, the  conditional {\vwarm}  provides  better performance than the probabilistic \vwarm, that is performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
+
+
+In Equation~\ref{equ:kzero}, if we regard $g_{max}$ as the function of $P_{a1}$, we can get that $g_{max}$ is a monotony increase function when $P_{a1}$ is larger than 0.994.  
+That is when $P_{a1} = 0.994$, $g_{max}$ gets the minimum value.
+Also if we regard $g_{max}$ as the function of $P_{evict}$, we can get that $g_{max}$ is a monotony decrease function when when $P_{a1}$ is larger than 0.994.
+In the same way, if we regard $g_{max}$ as the function of $P_{a2}$, when $P_{evict}$ is small, $g_{max}$ is a monotony increase function. But when $P_{evict}$ is large, $g_{max}$ is a monotony decrease function.
+Therefore, the minimum value of $g_{max}$ is 40.3 when $P_{evict} = 1$, $P_{a1} = 0.994$ and $P_{a2} = 1$.
+The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
+So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 \end{IEEEproof}
 %\qed
 %\end{IEEEproof}
 
 
-\begin{table*}[t]%[!hbt]
-  \centering
-  \small
-  \caption{The values of $k_{0}$ corresponding to $P_{evict}$. ($P_{delay} = 0.994$)}\label{tbl:kvalue}
-   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-   \hline
-   {$P_{evict}$} & 0   & 0.05  & 0.1 & 0.2   & 0.3   & 0.4   & 0.5  & 0.6   & 0.7    & 0.8  & 0.9 & 1 \\
-   \hline
-   {$k_{0}$} & $\infty$ & 3502.1 & 1835.4 & 1002.2 & 724.5 & 585.7 & 502.5 & 447.1 & 407.5 & 377.8 & 354.8 &336.3 \\
-   \hline
-   \end{tabular}
-\end{table*}
+%\begin{table*}[t]%[!hbt]
+%  \centering
+%  \small
+%  \caption{The values of $k_{0}$ corresponding to $P_{evict}$. ($P_{delay} = 0.994$)}\label{tbl:kvalue}
+%   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+%   \hline
+%   {$P_{evict}$} & 0   & 0.05  & 0.1 & 0.2   & 0.3   & 0.4   & 0.5  & 0.6   & 0.7    & 0.8  & 0.9 & 1 \\
+%   \hline
+%   {$k_{0}$} & $\infty$ & 3502.1 & 1835.4 & 1002.2 & 724.5 & 585.7 & 502.5 & 447.1 & 407.5 & 377.8 & 354.8 &336.3 \\
+%   \hline
+%   \end{tabular}
+%\end{table*}
 
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
 
