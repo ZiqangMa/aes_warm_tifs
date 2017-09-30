@@ -338,7 +338,7 @@ $T_{delay}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
 In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
-While considering other two cases: (1)performing {\vwarm} with a probability $P_{Lwarm}\in(0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{Mwarm}\in(0,1)$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
+While considering other two cases: (1)performing {\vwarm} with a probability $P_{Lwarm}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{Mwarm}\in[0,1]$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
 
 \begin{figure*}[t]
     \centering
@@ -444,18 +444,32 @@ or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$ and $g<g_{max}$,
 \end{theorem}
 
 \begin{IEEEproof}
-The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
-Then,
-%\begin{footnotesize}
-\begin{align}
-\label{equ:tpc1}
-E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{warm_{min}} \nonumber \\
- &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
-\end{align}
+Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{Cowarm}\in[0,1]$ just when cache misses do not occur during the pervious execution of encryption and not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
+In this case, when there is a cache miss in the previous, {\vdelay} is needed. If the next encryption accesses any entry that is currently not in caches, performing {\vwarm} before hand introduces non extra overhead. However, if not performing {\vwarm}, as proved in Theorem~\ref{theorm:warmall}, when some cache line size of lookup tables are not cached, not performing {\vwarm} introduces more extra time.
+ Further more, complementary {\vwarm} strategy will introduce extra overhead when cache misses no occur. Therefore complementary {\vwarm} strategy has less performance than conditional {\vwarm}.
+On the other hand, the Markov state transition diagram of complementary {\vwarm} is in \figurename~\ref{fig:morecase}.
+Using the same calculation process within Theorem~\ref{lemma:warmnum1},
+ we can get that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy.
 
-So we get that: (1)when $P_{evict} \leq \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds;
-(2)when $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds if $g<g_{max}$.
-Therefore in these condition conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+Generally,
+ arbitrary warm strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
+  We denote the general warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
+   Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} as $W_{L}$, $W_{M}$ and $W_{Co}$.
+  So we can get the equation:
+  \begin{equation}
+W = x_{1}W_{L}+x_{2}W_{M}+x_{3}W_{Co}
+\end{equation}
+  where $x_{1}$, $x_{2}$ and $x_{3}$ satisfy:
+$$\left\{
+\begin{aligned}
+&x_{2}P_{Mwarm}+x_{3}P_{Cowarm}=P_{2} \\
+&x_{1}P_{Lwarm}+x_{2}=P_{1} \\
+&x_{1}+x_{2}+x_{3}=1 
+\end{aligned}
+\right.
+$$
+
+  performing {\vwarm} with a probability $P_{Lwarm}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{Mwarm}\in[0,1]$ in other conditions.
 \end{IEEEproof}
 
 %\begin{IEEEproof}
