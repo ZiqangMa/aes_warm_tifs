@@ -169,8 +169,8 @@ In each round of AES encryption,
 We assume that, in each round, the input of \texttt{SubBytes} is random and then
     each table entry is accessed  uniformly.
 Hence,
- the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption (denoted as $P_{N}$),
-  is $P_N = (1-\frac{NC}{L})^{16 R}$.
+ the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption, denoted as $P_{\bar{a}ccess}(N)$,
+  is $P_{\bar{a}ccess}(N) = (1-\frac{NC}{L})^{16 R}$.
 
 
 
@@ -191,7 +191,7 @@ Therefore, if $N$ cache lines of table entries are not in caches,
     the probability of extra {\vdelay} is listed as follows.
   \begin{equation}
   \label{equ:delay}
- \bar{P}_N = 1-P_N = 1- (1-\frac{NC}{L})^{16 R}
+ {P}_{delay} = 1-P_{\bar{a}ccess}(N) = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
 
@@ -200,7 +200,7 @@ The execution time shall be delayed to $T_W$ according to Theorem \ref{delay2tw}
 So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is
 \begin{eqnarray}
  \label{equ:tdelay}
-&D_{nl}(N)&={ }  \bar{P}_N * (T_{W}-T_{NM})  \nonumber \\
+&D_{nl}(N)&={ }  {P}_{delay}  (T_{W}-T_{NM})  \nonumber \\
 &&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})
 \end{eqnarray}
 
@@ -261,6 +261,7 @@ However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
 $T_{W}$, $T_{NM}$, and $T_{cl}$ are {\color{red}2834, 309, 55.68} in CPU cycles, respectively
  (see Section \ref{sec:implementation} for details).
+%%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
     when $R = 10$, $L = 2KB$, and $C = 64B$.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
@@ -563,7 +564,7 @@ Thus, $M=0.0491$ and the rang of $g$ is $[1.417,20.363]$.
 
 
 
-In Equation~\ref{equ:kzero}, if we regard $g_{max}$ as the function of $P_{a1}$, we can get that $g_{max}$ is a monotony increase function when $P_{a1}$ is larger than 0.994.  
+In Equation~\ref{equ:kzero}, if we regard $g_{max}$ as the function of $P_{a1}$, we can get that $g_{max}$ is a monotony increase function when $P_{a1}$ is larger than 0.994.
 That is when $P_{a1} = 0.994$, $g_{max}$ gets the minimum value.
 Also if we regard $g_{max}$ as the function of $P_{evict}$, we can get that $g_{max}$ is a monotony decrease function when when $P_{a1}$ is larger than 0.994.
 In the same way, if we regard $g_{max}$ as the function of $P_{a2}$, when $P_{evict}$ is small, $g_{max}$ is a monotony increase function. But when $P_{evict}$ is large, $g_{max}$ is a monotony decrease function.
