@@ -1,36 +1,59 @@
 \newpage
 %\appendix
-\section{The the range of $k$}
+\section{The detail proof of Theorem~\ref{lemma:warmnum1} and Theorem~\ref{lemma:warmnum2}}
 \label{appendixa}
-In this section, we describe how to calculate the range of $k$ in details.
-%In the proof of Theorem~\ref{lemma:warmaftermiss}, we get the Equation~\ref{equ:tpc1}. From it we calculate the range of $k$. Here is the details of the calculation.
-From Table~\ref{tbl:pdelayvalue}, we get $0.8 \leq P_{delay} \leq 1$.
-The conditions $0 \leq P_{warm} \leq 1$ , $0 \leq P_{evict} \leq 1$ ,and $k > 1$ hold, obviously.
+In this section, we describe the proof details of Theorem~\ref{lemma:warmnum1} and Theorem~\ref{lemma:warmnum2}.
 
-By combing Equation~\ref{equ:pip},~\ref{equ:pic} and~\ref{equ:tpc1}, we get Equation~\ref{equ:ypwarm} and \ref{equ:detail}.
-We need to determine the range of  $k$, which makes $E(T^{p}) - E(T^{c})>0$ (i.e., $y(P_{warm}) > 0$).
+
+\subsection{The proof of Theorem~\ref{lemma:warmnum1}}
+To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{L})$ with $E(T^{C})$. 
+So we get the Formula~\ref{equ:tpc1}, and estimate if it is larger than $0$.
+By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:ypwarm1} and \ref{equ:detail1}.
+
+For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
+ and $0 \leq P_{evict} \leq 1$.
+ 
 %\begin{footnotesize}
 \begin{equation}
-\label{equ:ypwarm}
+\label{equ:ypwarm1}
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{warm}) &= (P_{delay}+P_{evict})*P_{warm}^{2} \\
-& +  P_{evict}*(P_{delay}+P_{evict})(1-P_{delay})*P_{warm}\\
-& - k*P_{delay}*P_{evict}*P_{warm} \\
-& + k*P_{delay}^{2}*P_{evict} \ ,
+y(P_{Lwarm}) =& -P_{evict}P_{a2}(P_{a2}^{'}+P_{evict}(P_{a3}-P_{a1}))*P_{Lwarm} \\
+& +  P_{evict}P_{a2}^{'}(P_{a2}+P_{evict})(1-P_{a1})\\
+& - P_{evict}^{2}P_{a2}(1-P_{a3}) \,
 \end{split}\end{equation}
 
 \begin{equation}
-\label{equ:detail}
+\label{equ:detail1}
 \begin{split}
-E(T^{p}) - E(T^{c}) = &\frac{y(P_{warm})}{(P_{warm}+P_{evict})(P_{delay}+P_{evict})}
+E(T^{L}) - E(T^{C}) = &\frac{y(P_{Lwarm})T_{delay}}{A_{L}*B_{L}}
 \end{split}\end{equation}
 %\end{footnotesize}
+where
+\begin{equation*}
+\begin{split}
+&A_{L}=P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1}) \\ & \ \ \ \ \ \ \ \ + P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}\\
+&B_{L}=P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})
+\end{split}\end{equation*}
 
-%$y(P_{warm})$ a quadratic function, and $(P_{delay}+P_{evict}) > 0$.\par
-%\vspace{ex}
- \ \par
+For the function $y(P_{Lwarm})$, it is a monotony decrease function. When $P_{Lwarm} = 1$, it gets the minimum value. 
+At this point, $P_{a2}^{'} = P_{a2}$ and $y(P_{Lwarm}) = 0$.
+Also $A_{L}$ and $B_{L}$ are larger than zero.
+Therefore $E(T^{L}) - E(T^{C})\geq 0$.
+That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
+
+\subsection{The proof of Theorem~\ref{lemma:warmnum2}}
+
+
+
+
+
+
+
+
+
+
 The symmetry axis of $y(P_{warm})$ is $P_{warm} = P_{a}$, where $P_{a}$ is denoted in Equation~\ref{equ:pa}.
 %\begin{footnotesize}
 \begin{equation}

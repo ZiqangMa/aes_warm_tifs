@@ -371,10 +371,10 @@ For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fi
 We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
-\label{equ:pic}
-&\Pi_{c}^{L} = \frac{P_{a1}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \nonumber\\
+\label{equ:pil}
+&\Pi_{c}^{L} = \frac{P_{Lwarm}P_{a2}^{'}}{P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \nonumber\\
 &\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \\
-&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}} .  \nonumber
+&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}} .  \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
@@ -382,7 +382,7 @@ For more {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fi
 We use $\Pi_{c}^{M}$, $\Pi_{\bar{c}, \bar{a}}^{M}$, $\Pi_{\bar{c}, a}^{M}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
-\label{equ:pic}
+\label{equ:pim}
 &\Pi_{c}^{M} = \frac{1-(1-P_{Mwarm})(1-P_{a2}^{''})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})}\ , \nonumber\\
 &\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})}\ , \\
 &\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{Mwarm})(1-P_{a2}^{''}))-P_{Mwarm}P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})} .  \nonumber
@@ -428,7 +428,7 @@ The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  ar
 Then,
 %\begin{footnotesize}
 \begin{align}
-\label{equ:tpc1}
+\label{equ:tpc2}
 E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{warm_{min}} \nonumber \\
  &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
 \end{align}
