@@ -6,13 +6,13 @@ In this section, we describe the proof details of Theorem~\ref{lemma:warmnum1} a
 
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum1}}
-To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{L})$ with $E(T^{C})$. 
+To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{L})$ with $E(T^{C})$.
 So we get the Formula~\ref{equ:tpc1}, and estimate if it is larger than $0$.
 By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:ypwarm1} and \ref{equ:detail1}.
 
 For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
  and $0 \leq P_{evict} \leq 1$.
- 
+
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:ypwarm1}
@@ -37,122 +37,299 @@ where
 &B_{L}=P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})
 \end{split}\end{equation*}
 
-For the function $y(P_{Lwarm})$, it is a monotony decrease function. When $P_{Lwarm} = 1$, it gets the minimum value. 
+For the function $y(P_{Lwarm})$, it is a monotony decrease function. When $P_{Lwarm} = 1$, it gets the minimum value.
 At this point, $P_{a2}^{'} = P_{a2}$ and $y(P_{Lwarm}) = 0$.
 Also $A_{L}$ and $B_{L}$ are larger than zero.
 Therefore $E(T^{L}) - E(T^{C})\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
+To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{M})$ with $E(T^{C})$.
+So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
+By combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 
+For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
+ and $0 \leq P_{evict} \leq 1$.
 
-
-
-
-
-
-
-
-
-The symmetry axis of $y(P_{warm})$ is $P_{warm} = P_{a}$, where $P_{a}$ is denoted in Equation~\ref{equ:pa}.
 %\begin{footnotesize}
 \begin{equation}
-\label{equ:pa}
+\label{equ:ypwarm2}
 \begin{split}
-P_{a} = &\frac{1}{2(P_{evict}+P_{delay})}\{k*P_{evict}P_{delay}\\
-& + P_{evict}^{2}P_{delay} \\
-&+ P_{evict}P_{delay}^{2} - P_{evict}^{2} \\
-& - P_{evict}P_{delay}\} \ .
+%\footnotesize
+%\scriptsize
+y(P_{Mwarm}) = & A_{M}C_{M}P_{Mwarm}^2+B_{M}C_{M}P_{Mwarm} \\
+&-gD_{M}P_{Mwarm} \,
+\end{split}\end{equation}
+
+\begin{equation}
+\label{equ:detail2}
+\begin{split}
+E(T^{M}) - E(T^{C}) = &\frac{y(P_{Mwarm})T_{warm}}{E_{M}*F_{M}}
+\end{split}\end{equation}
+%\end{footnotesize}
+where
+\begin{equation*}
+\begin{split}
+&A_{M}= Mg(1-P_{a2})\\
+&B_{M}=MgP_{a2}+P_{evict}(1-P_{a1})\\
+&C_{M}=\frac{P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})}{P_{evict}(1-P_{a1}}\\
+&D_{M}=-P_{evict}P_{a1}+P_{evict}P_{a2}+P_{a2}\\
+&E_{M}=(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2})) \\& \ \ \ \ \ \ \ \ +P_{evict}(1-P_{Mwarm})(1-P_{a1})\\
+&F_{M}=P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})
+\end{split}\end{equation*}
+
+Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{M}) - E(T^{C}) \geq 0$, $y(P_{Mwarm})$ should be equal or greater than zero.
+Therefore we can get $ A_{M}C_{M}P_{Mwarm}+B_{M}C_{M}-gD_{M} \geq 0$.
+If this inequality holds for all $P_{Mwarm} \in [0,1]$, it should be satisfied that $B_{M}C_{M}-gD_{M} \geq 0$.
+Then we get the following inequality.
+
+\begin{equation}
+%\label{equ:detail2}
+\begin{split}
+&((P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2}) \\
+&-MP_{evict}P_{a2})g \leq \\
+&P_{evict}(1-P_{a1})(P_{evict}P_{a2}+P_{a2}+P_{evict}(1-P_{a1}))
+\end{split}\end{equation}
+
+We denote $(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}$ as $GDenominator$.
+\begin{enumerate}
+\item
+If $GDenominator\leq0$,
+then
+because the right of the inequality is greater than zero, the inequality holds.
+
+In this case, we regard $GDenominator$ as a function of $P_{evict}$ and get:
+\begin{equation}
+%\label{equ:detail2}
+\begin{split}
+&f(P_{evict})=(P_{a2}-P_{a1})(1-P_{a1})P_{evict}^2 \\
+&+((1-M)P_{a2}-(1-M)P_{a1}P_{a2}-MP_{a2}^2)P_{evict}\\
+&-MP_{a2}^2
+\end{split}\end{equation}
+It is an quadratic function and when $P_{evict} = 0$, $f(P_{evict})<0$.
+So
+(1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+    $f(P_{evict}) \leq0$;($P_{rootr}$ is the greater root of equation $f(P_{evict})=0$.)
+(2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$, $f(P_{evict}) \leq0$; ($1-M-P_{a1}>0$, if not,$f(P_{evict}) \leq0$ holds.)
+(3) when $P_{a2}<P_{a1}$, the symmetry axis of $f(P_{evict})$ is $P_{evict} = P_{e\_axis}$, where $P_{e\_axis}$ is denoted in Equation~\ref{equ:eaxis}.
+\begin{equation}
+\label{equ:eaxis}
+\begin{split}
+P_{e\_axis} = &-\frac{P_{a2}(1-M-P_{a1}-MP_{a2}+MP_{a1})}{2(P_{a2}-P_{a1})(1-P_{a1})}
 \end{split}
 \end{equation}
-%\end{footnotesize}
-Equation~\ref{equ:pal0} holds when $0.8 \leq P_{delay} \leq 1$, $0 \leq P_{evict} \leq 1$,  which means $P_{a}  \geq 0$.
-%\begin{footnotesize}
-  \begin{equation}
-  \label{equ:pal0}
-  \begin{split}
-     k  > 1 > & \frac{P_{evict}^{2} + P_{evict}P_{delay} - P_{evict}P_{delay}^{2} - P_{evict}^{2}P_{delay}}{P_{evict}P_{delay}} \\
-     &=1+ \frac{P_{evict}}{P_{delay}} - P_{delay} - P_{evict} \ .
-  \end{split}
-  \end{equation}
- % \end{footnotesize}
-  %We make $k_{1} = \frac{P_{evict}^{2} + P_{evict}P_{delay} - P_{evict}P_{delay}^{2} - P_{evict}^{2}P_{delay}}{P_{evict}P_{delay}}$.
-  %After simplified, $k_{1} = \frac{P_{evict}}{P_{delay}} - P_{delay} + 1 - P_{evict}$.
-  %$k_{1}$ is a decreasing function of $P_{delay}$, the maximum of $k_{1}$ is $0.25P_{evict}+0.2$ when $P_{delay} = 0.8$. The maximum value is less than 1, but $k$ must be larger than $1$. So this condition is false.
- %means $k<1$ which conflicts with the precondition $k>1$.
+If $P_{e\_axis} \leq 0$, i.e. $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$, $f(P_{evict}) \leq0$ holds.
+Otherwise, $P_{e\_axis} > 0$, i.e. $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$. In this case, if $P_{rootl}$ exists, $P_{evict}< min(1,P_{rootl})$ and then $f(P_{evict}) \leq0$. If $P_{rootl}$ does not exist, $f(P_{evict}) \leq0$ holds. ($P_{rootr}$ is the smaller root of equation $f(P_{evict})=0$.)
 
+\item
+If $GDenominator > 0$,
+then
+\begin{equation}
+\begin{split}
+g \leq \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{GDenominator}
+\end{split}
+\end{equation}
 
+We denote $\frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{GDenominator}$ as $Gexpression$.
+First, we regard $Gexpression$ as the function of $P_{a1}$ and calculate the derivative on $P_{a1}$, and get:
+\begin{equation}
+\begin{split}
+\frac{d(Gexpression)}{d(P_{a1})} = &P_{evict}^{2}(MP_{a2}+P_{evict})(1-P_{a1})^2\\
+&+2MP_{evict}(1+P_{evict})P_{a2}^{2}(1-P_{a1})\\
+&+MP_{a2}^{3}(1+P_{evict})^2
+\end{split}
+\end{equation}
+Therefore, $Gexpression$ is a monotony increase function of $P_{a1}$.
 
-\begin{enumerate}
+Second, we regard $Gexpression$ as the function of $P_{a2}$ and calculate the derivative on $P_{a2}$, and get:
+\begin{equation}
+\begin{split}
+\frac{d(Gexpression)}{d(P_{a2})} = & P_{evict}\bar{P}_{a1}\{M(1+P_{evict})^{2}P_{a2}^2\\
+&+2MP_{evict}\bar{P}_{a1}(1+P_{evict})P_{a2} \\
+&+MP_{evict}^{2}\bar{P}_{a1}^2 \\
+&-P_{evict}^{2}\bar{P}_{a1}(1+P_{evict})\}
+\end{split}
+\end{equation}
+where
+$$
+\bar{P}_{a1} = 1 - P_{a1}
+$$
 
+Denote $P_{a2r}$ as the greater root of equation $\frac{d(Gexpression)}{d(P_{a2})}=0$.
+$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
+$P_{a2r} > 0$.
+\begin{equation}
+\begin{split}
+P_{a2r}=\frac{P_{evict}\sqrt{\frac{(1+P_{evict})\bar{P}_{a1}}{M}}-P_{evict}\bar{P}_{a1}}{1+P_{evict}}
+\end{split}
+\end{equation}
 
-  \item If $P_{a} > 1$ (i.e., Equation~\ref{equ:pal1} holds), the minimum value of $y(P_{warm})$ is $y(1)$.
-  When $k \epsilon (k_{1}, k_{0}]$, $y(P_{warm}) \geq 0$ holds.
-  %\begin{footnotesize}
-    \begin{equation}
-    \label{equ:pal1}
-     k_{1} = \frac{(P_{evict}+P_{delay})(2+P_{evict}-P_{delay}P_{evict})}{P_{evict}P_{delay}} \ .
-  \end{equation}
-  %\end{footnotesize}
-  %In this condition,.
- % \begin{equation}
-  %  \scriptsize
-  %  y(1) = (P_{delay} - 1)P_{evict}P_{delay}k + (1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay}) \ .
- % \end{equation}
-  %make $y(1) \geq 0$, so all $y(P_{warm}) \geq 0$ when $0 \leq P_{warm} \leq 1$ . So:
-  %\begin{footnotesize}
-  \begin{equation}
-   k_{0} = \frac{(1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay})}{(1 - P_{delay})P_{evict}P_{delay}}\ .
-  \end{equation}
-  %\end{footnotesize}
-  %We mark $k_{2} = \frac{(P_{evict}+P_{delay})(2+P_{evict}-P_{delay}P_{evict})}{P_{evict}P_{delay}}$ and \par $k_{0} = \frac{(1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay})}{(1 - P_{delay})P_{evict}P_{delay}}$ ,\par so when
-  %$k_{2} < k \leq k_{0},$
- % $$y(P_{warm}) \geq 0$$.\par
+Therefore, if $P_{a2r} \geq 1$, then $\frac{d(Gexpression)}{d(P_{a2})} < 0$ and $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$.
+And if $P_{a2r} < 1$, then $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
- % \ \par
+Let $P_{a2r} = 1$, and we get:
+\begin{equation}
+\begin{split}
+\bar{P}_{a1}P_{evict}^3& + (\bar{P}_{a1}-M(1+\bar{P}_{a1})^2)P_{evict}^2\\
+& - 2M(\bar{P}_{a1}+1)P_{evict}-M = 0
+\end{split}
+\end{equation}
+It is a simple cubic equation on $P_{evict}$. We denote $P_{e\_r}$ as its greatest real root.
+If $P_{e\_r} < 1$,
+then, when $P_{evict} \geq P_{e\_r}$, $P_{a2r} \geq 1$. When $P_{evict} < P_{e\_r}$, $P_{a2r} < 1$.
+Otherwise, $P_{a2r} < 1$ holds.
+In general,if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$.
+ When $P_{evict} < P_{e\_r}$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
+ And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
-  \item If $0 \leq P_{a} \leq 1,$ (i.e., $1 < k \leq k_{1}$), the minimum value of $y(P_{warm})$ is $y(P_{a})$.
-  %\begin{scriptsize}
-  \begin{equation}\begin{split}
-    %\scriptsize
-    &y(P_{a}) = \frac{1}{4(P_{evict}+P_{delay})}\{-P_{evict}^{2}P_{delay}^{2}k^{2}\\
-    &+ 2P_{evict}^{2}P_{delay}(2P_{delay}+P_{evict}-P_{evict}P_{delay})k\\
-    &+ 2P_{evict}P_{delay}^{2}(2P_{delay}+P_{evict}-P_{evict}P_{delay})k\\
-    & - P_{evict}^{2}(P_{evict}+P_{delay})^{2}(1-P_{delay})^{2}\}.
-  \end{split}\end{equation}
-%\end{scriptsize}
- $y(P_{a})$ is a function of $k$ (denoted as $f(k)$). As $-P_{evict}^{2}P_{delay}^{2} < 0$, the minimum of $f(k)$ is either $f(1)$ or $f(k_{1})$, for $1 < k \leq k_{1}$. When $P_{delay} \in [0.8,1]$, $f(1)$ and  $f(k_{2})$ is larger than $0$, which means $y(P_{a}) > 0$
+ Third, we regard $Gexpression$ as the function of $P_{evict}$ and calculate the derivative on $P_{evict}$, and get:
+\begin{equation}
+\begin{split}
+\frac{d(Gexpression)}{d(P_{evict})} &= P_{a2}(\bar{P}_{a1}-M(\bar{P}_{a1}+P_{a2})^2)P_{evict}^2\\
+&-2MP_{a2}^{2}(P_{a2}+\bar{P}_{a1})P_{evict}\\
+&-MP_{a2}^3
+\end{split}
+\end{equation}
+If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
+Otherwise, $\frac{d(Gexpression)}{d(P_{evict})}$ is a simple cubic equation on $P_{evict}$.
+The symmetry axis of the function $\frac{d(Gexpression)}{d(P_{evict})}$ is:
+\begin{equation}
+\begin{split}
+P_{e\_axis}=\frac{MP_{a2}(\bar{P}_{a1}+P_{a2})}{\bar{P}_{a1}-M(\bar{P}_{a1}+P_{a2})^2}
+\end{split}
+\end{equation}
+(1) If $P_{a2}< \sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$,
+ then $P_{e\_axis} > 0$.
 
-  % So if $f(1)>0 and f(k_{2})>0$, $f(k)>0 in k \in (1,k_{2}]$.
-  %\begin{scriptsize}
-  \begin{equation}
-  \label{equ:f1}
-  \begin{split}
-    %\scriptsize
-    f(1) =& \frac{1}{4(P_{evict}+P_{delay})}\{-(1-P_{delay})^{2}P_{evict}^{4}\\ & + 2P_{evict}^{3}P_{delay}^{2} + 4P_{evict}P_{delay}^{3} \\ &+ P_{evict}^{2}P_{delay}^{2}(4-P_{delay}^{2} - 2P_{evict}P_{delay})\}.
-  \end{split}\end{equation}%\end{scriptsize}
- % So, $f(1) > 0$ is true when $P_{delay} \in [0.8,1]$.
+ When $P_{evict} = 0$, $\frac{d(Gexpression)}{d(P_{evict})} = -MP_{a2}^3 < 0$.
+ When $P_{evict} = 1$,
+ $$
+ \frac{d(Gexpression)}{d(P_{evict})} = P_{a2}(\bar{P}_{a1}-M(\bar{P}_{a1}+2P_{a2})^2)
+ $$
+So when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $\frac{d(Gexpression)}{d(P_{evict})} > 0$.
+ In this case, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$.
+when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$.
+ In this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
+(2) If $P_{a2}> \sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$,
+then $P_{e\_axis} < 0$.
+ When $P_{evict} = 0$, $\frac{d(Gexpression)}{d(P_{evict})} = -MP_{a2}^3 < 0$.
+So in this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
 
-  %\begin{footnotesize}
-  \begin{equation}
-  \label{equ:fk1}
-    \raggedleft
-  \begin{split}
-    f(k_{1}) = &(P_{evict}+P_{delay})\{2P_{delay}- 1\\ & + P_{evict}P_{delay}(1 - P_{delay})\}.
-  \end{split}\end{equation}
-  %\end{footnotesize}
-  %So, $f(k_{2}) > 0$ is true when $P_{delay} \in [0.8,1]$.\par
+In general, when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
 
- % \ \par
+In a conclusion, if $GDenominator > 0$, 
+$Gexpression$ is a monotony increase function of $P_{a1}$;
+ when $P_{evict} < \min(P_{e\_r},1)$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$;
+ if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$; 
+when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
 
-  %Therefore, when $1< k \leq k_{2}$, $y(P_{a}) > 0$.
-
-  %So, $y(P_{warm}) > 0$.
-
+Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
-%So, we can get that when $1< k \leq k_{0}$, $y(P_{warm}) \geq 0$.
-From the above analysis, we find that when $1< k \leq k_{0}$, $E(T^{p}) \geq E(T^{c})$.
-%I.e. when $1< k \leq k_{0}$, $T^{p} \geq T^{C}$
+
+
+
+
+
+
+%The symmetry axis of $y(P_{warm})$ is $P_{warm} = P_{a}$, where $P_{a}$ is denoted in Equation~\ref{equ:pa}.
+%%\begin{footnotesize}
+%\begin{equation}
+%\label{equ:pa}
+%\begin{split}
+%P_{a} = &\frac{1}{2(P_{evict}+P_{delay})}\{k*P_{evict}P_{delay}\\
+%& + P_{evict}^{2}P_{delay} \\
+%&+ P_{evict}P_{delay}^{2} - P_{evict}^{2} \\
+%& - P_{evict}P_{delay}\} \ .
+%\end{split}
+%\end{equation}
+%%\end{footnotesize}
+%Equation~\ref{equ:pal0} holds when $0.8 \leq P_{delay} \leq 1$, $0 \leq P_{evict} \leq 1$,  which means $P_{a}  \geq 0$.
+%%\begin{footnotesize}
+%  \begin{equation}
+%  \label{equ:pal0}
+%  \begin{split}
+%     k  > 1 > & \frac{P_{evict}^{2} + P_{evict}P_{delay} - P_{evict}P_{delay}^{2} - P_{evict}^{2}P_{delay}}{P_{evict}P_{delay}} \\
+%     &=1+ \frac{P_{evict}}{P_{delay}} - P_{delay} - P_{evict} \ .
+%  \end{split}
+%  \end{equation}
+% % \end{footnotesize}
+%  %We make $k_{1} = \frac{P_{evict}^{2} + P_{evict}P_{delay} - P_{evict}P_{delay}^{2} - P_{evict}^{2}P_{delay}}{P_{evict}P_{delay}}$.
+%  %After simplified, $k_{1} = \frac{P_{evict}}{P_{delay}} - P_{delay} + 1 - P_{evict}$.
+%  %$k_{1}$ is a decreasing function of $P_{delay}$, the maximum of $k_{1}$ is $0.25P_{evict}+0.2$ when $P_{delay} = 0.8$. The maximum value is less than 1, but $k$ must be larger than $1$. So this condition is false.
+% %means $k<1$ which conflicts with the precondition $k>1$.
+%
+%
+%
+%\begin{enumerate}
+%
+%
+%  \item If $P_{a} > 1$ (i.e., Equation~\ref{equ:pal1} holds), the minimum value of $y(P_{warm})$ is $y(1)$.
+%  When $k \epsilon (k_{1}, k_{0}]$, $y(P_{warm}) \geq 0$ holds.
+%  %\begin{footnotesize}
+%    \begin{equation}
+%    \label{equ:pal1}
+%     k_{1} = \frac{(P_{evict}+P_{delay})(2+P_{evict}-P_{delay}P_{evict})}{P_{evict}P_{delay}} \ .
+%  \end{equation}
+%  %\end{footnotesize}
+%  %In this condition,.
+% % \begin{equation}
+%  %  \scriptsize
+%  %  y(1) = (P_{delay} - 1)P_{evict}P_{delay}k + (1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay}) \ .
+% % \end{equation}
+%  %make $y(1) \geq 0$, so all $y(P_{warm}) \geq 0$ when $0 \leq P_{warm} \leq 1$ . So:
+%  %\begin{footnotesize}
+%  \begin{equation}
+%   k_{0} = \frac{(1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay})}{(1 - P_{delay})P_{evict}P_{delay}}\ .
+%  \end{equation}
+%  %\end{footnotesize}
+%  %We mark $k_{2} = \frac{(P_{evict}+P_{delay})(2+P_{evict}-P_{delay}P_{evict})}{P_{evict}P_{delay}}$ and \par $k_{0} = \frac{(1 + P_{evict}- P_{evict}P_{delay})(P_{evict}+P_{delay})}{(1 - P_{delay})P_{evict}P_{delay}}$ ,\par so when
+%  %$k_{2} < k \leq k_{0},$
+% % $$y(P_{warm}) \geq 0$$.\par
+%
+% % \ \par
+%
+%  \item If $0 \leq P_{a} \leq 1,$ (i.e., $1 < k \leq k_{1}$), the minimum value of $y(P_{warm})$ is $y(P_{a})$.
+%  %\begin{scriptsize}
+%  \begin{equation}\begin{split}
+%    %\scriptsize
+%    &y(P_{a}) = \frac{1}{4(P_{evict}+P_{delay})}\{-P_{evict}^{2}P_{delay}^{2}k^{2}\\
+%    &+ 2P_{evict}^{2}P_{delay}(2P_{delay}+P_{evict}-P_{evict}P_{delay})k\\
+%    &+ 2P_{evict}P_{delay}^{2}(2P_{delay}+P_{evict}-P_{evict}P_{delay})k\\
+%    & - P_{evict}^{2}(P_{evict}+P_{delay})^{2}(1-P_{delay})^{2}\}.
+%  \end{split}\end{equation}
+%%\end{scriptsize}
+% $y(P_{a})$ is a function of $k$ (denoted as $f(k)$). As $-P_{evict}^{2}P_{delay}^{2} < 0$, the minimum of $f(k)$ is either $f(1)$ or $f(k_{1})$, for $1 < k \leq k_{1}$. When $P_{delay} \in [0.8,1]$, $f(1)$ and  $f(k_{2})$ is larger than $0$, which means $y(P_{a}) > 0$
+%
+%  % So if $f(1)>0 and f(k_{2})>0$, $f(k)>0 in k \in (1,k_{2}]$.
+%  %\begin{scriptsize}
+%  \begin{equation}
+%  \label{equ:f1}
+%  \begin{split}
+%    %\scriptsize
+%    f(1) =& \frac{1}{4(P_{evict}+P_{delay})}\{-(1-P_{delay})^{2}P_{evict}^{4}\\ & + 2P_{evict}^{3}P_{delay}^{2} + 4P_{evict}P_{delay}^{3} \\ &+ P_{evict}^{2}P_{delay}^{2}(4-P_{delay}^{2} - 2P_{evict}P_{delay})\}.
+%  \end{split}\end{equation}%\end{scriptsize}
+% % So, $f(1) > 0$ is true when $P_{delay} \in [0.8,1]$.
+%
+%  %\begin{footnotesize}
+%  \begin{equation}
+%  \label{equ:fk1}
+%    \raggedleft
+%  \begin{split}
+%    f(k_{1}) = &(P_{evict}+P_{delay})\{2P_{delay}- 1\\ & + P_{evict}P_{delay}(1 - P_{delay})\}.
+%  \end{split}\end{equation}
+%  %\end{footnotesize}
+%  %So, $f(k_{2}) > 0$ is true when $P_{delay} \in [0.8,1]$.\par
+%
+% % \ \par
+%
+%  %Therefore, when $1< k \leq k_{2}$, $y(P_{a}) > 0$.
+%
+%  %So, $y(P_{warm}) > 0$.
+%
+%\end{enumerate}
+%%So, we can get that when $1< k \leq k_{0}$, $y(P_{warm}) \geq 0$.
+%From the above analysis, we find that when $1< k \leq k_{0}$, $E(T^{p}) \geq E(T^{c})$.
+%%I.e. when $1< k \leq k_{0}$, $T^{p} \geq T^{C}$
 
 \section{The $P_{delay}$ in different AES key lengthes and different AES implementations }
 \label{appendixb}
