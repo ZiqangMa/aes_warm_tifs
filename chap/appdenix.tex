@@ -84,7 +84,7 @@ If this inequality holds for all $P_{Mwarm} \in [0,1]$, it should be satisfied t
 Then we get the following inequality.
 
 \begin{equation}
-%\label{equ:detail2}
+\label{equ:gcondition}
 \begin{split}
 &((P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2}) \\
 &-MP_{evict}P_{a2})g \leq \\
@@ -119,7 +119,7 @@ P_{e\_axis} = &-\frac{P_{a2}(1-M-P_{a1}-MP_{a2}+MP_{a1})}{2(P_{a2}-P_{a1})(1-P_{
 \end{split}
 \end{equation}
 If $P_{e\_axis} \leq 0$, i.e. $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$, $f(P_{evict}) \leq0$ holds.
-Otherwise, $P_{e\_axis} > 0$, i.e. $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$. In this case, if $P_{rootl}$ exists, $P_{evict}< min(1,P_{rootl})$ and then $f(P_{evict}) \leq0$. If $P_{rootl}$ does not exist, $f(P_{evict}) \leq0$ holds. ($P_{rootr}$ is the smaller root of equation $f(P_{evict})=0$.)
+Otherwise, $P_{e\_axis} > 0$, i.e. $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$. In this case, if $P_{rootl}$ exists, $P_{evict}< min(1,P_{rootl})$ and then $f(P_{evict}) \leq0$. If $P_{rootl}$ does not exist, $f(P_{evict}) \leq0$ holds. ($P_{rootl}$ is the smaller root of equation $f(P_{evict})=0$.)
 
 \item
 If $GDenominator > 0$,
@@ -217,16 +217,29 @@ So in this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} 
 
 In general, when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
 
-In a conclusion, if $GDenominator > 0$, 
+In a conclusion, if $GDenominator > 0$,
 $Gexpression$ is a monotony increase function of $P_{a1}$;
  when $P_{evict} < \min(P_{e\_r},1)$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$;
- if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$; 
+ if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$;
 when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
 
 Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
 
-
+From the above, we can make the following conclusions:
+\begin{enumerate}
+  \item 
+  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
+  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
+or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$,
+  we have $GDenominator\leq0$ and the Inequality~\ref{equ:gcondition} holds.
+     
+  \item 
+  when conditions are opposite, i.e. $GDenominator>0$,  if $g$ is smaller than the minimum value of $Gexpression$, the Inequality~\ref{equ:gcondition} holds.
+  
+\end{enumerate}
+At this point, $E(T^{M}) - E(T^{C})\geq 0$ and conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 
 
 
