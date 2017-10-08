@@ -410,18 +410,32 @@ So the extra time introduced by less {\vwarm} strategy is always larger than con
 
 
 Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
-
+We denote $(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}$ as $GDenominator$.
+We denote $\frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{GDenominator}$ as $Gexpression$.
 \begin{theorem}\label{lemma:warmnum2}
-If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
-    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy;
-or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$,
-    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy when $g<g_{max}$,
-        where
-\begin{equation}
-\label{equ:kzero}
-g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
-\end{equation}
- \end{theorem}
+%If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
+%    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy;
+%or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$,
+%    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy when $g<g_{max}$,
+%        where
+%\begin{equation}
+%\label{equ:kzero}
+%g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
+%\end{equation}
+% \end{theorem}
+Conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy if the following conditions are satisfied:
+\begin{enumerate}
+  \item
+  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
+  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
+or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+
+  \item
+  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+
+\end{enumerate}
+\end{theorem}
 
 \begin{IEEEproof}
 The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
@@ -433,15 +447,43 @@ E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{wa
  &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
 \end{align}
 
-So we get that: (1)when $P_{evict} \leq \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds;
-(2)when $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds if $g<g_{max}$.
-Therefore in these condition conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+Let $E(T^{M})-E(T^{C}) > 0$,
+by a serials of calculation,
+  we get the conditions:
+  \begin{enumerate}
+  \item
+  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
+  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
+or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+
+  \item
+  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+\end{enumerate}
+While the minimum value of $Gexpression$ achieves when $P_{a2}=1$, $P_{evict}=1$ and $P_{a1}$ achieves its minimum value.
+\begin{align}
+Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
+\end{align}
+
+   So in these conditions, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds.
+Therefore in these conditions conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
 \begin{theorem}\label{lemma:warmnum3}
-If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
-or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$ and $g<g_{max}$,
-    performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
+    Performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
+if the following conditions are satisfied:
+\begin{enumerate}
+  \item
+  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
+  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
+or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+
+  \item
+  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+
+\end{enumerate}
+
 \end{theorem}
 
 \begin{IEEEproof}
@@ -469,9 +511,21 @@ $$\left\{
 \end{aligned}
 \right.
 $$
-In this way, the generate warm strategy is divided. It is already proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} if $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
-or if $P_{evict} > \frac{M*P_{a2}}{1-P_{a1}}$ and $g<g_{max}$.
-Therefore, with this condition, conditional {\vwarm} has better performance than generate warm strategy for any $P_{1}$ and $P_{2}$.
+In this way, the generate warm strategy is divided. It is already proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile satisfied the conditions in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has the best performance compared with more {\vwarm} strategy.
+So conditional {\vwarm} has better performance than generate warm strategy for any $P_{1}$ and $P_{2}$,
+if conditions:
+\begin{enumerate}
+  \item
+  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
+  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
+or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+
+  \item
+  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+
+\end{enumerate}
+ are satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
 \end{IEEEproof}
 
