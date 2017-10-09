@@ -46,7 +46,9 @@ That means the extra time introduced by less {\vwarm} strategy is always larger 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
 To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{M})$ with $E(T^{C})$.
 So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
-By combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
+
+First, we find that $P_{a2} = P_{a2}^{''}$. 
+Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 
 For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
  and $0 \leq P_{evict} \leq 1$.
@@ -228,16 +230,16 @@ Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the 
 
 From the above, we can make the following conclusions:
 \begin{enumerate}
-  \item 
+  \item
   (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
   (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
   (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
 or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$,
   we have $GDenominator\leq0$ and the Inequality~\ref{equ:gcondition} holds.
-     
-  \item 
+
+  \item
   when conditions are opposite, i.e. $GDenominator>0$,  if $g$ is smaller than the minimum value of $Gexpression$, the Inequality~\ref{equ:gcondition} holds.
-  
+
 \end{enumerate}
 At this point, $E(T^{M}) - E(T^{C})\geq 0$ and conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 

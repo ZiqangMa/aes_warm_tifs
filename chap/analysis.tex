@@ -319,11 +319,11 @@ $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or mo
 
 ]]]]]]]]
 
-If task scheduling, interrupts or any other system activities occur during the execution of encryption,
- the entries of lookup tables may be evicted from caches, and the probability is denoted as $P_{evict}$.
-For one AES encryption, some entries are uncached before encryption and it is possible that none of them is accessed during the encryption, and this probability is denoted as $P_{\bar{c},\bar{a}}$.
-{\color{red} does the definition mean, `provided that some entries are uncached', the probability that they are unaccessed?
-if yes, we shall denote it as $P_{\bar{a}ccess}$}.
+If task scheduling, interrupts or any other system activities occur during the execution of encryptions,
+ the entries of lookup tables may be evicted from caches. The probability that eviction occurs is denoted as $P_{evict}$.
+For one AES encryption, some entries are uncached before encryption and it is possible that none of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is $P_{delay}$ in Theorem~\ref{theorm:warmall}.
+%{\color{red} does the definition mean, `provided that some entries are uncached', the probability that they are unaccessed?
+%if yes, we shall denote it as $P_{\bar{a}ccess}$}.
 
 % 哪些事件导致状态转移？概率表示为。
 % 事件的定义
@@ -335,7 +335,7 @@ if yes, we shall denote it as $P_{\bar{a}ccess}$}.
 
 Denote the execution time of {\vdelay} and {\vwarm} as
     $T_{delay}$ and $T_{warm}$, respectively.
-$T_{delay}$ is constant for different executions,
+$T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
 In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
@@ -343,17 +343,19 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
 
 \begin{figure*}[t]
     \centering
-    \subfloat[Conditional warm]{\includegraphics[width=0.33\textwidth]{pic/conditionwarm.pdf}
+    \subfloat[Conditional warm]{\includegraphics[width=2.5in]{pic/conditionwarm.pdf}
     \label{fig:conditioncase}}
     \hfil
-    \subfloat[Less warm]{\includegraphics[width=0.5\textwidth]{pic/probwarmless.pdf}
+    \subfloat[Less warm]{\includegraphics[width=3.5in]{pic/probwarmless.pdf}
     \label{fig:lesscase}}
     \hfil
-    \subfloat[More warm]{\includegraphics[width=0.5\textwidth]{pic/probwarmmore.pdf}
+    \subfloat[More warm]{\includegraphics[width=3in]{pic/probwarmmore.pdf}
     \label{fig:morecase}}
+    \hfil
+    \subfloat[Complementary warm]{\includegraphics[width=3.5in]{pic/probwarmco.pdf}
+    \label{fig:cocase}}
     \caption{The Markov state-transferring probability diagram.}
     \label{pic:statetrans}
-
 \end{figure*}
 
 For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
@@ -401,6 +403,8 @@ where
 DenominatorM &= (1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''})) \nonumber\\
 &+P_{evict}(1-P_{Mwarm})(1-P_{a1}) \nonumber
 \end{align}
+
+
 
 Then we have the following theorems.
 
@@ -460,6 +464,7 @@ E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{wa
  &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
 \end{align}
 
+Also, we find that $P_{a2} = P_{a2}^{''}$. 
 Let $E(T^{M})-E(T^{C}) > 0$,
 by a serials of calculation,
   we get the conditions:
@@ -473,7 +478,15 @@ or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
   \item
   if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
 \end{enumerate}
-While the minimum value of $Gexpression$ achieves when $P_{a2}=1$, $P_{evict}=1$ and $P_{a1}$ achieves its minimum value.
+While the minimum value of $Gexpression$ achieves when $P_{a2}=1$, $P_{evict}=1$ and $P_{a1}$ achieves its minimum value. As an example, 
+\figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a1} = 0.8$.
+\begin{figure}
+  \centering
+  \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
+  \caption{the value of $Gexpression$ when $P_{a1} = 0.8$.}\label{fig:Gexpression}
+\end{figure}
+
+
 \begin{align}
 Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
 \end{align}
@@ -503,7 +516,7 @@ or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
 Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{Cowarm}\in[0,1]$ just when cache misses do not occur during the pervious execution of encryption and not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
 In this case, when there is a cache miss in the previous, {\vdelay} is needed. If the next encryption accesses any entry that is currently not in caches, performing {\vwarm} before hand introduces non extra overhead. However, if not performing {\vwarm}, as proved in Theorem~\ref{theorm:warmall}, when some cache line size of lookup tables are not cached, not performing {\vwarm} introduces more extra time.
  Further more, complementary {\vwarm} strategy will introduce extra overhead when cache misses no occur. Therefore complementary {\vwarm} strategy has less performance than conditional {\vwarm}.
-On the other hand, the Markov state transition diagram of complementary {\vwarm} is in \figurename~\ref{fig:morecase}.
+On the other hand, the Markov state transition diagram of complementary {\vwarm} is in \figurename~\ref{fig:cocase}.
 Using the same calculation process within Theorem~\ref{lemma:warmnum1},
  we can get that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy.
 
@@ -820,7 +833,7 @@ All the theorems above still stand, with the only difference be the value of $P_
 $P_{a}$ (detailed in Appendix~\ref{appendixb}) is the probability that some cache line size of lookup tables not in the cache are accessed. It depends  on the size of lookup tables and the number of iterated rounds.
 For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, the size of lookup tables are 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
 Table~\ref{tbl:pdelayvalue} lists the corresponding minimum $P_{a}$.
-$M$ is the ratio of the minimum value of $T_{warm}$ and $T_{delay}$. These two values are related to not only the different implementations and key length, but also the platform that running AES. 
+$M$ is the ratio of the minimum value of $T_{warm}$ and $T_{delay}$. These two values are related to not only the different implementations and key length, but also the platform that running AES.
 Therefore, for different implementations and key length of AES, first we should determine $P_{a}$  and $M$. Then we can find that, if the conditions in Theorem~\ref{lemma:warmnum3} are satisfied, the {\scshape{Warm+Delay}} scheme provides the optimal performance.
 
 
