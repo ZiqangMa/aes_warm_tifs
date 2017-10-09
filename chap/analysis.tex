@@ -372,9 +372,16 @@ We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to re
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pil}
-&\Pi_{c}^{L} = \frac{P_{Lwarm}P_{a2}^{'}}{P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})}{P_{a1}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}}\ , \\
-&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})+P_{evict}(1-P_{Lwarm})(1-P_{a3})+P_{evict}P_{a2}^{'}} .  \nonumber
+&\Pi_{c}^{L} = \frac{P_{Lwarm}P_{a2}^{'}}{DenominatorL}\ ,\nonumber\\ 
+&\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{Lwarm}(1-P_{a1})}{DenominatorL} \nonumber\\
+& \ \ \ \ \ \ \  +\frac{P_{evict}(1-P_{Lwarm})(1-P_{a3})}{DenominatorL}\ , \\
+&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{DenominatorL} .  \nonumber
+\end{align}
+where
+\begin{align}
+DenominatorL &= P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})  \nonumber \\
+&+P_{evict}(1-P_{Lwarm})(1-P_{a3}) \nonumber \\
+&+P_{evict}P_{a2}^{'} \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
@@ -383,11 +390,17 @@ We use $\Pi_{c}^{M}$, $\Pi_{\bar{c}, \bar{a}}^{M}$, $\Pi_{\bar{c}, a}^{M}$ to re
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pim}
-&\Pi_{c}^{M} = \frac{1-(1-P_{Mwarm})(1-P_{a2}^{''})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})}\ , \nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})}\ , \\
-&\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{Mwarm})(1-P_{a2}^{''}))-P_{Mwarm}P_{evict}(1-P_{a1})}{(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''}))+P_{evict}(1-P_{Mwarm})(1-P_{a1})} .  \nonumber
+&\Pi_{c}^{M} = \frac{1-(1-P_{Mwarm})(1-P_{a2}^{''})}{DenominatorM}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{DenominatorM}\ , \\
+&\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{Mwarm})(1-P_{a2}^{''}))}{DenominatorM}   \nonumber \\
+&\ \ \ \ \ \ \ -\frac{P_{Mwarm}P_{evict}(1-P_{a1})}{DenominatorM} .  \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
+where
+\begin{align}
+DenominatorM &= (1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''})) \nonumber\\
+&+P_{evict}(1-P_{Mwarm})(1-P_{a1}) \nonumber
+\end{align}
 
 Then we have the following theorems.
 
@@ -617,15 +630,34 @@ and the maximum of $T_{warm}$ is $1781.60$ cycles when all the lookup tables in 
 Thus, $M=0.0491$ and the rang of $g$ is $[1.417,20.363]$.
 
 
+%
+%In Equation~\ref{equ:kzero}, if we regard $g_{max}$ as the function of $P_{a1}$, we can get that $g_{max}$ is a monotony increase function when $P_{a1}$ is larger than 0.994.
+%That is when $P_{a1} = 0.994$, $g_{max}$ gets the minimum value.
+%Also if we regard $g_{max}$ as the function of $P_{evict}$, we can get that $g_{max}$ is a monotony decrease function when when $P_{a1}$ is larger than 0.994.
+%In the same way, if we regard $g_{max}$ as the function of $P_{a2}$, when $P_{evict}$ is small, $g_{max}$ is a monotony increase function. But when $P_{evict}$ is large, $g_{max}$ is a monotony decrease function.
+%Therefore, the minimum value of $g_{max}$ is 40.3 when $P_{evict} = 1$, $P_{a1} = 0.994$ and $P_{a2} = 1$.
+%The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
+%So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In Equation~\ref{equ:kzero}, if we regard $g_{max}$ as the function of $P_{a1}$, we can get that $g_{max}$ is a monotony increase function when $P_{a1}$ is larger than 0.994.
-That is when $P_{a1} = 0.994$, $g_{max}$ gets the minimum value.
-Also if we regard $g_{max}$ as the function of $P_{evict}$, we can get that $g_{max}$ is a monotony decrease function when when $P_{a1}$ is larger than 0.994.
-In the same way, if we regard $g_{max}$ as the function of $P_{a2}$, when $P_{evict}$ is small, $g_{max}$ is a monotony increase function. But when $P_{evict}$ is large, $g_{max}$ is a monotony decrease function.
-Therefore, the minimum value of $g_{max}$ is 40.3 when $P_{evict} = 1$, $P_{a1} = 0.994$ and $P_{a2} = 1$.
-The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
-So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
+In this environment, the conditions in Theorem~\ref{lemma:warmnum3} are:
+\begin{enumerate}
+  \item
+  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
+  (2) when $P_{a2}=P_{a1}$,
+  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$
+or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+
+  \item
+  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+\end{enumerate}
+  We can calculate that $P_{rootr}$ and $P_{rootl}$ are greater than 1, so based on Theorem~\ref{lemma:warmnum3} performing  {\vwarm}  when cache-miss occurs during the previous execution,
+  results in the least extra time of {\vdelay} and {\vwarm}.
+
+
 \end{IEEEproof}
+
+
+
 %\qed
 %\end{IEEEproof}
 
@@ -645,9 +677,9 @@ So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-m
 
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
 
-
+%$S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$
 \noindent\textbf{One AES execution is a partial warm operation.}
-When the system is in the state $S_{as}$, one AES execution is a partial warm operation, as in this case, cache misses are resulted to load the corresponding entries into the cache.
+When the system is in the state $S_{\bar{c}, a}$, one AES execution is a partial warm operation, as in this case, cache misses are resulted to load the corresponding entries into the cache.
 
 %下面注释掉的这段是之前的证明，但是现在看来似乎是不需要了。
 %Here, we prove that the extra time caused by not performing the \verb+warmup+ operation after an AES execution at the state $S_{as}$, is larger than our scheme. The probability that the next consecutive AES execution needs \verb+delay+ when $N$ cache line size of the lookup tables are in the cache before the AES execution (i.e.,  partial \verb+warmup+) is shown in Equation~\ref{equ:delay}, while the introduced extra time $T_{delay,N} = P_{delay,N} * t_{delay}$. The extra time $T_{warm,N}$ for our scheme is used to access all the lookup tables, including the ones in and not in the cache, and is shown in Equation~\ref{equ:partwarm}, where $t_c$ ($t_{nc}$) is the time for accessing one cache line that is in (not in) the cache. Evaluations on different platforms show that  $T_{delay,j} > T_{warm,j}$ for $j = 0, 1, ..., 67$.
@@ -679,7 +711,7 @@ When the system is in the state $S_{as}$, one AES execution is a partial warm op
 %\end{table}
 
 %In our analysis, the warmup operation is performed after the AES execution. When doing the delay operation, the time consumption of the warmup operation is included in the delay time. So it is better to perform warmup when need to delay because the warmup cost nothing at this time.%这段话是想说，warm是在delay之后做的，而且warm的消耗包含在了delay的消耗里，所以只要需要进行delay的时候，进行一次warm是一个更好的选择，因为这个时候warm是不会产生额外消耗的。这段话放在这里似乎不太合适，但我没想好放在哪里。
-When the system state is $S_{as}$, our scheme performs {\vwarm}  with probability 1, while the probabilistic  {\vwarm}  performs {\vwarm}   with the probability $P_{warm}$, which is increased by the AES execution, a partial warm operation. %, it mean the AES expands the $P_{warm}$.
+When the system state is $S_{\bar{c}, a}$, our scheme performs {\vwarm}  with probability 1, while the probabilistic  {\vwarm}  performs {\vwarm}   with the probability $P_{warm}$, which is increased by the AES execution, a partial warm operation. %, it mean the AES expands the $P_{warm}$.
 However, according to Theorem~\ref{lemma:warmaftermiss},
 $E(T^{p}) > E(T^{c})$ holds when  $1 \leq k \leq k_{0}$, which is independent of $P_{warm}$.
 Therefore, our scheme is still better.
