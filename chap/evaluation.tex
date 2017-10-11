@@ -19,7 +19,7 @@ In this section,
        Secondly, we measure the performance of several different defense methods comparing with our scheme.
         It will show that our scheme has a better performance than other software-based methods.
          Finally, we apply our defense scheme to Openssl and use an Apache web server as a HTTPS server to provide application services.
-          We find that in a real environment, the overhead of our scheme is acceptable.
+          We find that the overhead of our scheme is acceptable in a real environment.
 
 
 %Our scheme aims to make the observed AES execution time independent of the input.
@@ -90,9 +90,9 @@ From Table~\ref{tbl:pevict}, we find  $P_{evict}$ is less than 0.005 always,
 
 
 \noindent\textbf{Performance of different defense methods.}
-\textbf{[[if possible, also in different scenarios as Fig. 6; more comprehensive]]}
+%\textbf{[[if possible, also in different scenarios as Fig. 6; more comprehensive]]}
 Furthermore, we evaluate the performance of our scheme with different defense methods:
- AESNI, bitsliced AES implementation, compact table implementation \textbf{[[citation here, where the code from ----]]}.
+ AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}. %\textbf{[[citation here, where the code from ----]]}.
  For each method, we we perform $2^{30}$ AES encryptions within random plaintexts.
   It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
 
@@ -114,9 +114,10 @@ We applied our solution to protect the TLS connection protocol in OpenSSL.
         and we measure the HTTPS server throughput.
 
 The HTTPS throughput is shown in Figure~\ref{fig:apacheperformance}.
- When the unprotected AES is used, the throughput is XXX requests per second.
-  When using our scheme, the throughput is xxxx requests per second.
+ When the unprotected AES is used, the throughput is 27.2 requests per second for 1MB data.
+  While using our scheme, the throughput is 23.5 requests per second for 1MB data.
    It is clearly that {\scshape{Warm+Delay}} scheme has a low influence on the performance of TLS protocol.
+    As the data of request increase, the influence on the performance of TLS protocol caused by {\scshape{Warm+Delay}} scheme increases gradually.
     %随着请求数据增大，变化如何
     Furthermore, we compare the throughput using different defense methods involved in TLS protocol.
       Our defense scheme has the largest throughput among these methods.
