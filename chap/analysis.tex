@@ -343,10 +343,10 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
 
 \begin{figure*}[t]
     \centering
-    \subfloat[Conditional warm]{\includegraphics[width=2.5in]{pic/conditionwarm.pdf}
+    \subfloat[Conditional warm]{\includegraphics[width=2.9in]{pic/conditionwarm.pdf}
     \label{fig:conditioncase}}
     \hfil
-    \subfloat[Less warm]{\includegraphics[width=3.5in]{pic/probwarmless.pdf}
+    \subfloat[Less warm]{\includegraphics[width=3.15in]{pic/probwarmless.pdf}
     \label{fig:lesscase}}
     \hfil
     \subfloat[More warm]{\includegraphics[width=3.5in]{pic/probwarmmore.pdf}
@@ -359,7 +359,7 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
 \end{figure*}
 
 For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
-We use $\Pi_{c}^{C}$, $\Pi_{\bar{c}, \bar{a}}^{C}$, $\Pi_{\bar{c}, a}^{C}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+We use $\Pi_{c}^{\mathcal{C}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{C}}$, $\Pi_{\bar{c}, a}^{\mathcal{C}}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
 \label{equ:pic}
@@ -370,38 +370,36 @@ We use $\Pi_{c}^{C}$, $\Pi_{\bar{c}, \bar{a}}^{C}$, $\Pi_{\bar{c}, a}^{C}$ to re
 %\setlength{\arraycolsep}{5pt}
 
 For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
-We use $\Pi_{c}^{L}$, $\Pi_{\bar{c}, \bar{a}}^{L}$, $\Pi_{\bar{c}, a}^{L}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\bar{c}, a}^{\mathcal{L}}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pil}
-&\Pi_{c}^{L} = \frac{P_{Lwarm}P_{a2}^{'}}{DenominatorL}\ ,\nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{L} = \frac{P_{evict}P_{Lwarm}(1-P_{a1})}{DenominatorL} \nonumber\\
-& \ \ \ \ \ \ \  +\frac{P_{evict}(1-P_{Lwarm})(1-P_{a3})}{DenominatorL}\ , \\
-&\Pi_{\bar{c}, a}^{L} = \frac{P_{evict}P_{a2}^{'}}{DenominatorL} .  \nonumber
+&\Pi_{c}^{\mathcal{L}} = \frac{(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}}}{DenominatorL}\ ,\nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{3}\mathcal{L}}+(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{warm}^{\mathcal{L}})}{DenominatorL} \, \\
+&\Pi_{\bar{c}, a}^{\mathcal{L}} = \frac{P_{evict}P_{a}^{\mathfrak{2}}}{DenominatorL} .  \nonumber
 \end{align}
 where
 \begin{align}
-DenominatorL &= P_{Lwarm}P_{a2}^{'}+P_{evict}P_{Lwarm}(1-P_{a1})  \nonumber \\
-&+P_{evict}(1-P_{Lwarm})(1-P_{a3}) \nonumber \\
-&+P_{evict}P_{a2}^{'} \nonumber
+DenominatorL &= P_{evict}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\mathcal{L}}) \nonumber \\
+&+(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}} \nonumber \\
+&+(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{evict}P_{warm}^{\mathcal{L}} \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
 For more {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
-We use $\Pi_{c}^{M}$, $\Pi_{\bar{c}, \bar{a}}^{M}$, $\Pi_{\bar{c}, a}^{M}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+We use $\Pi_{c}^{\mathcal{M}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}$, $\Pi_{\bar{c}, a}^{\mathcal{M}}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pim}
-&\Pi_{c}^{M} = \frac{1-(1-P_{Mwarm})(1-P_{a2}^{''})}{DenominatorM}\ , \nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{M} = \frac{P_{evict}(1-P_{a1})}{DenominatorM}\ , \\
-&\Pi_{\bar{c}, a}^{M} = \frac{P_{evict}(1-(1-P_{Mwarm})(1-P_{a2}^{''}))}{DenominatorM}   \nonumber \\
-&\ \ \ \ \ \ \ -\frac{P_{Mwarm}P_{evict}(1-P_{a1})}{DenominatorM} .  \nonumber
+&\Pi_{c}^{\mathcal{M}} = \frac{(1-P_{evict})(P_{a}^{\mathfrak{2}\mathcal{M}}(1-P_{warm}^{\mathcal{M}})+P_{warm}^{\mathcal{M}})}{DenominatorM}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{1}})}{DenominatorM}\ , \\
+&\Pi_{\bar{c}, a}^{\mathcal{M}} = \frac{P_{evict}P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}}+P_{evict}P_{a}^{\mathfrak{2}\mathcal{M}}(1-P_{warm}^{\mathcal{M}})}{DenominatorM}   .  \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 where
 \begin{align}
-DenominatorM &= (1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2}^{''})) \nonumber\\
-&+P_{evict}(1-P_{Mwarm})(1-P_{a1}) \nonumber
+DenominatorM &= P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}\mathcal{M}}- P_{a}^{\mathfrak{2}\mathcal{M}}P_{warm}^{\mathcal{M}} \nonumber \\
+&-P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}})  \nonumber
 \end{align}
 
 
