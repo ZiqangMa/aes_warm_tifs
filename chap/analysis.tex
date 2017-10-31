@@ -339,7 +339,7 @@ $T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
 In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
-While considering other two cases: (1)performing {\vwarm} with a probability $P_{Lwarm}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{Mwarm}\in[0,1]$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
+While considering other two cases: (1)performing {\vwarm} with a probability $P_{warm}^{\mathcal{L}}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{warm}^{\mathcal{M}}\in[0,1]$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
 
 \begin{figure*}[t]
     \centering
@@ -411,15 +411,15 @@ Then we have the following theorems.
   The conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{theorem}
 \begin{IEEEproof}
-The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{L})$ and $E(T^{C})$, respectively.
+The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\mathcal{L}})$ and $E(T^{\mathcal{C}})$, respectively.
 So,
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:tpc1}
-E(T^{L})-E(T^{C})=\Pi_{\bar{c}, a}^{L} * T_{delay} - \Pi_{\bar{c}, a}^{C} * T_{delay}
+E(T^{\mathcal{L}})-E(T^{\mathcal{C}})=\Pi_{\bar{c}, a}^{\mathcal{L}} * T_{delay} - \Pi_{\bar{c}, a}^{\mathcal{C}} * T_{delay}
 \end{equation}
 
-And then, we get that $E(T^{L}) > E(T^{C})$ for all $P_{Lwarm}\in(0,1)$.
+And then, we get that $E(T^{\mathcal{L}}) > E(T^{\mathcal{C}})$ for all $P_{warm}^{\mathcal{L}}\in(0,1)$.
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
