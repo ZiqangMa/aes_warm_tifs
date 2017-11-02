@@ -472,27 +472,28 @@ by a serials of calculation(See Appendix~\ref{appendixa} for more details),
 \end{enumerate}
 While $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
 The minimum value of $Gexpression$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
-\begin{equation*}
+\begin{equation}
+\label{equ:g}
 \left\{
 \begin{split}
 &P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
 &P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
 & if\  P_{evict} >1, P_{evict} = 1 \\
-& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1 
+& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 where
 \begin{align}
 \Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
 &+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
 \end{align}
 As an example,
-\figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a1} = 0.8$.
+\figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a1} = 0.85$.
 \begin{figure}
   \centering
   \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
-  \caption{the value of $Gexpression$ when $P_{a1} = 0.8$.}\label{fig:Gexpression}
+  \caption{the value of $Gexpression$ when $P_{a1} = 0.85$.}\label{fig:Gexpression}
 \end{figure}
 
 %
@@ -547,14 +548,10 @@ So conditional {\vwarm} has better performance than generate warm strategy for a
 if conditions:
 \begin{enumerate}
   \item
-  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
-  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
-or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+  if $GDenominator \leq 0$,
 
   \item
-  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
-
+  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
 \end{enumerate}
  are satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
@@ -657,18 +654,29 @@ Thus, $M=0.0491$ and the rang of $g$ is $[1.417,20.363]$.
 %The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
 %So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In this environment, the conditions in Theorem~\ref{lemma:warmnum3} are:
-\begin{enumerate}
-  \item
-  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-  (2) when $P_{a2}=P_{a1}$,
-  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$
-or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+In this environment, when $GDenominator > 0$, $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$.
+$Gexpression$ gets the minimum value when $P_{a}^{\mathfrak{1}} = 0.994$.
+Substitute the value into the equation~\ref{equ:g} and get:
+\begin{equation}
+\left\{
+\begin{split}
+&P_{evict} = \frac{0.994M(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{0.006(1-0.006M)} \\
+&P_{a}^{\mathfrak{2}} = \frac{0.07746P_{evict}}{\sqrt{M(1-P_{evict})}}-0.006P_{evict} \\
+& if\  P_{evict} >1, P_{evict} = 1 \\
+& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
+\end{split}
+\right.
+\end{equation}
+where
+\begin{align}
+\Delta = &0.988036M^2- 1.976072M^{2}P_{a}^{\mathfrak{2}} \nonumber \\
+&+(0.006M+ 0.988M^2)(P_{a}^{\mathfrak{2}})^{2} \nonumber
+\end{align}
 
-  \item
-  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
-\end{enumerate}
-  We can calculate that $P_{rootr}$ and $P_{rootl}$ are greater than 1, so based on Theorem~\ref{lemma:warmnum3} performing  {\vwarm}  when cache-miss occurs during the previous execution,
+By computation we get that when $P_{evict} = 1$, $P_{a}^{\mathfrak{2}} = 1$ and $P_{a}^{\mathfrak{1}} = 0.994$, $Gexpression$ gets the minimum value.
+The minimum value is $167.7$.
+Therefore, $g$ is smaller than the minimum value of $Gexpression$ when $GDenominator > 0$.
+ So based on Theorem~\ref{lemma:warmnum3} performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 
 
