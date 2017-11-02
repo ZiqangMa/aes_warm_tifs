@@ -376,7 +376,7 @@ We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\b
 \label{equ:pil}
 &\Pi_{c}^{\mathcal{L}} = \frac{(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}}}{DenominatorL}\ ,\nonumber\\
 &\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{3}\mathcal{L}}+(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{warm}^{\mathcal{L}})}{DenominatorL} \, \\
-&\Pi_{\bar{c}, a}^{\mathcal{L}} = \frac{P_{evict}P_{a}^{\mathfrak{2}}}{DenominatorL} .  \nonumber
+&\Pi_{\bar{c}, a}^{\mathcal{L}} = \frac{P_{evict}P_{a}^{\mathfrak{2}\mathcal{L}}}{DenominatorL} .  \nonumber
 \end{align}
 where
 \begin{align}
@@ -425,8 +425,8 @@ So the extra time introduced by less {\vwarm} strategy is always larger than con
 
 
 Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
-We denote $(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}$ as $GDenominator$.
-We denote $\frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{GDenominator}$ as $Gexpression$.
+We denote $P_{evict}(P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})(1-P_{a}^{\mathfrak{1}})-M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))$ as $GDenominator$.
+We denote $\frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))}{GDenominator}$ as $Gexpression$.
 \begin{theorem}\label{lemma:warmnum2}
 %If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
 %    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy;
@@ -441,42 +441,53 @@ We denote $\frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))
 Conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy if the following conditions are satisfied:
 \begin{enumerate}
   \item
-  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
-  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
-or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+  if $GDenominator \leq 0$,
 
   \item
-  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
 
 \end{enumerate}
 \end{theorem}
 
 \begin{IEEEproof}
-The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{M})$ and $E(T^{C})$, respectively.
+The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\mathcal{M}})$ and $E(T^{\mathcal{C}})$, respectively.
 Then,
 %\begin{footnotesize}
 \begin{align}
 \label{equ:tpc2}
-E(T^{M})-E(T^{C})&=\Pi_{\bar{c}, a}^{M} * T_{delay} + \Pi_{c}^{M}*P_{warm}*T_{warm_{min}} \nonumber \\
- &+ \Pi_{\bar{c}, \bar{a}}^{M}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{C} * T_{delay}
+&E(T^{\mathcal{M}})-E(T^{\mathcal{C}})=\Pi_{\bar{c}, a}^{\mathcal{M}} * T_{delay} + \Pi_{c}^{\mathcal{M}}*P_{warm}*T_{warm_{min}} \nonumber \\
+ &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{\mathcal{C}} * T_{delay}
 \end{align}
 
 Also, we find that $P_{a2} = P_{a2}^{''}$.
-Let $E(T^{M})-E(T^{C}) > 0$,
-by a serials of calculation,
+Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) > 0$,
+by a serials of calculation(See Appendix~\ref{appendixa} for more details),
   we get the conditions:
   \begin{enumerate}
   \item
-  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
-  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
-or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+  if $GDenominator \leq 0$,
 
   \item
-  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
+  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
 \end{enumerate}
-While the minimum value of $Gexpression$ achieves when $P_{a2}=1$, $P_{evict}=1$ and $P_{a1}$ achieves its minimum value. As an example,
+While $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
+The minimum value of $Gexpression$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
+\begin{equation*}
+\left\{
+\begin{split}
+&P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
+&P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
+& if\  P_{evict} >1, P_{evict} = 1 \\
+& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1 
+\end{split}
+\right.
+\end{equation*}
+where
+\begin{align}
+\Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
+&+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
+\end{align}
+As an example,
 \figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a1} = 0.8$.
 \begin{figure}
   \centering
@@ -484,12 +495,12 @@ While the minimum value of $Gexpression$ achieves when $P_{a2}=1$, $P_{evict}=1$
   \caption{the value of $Gexpression$ when $P_{a1} = 0.8$.}\label{fig:Gexpression}
 \end{figure}
 
+%
+%\begin{align}
+%Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
+%\end{align}
 
-\begin{align}
-Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
-\end{align}
-
-   So in these conditions, the formula $E(T^{M})-E(T^{C}) \geq 0$ holds.
+   So in these conditions, the formula $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$ holds.
 Therefore in these conditions conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
@@ -498,20 +509,16 @@ Therefore in these conditions conditional {\vwarm} strategy has better performan
 if the following conditions are satisfied:
 \begin{enumerate}
   \item
-  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
-  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
-or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$.
+  if $GDenominator \leq 0$,
 
   \item
-  if previous item is false,$g$ is smaller than the minimum value of $Gexpression$.
-
+  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
 \end{enumerate}
 
 \end{theorem}
 
 \begin{IEEEproof}
-Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{Cowarm}\in[0,1]$ just when cache misses do not occur during the pervious execution of encryption and not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
+Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{warm}^{\mathcal{CO}}\in[0,1]$ just when cache misses do not occur during the pervious execution of encryption and not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
 In this case, when there is a cache miss in the previous, {\vdelay} is needed. If the next encryption accesses any entry that is currently not in caches, performing {\vwarm} before hand introduces non extra overhead. However, if not performing {\vwarm}, as proved in Theorem~\ref{theorm:warmall}, when some cache line size of lookup tables are not cached, not performing {\vwarm} introduces more extra time.
  Further more, complementary {\vwarm} strategy will introduce extra overhead when cache misses no occur. Therefore complementary {\vwarm} strategy has less performance than conditional {\vwarm}.
 On the other hand, the Markov state transition diagram of complementary {\vwarm} is in \figurename~\ref{fig:cocase}.
@@ -529,8 +536,8 @@ W = x_{1}W_{L}+x_{2}W_{M}+x_{3}W_{Co}
   where $x_{1}$, $x_{2}$ and $x_{3}$ satisfy:
 $$\left\{
 \begin{aligned}
-&x_{2}P_{Mwarm}+x_{3}P_{Cowarm}=P_{2} \\
-&x_{1}P_{Lwarm}+x_{2}=P_{1} \\
+&x_{2}P_{warm}^{\mathcal{M}}+x_{3}P_{warm}^{\mathcal{CO}}=P_{2} \\
+&x_{1}P_{warm}^{\mathcal{L}}+x_{2}=P_{1} \\
 &x_{1}+x_{2}+x_{3}=1
 \end{aligned}
 \right.
