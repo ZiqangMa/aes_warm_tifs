@@ -307,23 +307,21 @@ So  loading all entries in {\vwarm} produces the optimal performance.
 %\begin{theorem}\label{lemma:warmaftermiss}
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
+]]]]]]]]
 
-Next, let's consider the different cache state of lookup tables during the continuous invocations of AES encryption.
-For each execution of AES encryption,
-  and there are three possible states:
-(1) all entries of the lookup table are in caches, denoted as $S_{c}$,
+Next, let us consider the different states of lookup tables in the L1 cache during the continuous invocations of AES encryption.
+The state of lookup tables is estimated after each execution of AES encryption.
+  There are three states:
+(1) all entries of the lookup tables are in caches, denoted as $S_{c}$,
    (2) some entries are uncached, and at least one of them is accessed during the AES encryption, denoted as $S_{\bar{c}, a}$,
  and  (3) some entries are uncached, but none of them is accessed during the AES encryption, denoted as $S_{\bar{c}, \bar{a}}$.
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
-
-]]]]]]]]
-
-If task scheduling, interrupts or any other system activities occur during the execution of encryptions,
- the entries of lookup tables may be evicted from caches. The probability that eviction occurs is denoted as $P_{evict}$.
-For one AES encryption, some entries are uncached before encryption and it is possible that none of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is $P_{delay}$ in Theorem~\ref{theorm:warmall}.
-%{\color{red} does the definition mean, `provided that some entries are uncached', the probability that they are unaccessed?
-%if yes, we shall denote it as $P_{\bar{a}ccess}$}.
+The transition among the three states can be triggered by three events.
+First is the \emph{Evict} event. If task scheduling, interrupts or any other system activities occur during the execution of encryptions,
+ the entries of lookup tables may be evicted from the cache. The probability that eviction occurs is denoted as $P_{evict}$.
+Second is the \emph{Execution} event. For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is $P_{delay}$ in Theorem~\ref{theorm:warmall}.
+Third is the \emph{Warm} event. Performing {\vwarm} loads all the lookup tables into the cache which probability is denoted as $P_{warm}$.
 
 % 哪些事件导致状态转移？概率表示为。
 % 事件的定义
@@ -741,7 +739,7 @@ When the system is in the state $S_{\bar{c}, a}$, one AES execution is a partial
 When the system state is $S_{\bar{c}, a}$, conditional {\vwarm} strategy performs {\vwarm}  with probability 1,
  while the general warm strategy performing {\vwarm} with a probability $P_{1}^{'}\in[0,1]$ greater than $P_{1}$, due to partial warm by the AES execution.
 %, it mean the AES expands the $P_{warm}$.
-However,  based on Theorem~\ref{lemma:warmnum3}, although $P_{1}^{'}$ is different, the general warm strategy still can be divided. So the conditions taht make $E(T^{p}) > E(T^{c})$ holds is not changed.
+However,  based on Theorem~\ref{lemma:warmnum3}, although $P_{1}^{'}$ is different, the general warm strategy still can be divided. So the conditions that make $E(T^{\mathcal{W}}) > E(T^{\mathcal{C}})$ holds is not changed.
 Therefore, conditional {\vwarm} strategy still  has better performance.
 
 
@@ -754,7 +752,7 @@ In this case,  $end - start > T_{W}$, {\vwarm}  will be triggered in our scheme.
 As the process scheduling and interruption occur, we assume that $N$ cache lines of lookup tables are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
 Hence, the extra overhead introduced by using {\vwarm}  to load all lookup tables is $E(T_{warm,N}) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
-Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance.
+Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance when $N>0$. If $N = 0$, it means that the lookup tables are not evicted from the cache when the process scheduling and interruption occur. In this case \vwarm is not need. However from the overall execution we cannot distinguish whether the lookup tables are evicted. Thus performing {\vwarm} introduces some extra overhead.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
@@ -790,7 +788,7 @@ However, in our scheme, we perform the {\vwarm} operation according to the previ
 The relation between the cache state and execution time is as follows:
 \begin{itemize}
   \item $end - start \leq T_{NM}$, the system is in state $S_{c}$ or $S_{\bar{c},\bar{a}}$, no {\vwarm} is needed according to Theorem~\ref{lemma:warmnum3}.
-  \item $end - start > T_{W}$, the system is in state $S_{\bar{c}, a}$ or $S_{\bar{c}, \bar{a}}$, {\vwarm}   is needed according to Theorem~\ref{theorm:warmall}.
+  \item $end - start > T_{W}$, the system is in state $S_{c}$, $S_{\bar{c}, a}$ or $S_{\bar{c}, \bar{a}}$, {\vwarm}   is needed according to Theorem~\ref{theorm:warmall}.
  % another process is scheduled during the AES execution which makes part of the lookup tables  evicted from the cache.
   \item $T_{NM} < end - start \leq T_{W}$, %all the lookup tables may be in the cache or not, which is related with the workload in parallel.
 %      The OS invokes the \verb+Scheduler()+ function every $t_{sched}$ interval and evicts at least one  entry of the lookup tables for anther process with the probability $P_{evict}$. Then, in this case,
