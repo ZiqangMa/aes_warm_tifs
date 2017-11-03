@@ -336,6 +336,20 @@ Denote the execution time of {\vdelay} and {\vwarm} as
 $T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
+%在状态转移过程中，cache状态发生转移，则需执行一次AES。
+%上述三种事件的发生，会使得状态发生改变。
+%假设三种事件在状态转移过程中只发生一次。
+%AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
+%先warm后evict
+
+The occurrence of these three events will change the state of lookup tables in the cache. 
+ In the process of state transition, the state of lookup tables changes which means one AES executes. 
+  We assume that during one state transition, each of the three events occurs once at most. 
+   Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
+    Also we assume that the \emph{Warm} event occurs after the \emph{Evict} event.
+     It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables. 
+
+
 In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 While considering other two cases: (1)performing {\vwarm} with a probability $P_{warm}^{\mathcal{L}}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{warm}^{\mathcal{M}}\in[0,1]$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
 
