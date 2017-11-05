@@ -342,12 +342,12 @@ $T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
 %AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
 %先warm后evict
 
-The occurrence of these three events will change the state of lookup tables in the cache. 
- In the process of state transition, the state of lookup tables changes which means one AES executes. 
-  We assume that during one state transition, each of the three events occurs once at most. 
+The occurrence of these three events will change the state of lookup tables in the cache.
+ In the process of state transition, the state of lookup tables changes which means one AES executes.
+  We assume that during one state transition, each of the three events occurs once at most.
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
     Also we assume that the \emph{Warm} event occurs after the \emph{Evict} event.
-     It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables. 
+     It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables.
 
 
 In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
@@ -371,7 +371,13 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
 \end{figure*}
 
 For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
-We use $\Pi_{c}^{\mathcal{C}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{C}}$, $\Pi_{\bar{c}, a}^{\mathcal{C}}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+%{\color{red}insert pa2.etc meaning.}
+$P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption. 
+ Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ is no less than $P_{a}^{\mathfrak{1}}$.
+Because we can not determine how many lookup entries are evicted, the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ are the same.
+So we use $P_{a}^{\mathfrak{2}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$ and $P_{a}^{\mathfrak{2}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+
+We use $\Pi_{c}^{\mathcal{C}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{C}}$, $\Pi_{\bar{c}, a}^{\mathcal{C}}$ to represent the limit distribution of the three states  when the Markov chain is in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
 \label{equ:pic}
@@ -382,7 +388,12 @@ We use $\Pi_{c}^{\mathcal{C}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{C}}$, $\Pi_{\b
 %\setlength{\arraycolsep}{5pt}
 
 For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
-We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\bar{c}, a}^{\mathcal{L}}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+$P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
+As the same in conditional {\vwarm}, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ is no less than $P_{a}^{\mathfrak{1}}$.
+Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ are the same.
+So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+
+We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\bar{c}, a}^{\mathcal{L}}$ to represent the limit distribution of the three states  when the Markov chain is in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pil}
@@ -399,7 +410,12 @@ DenominatorL &= P_{evict}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\
 %\setlength{\arraycolsep}{5pt}
 
 For more {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
-We use $\Pi_{c}^{\mathcal{M}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}$, $\Pi_{\bar{c}, a}^{\mathcal{M}}$ to represent the limit distribution of the three states  when the Markov chain in stable state, and the values are as follows.
+$P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
+As the same in conditional {\vwarm}, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ is no less than $P_{a}^{\mathfrak{1}}$.
+Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ are the same.
+So we use $P_{a}^{\mathfrak{2}\mathcal{M}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{M}}P_{a}^{\mathfrak{21}\mathcal{M}}+(1-P_{evict}^{\mathfrak{2}\mathcal{M}})P_{a}^{\mathfrak{22}\mathcal{M}}$ and $P_{a}^{\mathfrak{2}\mathcal{M}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+
+We use $\Pi_{c}^{\mathcal{M}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}$, $\Pi_{\bar{c}, a}^{\mathcal{M}}$ to represent the limit distribution of the three states  when the Markov chain is in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pim}
@@ -471,7 +487,7 @@ Then,
  &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{\mathcal{C}} * T_{delay}
 \end{align}
 
-Also, we find that $P_{a2} = P_{a2}^{''}$.
+Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
 Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) > 0$,
 by a serials of calculation(See Appendix~\ref{appendixa} for more details),
   we get the conditions:
@@ -501,7 +517,7 @@ where
 &+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
 \end{align}
 As an example,
-\figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a1} = 0.85$.
+\figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a}^{\mathfrak{1}} = 0.85$.
 \begin{figure}
   \centering
   \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
