@@ -156,24 +156,17 @@ The optimal performance of the integrated {\scshape{Warm+Delay}} scheme with dif
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables),
     is investigated in commodity computer systems.
 For example,
-    the protected AES-128 implementation with 2KB lookup tables \cite{Daemen2002The} achieves the optimal performance,
-when (\emph{a}) the probability
- that some entries of lookup tables are evicted from caches
-  due to system activities during encryption, denoted as $P_{evict}$, {\color{red}is less than $0.2$}, and
- (\emph{b}) the ratio of
-  the delayed time of padding instructions to the time of reading constant tables {\color{red}from  either caches or RAM,
-  denoted as $k$, is less than $57.4$}.
+    the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
+when the ratio of
+  the extra cost caused by {\scshape{Delay}} to the extra cost caused by {\scshape{Warm}},
+  denoted as $g$, is less than $167.7$.
 These conditions hold %for continuous AES executions
  in commodity computer systems,
   which is confirmed by our experiments.
-The conditions for other AES implementations of different key sizes,
-            {\color{red} $P_{evict} < 0.2$ and $k < 42.41$}, also hold in commodity systems.
+The conditions for other AES implementations of different key sizes are not identical but also hold in commodity systems.
 %In fact, our protection scheme produces the optimal performance for various AES implementations (the lookup tables in size of 2KB, 4KB, 4.25KB and 5KB) of different key sizes (128, 192 and 256 bits),
 
 
-
-   % 各种输入是攻击情况，仍然是相同的分布。这一块的实验，我们没有做。是否需要做？
-   % 对于original，在图上，哪些是可以利用来攻击的，应该有所标注【或者使用文字】。
 The integration scheme does not require any privileged operation on the computer system.
 The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
 Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems

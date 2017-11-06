@@ -17,7 +17,8 @@ In this section, we prove that the {\scshape{Warm+Delay}} scheme achieves the op
 \label{sec:eval}
 
 In the scheme,
-        the extra operations are introduced by {\scshape{Warm}} and {\scshape{Delay}},
+        the extra operations are introduced by {\scshape{Warm}}, {\scshape{Delay}} and {\scshape{GetTime}}.
+   The cost of {\scshape{GetTime}} is fixed and necessary,
  so the overheads are determined by the cost of each {\scshape{Warm}} (or {\scshape{Delay}}) operation,
     and the times of these operations.
 % so the main point is to optimize the use of {\scshape{Warm}} and {\scshape{Delay}}.
@@ -372,7 +373,7 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
 
 For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
 %{\color{red}insert pa2.etc meaning.}
-$P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption. 
+$P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
  Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ is no less than $P_{a}^{\mathfrak{1}}$.
 Because we can not determine how many lookup entries are evicted, the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ are the same.
 So we use $P_{a}^{\mathfrak{2}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$ and $P_{a}^{\mathfrak{2}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
@@ -391,7 +392,7 @@ For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fi
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
 As the same in conditional {\vwarm}, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ is no less than $P_{a}^{\mathfrak{1}}$.
 Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ are the same.
-So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$. 
+So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
  $P_{a}^{\mathfrak{3}\mathcal{L}}$ in the diagram has the same meaning with $P_{a}^{\mathfrak{2}\mathcal{L}}$.
 
 We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\bar{c}, a}^{\mathcal{L}}$ to represent the limit distribution of the three states  when the Markov chain is in stable state, and the values are as follows.
