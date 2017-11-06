@@ -391,7 +391,8 @@ For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fi
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
 As the same in conditional {\vwarm}, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ is no less than $P_{a}^{\mathfrak{1}}$.
 Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ are the same.
-So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$. 
+ $P_{a}^{\mathfrak{3}\mathcal{L}}$ in the diagram has the same meaning with $P_{a}^{\mathfrak{2}\mathcal{L}}$.
 
 We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\bar{c}, a}^{\mathcal{L}}$ to represent the limit distribution of the three states  when the Markov chain is in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
@@ -466,15 +467,9 @@ We denote $\frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict
 %g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
 %\end{equation}
 % \end{theorem}
-Conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy if the following conditions are satisfied:
-\begin{enumerate}
-  \item
-  if $GDenominator \leq 0$,
+Conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy if the following condition is satisfied:
 
-  \item
-  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
-
-\end{enumerate}
+  if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
 \end{theorem}
 
 \begin{IEEEproof}
@@ -490,14 +485,8 @@ Then,
 Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
 Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) > 0$,
 by a serials of calculation(See Appendix~\ref{appendixa} for more details),
-  we get the conditions:
-  \begin{enumerate}
-  \item
-  if $GDenominator \leq 0$,
+  we get the condition that   if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
 
-  \item
-  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
-\end{enumerate}
 While $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
 The minimum value of $Gexpression$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
 \begin{equation}
@@ -535,15 +524,9 @@ Therefore in these conditions conditional {\vwarm} strategy has better performan
 
 \begin{theorem}\label{lemma:warmnum3}
     Performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
-if the following conditions are satisfied:
-\begin{enumerate}
-  \item
-  if $GDenominator \leq 0$,
+if the following condition is satisfied:
 
-  \item
-  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
-\end{enumerate}
-
+ if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
 \end{theorem}
 
 \begin{IEEEproof}
