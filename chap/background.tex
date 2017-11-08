@@ -205,10 +205,11 @@ Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanal
 %Considering the structure of DES, only 16 accesses are needed for each S-box during the encryption. Relatively to the 64 entries of an S-box, the number of 16 accesses is rather small, resulting in a high probability of accessing different elements of the separate S-boxes. So the authors implement the elimination table attack on a a Pentium III CPU having a cache load size of 32-bytes. As a result, the key is recovered by a success rate greater than 90\% with $2^{23}$ known plaintexts and $2^{24}$ calculations.
 
 \noindent\textbf{Bernstein's attack.}
-It is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on the lookup table index \cite{Bernstein2005Cache}.
+ This attack is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on input plaintexts\cite{Bernstein2005Cache}.
 The attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
-For each byte of the key, the attacker obtains the lookup table index ($p_i \oplus k_i$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
-Then, the attacker infers the key of the victim server, with the obtained lookup table index and known plaintexts.
+For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
+Then, the attacker repeats the same experiment on the victim server
+and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
 
 %Bernstein's attack uses the distribution of AES encryption time to recover each byte of the key \cite{Bernstein2005Cache}.
  %It contains three phases. The first one is the learning phases, in which the attacker constructs a duplicate server with the same CPU and AES implementation of the victim server, but with a known key, then encrypts a large number of 400, 600 and 800 byte random plaintexts to build a time pattern for the various bytes. The second phases is the attack phases, where the attacker builds the time pattern for the victim server whose AES key is unknown. In the last phases, the attacker analyses the time patterns of the duplicate and the victim server for each byte to produce a set of possible key bits.
