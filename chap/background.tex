@@ -146,22 +146,23 @@ Two typical remote cache-based side channels of block ciphers are outlined as fo
 -- Linjq check here.
 
 \noindent\textbf{Internal collision attack.}
-Data in caches are loaded and evicted in cache lines.
-Each cache line (64 bytes) usually contains multiple lookup table entries,
- and accessing the entries in a same cache line is called an internal collision.
-% the internal collision is used to denote accessing the entries in the same cache line.
-The internal collision attack works for DES, 3DES and the first round of AES \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis},
- and is extended to the second and last rounds of AES~\cite{Ac2007Cache}.
- This attack exploits the relationship between the encryption time and the number of cache hits.
-Let's take the first round of AES as an example,
-%the observation on 600-MHz Pentium III CPU, reflects that longer encryption time implies lower frequency of cache misses in the first round~\footnote{This observation depends on the CPU type and the implementation of AES.}.
+This attack exploits the relationship between the encryption time and the different input plaintexts( or ciphertexts).
+Taking the first round attack of AES \cite{Bonneau2006Cache}as an example,
 the plaintext and the round key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$, respectively,
 and the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
-When any two inputs access the lookup table entries in a same cache line,
- it results in shorter execution time.
- %\footnote{According to \cite{Tsunoo2003Cryptanalysis}, a longer encryption time results for the implementation~\cite{aesimp} of AES running on 600-MHz Pentium III CPUs.}.
-{\color{red}Then, the difference of some key bits is disclosed as the values (i.e., $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$, $0 \leq j < k \leq 3$) counted most often,}
-   which is used to extract the secret key.
+When any two inputs of $T_i$ access the lookup table entries in a same cache line,
+ it results in shorter execution time, which is called an internal collision.
+ Then,
+ the attacker can make a statistics of the average execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$ ($0 \leq j,k \leq 3$).
+ The lowest time at the value $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}=\delta$ represents that cache collision occurs which means $k_{(i+4j)\%16} \oplus k_{(i+4k)\%16}=\delta$.
+   In this way the secret key is extracted.
+
+Since each cache line (64 bytes) contains multiple entries,
+the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
+The attacker need further analysis or more data to extract the full key.
+This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} that can extract the full secret key without extra information.
+Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanalysis}.
+
 %A cache miss occurs when the inputs of each lookup table are different.
 %In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
 %After collecting $2^{18}$  plaintexts with long encryption time, the 96-bit key differences are obtained, which are the values counted most often.
