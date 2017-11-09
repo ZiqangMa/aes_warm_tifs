@@ -9,11 +9,12 @@ Firstly,
   the implementation of block ciphers is not subject
    to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
   because there is generally no branch in the execution path.
-The status of instruction caches affect the execution time,
-  but is not related to the data (i.e., keys and plaintexts/ciphertexts).
 The instructions of block ciphers
   may be evicted from the caches due to system activities,
    which causes instruction cache misses and increases the execution time.
+The status of instruction caches affect the execution time,
+  but is not related to the data (i.e., keys and plaintexts/ciphertexts).
+
 %The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
 
 As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
