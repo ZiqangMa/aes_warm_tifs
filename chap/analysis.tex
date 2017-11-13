@@ -468,9 +468,14 @@ We denote $\frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict
 %g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
 %\end{equation}
 % \end{theorem}
-Conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy if the following condition is satisfied:
+Conditional {\vwarm} strategy has better performance than the more {\vwarm} strategy if the following condition is satisfied:
+\begin{enumerate}
+  \item
+    $GDenominator \leq 0$;
+  \item
+    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
+\end{enumerate}
 
-  if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
 \end{theorem}
 
 \begin{IEEEproof}
@@ -486,7 +491,13 @@ Then,
 Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
 Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) > 0$,
 by a serials of calculation(See Appendix~\ref{appendixa} for more details),
-  we get the condition that   if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
+  we get the condition that
+\begin{enumerate}
+  \item
+    $GDenominator \leq 0$;
+  \item
+    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
+\end{enumerate}
 
 While $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
 The minimum value of $Gexpression$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
@@ -526,8 +537,12 @@ Therefore in these conditions conditional {\vwarm} strategy has better performan
 \begin{theorem}\label{lemma:warmnum3}
     Performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
 if the following condition is satisfied:
-
- if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
+\begin{enumerate}
+  \item
+    $GDenominator \leq 0$;
+  \item
+    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
+\end{enumerate}
 \end{theorem}
 
 \begin{IEEEproof}
@@ -560,10 +575,9 @@ So conditional {\vwarm} has better performance than generate warm strategy for a
 if conditions:
 \begin{enumerate}
   \item
-  if $GDenominator \leq 0$,
-
+    $GDenominator \leq 0$;
   \item
-  else if $GDenominator > 0$,$g$ is smaller than the minimum value of $Gexpression$.
+    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
 \end{enumerate}
  are satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
@@ -666,7 +680,7 @@ Thus, $M=0.0491$ and the rang of $g$ is $[1.417,20.363]$.
 %The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
 %So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In this environment, when $GDenominator > 0$, $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$.
+In this environment, when $GDenominator>0$, $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$.
 $Gexpression$ gets the minimum value when $P_{a}^{\mathfrak{1}} = 0.994$.
 Substitute the value into the equation~\ref{equ:g} and get:
 \begin{equation}

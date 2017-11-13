@@ -232,8 +232,6 @@ In our environment it is $331$ cycles.
  \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
    while all lookup tables except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
-{\color{red}In \figurename~\ref{fig:twocm}, the little data around 375 cycles are due to read-write conflict in the 2KB stack,
-and the data after 415 are caused by the cache miss. \textbf{(why rw conflict in stack)?????}}
 We use the stack switch technique to eliminate the read-write conflict, at the same time it makes the AES execution time much more concentrated as shown in \figurename~\ref{fig:sim}.
  This helps the determination of $T_{NM}$ can be more accurate and reasonable.
   Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{NM}$ that might occur.
@@ -243,7 +241,7 @@ This value is chosen to ensure that all tables are in L1 caches and no fluctuati
 
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{W}}$.}
 Before measuring $T_{W}$, we flush both the data and instructions out of L1/2/3 caches, so $T_{W}$ is the worst AES execution time and unrelated to the cache states.
-In actual measurement, we repeat the measurement for 10 times, and calculate the average value as   $T_{W}$. 
+In actual measurement, we repeat the measurement for 10 times, and calculate the average value as   $T_{W}$.
  In this case $T_{W}$ is 2834 CPU cycles.
 %{\color{red} how to choose 2834? the average? the max? the min? or, from a figure?}
 
