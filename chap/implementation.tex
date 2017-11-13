@@ -45,16 +45,17 @@ However, even when all lookup tables are in the L1D cache,
 %{\color{red}is it useful? any influence from other core?}
 The time variations result from accessing the L1D cache.
 There are two possible reasons. One is the cache bank conflict.
-Cache bank is a physical structure that divides one cache line into several banks so that different banks can be concurrently accessed.
-But one cache bank can only serve one request at a time.
+Cache bank is a physical structure that divides the L1D cache into several banks.
+Each core has its own L1D cache and the banks are not across the L1D cache. 
+Different banks can be concurrently accessed, 
+but one bank only serves one request at a time.
 %Intel introduced a cache design consisting of multiple banks.
 %Each of the banks serves part of the cache line specified by the offset in the cache line.
 %The banks can operate independently and serve requests concurrently.
 %But each cache bank can only serve one request at a time.
 So, multiple accesses to the same cache bank are slower than to different banks.
-For the cache bank conflict,
- we disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1D cache.
-  Because the L1D cache is unshared, the L1D cache can not be accessed by the other cores on the same CPU.
+ Because the L1D cache is unshared, the L1D cache can not be accessed by the other cores on the same CPU,
+ we disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1D cache for the cache bank conflict.
 All the following experiments, Hyper-Threading is disabled.
 
 The other is read-write conflict that the load from L1 cache takes slightly more time if it involves the same set of cache lines as a recent store.
