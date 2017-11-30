@@ -137,16 +137,14 @@ When the CPU core attempts to access a data block,
 Cache timing side-channel attacks on block cipher implementations exploit the fact that
  accessing cached data is about two orders of magnitude faster than those in RAM,
  to recover the keys based on the execution time.
-Typically, it takes 3 to 4 cycles for a read operation in caches,
+Typically, it takes 3 to 4 cycles for a read operation in L1 cache,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
-%Different remote cache timing side channel attacks are proposed, and according the analysis on the execution time,
-%they can be classified into three types: the statistical attack, the Bernstein's attack and the collision attack.
-Two typical remote cache-based side channels of block ciphers are outlined as follows.
+Two typical remote cache-based side channels of block ciphers are outlined as follows. 
+Both of them exploit the relationship between the whole encryption time and the different input plaintexts( or ciphertexts), due to the time for accessing the lookup tables.
 
 -- Linjq check here.
 
 \noindent\textbf{Internal collision attack.}
-This attack exploits the relationship between the encryption time and the different input plaintexts( or ciphertexts).
 Taking the first round attack of AES \cite{Bonneau2006Cache}as an example,
 the plaintext and the round key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$, respectively,
 and the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
@@ -204,9 +202,8 @@ Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanal
 
 %Considering the structure of DES, only 16 accesses are needed for each S-box during the encryption. Relatively to the 64 entries of an S-box, the number of 16 accesses is rather small, resulting in a high probability of accessing different elements of the separate S-boxes. So the authors implement the elimination table attack on a a Pentium III CPU having a cache load size of 32-bytes. As a result, the key is recovered by a success rate greater than 90\% with $2^{23}$ known plaintexts and $2^{24}$ calculations.
 
-\noindent\textbf{Bernstein's attack.}
- This attack is based on the case that the whole AES execution time is correlated with the time for accessing the lookup tables, which depends on input plaintexts\cite{Bernstein2005Cache}.
-The attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
+\noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
+In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
 For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
 Then, the attacker repeats the same experiment on the victim server
 and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).

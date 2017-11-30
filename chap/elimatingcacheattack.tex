@@ -4,7 +4,7 @@
 [[[[[--Linjq restart here; I skip Section II.
 
 This section firstly presents the threat mode and design goals.
-Then, the {\scshape{Warm+Delay}} scheme is described,
+Then, the {\scshape{Warm+Delay}} defense scheme is described,
  and we explain that it effectively eliminates remote cache timing side channels
   while keeps the potential to achieve the optimal performance.
 
@@ -14,33 +14,35 @@ Then, the {\scshape{Warm+Delay}} scheme is described,
 \label{sec:assumption}
 %goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
 We focus on the \emph{remote cache side-channel attacks} on block ciphers.
-The algorithms of block ciphers are publicly known, but the keys are kept secret before the attacks are launched.
-The implementation details such as source code, operating system, cache hierarchy and other software/hardware configurations,
-  are also publicly known;
-  but the running states of the target system are unknown  to the  remote attackers
-   due to non-deterministic interrupts, task scheduling and other system activities.
+The algorithms of block ciphers and their implementation details are publicly known, but the keys are kept secret before the attacks are launched.
 In particular,
  the implementation of block ciphers is based on lookup tables,
-  and the execution time depends mostly on the cache access of  table lookup.
+  and the execution time depends mostly on the cache access of table lookup.
 
-The attackers are able to
+The such as source code,
+  are also known to public.
+  
+  but the running states of the target system are unknown  to the  remote attackers
+
+
+The remote attackers know the operating system, cache hierarchy and other software/hardware configurations on the target systems,
+ but the running states of the target system are unknown due to non-deterministic interrupts, task scheduling and other system activities..
+ They are able to
   invoke the encryption function arbitrarily
   and measure the time for each invocation.
 The attackers control the invocation,
  so they could continuously invoke the function to cache
-        all lookup tables % with a high probability,
+        all lookup tables
     or invoke no function for a long time to let
            all tables be evicted from caches, with an extremely high probability.
 
 We assume an unprivileged attacker that cannot run a processes on the target systems
-   to concurrently modify or probe the cache state of the system, % (shared with the cryptographic engine)
+   to concurrently modify or probe the cache state of the system, 
  and they just measure the overall execution time of the block ciphers.
-%In our model, the target operating system and the underlying hardware are regarded as security.
-The attackers do not have physical access to the hardware. % and cannot run any processes on the target as well.
+The attackers do not have physical access to the hardware. 
 
 This work focuses on the remote cache timing side-channel attacks,
   which are launched with the least privileges (or capabilities) of attackers;
-%We are only concerned with the remote cache timing side channels since they are quite easy to carry out and need little ability of attackers.
 other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
 %We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
 % And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.
@@ -203,15 +205,15 @@ Given a block cipher, $T_{NM}$ and $T_{W}$
            \Require $key$, $in$
            \Ensure $out$
            \Function {ProtectedCrypt}{$key$, $in$, $out$}
-                \State $start \gets \Call{GetTime}$
+                \State $t1 \gets \Call{GetTime}$
                 \State $\Call{Crypt}{key, in, out}$     {   } $//$ encrypt or decrypt
-                \State $end \gets \Call{GetTime}$
-                \If {$end - start > T_{NM}$}
+                \State $t2 \gets \Call{GetTime}$
+                \If {$t2 - t1 > T_{NM}$}
                     %\State $state \gets 1$
                     \State $\Call{Warm}$
-                    \State $delay \gets \Call{GetTime}$
-                    \If {$delay - start < T_{W} $}
-                        \State $\Call{Delay}{T_{W}-delay+start}$
+                    \State $t3 \gets \Call{GetTime}$
+                    \If {$t3 - t1 < T_{W} $}
+                        \State $\Call{Delay}{T_{W}-t3+t1}$
                     \EndIf
                 \EndIf
            \EndFunction
