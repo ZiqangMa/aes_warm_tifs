@@ -9,21 +9,15 @@ Then, the {\scshape{Warm+Delay}} defense scheme is described,
   while keeps the potential to achieve the optimal performance.
 
 
-\subsection{Threat Model and Design Goals}
+\subsection{Threat Model}
 %\vspace{-1mm}
 \label{sec:assumption}
 %goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
-We focus on the \emph{remote cache side-channel attacks} on block ciphers.
+In this paper we consider the \emph{remote cache side-channel attacks} on block ciphers.
 The algorithms of block ciphers and their implementation details are publicly known, but the keys are kept secret before the attacks are launched.
 In particular,
  the implementation of block ciphers is based on lookup tables,
   and the execution time depends mostly on the cache access of table lookup.
-
-The such as source code,
-  are also known to public.
-  
-  but the running states of the target system are unknown  to the  remote attackers
-
 
 The remote attackers know the operating system, cache hierarchy and other software/hardware configurations on the target systems,
  but the running states of the target system are unknown due to non-deterministic interrupts, task scheduling and other system activities..
@@ -37,47 +31,35 @@ The attackers control the invocation,
            all tables be evicted from caches, with an extremely high probability.
 
 We assume an unprivileged attacker that cannot run a processes on the target systems
-   to concurrently modify or probe the cache state of the system, 
+   to concurrently modify or probe the cache state of the system,
  and they just measure the overall execution time of the block ciphers.
-The attackers do not have physical access to the hardware. 
+The attackers do not have physical access to the hardware.
 
+\subsection{Design Goals}
+\label{sec:goal}
 This work focuses on the remote cache timing side-channel attacks,
   which are launched with the least privileges (or capabilities) of attackers;
 other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
-%We believe that it is a realistic model because it is reasonable for an remote attacker to have no access to the target system directly.
-% And if the target system is not trusted, it can be attacked by other attacks, which are not in our consideration.
-%
-%
-% as in some attacks \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,Lauradoux2005Collision}.
-%
-%
-%require the special initial state of the cache, our scheme allows the attackers to set the initial state of the cache as they need.
-%
-%We assume the attackers have the ability to perform all known remote cache timing side channel attacks on the target device which adopts the conventional cache memory.
-% Therefore, the attackers are able to invoke the encryption function without any limit; have the necessary information of the target device including the cache size, the cache line size and set associativity;
-%[?? and can observe the aggregate profile of the encryption, i.e., total numbers of cache hits and misses. ??]
-%
-%
 We attempt to eliminate remote cache timing side channels,
   with the following considerations:
 \begin{itemize}
   \item It is applicable to various block ciphers and transparent to implementations.
   The scheme is algorithm-independent and
-        works well for different implementations %of block ciphers
+        works well for different implementations 
            without modifying the source code.
-%  It doesn't need to modify the encryption algorithm code, and can be applied to all the symmetric encryption algorithm implementations based on the lookup tables.
 
   \item It requires no  privileged operations on the system.
   All operations introduced by the defense scheme, are available in common computer systems.
    It works well either in user space or kernel space,
      to protect the block cipher implemented in user mode and kernel mode, respectively.
+     \item
+We attempt to optimize the performance while ensure the security.
+So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
   \item
    The parameters are configurable to optimize the performance.
 Then, it produces the optimal performance by configuring appropriate parameters
     for different block-cipher implementations and computing platforms.
-\item
-We attempt to optimize the performance while ensure the security.
-So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
+
 \end{itemize}
 
 
