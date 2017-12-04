@@ -37,7 +37,7 @@ The attackers do not have physical access to the hardware.
 
 \subsection{Design Goals}
 \label{sec:goal}
-This work focuses on the remote cache timing side-channel attacks,
+This work aims to defend against the remote cache timing side-channel attacks,
   which are launched with the least privileges (or capabilities) of attackers;
 other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
 We attempt to eliminate remote cache timing side channels,
@@ -45,7 +45,7 @@ We attempt to eliminate remote cache timing side channels,
 \begin{itemize}
   \item It is applicable to various block ciphers and transparent to implementations.
   The scheme is algorithm-independent and
-        works well for different implementations 
+        works well for different implementations
            without modifying the source code.
 
   \item It requires no  privileged operations on the system.
@@ -100,18 +100,8 @@ These mechanisms work complementarily and each has its own advantages:
     {\scshape{Warm}} improves the performance, but it cannot ensure security by itself
         because the effect may be broken by system activities;
     {\scshape{Delay}} completely eliminates the timing side channels, but the performance is significantly degraded.
-
-%These two operations cooperatively destroy the relationship between the time measured by attackers and
-%  the cache misses/hits during the execution of encryption/decryption.
-%In practice,
-%  warm cannot completely eliminate the cache timing side channels by itself,
-%  because the effect of cache warm may be countered by system activities,
-%     which evict lookup tables from caches.
-%Delay directly controls the time measured by attackers,
-%    but it degrades the performance significantly.
-%
-%Our scheme combines the two methods together to ensure the security and optimize the performance.
-  %这几句是说，warm由于中断等因素的存在，并不能够完全保证加密计算的安全性，而delay 操作虽然可以保证安全，但是会很影响效率。因此我们的方案结合这两种方法，来获取安全和效率。
+So we want to integrate their advantages to form the defense scheme.
+  
 %
 %
 %The integration follows some principles:
@@ -138,8 +128,6 @@ As the scheme does not involve privileged operations,
 
 Next,
   when we consider that the cryptographic function is invoked continuously for large amounts of data,
-%   and before the next execution perform {\scshape{Warm}}.
-%    In this way the performance of the scheme is much improved.
  the time of performing {\scshape{Warm}} varies and this variation may reflect the cache access of the last encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate the variation, but it brings another extra overhead.
 Fortunately,
@@ -152,24 +140,14 @@ So,
    {\scshape{Warm}} is performed as a part of inserted instructions by {\scshape{Delay}},
    if it is needed.
    This design further improves the performance, and the variation of {\scshape{Warm}} is masked.
-%     Therefore, the time of {\scshape{Warm}} cannot be detected and we do not need to flush the cache.
-
-%Principles. Warm before function, delay after function.
-%As least as possible.
-%Conditions are defined as time, no special privileges.
-%The same as the timing side-channel attackers.
-%We focus on the situation where a mass data are processed.
-%A naive scheme, is ; but ...
-%then, ... improved;
-%\textbf{+++++}
 
 
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 In this algorithm,
   there are two parameters, $T_{W}$ and $T_{NM}$.
 $T_{NM}$ is defined as the time period for one execution of encryption,
-  in the case that all lookup tables are in caches before the execution.
-$T_{W}$ is defined as the period for one execution of encryption,
+  in the case that all lookup tables are in caches during the execution.
+$T_{W}$ is defined as the max time period for one execution of encryption,
   in the case that none of table entries is cached before the execution.
 These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
 Given a block cipher, $T_{NM}$ and $T_{W}$
@@ -209,18 +187,12 @@ In addition to {\scshape{Crypt}}, three operations
         \emph{b}) {\scshape{Delay}}, insert padding instructions,
         and \emph{c}) {\scshape{GetTime}}, get the current time as the conditions of {\scshape{Warm}} and {\scshape{Delay}}.
 All these operations are algorithms-independent and implementation-transparent,
-        except that the memory address of lookup tables is needed in {\scshape{Warm}}.
+        except that the size and memory address of lookup tables are needed in {\scshape{Warm}}.
 All these operations are supported in commodity computer systems without special privileges,
  either in user mode or kernel mode.
 %The conditions of warm and delay are defined by timing.
 We do not query the status of any cache line to determine whether an entry of the lookup tables is in caches or not,
        which are generally unavailable on common computing platforms.
-
-%上面是说有两种类型的防御策略，消除cache miss 和混淆cache miss
-% 这里是想说，这些方法中有些需要修改算法实现，有些需要特权等级（内核态，或者root用户），而 warm 和delay是不需要的，满足我们的需求。
-
-%Our scheme uses the cache warm (line $5$ in Algorithm~\ref{alg:aesdefense}), which loads the whole lookup tables into the cache, and the cache miss confusion together to eliminate the remote cache timing side channel attacks. Meanwhile, in order to achieve the algorithm independent, we adopt the time delay method to confuse the cache miss (line $14$ in Algorithm~\ref{alg:aesdefense}). 注释的这段是蔡师兄之前改的。
-
 
 % 说明一下调用方法：如下[以algorithm的方式写出来]：
 % 赋值delay
