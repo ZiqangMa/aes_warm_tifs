@@ -101,7 +101,7 @@ These mechanisms work complementarily and each has its own advantages:
         because the effect may be broken by system activities;
     {\scshape{Delay}} completely eliminates the timing side channels, but the performance is significantly degraded.
 So we want to integrate their advantages to form the defense scheme.
-  
+
 %
 %
 %The integration follows some principles:
@@ -249,13 +249,10 @@ Note that,
 
 
 \subsection{Security Analysis}
-%\vspace{-1mm}
-The remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt}},
- but not internal {\scshape{Crypt}}.
 The cache timing side channels result from the relation between the measured execution time and the data processed;
    that is, different data processed (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
-We ensure that the measured time does not leak any exploitable information about the status of cache lines,
+We ensure that the measured time does not leak any exploitable information about the status of lookup tables in caches,
    and then destroy the  relationship between the execution time and data processed during encryption.
 %In our scheme we put the cache warm operation after the encryption/decryption, So the time costs by the cache warm can be hidden.
 %这句话是想说，将warm放在加密之后，可以将warm的时间隐藏在delay中间。
@@ -267,42 +264,59 @@ We ensure that the measured time does not leak any exploitable information about
 %Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{W}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{W} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
 %]]]]]]]
 
+The execution time of {\scshape{Crypt}}
+falls into three intervals, $(0, T_{NM}]$, $(T_{NM}, T_{W})$ and $[T_{W}, \infty )$.
+According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, respectively.
 
-According to Algorithm~\ref{alg:aesdefense}, the measured time, i.e., the execution time of {\scshape{ProtectedCrypt}},
-  falls into two intervals, $(0, T_{NM}]$ and $[T_{W}, \infty )$.
-Next, we prove that,
- no information about the status of cache lines  %lookup tables cached or data processed
-  leaks through the time measured by attackers.
 \begin{itemize}
   \item \textbf{Case 1}: The execution time of {\scshape{Crypt}} is in $(0, T_{NM}]$.
    In fact, it is almost a fixed value for arbitrary data processed, as all tables are cached and the measured time is $T_{NM}$.
     When all table entries are in caches,
     the access time for any entry is constant,
-     resulting in a fixed execution time.%\footnote{The impact of micro-architecture~\cite{Canteaut2006Understanding} on cache access is discussed in Section~\ref{subsec:fullwarm}.} %However, ~\cite{Canteaut2006Understanding} proposes an attack based on the case that the access time for some cache element is larger than others even no cache miss happens due to the hardware structure. Our scheme chooses $THRESHOLD1$ to ensure that when an encryption needs to access such cache elements, the encryption time falls into the interval $[T_{W}, \infty )$.
-  \item \textbf{Case 2}: The execution time is in $(T_{NM}, T_{W}$). It will be delayed to $T_{W}$,
-    which is the execution time as all accessed lookup tables are uncached before encryption.
-    That is, the encryption is executed equivalently without any caches.
-    In this case, the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of {\scshape{Crypt}} is greater than $T_{W}$.
+     resulting in a fixed execution time. So {\scshape{Delay}} is not performed in this case.
+  \item \textbf{Case 2}: The execution time of {\scshape{Crypt}} is in $(T_{NM}, T_{W})$. It will be delayed to $T_{W}$,
+    which is the max execution time as all accessed lookup tables are uncached before encryption.
+    %That is, the encryption is executed equivalently without any caches.
+    %In this case,
+    %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
+  \item \textbf{Case 3}: The execution time of {\scshape{Crypt}} is in $[T_{W}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,
        are random and unknown to the remote attackers,
-       so the attackers cannot find the actual execution time of encryption to infer the keys.
+       so in this case {\scshape{Delay}} is not performed, too.
+       %the attackers cannot find the actual execution time of encryption to infer the keys.
 \end{itemize}
 
-The timing information and also its differential information,
- are determined by non-deterministic system activities and unrelated to the secret keys.
- Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
-  and in Case 3, the execution time is  obscured by non-deterministic system activities.  %, which are unknown to attackers.
-The  sequence of Cases 1, 2, and 3,
-  cannot be exploited to construct cache timing side channels.
-In Case 1,
-    the measured time is almost constant,
-  and no exploitable differential information exists.
-Cases 2 and 3 happen only if encryption is interrupted
- by non-deterministic system activities.
-So the differential information is determined only by the system events.
+When applying the {\scshape{Warm+Delay}} scheme, the remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt}},
+ but not internal {\scshape{Crypt}}.
+ So the measured time, i.e., the execution time of {\scshape{ProtectedCrypt}},
+  falls into two intervals, $(0, T_{NM}]$ and $[T_{W}, \infty )$.
+
+%Next, we prove that,
+% no information about the status of cache lines  %lookup tables cached or data processed
+%  leaks through the time measured by attackers.
+
+  The value of $T_{NM}$ and $T_{W}$ are irrelevant to the data processed.
+   Also the time greater than $T_{W}$ is caused by random system activities and unrelated to the data processed. 
+    So the time in this two intervals cannot be exploited in cache timing side-channel attacks.
+    Meanwhile, due to {\scshape{Warm}} operation, that the execution time may be greater than $T_{NM}$ is because the system activities. 
+   Which intervals the execution time will lie in is not related to the data processed.
+   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
+    The relationship between the execution time and data processed during encryption is destroyed.
+     Thus, the cache timing side-channel attacks can not succeed under the {\scshape{Warm+Delay}} scheme.
+%The timing information and also its differential information,
+% are determined by non-deterministic system activities and unrelated to the secret keys.
+% Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
+%  and in Case 3, the execution time is  obscured by non-deterministic system activities.  %, which are unknown to attackers.
+%The  sequence of Cases 1, 2, and 3,
+%  cannot be exploited to construct cache timing side channels.
+%In Case 1,
+%    the measured time is almost constant,
+%  and no exploitable differential information exists.
+%Cases 2 and 3 happen only if encryption is interrupted
+% by non-deterministic system activities.
+%So the differential information is determined only by the system events.
 
 %case 4: The attacker fails to obtain any other information from which interval the encryption time falls in.
 % Because it is independent of  the input data, but relied on whether the needed cache entries are evict, or OS scheduler and interrupt handlers are invoked, which is unpredictable for the remote attackers.%这段是说，从计算时间落在是前一个区间还是后一个区间也得不到有用信息。
