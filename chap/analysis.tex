@@ -73,7 +73,7 @@ From the attackers' point of view,
    there are three types of measured time that are unexploitable
     (i.e. the execution time does not reflect the cache misses/hits of \emph{specific} lookup table entries):
     $T_{NM}$, $T_{W}$, and any value greater than $T_{W}$.
-$T_{NM}$  means that \emph{all} accessed entries are in caches before encryption,
+$T_{NM}$  means that \emph{all} accessed lookup entries are in caches before encryption,
  and
 $T_{W}$ corresponds to the longest execution path, when all lookup tables are not cached before encryption (and they are loaded into caches as the encryption operation is performed);
  so such results are the same for any input.
@@ -94,7 +94,9 @@ Therefore, delay to $T_{W}$ imposes the minimal overhead
 \end{IEEEproof}
 
 
-\begin{theorem} Performing the {\vdelay} operation when the execution time of encryption
+\begin{theorem}
+\label{delaynum}
+ Performing the {\vdelay} operation when the execution time of encryption
  is in $(T_{NM}, T_{W})$ results in the smallest number of {\vdelay} operations. % when we cannot distinguish the reason why encryption takes longer than $T_{NM}$ (cache miss or the OS scheduler and  interrupt handler).
 \end{theorem} % 这里when后的部分需要吗
 %******BL: 我也觉得后面半句可以不要，因为下文有解释。我先把这半句注释掉了
@@ -119,6 +121,10 @@ However, the attackers can distinguish them by repeatedly invoking the cryptogra
  Therefore, {\vdelay} is  necessary in this case.
 %\qed
 \end{IEEEproof}
+
+In our {\vwd}  scheme, the {\vdelay} operation satisfies the Theorem~\ref{delay2tw} and \ref{delaynum}.
+ So the use of {\vdelay} can achieve the optimal performance in the {\vwd}  scheme.
+ 
 
 \subsection{Performance Analysis of \vwarm}
 %\vspace{-1mm}
