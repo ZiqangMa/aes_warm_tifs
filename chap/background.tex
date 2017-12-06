@@ -139,7 +139,7 @@ Cache timing side-channel attacks on block cipher implementations exploit the fa
  to recover the keys based on the execution time.
 Typically, it takes 3 to 4 cycles for a read operation in L1 cache,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
-Two typical remote cache-based side channels of block ciphers are outlined as follows. 
+Two typical remote cache-based side channels of block ciphers are outlined as follows.
 Both of them exploit the relationship between the whole encryption time and the different input plaintexts( or ciphertexts), due to the time for accessing the lookup tables.
 
 -- Linjq check here.
@@ -204,7 +204,7 @@ Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanal
 
 \noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
 In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
-For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicate server.
+For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicated server.
 Then, the attacker repeats the same experiment on the victim server
 and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
 
