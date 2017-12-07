@@ -229,18 +229,18 @@ and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading
 \end{IEEEproof}
 
 
-In the {\scshape{Warm+Delay}} scheme, {\vwarm} is performed  after encryption
-    as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
-So the \emph{actual} cost of loading data into $N$ cache lines (or
-   the benefit of not loading these data) in {\vwarm} is less than $B_{nl}(N)$.
-For example,
-    when the time of {\scshape{Crypt}} plus {\vwarm} is less than  $T_W$ (Line 8 in Algorithm \ref{alg:aesdefense}),
-  the  cost of {\vwarm} is actually zero.
-
-Therefore,
-  the average cost of loading data into $N$ cache lines in the {\vwarm} operation is \emph{actually} less than $N T_{cl}$,
-      so loading all entries in {\vwarm} still provides better performance
- than any part of entries if $B_{nl}(N) = N T_{cl} < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$.
+%In the {\scshape{Warm+Delay}} scheme, {\vwarm} is performed  after encryption
+%    as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
+%So the \emph{actual} cost of loading data into $N$ cache lines (or
+%   the benefit of not loading these data) in {\vwarm} is less than $B_{nl}(N)$.
+%For example,
+%    when the time of {\scshape{Crypt}} plus {\vwarm} is less than  $T_W$ (Line 8 in Algorithm \ref{alg:aesdefense}),
+%  the  cost of {\vwarm} is actually zero.
+%
+%Therefore,
+%  the average cost of loading data into $N$ cache lines in the {\vwarm} operation is \emph{actually} less than $N T_{cl}$,
+%      so loading all entries in {\vwarm} still provides better performance
+% than any part of entries if $B_{nl}(N) = N T_{cl} < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$.
 
 
 % Therefore, the time of {\vwarm}  becomes part of delay.
@@ -277,22 +277,13 @@ The result is applicable to other commodity computer systems.
 So by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces the optimal performance.
 \end{IEEEproof}
 
+In our {\vwd} scheme, {\vwarm} is performed  after encryption
+   as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
+So the cost of {\vwarm} is reduced significantly, further making that loading all entries of the lookup table in {\vwarm} is better. 
 
  %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
 
 \begin{table*}[t]
-%    \renewcommand{\arraystretch}{1.3}
-%    \caption{A Simple Example Table}
-%    \label{table_example}
-%    \centering
-%    \begin{tabular}{c||c}
-%    \hline
-%    \bfseries First & \bfseries Next\\
-%    \hline\hline
-%    1.0 & 2.0\\
-%    \hline
-%    \end{tabular}
-%    \end{table}
   \renewcommand{\arraystretch}{1.3}
   \caption{Benefit and expected cost of not loading $N$ cache lines of table entries (in CPU cycles).}\label{tbl:warmcontent}
   \centering
