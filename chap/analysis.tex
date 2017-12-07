@@ -124,12 +124,12 @@ However, the attackers can distinguish them by repeatedly invoking the cryptogra
 
 In our {\vwd}  scheme, the {\vdelay} operation satisfies the Theorem~\ref{delay2tw} and \ref{delaynum}.
  So the use of {\vdelay} can achieve the optimal performance in the {\vwd}  scheme.
- 
+
 
 \subsection{Performance Analysis of \vwarm}
 %\vspace{-1mm}
 
-We apply the {\vwd}  scheme to AES-128 with 2KB lookup tables \cite{openssl},
+We apply the {\vwd}  scheme to AES-128 with a 2KB lookup table \cite{openssl},
   as described in Section \ref{back:aes}.
 %The {\vwarm}  operation is applied to the lookup tables, which consume 2KB in total.
 We show that, in this case, the {\scshape{Warm+Delay}} scheme produces the best performance in commodity computer systems,
@@ -139,7 +139,7 @@ The details about other key sizes (192 and 256 bits) and different implementatio
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
 Denote the size of a cache line as $C$,
-    and the time cost to load a cache line of data from RAM to L1D caches as $T_{cl}$.
+    and the time cost to load a cache line of data from RAM to L1D cache as $T_{cl}$.
   So we have the following theorem,
   for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
@@ -163,7 +163,8 @@ where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}
 
 \begin{IEEEproof}
 It takes $T_{cl} > 0$ to load data into a cache line in the {\vwarm} operation;
- on the other hand,
+ %on the other hand,
+ while,
  if some entry is uncached,
   the execution time of AES encryption may become longer and then it triggers an extra {\vdelay} operation.
 Not loading $N$ ($\frac{L}{C} \geq N > 0$) cache lines of table entries saves the execution time of \vwarm,
@@ -204,14 +205,14 @@ Therefore, if $N$ cache lines of table entries are not in caches,
 
 The execution time shall be delayed to $T_W$ according to Theorem \ref{delay2tw},
  while it is $T_{NM}$ if all entries are in caches.
-So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is
+So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
 \begin{eqnarray}
  \label{equ:tdelay}
 &D_{nl}(N)&={ }  {P}_{delay}  (T_{W}-T_{NM})  \nonumber \\
-&&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})
+&&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM}).
 \end{eqnarray}
 
-Finally,
+On the other hand,
 the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is
 \begin{eqnarray}
 B_{nl}(N) = N T_{cl}
@@ -259,8 +260,8 @@ loading all entries of the lookup table into caches in the {\vwarm} operation
 
 \begin{IEEEproof}
 Firstly,
- with commodity hardware, the cache is enough to load all entries of the lookup table.
-For example, AES is implemented with the lookup table of 2KB, 4KB, 4.25KB or 5KB,
+ with commodity hardware, the cache is enough to load all entries of the lookup tables.
+For example, AES is implemented with the lookup tables of 2KB, 4KB, 4.25KB or 5KB,
    and the lookup table of DES/3DES is 2KB.
 However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
 
@@ -271,9 +272,9 @@ $T_{W}$, $T_{NM}$, and $T_{cl}$ are $2834, 355, 55.68$ in CPU cycles, respective
 %%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
     when $R = 10$, $L = 2KB$, and $C = 64B$.
-We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines is always much greater than the benefit.
+We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines of lookup table is always much greater than the benefit.
 The result is applicable to other commodity computer systems.
-So  loading all entries in {\vwarm} produces the optimal performance.
+So by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces the optimal performance.
 \end{IEEEproof}
 
 
@@ -299,9 +300,10 @@ So  loading all entries in {\vwarm} produces the optimal performance.
    \hline
    {$N$}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  & 31  & 32\\
    \hline
-   {$B_{nl}(N)$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.5s & 1391.88 & 1670.25 & 1725.93 & 1781.60 \\
+   {$B_{nl}(N)$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.50 & 1391.88 & 1670.25 & 1725.93 & 1781.60 \\
    \hline
-   {$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
    \hline
    \end{tabular}
 \end{table*}
