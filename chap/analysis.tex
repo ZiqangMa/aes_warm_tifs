@@ -371,10 +371,6 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
     \label{pic:statetrans}
 \end{figure*}
 
-We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
- Then we investigate the relationship on the performance between conditional {\vwarm} and general {\vwarm} strategy.
-  Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
-
 For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
 %{\color{red}insert pa2.etc meaning.}
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
@@ -434,20 +430,25 @@ We use $\Pi_{c}^{\mathcal{M}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}$, $\Pi_{\b
 where
 \begin{align}
 D_M &= P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}\mathcal{M}}- P_{a}^{\mathfrak{2}\mathcal{M}}P_{warm}^{\mathcal{M}} \nonumber \\
-&-P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}})  \nonumber
+&-P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}}) \ .  \nonumber
 \end{align}
 
 
+We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
+ Followed we investigate the relationship on the performance between conditional {\vwarm} and general {\vwarm} strategy.
+  Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
 
-Then we have the following theorems.
-
+%Then we have the following theorems.
 
 \begin{theorem}\label{lemma:warmnum1}
   The conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{theorem}
 \begin{IEEEproof}
 The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\mathcal{L}})$ and $E(T^{\mathcal{C}})$, respectively.
-So,
+In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
+ In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for this two strategies.
+The difference between the expected extra time introduced by less {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:tpc1}
@@ -458,10 +459,18 @@ And then, we get that $E(T^{\mathcal{L}}) > E(T^{\mathcal{C}})$ for all $P_{warm
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
+Denote:
+\begin{align}
+&g = T_{delay} / T_{warm}\ , \nonumber \\
+&M = T_{warm_{min}} / T_{delay}  \nonumber \\
+&G_D=P_{evict}(P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})(1-P_{a}^{\mathfrak{1}}) \nonumber \ ,\\
+   & \ \ \ \ -M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))\ , \nonumber \\
+&G_e = \frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))}{G_D}\ . \nonumber
+\end{align}
 
-Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
-We denote $P_{evict}(P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})(1-P_{a}^{\mathfrak{1}})-M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))$ as $GDenominator$.
-We denote $\frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))}{GDenominator}$ as $Gexpression$.
+%Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
+%We denote $P_{evict}(P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})(1-P_{a}^{\mathfrak{1}})-M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))$ as $G_D$.
+%We denote $\frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))}{G_D}$ as $G_e$.
 \begin{theorem}\label{lemma:warmnum2}
 %If $P_{evict}\leq \frac{M*P_{a2}}{1-P_{a1}}$,
 %    conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy;
@@ -473,19 +482,23 @@ We denote $\frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict
 %g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
 %\end{equation}
 % \end{theorem}
-Conditional {\vwarm} strategy has better performance than the more {\vwarm} strategy if the following condition is satisfied:
-\begin{enumerate}
+Conditional {\vwarm} strategy has better performance than the more {\vwarm} strategy if the following condition
+ is satisfied:
+\begin{itemize}
   \item
-    $GDenominator \leq 0$;
-  \item
-    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
-\end{enumerate}
+    $\forall G_D$, when  $G_D > 0$, $g$ is smaller than the minimum value of $G_e$.
+\end{itemize}
 
 \end{theorem}
 
 \begin{IEEEproof}
 The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\mathcal{M}})$ and $E(T^{\mathcal{C}})$, respectively.
-Then,
+In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
+ However in more {\vwarm} strategy,
+the extra time introduced by {\vwarm} is the minimum value of $T_{warm}$ ($T_{warm_{min}}$) in the state $S_{c}$, as all lookup entries are in the caches.
+  Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{warm}$.
+Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
 \begin{align}
 \label{equ:tpc2}
@@ -494,18 +507,16 @@ Then,
 \end{align}
 
 Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
-Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) > 0$,
+Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$,
 by a serials of calculation(See Appendix~\ref{appendixa} for more details),
   we get the condition that
-\begin{enumerate}
+\begin{itemize}
   \item
-    $GDenominator \leq 0$;
-  \item
-    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
-\end{enumerate}
+    $\forall G_D$, when  $G_D > 0$, $g$ is smaller than the minimum value of $G_e$.
+\end{itemize}
 
-While $Gexpression$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
-The minimum value of $Gexpression$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
+While $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
+The minimum value of $G_e$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
 \begin{equation}
 \label{equ:g}
 \left\{
@@ -522,12 +533,13 @@ where
 \Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
 &+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
 \end{align}
+
 As an example,
-\figurename~\ref{fig:Gexpression} shows the value of $Gexpression$ when $P_{a}^{\mathfrak{1}} = 0.85$.
+\figurename~\ref{fig:Gexpression} shows the value of $G_e$ when $P_{a}^{\mathfrak{1}} = 0.85$.
 \begin{figure}
   \centering
   \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
-  \caption{the value of $Gexpression$ when $P_{a1} = 0.85$.}\label{fig:Gexpression}
+  \caption{the value of $G_e$ when $P_{a1} = 0.85$.}\label{fig:Gexpression}
 \end{figure}
 
 %
@@ -535,8 +547,8 @@ As an example,
 %Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
 %\end{align}
 
-   So in these conditions, the formula $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$ holds.
-Therefore in these conditions conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+   So in this condition, the formula $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$ holds.
+Therefore when this condition is satisfied, conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
 \begin{theorem}\label{lemma:warmnum3}
