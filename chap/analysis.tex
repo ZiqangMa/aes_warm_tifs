@@ -215,7 +215,7 @@ So the expected overhead (or the time cost) due to not loading $N$ cache lines o
 On the other hand,
 the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is
 \begin{eqnarray}
-B_{nl}(N) = N T_{cl}
+B_{nl}(N) = N T_{cl}.
 \end{eqnarray}
 
 Finally,
@@ -279,7 +279,7 @@ So by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces the
 
 In our {\vwd} scheme, {\vwarm} is performed  after encryption
    as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
-So the cost of {\vwarm} is reduced significantly, further making that loading all entries of the lookup table in {\vwarm} is better. 
+So the cost of {\vwarm} is reduced significantly, further making that loading all entries of the lookup table in {\vwarm} is better.
 
  %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
 
@@ -309,8 +309,8 @@ So the cost of {\vwarm} is reduced significantly, further making that loading al
 %\end{theorem}
 ]]]]]]]]
 
-Next, let us consider the different states of lookup tables in the L1 cache during the continuous invocations of AES encryption.
-The state of lookup tables is estimated after each execution of AES encryption.
+Next, let us consider the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
+The state of the lookup table is estimated after each execution of AES encryption.
   There are three states:
 (1) all entries of the lookup tables are in caches, denoted as $S_{c}$,
    (2) some entries are uncached, and at least one of them is accessed during the AES encryption, denoted as $S_{\bar{c}, a}$,
@@ -331,10 +331,6 @@ Third is the \emph{Warm} event. Performing {\vwarm} loads all the lookup tables 
 
 %$P_{nona}$ (equals to $P_{N}$) is the probability that the entries not in the cache are not needed in one execution; while $P_{evict}$ is the probability that some entries are evicted from the cache.
 
-Denote the execution time of {\vdelay} and {\vwarm} as
-    $T_{delay}$ and $T_{warm}$, respectively.
-$T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
-    while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
 %在状态转移过程中，cache状态发生转移，则需执行一次AES。
 %上述三种事件的发生，会使得状态发生改变。
@@ -346,11 +342,16 @@ The occurrence of these three events will change the state of lookup tables in t
  In the process of state transition, the state of lookup tables changes which means one AES executes.
   We assume that during one state transition, each of the three events occurs once at most.
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-    Also we assume that the \emph{Warm} event occurs after the \emph{Evict} event.
+    Besides we assume that the \emph{Warm} event occurs after the \emph{Evict} event.
      It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables.
+In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.
 
+We denote the extra cost introduced by {\vdelay} and {\vwarm} as
+    $T_{delay}$ and $T_{warm}$, respectively.
+$T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
+    while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
-In {\vwd} scheme, the warm strategy that perform {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
+In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 While considering other two cases: (1)performing {\vwarm} with a probability $P_{warm}^{\mathcal{L}}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{warm}^{\mathcal{M}}\in[0,1]$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
 
 \begin{figure*}[t]
@@ -370,12 +371,17 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
     \label{pic:statetrans}
 \end{figure*}
 
+We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
+ Then we investigate the relationship on the performance between conditional {\vwarm} and general {\vwarm} strategy.
+  Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
+
 For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
 %{\color{red}insert pa2.etc meaning.}
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
  Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ is no less than $P_{a}^{\mathfrak{1}}$.
+ We use $P_{a}^{\mathfrak{2}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$.
 Because we can not determine how many lookup entries are evicted, the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ are the same.
-So we use $P_{a}^{\mathfrak{2}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$ and $P_{a}^{\mathfrak{2}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+So  $P_{a}^{\mathfrak{2}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
 
 We use $\Pi_{c}^{\mathcal{C}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{C}}$, $\Pi_{\bar{c}, a}^{\mathcal{C}}$ to represent the limit distribution of the three states  when the Markov chain is in stable state, and the values are as follows.
 %\setlength{\arraycolsep}{0.0em}
@@ -398,15 +404,15 @@ We use $\Pi_{c}^{\mathcal{L}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}}$, $\Pi_{\b
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pil}
-&\Pi_{c}^{\mathcal{L}} = \frac{(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}}}{DenominatorL}\ ,\nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{3}\mathcal{L}}+(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{warm}^{\mathcal{L}})}{DenominatorL} \, \\
-&\Pi_{\bar{c}, a}^{\mathcal{L}} = \frac{P_{evict}P_{a}^{\mathfrak{2}\mathcal{L}}}{DenominatorL} .  \nonumber
+&\Pi_{c}^{\mathcal{L}} = \frac{(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}}}{D_L}\ ,\nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{\mathcal{L}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{3}\mathcal{L}}+(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{warm}^{\mathcal{L}})}{D_L}\ , \\
+&\Pi_{\bar{c}, a}^{\mathcal{L}} = \frac{P_{evict}P_{a}^{\mathfrak{2}\mathcal{L}}}{D_L} .  \nonumber
 \end{align}
 where
 \begin{align}
-DenominatorL &= P_{evict}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\mathcal{L}}) \nonumber \\
-&+(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}} \nonumber \\
-&+(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{evict}P_{warm}^{\mathcal{L}} \nonumber
+D_L &= P_{evict}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\mathcal{L}})% \nonumber \\
++(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}} \nonumber \\
+&\ \ \ \ +(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{evict}P_{warm}^{\mathcal{L}} . \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
@@ -420,14 +426,14 @@ We use $\Pi_{c}^{\mathcal{M}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}$, $\Pi_{\b
 %\setlength{\arraycolsep}{0.0em}
 \begin{align}
 \label{equ:pim}
-&\Pi_{c}^{\mathcal{M}} = \frac{(1-P_{evict})(P_{a}^{\mathfrak{2}\mathcal{M}}(1-P_{warm}^{\mathcal{M}})+P_{warm}^{\mathcal{M}})}{DenominatorM}\ , \nonumber\\
-&\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{1}})}{DenominatorM}\ , \\
-&\Pi_{\bar{c}, a}^{\mathcal{M}} = \frac{P_{evict}P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}}+P_{evict}P_{a}^{\mathfrak{2}\mathcal{M}}(1-P_{warm}^{\mathcal{M}})}{DenominatorM}   .  \nonumber
+&\Pi_{c}^{\mathcal{M}} = \frac{(1-P_{evict})(P_{a}^{\mathfrak{2}\mathcal{M}}(1-P_{warm}^{\mathcal{M}})+P_{warm}^{\mathcal{M}})}{D_M}\ , \nonumber\\
+&\Pi_{\bar{c}, \bar{a}}^{\mathcal{M}} = \frac{P_{evict}(1-P_{a}^{\mathfrak{1}})}{D_M}\ , \\
+&\Pi_{\bar{c}, a}^{\mathcal{M}} = \frac{P_{evict}P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}}+P_{evict}P_{a}^{\mathfrak{2}\mathcal{M}}(1-P_{warm}^{\mathcal{M}})}{D_M}   .  \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 where
 \begin{align}
-DenominatorM &= P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}\mathcal{M}}- P_{a}^{\mathfrak{2}\mathcal{M}}P_{warm}^{\mathcal{M}} \nonumber \\
+D_M &= P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}\mathcal{M}}- P_{a}^{\mathfrak{2}\mathcal{M}}P_{warm}^{\mathcal{M}} \nonumber \\
 &-P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}})  \nonumber
 \end{align}
 
