@@ -890,22 +890,22 @@ The relation between the cache state and execution time is as follows:
    \end{tabular}
 \end{table}
 
-
-The {\scshape{Warm+Delay}} scheme provides the optimal performance for various implementations of AES~\cite{openssl,polarssl} with different key length, if the conditions in Theorem~\ref{lemma:warmnum3} is satisfied.
-All the theorems above still stand, with the only difference be the value of $P_{a}$  and $M$.
-$P_{a}$ (detailed in Appendix~\ref{appendixb}) is the probability that some cache line size of lookup tables not in the cache are accessed. It depends  on the size of lookup tables and the number of iterated rounds.
-For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, the size of lookup tables are 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
+All the theorems above still stand, with the only difference being the value of $P_{a}$,$T_{warm}$ and $T_{delay}$.
+The {\scshape{Warm+Delay}} scheme provides the optimal performance for various implementations of AES~\cite{openssl,polarssl} with different key length, if the conditions in previous theorems are satisfied.
+$P_{a}$ (detailed in Appendix~\ref{appendixb}) is the probability that some cache line size of lookup tables not in the cache are accessed. It depends  on the structure and size of lookup tables and the number of iterated rounds.
+For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, they have 5 lookup tables with the total size 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
 Table~\ref{tbl:pdelayvalue} lists the corresponding minimum $P_{a}$.
-$M$ is the ratio of the minimum value of $T_{warm}$ and $T_{delay}$. These two values are related to not only the different implementations and key length, but also the platform that running AES.
-Therefore, for different implementations and key length of AES, first we should determine $P_{a}$  and $M$. Then we can find that, if the condition in Theorem~\ref{lemma:warmnum3} is satisfied, the {\scshape{Warm+Delay}} scheme provides the optimal performance.
+$T_{warm}$ and $T_{delay}$ are related to not only the different implementations and key length, but also the platform that running AES.
+Therefore, for different implementations and key length of AES, first we should determine $P_{a}$, $T_{warm}$ and $T_{delay}$. Then we can use the previous theorems to determine whether the {\scshape{Warm+Delay}} scheme provides the optimal performance.
+ Furthermore, the {\vwarm} and {\vdelay} can be configured to satisfy the theorems then get the optimal performance.
 
 
 %We analyze three different AES implementations. The difference is in the last round of the AES. The first one uses a 256B table in the last round~\cite{polarssl}. The second one uses one 1KB table in the last round~\cite{openssl}(Openssl-0.9.7i), and the third one uses the four tables in the previous rounds~\cite{openssl}(Openssl-1.0.2c). Also we analyze the different key length of AES. AES-128 has 10 rounds, AES-192 has 12 round, and AES-256 has 14 rounds.%这是说，有三种AES实现，一种是使用5个查找表，前面几轮使用4个1K的表，最后一轮使用256B的一个表。一种是使用5个表，前几轮也是使用4个1K的表，但最后一轮使用1个1K的表。还有一种是使用4个1K的表，每轮都是使用这4个表。同时每种实现有分为三种密钥长度，每种密钥长度其实对应的是AES不同的轮数.
 
 %For all the situations, the process of the proof of the Theorem 3 and Theorem 4 is almost the same. The main difference is the value of $P_{delay}$. We compute the value of $P_{delay}$ in the Table~\ref{tbl:pdelayvalue}, and find out that the Theorem 3 and Theorem 4 still hold true. %这段是说，对于这些不同的情况，在证明Lemma 3 and Lemma 4的时候，证明方法都是一样的，不同的就是P_{delay}的取值范围不同，但是经过计算，在每种取值范围内，Lemma 3 and Lemma 4都是成立的，也就是都是我们的方案最优。
 
-For other table-lookup block ciphers, we have to determine $P_{a}$ and $M$ according to the algorithm, the implementation and the running platform.
-Once the conditions in Theorem~\ref{lemma:warmnum3} are satisfied , {\scshape{Warm+Delay}}  provides the optimal performance.
+For other table-lookup block ciphers, we have to determine $P_{a}$, $T_{warm}$ and $T_{delay}$ according to the algorithm, the implementation and the running platform.
+Once the conditions in these theorems are satisfied , {\scshape{Warm+Delay}}  provides the optimal performance.
 
 %it is similar to the AES. They just have different values of $P_{delay}$. The three states of the cache is same and they have the same state transition diagram. So it can be proved that the Theorem 3 and Theorem 4 hold true for them.% 这段是说，对于其他算法，Lemma 3 and Lemma 4 的证明也是类似的，同样对于cache有这三种状态，且状态转移图也是一样的，故而证明过程也一样，只是P_{delay}不同而已，可以证明对于其P_{delay}的范围，Lemma 3 and Lemma 4 也是成立的。
 
