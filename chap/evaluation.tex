@@ -15,7 +15,7 @@ In this section,
  we first demonstrate the result that with our scheme the distribution of AES execution time are separated into two parts: less than $T_{NM}$ and no less than $T_{W}$,
    which meets our expectation.
      Then, we evaluate the performance of {\scshape{Warm+Delay}} scheme in three different aspects.
-      Firstly we compare our scheme with different probabilistic \vwarm~ strategies to show that our scheme has the best performance among the different strategies using warm and delay operations.
+      Firstly we compare our scheme with different \vwarm~ strategies to show that our scheme has the best performance among the different strategies using warm and delay operations.
        Secondly, we measure the performance of several different defense methods comparing with our scheme.
         It will show that our scheme has a better performance than other software-based methods.
          Finally, we apply our defense scheme to Openssl and use an Apache web server as a HTTPS server to provide application services.
@@ -43,27 +43,21 @@ the average execution time of our scheme is less than $1.29$ times of the unprot
 
 
 \noindent\textbf{Performance of different warm strategies.}
-We evaluate the probabilistic \vwarm~with the probability $0$, $1/2$, $1/3$ and $1$, and our scheme under low and high computing and memory workload when the interval of OS scheduler is $1$ms and $4$ms respectively.
+We evaluate general {\vwarm} strategies with different probability and conditional {\vwarm}
+ under low and high computing and memory workload when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
 In each case, we perform $2^{30}$ AES encryptions for random plaintexts.
 The AES encryption process and the concurrent workload run on the same CPU core.
 We use the benchmark SysBench to simulate computing and memory workload. % in parallel with the AES encryption.
 For computing workload, we run  SysBench in its CPU mode, which  launches $16$ threads to issue 10K requests to search the prime up to 300K.
-For memory workload, we adopt SysBench with $16$ threads in its memory mode, which reads or writes 32KB block each time to operate the total  3GB data on one CPU core. %While the AES encryption is on the same core.
+For memory workload, we adopt SysBench with $16$ threads in its memory mode, which reads or writes 1KB block each time to operate the total  3GB data on one CPU core.
 
 % The main overhead is caused by the timer function.
 Figure~\ref{pic:eval} validates that the performance of {\scshape{Warm+Delay}} scheme is the best.
 Moreover, we calculated $P_{evict}$ under different workloads,  according to  the number of AES  encryption whose execution time  is greater than $T_{NM}$. %This value represent the $P_{evict}$.
-From Table~\ref{tbl:pevict}, we find  $P_{evict}$ is less than 0.005 always,
-  in which case the {\scshape{Warm+Delay}} scheme is the optimal as proved in Section~\ref{sec:performanceproof}.
+When $P_{evict}$ is the values in Table~\ref{tbl:pevict}, 
+  as proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
 %which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.
 
-
-%In each environment, we compute the original AES execution time, the AES execution time that using our defense scheme, the AES execution time that never performing the cache warm, the AES execution time that every time that performing the cache warm and the AES execution time that performing the cache warm with the probability of 1/2 and 1/3, which is corresponding to the four methods of the cache warm strategy. The experiments' results is in Figure~\ref{aesperf250}.
-
-
-%From the figure the execution time of the AES with our defense scheme is 1.97 times of the original AES. The main influence factor of the performance is the four timers because the timers spend much time. Meanwhile, compared with other cache warm method our defense scheme is the most efficient.
-
-%The clock cycle of the system in the above experiment is 4ms. To find out the effect to the AES execution by the periodical process scheduling, we also do the same experiment on the system whose clock cycle is 10ms and 1ms. The result is in Figure~\ref{fig:subfig}.
 \begin{table}[b]
   \centering
   \small
@@ -73,13 +67,20 @@ From Table~\ref{tbl:pevict}, we find  $P_{evict}$ is less than 0.005 always,
    \hline
    {Interval of OS scheduler}& Low workload  & High CPU workload & High mem workload   \\
    \hline
-   {1ms} & 0.0028 & 0.0037 & 0.0041 \\
+   {1ms} & $1.87\times10^{-4}$ & $1.99\times10^{-4}$ & $2.20\times10^{-3}$ \\
    \hline
-   {4ms} & 0.0020 & 0.0026 & 0.0038  \\
+   {4ms} & $4.67\times10^{-5}$ & $7.52\times10^{-5}$ & $7.88\times10^{-5}$  \\
    \hline
    \end{tabular}
 \end{table}
 
+%0.000186894
+%0.000199487
+%0.002195746
+%
+%4.6663E-05
+%7.52006E-05
+%7.88113E-05
 
 \begin{figure}[t]
     \centering
@@ -92,7 +93,7 @@ From Table~\ref{tbl:pevict}, we find  $P_{evict}$ is less than 0.005 always,
 \noindent\textbf{Performance of different defense methods.}
 %\textbf{[[if possible, also in different scenarios as Fig. 6; more comprehensive]]}
 Furthermore, we evaluate the performance of our scheme with different defense methods:
- AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}. %\textbf{[[citation here, where the code from ----]]}.
+ AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}. 
  For each method, we we perform $2^{30}$ AES encryptions within random plaintexts.
   It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
 
