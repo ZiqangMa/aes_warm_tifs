@@ -13,9 +13,11 @@ We attempt to eliminate cache-based timing side channels with the optimal perfor
 The proposed {\scshape{Warm+Delay}} scheme is the first one to prevent cache timing side-channel attacks,
     while achieves the optimal performance with the least extra operations.
 The scheme eliminates remote cache timing side channels,
-    by integrating
-
-    achieve the optimal performance, by
+    by integrating {\scshape{Warm}} and {\scshape{Delay}} operations, two  algorithm-independent and implementation-transparent mechanisms.
+We investigate the factors affecting the performance of the scheme.
+It is concluded that {\scshape{Warm}} should load all lookup tables into caches and  {\scshape{Delay}} should make the execution time to $T_{W}$.
+  The optimal performance is achieved by performing {\scshape{Warm}} when cache-miss occurs during the previous execution
+    and performing {\scshape{Delay}} when  the execution time of encryption is in $(T_{NM} ,T_{W})$.
 
 We implement the derived {\scshape{Warm+Delay}} scheme on Linux with Intel Core CPUs for AES-128.
 %Experiment results %on Linux with one Intel Core i7-2600 CPU and 2GB RAM,
@@ -25,24 +27,25 @@ We implement the derived {\scshape{Warm+Delay}} scheme on Linux with Intel Core 
 % by comparing it with different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
 Experimental results confirm that,
 (\emph{a}) the execution time does not leak information about cache access,
- (\emph{b}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-(\emph{c}) the implementation works without any privileged operations on the system.
+(\emph{b}) the scheme can be configured to achieve the optimal performance,
+ (\emph{c}) the scheme outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
+(\emph{d}) the implementation works without any privileged operations on the system.
 
 
 
-We propose the {\scshape{Warm+Delay}} scheme to eliminate the remote cache timing side-channel attacks,
- for the block ciphers implemented based on lookup tables.
-Our scheme is applicable to all regular block ciphers,
-   and transparent to implementations. %(i.e., no binaries).
-The scheme works well in common computer systems,  without any privileged operation.
-
-We prove that,
-  the {\scshape{Warm+Delay}} scheme destroys the relationship between the measured time and cache misses/hits,
-to ensure security.
-Then the scheme is applied to AES,
-    and analyze the situations that it produces the optimal performance.
-Experimental results on the prototype system, confirm the security against remote cache timing side channels,
-   and validate the performance optimization.
+%We propose the {\scshape{Warm+Delay}} scheme to eliminate the remote cache timing side-channel attacks,
+% for the block ciphers implemented based on lookup tables.
+%Our scheme is applicable to all regular block ciphers,
+%   and transparent to implementations. %(i.e., no binaries).
+%The scheme works well in common computer systems,  without any privileged operation.
+%
+%We prove that,
+%  the {\scshape{Warm+Delay}} scheme destroys the relationship between the measured time and cache misses/hits,
+%to ensure security.
+%Then the scheme is applied to AES,
+%    and analyze the situations that it produces the optimal performance.
+%Experimental results on the prototype system, confirm the security against remote cache timing side channels,
+%   and validate the performance optimization.
 
 %When the actual execution time is larger than the best one (i.e., no cache miss occurs),
 % it extends the observed execution time to the worst case execution time (i.e., no cache hits), and attempts to keep all the lookup tables in the cache by accessing all the lookup tables.
