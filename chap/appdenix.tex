@@ -4,7 +4,7 @@
 \label{appendixa}
 In this section, we describe the proof details of Theorem~\ref{lemma:warmnum1} and Theorem~\ref{lemma:warmnum2}.
 
-For the calculation, $0 \leq P_{a}^{\mathfrak{1}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}\mathcal{L}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}\mathcal{M}} \leq 1$, $0 \leq P_{warm}^{\mathcal{L}} \leq 1$, $0 \leq P_{warm}^{\mathcal{M}} \leq 1$
+For the following calculation, $0 \leq P_{a}^{\mathfrak{1}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}\mathcal{L}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}\mathcal{M}} \leq 1$, $0 \leq P_{warm}^{\mathcal{L}} \leq 1$, $0 \leq P_{warm}^{\mathcal{M}} \leq 1$
  and $0 \leq P_{evict} \leq 1$.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum1}}
@@ -36,7 +36,7 @@ where
 &\ \ \ \ \ \ \ +(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{evict}P_{warm}^{\mathcal{L}} \\
 &B_{L}=P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}})
 \end{split}\end{equation*}
-In the Markov state transition diagram, 
+In the Markov state transition diagram,
 \begin{equation*}
 \begin{split}
 &P_{a}^{\mathfrak{3}\mathcal{L}}=P_{evict}^{\mathfrak{3}\mathcal{L}}P_{a}^{\mathfrak{31}\mathcal{L}}+(1-P_{evict}^{\mathfrak{3}\mathcal{L}})P_{a}^{\mathfrak{32}\mathcal{L}} .
@@ -46,19 +46,19 @@ So we can get $P_{a}^{\mathfrak{3}\mathcal{L}} > P_{a}^{\mathfrak{1}}$.
 In this way,
 the function $y(P_{warm}^{\mathcal{L}})$ is a monotony decrease function. When $P_{warm}^{\mathcal{L}} = 1$, it gets the minimum value.
 At this point, $P_{a}^{\mathfrak{2}\mathcal{L}} = P_{a}^{\mathfrak{2}}$ and $y(P_{warm}^{\mathcal{L}}) = 0$.
-Also $A_{L}$ and $B_{L}$ are larger than zero.
+Also $A_{L}$ and $B_{L}$ are greater than zero.
 Therefore $E(T^{\mathcal{L}}) - E(T^{\mathcal{C}})\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
-To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{M})$ with $E(T^{C})$.
+To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
 So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
 
-First, we find that $P_{a2} = P_{a2}^{''}$.
+First, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
 Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 
-For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
- and $0 \leq P_{evict} \leq 1$.
+%For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
+% and $0 \leq P_{evict} \leq 1$.
 
 %\begin{footnotesize}
 \begin{equation}
