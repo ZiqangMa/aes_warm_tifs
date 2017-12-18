@@ -463,9 +463,9 @@ Denote:
 \begin{align}
 &g = T_{delay} / T_{warm}\ , \nonumber \\
 &M = T_{warm_{min}} / T_{delay}  \nonumber \\
-&G_D=P_{evict}(P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})(1-P_{a}^{\mathfrak{1}}) \nonumber \ ,\\
-   & \ \ \ \ -M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))\ , \nonumber \\
-&G_e = \frac{P_{evict}(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))}{G_D}\ . \nonumber
+&\Omega=P_{evict}(P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{1}}-1) \nonumber \\
+   & \ \ \ \ +M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))\ , \nonumber \\
+&G_e = \frac{P_{evict}(P_{a}^{\mathfrak{1}}-1)(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))}{\Omega}\ . \nonumber
 \end{align}
 
 %Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
@@ -486,7 +486,7 @@ Conditional {\vwarm} strategy has better performance than the more {\vwarm} stra
  is satisfied:
 \begin{itemize}
   \item
-    $\forall G_D$, when  $G_D > 0$, $g$ is smaller than the minimum value of $G_e$.
+    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
 \end{itemize}
 
 \end{theorem}
@@ -512,7 +512,7 @@ by a serials of calculation(See Appendix~\ref{appendixa} for more details),
   we get the condition that
 \begin{itemize}
   \item
-    $\forall G_D$, when  $G_D > 0$, $g$ is smaller than the minimum value of $G_e$.
+    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
 \end{itemize}
 
 While $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
@@ -556,7 +556,7 @@ Therefore when this condition is satisfied, conditional {\vwarm} strategy has be
 if the following condition is satisfied:
 \begin{itemize}
   \item
-    $\forall G_D$, when  $G_D > 0$, $g$ is smaller than the minimum value of $G_e$.
+    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
 \end{itemize}
 \end{theorem}
 
@@ -600,7 +600,7 @@ if condition:
 %\end{enumerate}
 \begin{itemize}
   \item
-    $\forall G_D$, when  $G_D > 0$, $g$ is smaller than the minimum value of $G_e$
+    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$
 \end{itemize}
  is satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
@@ -703,7 +703,7 @@ Thus, $M=0.0491$ and the rang of $g$ is $[1.39,19.99]$.
 %The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
 %So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In this environment, when $G_D>0$, $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$.
+In this environment, when $\Omega < 0$, $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$.
 $G_e$ gets the minimum value when $P_{a}^{\mathfrak{1}} = 0.994$.
 Substitute the value into the equation~\ref{equ:g} and get:
 \begin{equation}
@@ -724,7 +724,7 @@ where
 
 By computation we get that when $P_{evict} = 1$, $P_{a}^{\mathfrak{2}} = 1$ and $P_{a}^{\mathfrak{1}} = 0.994$, $G_e$ gets the minimum value.
 The minimum value is $167.7$.
-Therefore, $g$ is smaller than the minimum value of $G_e$ when $G_D > 0$.
+Therefore, $g$ is smaller than the minimum value of $G_e$ when $\Omega < 0$.
  So based on Theorem~\ref{lemma:warmnum3} performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{IEEEproof}

@@ -66,189 +66,223 @@ Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{Mwarm}) = & A_{M}C_{M}P_{Mwarm}^2+B_{M}C_{M}P_{Mwarm} \\
-&-gD_{M}P_{Mwarm} \,
+y(P_{warm}^{\mathcal{M}}) = &B_{M}C_{M}P_{warm}^{\mathcal{M}}+A_{M}C_{M}+gD_{M} \,
 \end{split}\end{equation}
 
 \begin{equation}
 \label{equ:detail2}
 \begin{split}
-E(T^{M}) - E(T^{C}) = &\frac{y(P_{Mwarm})T_{warm}}{E_{M}*F_{M}}
+E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) = &\frac{y(P_{warm}^{\mathcal{M}})P_{warm}^{\mathcal{M}}T_{warm}}{E_{M}*F_{M}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where
 \begin{equation*}
 \begin{split}
-&A_{M}= Mg(1-P_{a2})\\
-&B_{M}=MgP_{a2}+P_{evict}(1-P_{a1})\\
-&C_{M}=\frac{P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})}{P_{evict}(1-P_{a1}}\\
-&D_{M}=-P_{evict}P_{a1}+P_{evict}P_{a2}+P_{a2}\\
-&E_{M}=(1+P_{evict})(1-(1-P_{Mwarm})(1-P_{a2})) \\& \ \ \ \ \ \ \ \ +P_{evict}(1-P_{Mwarm})(1-P_{a1})\\
-&F_{M}=P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1})
+&A_{M}= Mg(1-P_{evict})P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}})\\
+&B_{M}=Mg(1-P_{evict})(1-P_{a}^{\mathfrak{2}})\\
+&C_{M}=P_{a}^{\mathfrak{2}}+P_{evict}-P_{a}^{\mathfrak{1}}P_{evict}\\
+&D_{M}=P_{evict}(P_{a}^{\mathfrak{1}}P_{a}^{\mathfrak{2}}+P_{a}^{\mathfrak{1}}P_{evict}-(P_{a}^{\mathfrak{1}})^2P_{evict}-P_{a}^{\mathfrak{2}})\\
+&E_{M}=P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}}-P_{warm}^{\mathcal{M}}P_{a}^{\mathfrak{2}} \\& \ \ \ \ \ \ \ \ -P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{warm}^{\mathcal{M}}P_{a}^{\mathfrak{1}})\\
+&F_{M}=P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}})
 \end{split}\end{equation*}
 
-Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{M}) - E(T^{C}) \geq 0$, $y(P_{Mwarm})$ should be equal or greater than zero.
-Therefore we can get $ A_{M}C_{M}P_{Mwarm}+B_{M}C_{M}-gD_{M} \geq 0$.
-If this inequality holds for all $P_{Mwarm} \in [0,1]$, it should be satisfied that $B_{M}C_{M}-gD_{M} \geq 0$.
-Then we get the following inequality.
+Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$, $y(P_{warm}^{\mathcal{M}})$ should be equal or greater than zero.
+Therefore we can get $ B_{M}C_{M}P_{warm}^{\mathcal{M}}+A_{M}C_{M}+gD_{M} \geq 0$.
+If this inequality holds for all $P_{warm}^{\mathcal{M}} \in [0,1]$, it should be satisfied that
+\begin{equation}\label{equ:omega}
+  (C_{M}(1-P_{evict})P_{a}^{\mathfrak{2}}+D_{M})g+C_{M}P_{evict}(1-P_{a}^{\mathfrak{1}}) \geq 0 \ .
+\end{equation}
 
-\begin{equation}
-\label{equ:gcondition}
-\begin{split}
-&((P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2}) \\
-&-MP_{evict}P_{a2})g \leq \\
-&P_{evict}(1-P_{a1})(P_{evict}P_{a2}+P_{a2}+P_{evict}(1-P_{a1}))
-\end{split}\end{equation}
+We denote $C_{M}(1-P_{evict})P_{a}^{\mathfrak{2}}+D_{M}$ as $\Omega$.
 
-We denote $(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}$ as $GDenominator$.
-\begin{enumerate}
-\item
-If $GDenominator\leq0$,
-then
-because the right of the inequality is greater than zero, the inequality holds.
-
-In this case, we regard $GDenominator$ as a function of $P_{evict}$ and get:
+Therefore,
 \begin{equation}
 %\label{equ:detail2}
 \begin{split}
-&f(P_{evict})=(P_{a2}-P_{a1})(1-P_{a1})P_{evict}^2 \\
-&+((1-M)P_{a2}-(1-M)P_{a1}P_{a2}-MP_{a2}^2)P_{evict}\\
-&-MP_{a2}^2
+\Omega &=-(P_{evict})^2(P_{a}^{\mathfrak{1}})^2  \\
+&+(P_{evict})^2P_{a}^{\mathfrak{1}}+(1-M(1-P_{evict}))P_{evict}P_{a}^{\mathfrak{2}}P_{a}^{\mathfrak{1}}\\
+&+M(1-P_{evict})(P_{evict}+P_{a}^{\mathfrak{2}})P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{2}}
 \end{split}\end{equation}
-It is an quadratic function and when $P_{evict} = 0$, $f(P_{evict})<0$.
-So
-(1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-    $f(P_{evict}) \leq0$;($P_{rootr}$ is the greater root of equation $f(P_{evict})=0$.)
-(2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$, $f(P_{evict}) \leq0$; ($1-M-P_{a1}>0$, if not,$f(P_{evict}) \leq0$ holds.)
-(3) when $P_{a2}<P_{a1}$, the symmetry axis of $f(P_{evict})$ is $P_{evict} = P_{e\_axis}$, where $P_{e\_axis}$ is denoted in Equation~\ref{equ:eaxis}.
-\begin{equation}
-\label{equ:eaxis}
-\begin{split}
-P_{e\_axis} = &-\frac{P_{a2}(1-M-P_{a1}-MP_{a2}+MP_{a1})}{2(P_{a2}-P_{a1})(1-P_{a1})}
-\end{split}
-\end{equation}
-If $P_{e\_axis} \leq 0$, i.e. $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$, $f(P_{evict}) \leq0$ holds.
-Otherwise, $P_{e\_axis} > 0$, i.e. $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$. In this case, if $P_{rootl}$ exists, $P_{evict}< min(1,P_{rootl})$ and then $f(P_{evict}) \leq0$. If $P_{rootl}$ does not exist, $f(P_{evict}) \leq0$ holds. ($P_{rootl}$ is the smaller root of equation $f(P_{evict})=0$.)
+
+Regard $\Omega$ as the function of $P_{a}^{\mathfrak{1}}$,
+and we can find that it is an quadratic function.
+
+When $P_{a}^{\mathfrak{1}} = 1$,
+$$\Omega(P_{a}^{\mathfrak{1}})=M(1-P_{evict})(P_{a}^{\mathfrak{2}})^2 \geq 0 .$$
+
+Let $\Omega(P_{a}^{\mathfrak{1}}) = 0$,
+ and denote the smaller root of the equation as $P_{a\_lroot}^{\mathfrak{1}}$.
+  so when $P_{a}^{\mathfrak{1}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
+   When $P_{a}^{\mathfrak{1}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
+ Thus,
+\begin{enumerate}
+  \item
+  When $P_{a}^{\mathfrak{1}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
+  In this case, inequality \ref{equ:omega} holds. That is $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$.
+  \item
+  When $P_{a}^{\mathfrak{1}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
+   In this case, to make the inequality \ref{equ:omega} holds,
+   \begin{equation}\label{equ:ge}
+     g \leq \frac{C_{M}P_{evict}(P_{a}^{\mathfrak{1}}-1)}{\Omega}
+   \end{equation}
+    for all $P_{evict} \in [0,1]$ and $P_{a}^{\mathfrak{2}} \in [0,1]$.
+\end{enumerate}
+
+For the second case, denote
+    $$G_e = \frac{C_{M}P_{evict}(P_{a}^{\mathfrak{1}}-1)}{\Omega}$$
+
+
+\begin{enumerate}
+\item
+    First, we regard $G_e$ as the function of $P_{a}^{\mathfrak{1}}$ and calculate the derivative on $P_{a}^{\mathfrak{1}}$, and get:
+    \begin{equation}
+    \begin{aligned}
+    &\frac{d(G_e)}{d(P_{a}^{\mathfrak{1}})} = (P_{evict})^{3}(1-P_{a}^{\mathfrak{1}})^2\\
+    &\ \ \ +M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{evict}+P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})^{2}
+    \end{aligned}
+    \end{equation}
+
+Therefore,$\frac{d(G_e)}{d(P_{a}^{\mathfrak{1}})} \geq 0$, so that $G_e$ is a monotony increase function of $P_{a}^{\mathfrak{1}}$.
+When $P_{a}^{\mathfrak{1}}$ fetches the minimum value, $G_e$ gets its minimum value.
 
 \item
-If $GDenominator > 0$,
-then
+Second, we regard $G_e$ as the function of $P_{a}^{\mathfrak{2}}$ and calculate the derivative on $P_{a}^{\mathfrak{2}}$, and get:
 \begin{equation}
 \begin{split}
-g \leq \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{GDenominator}
+\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} = &\{M(1-P_{evict})(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))^2\\
+&-(P_{evict})^2(1-P_{a}^{\mathfrak{1}})^2 \}P_{evict}
 \end{split}
 \end{equation}
 
-We denote $\frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{GDenominator}$ as $Gexpression$.
-First, we regard $Gexpression$ as the function of $P_{a1}$ and calculate the derivative on $P_{a1}$, and get:
+Denote $P_{a\_rroot}^{\mathfrak{2}}$ as the greater root of equation $\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})}=0$.
+\begin{equation}
+  P_{a_rroot}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}})
+\end{equation}
+So, when 
 \begin{equation}
 \begin{split}
-\frac{d(Gexpression)}{d(P_{a1})} = &P_{evict}^{2}(MP_{a2}+P_{evict})(1-P_{a1})^2\\
-&+2MP_{evict}(1+P_{evict})P_{a2}^{2}(1-P_{a1})\\
-&+MP_{a2}^{3}(1+P_{evict})^2
+0 \leq P_{a}^{\mathfrak{2}} \leq P_{a\_rroot}^{\mathfrak{2}},
 \end{split}
 \end{equation}
-Therefore, $Gexpression$ is a monotony increase function of $P_{a1}$.
+$\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} \leq 0$.
 
-Second, we regard $Gexpression$ as the function of $P_{a2}$ and calculate the derivative on $P_{a2}$, and get:
+Therefore, when $P_{a\_rroot}^{\mathfrak{2}} \geq 1$, $G_e$ is a monotony decrease function of $P_{a}^{\mathfrak{1}}$.
+When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\mathfrak{2}}]$ and increases at $(P_{a\_rroot}^{\mathfrak{2}},1]$.
+
+%$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
+%$P_{a2r} > 0$.
+%\begin{equation}
+%\begin{split}
+%P_{a2r}=\frac{P_{evict}\sqrt{\frac{(1+P_{evict})\bar{P}_{a1}}{M}}-P_{evict}\bar{P}_{a1}}{1+P_{evict}}
+%\end{split}
+%\end{equation}
+%
+%Therefore, if $P_{a2r} \geq 1$, then $\frac{d(Gexpression)}{d(P_{a2})} < 0$ and $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$.
+%And if $P_{a2r} < 1$, then $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
+%
+%Let $P_{a2r} = 1$, and we get:
+%\begin{equation}
+%\begin{split}
+%\bar{P}_{a1}P_{evict}^3& + (\bar{P}_{a1}-M(1+\bar{P}_{a1})^2)P_{evict}^2\\
+%& - 2M(\bar{P}_{a1}+1)P_{evict}-M = 0
+%\end{split}
+%\end{equation}
+%It is a simple cubic equation on $P_{evict}$. We denote $P_{e\_r}$ as its greatest real root.
+%If $P_{e\_r} < 1$,
+%then, when $P_{evict} \geq P_{e\_r}$, $P_{a2r} \geq 1$. When $P_{evict} < P_{e\_r}$, $P_{a2r} < 1$.
+%Otherwise, $P_{a2r} < 1$ holds.
+%In general,if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$.
+% When $P_{evict} < P_{e\_r}$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
+% And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
+
+\item
+ Third, we regard $G_e$ as the function of $P_{evict}$ and calculate the derivative on $P_{evict}$, and get:
 \begin{equation}
 \begin{split}
-\frac{d(Gexpression)}{d(P_{a2})} = & P_{evict}\bar{P}_{a1}\{M(1+P_{evict})^{2}P_{a2}^2\\
-&+2MP_{evict}\bar{P}_{a1}(1+P_{evict})P_{a2} \\
-&+MP_{evict}^{2}\bar{P}_{a1}^2 \\
-&-P_{evict}^{2}\bar{P}_{a1}(1+P_{evict})\}
+\frac{d(G_e)}{d(P_{evict})} &= P_{a}^{\mathfrak{2}}(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})(P_{evict})^2\\
+&-2MP_{a}^{\mathfrak{1}}P_{a}^{\mathfrak{2}}(1-P_{a}^{\mathfrak{2}})P_{evict}-M(P_{a}^{\mathfrak{2}})^3
 \end{split}
 \end{equation}
-where
-$$
-\bar{P}_{a1} = 1 - P_{a1}
-$$
-
-Denote $P_{a2r}$ as the greater root of equation $\frac{d(Gexpression)}{d(P_{a2})}=0$.
-$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
-$P_{a2r} > 0$.
+When $P_{evict} = 0$, $\frac{d(G_e)}{d(P_{evict})} = -M(P_{a}^{\mathfrak{2}})^2 \leq 0 $.
+Let $\frac{d(G_e)}{d(P_{evict})} = 0$, we can get the right root of this equation:
 \begin{equation}
 \begin{split}
-P_{a2r}=\frac{P_{evict}\sqrt{\frac{(1+P_{evict})\bar{P}_{a1}}{M}}-P_{evict}\bar{P}_{a1}}{1+P_{evict}}
+P_{evict\_rroot} &= \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})}
 \end{split}
 \end{equation}
-
-Therefore, if $P_{a2r} \geq 1$, then $\frac{d(Gexpression)}{d(P_{a2})} < 0$ and $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$.
-And if $P_{a2r} < 1$, then $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
-
-Let $P_{a2r} = 1$, and we get:
+where 
+\begin{align}
+\Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
+&+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}})\  .\nonumber
+\end{align}
+So when
 \begin{equation}
 \begin{split}
-\bar{P}_{a1}P_{evict}^3& + (\bar{P}_{a1}-M(1+\bar{P}_{a1})^2)P_{evict}^2\\
-& - 2M(\bar{P}_{a1}+1)P_{evict}-M = 0
+0 \leq P_{evict} \leq P_{evict\_rroot},
 \end{split}
 \end{equation}
-It is a simple cubic equation on $P_{evict}$. We denote $P_{e\_r}$ as its greatest real root.
-If $P_{e\_r} < 1$,
-then, when $P_{evict} \geq P_{e\_r}$, $P_{a2r} \geq 1$. When $P_{evict} < P_{e\_r}$, $P_{a2r} < 1$.
-Otherwise, $P_{a2r} < 1$ holds.
-In general,if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$.
- When $P_{evict} < P_{e\_r}$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
- And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
+$\frac{d(G_e)}{d(P_{evict})} \leq 0$.
 
- Third, we regard $Gexpression$ as the function of $P_{evict}$ and calculate the derivative on $P_{evict}$, and get:
-\begin{equation}
-\begin{split}
-\frac{d(Gexpression)}{d(P_{evict})} &= P_{a2}(\bar{P}_{a1}-M(\bar{P}_{a1}+P_{a2})^2)P_{evict}^2\\
-&-2MP_{a2}^{2}(P_{a2}+\bar{P}_{a1})P_{evict}\\
-&-MP_{a2}^3
-\end{split}
-\end{equation}
-If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
-Otherwise, $\frac{d(Gexpression)}{d(P_{evict})}$ is a simple cubic equation on $P_{evict}$.
-The symmetry axis of the function $\frac{d(Gexpression)}{d(P_{evict})}$ is:
-\begin{equation}
-\begin{split}
-P_{e\_axis}=\frac{MP_{a2}(\bar{P}_{a1}+P_{a2})}{\bar{P}_{a1}-M(\bar{P}_{a1}+P_{a2})^2}
-\end{split}
-\end{equation}
-(1) If $P_{a2}< \sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$,
- then $P_{e\_axis} > 0$.
+Therefore, when $P_{evict\_rroot} \geq 1$, $G_e$ is a monotony decrease function of $P_{evict}$.
+When $P_{evict\_rroot} < 1$, $G_e$ decreases at $[0,P_{evict\_rroot}]$ and increases at $(P_{evict\_rroot},1]$.
 
- When $P_{evict} = 0$, $\frac{d(Gexpression)}{d(P_{evict})} = -MP_{a2}^3 < 0$.
- When $P_{evict} = 1$,
- $$
- \frac{d(Gexpression)}{d(P_{evict})} = P_{a2}(\bar{P}_{a1}-M(\bar{P}_{a1}+2P_{a2})^2)
- $$
-So when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $\frac{d(Gexpression)}{d(P_{evict})} > 0$.
- In this case, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$.
-when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$.
- In this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
-(2) If $P_{a2}> \sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$,
-then $P_{e\_axis} < 0$.
- When $P_{evict} = 0$, $\frac{d(Gexpression)}{d(P_{evict})} = -MP_{a2}^3 < 0$.
-So in this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
+%If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
+%Otherwise, $\frac{d(Gexpression)}{d(P_{evict})}$ is a simple cubic equation on $P_{evict}$.
+%The symmetry axis of the function $\frac{d(Gexpression)}{d(P_{evict})}$ is:
+%\begin{equation}
+%\begin{split}
+%P_{e\_axis}=\frac{MP_{a2}(\bar{P}_{a1}+P_{a2})}{\bar{P}_{a1}-M(\bar{P}_{a1}+P_{a2})^2}
+%\end{split}
+%\end{equation}
+%(1) If $P_{a2}< \sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$,
+% then $P_{e\_axis} > 0$.
+%
+% When $P_{evict} = 0$, $\frac{d(Gexpression)}{d(P_{evict})} = -MP_{a2}^3 < 0$.
+% When $P_{evict} = 1$,
+% $$
+% \frac{d(Gexpression)}{d(P_{evict})} = P_{a2}(\bar{P}_{a1}-M(\bar{P}_{a1}+2P_{a2})^2)
+% $$
+%So when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $\frac{d(Gexpression)}{d(P_{evict})} > 0$.
+% In this case, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$.
+%when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$.
+% In this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
+%(2) If $P_{a2}> \sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$,
+%then $P_{e\_axis} < 0$.
+% When $P_{evict} = 0$, $\frac{d(Gexpression)}{d(P_{evict})} = -MP_{a2}^3 < 0$.
+%So in this case, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
 
-In general, when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
-
-In a conclusion, if $GDenominator > 0$,
-$Gexpression$ is a monotony increase function of $P_{a1}$;
- when $P_{evict} < \min(P_{e\_r},1)$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$;
- if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$;
-when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
-
-Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
+%In general, when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
+%
+%In a conclusion, if $GDenominator > 0$,
+%$Gexpression$ is a monotony increase function of $P_{a1}$;
+% when $P_{evict} < \min(P_{e\_r},1)$, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$;
+% if $P_{e\_r} < 1$, when $P_{evict} \geq P_{e\_r}$, $Gexpression$ is a monotony decrease function of $P_{a2} \in [0,1]$;
+%when $P_{a2}< \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ first decreases then increase as the function of $P_{evict} \in [0,1]$; when $P_{a2}\geq \frac{1}{2}(\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1})$, $Gexpression$ is a  a monotony decrease function of $P_{evict} \in [0,1]$.
+%
+%Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
+Therefore, the minimum value of $G_e$ gets when
+\begin{equation}
+\left\{
+\begin{split}
+&P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
+&P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
+& if\  P_{evict} >1, P_{evict} = 1 \\
+& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
+\end{split}
+\right.
+\end{equation}
 
 From the above, we can make the following conclusions:
 \begin{enumerate}
   \item
-  (1) when $P_{a2}>P_{a1}$ and $P_{evict}< \min(1,P_{rootr})$,
-  (2) when $P_{a2}=P_{a1}$ and $P_{evict}< \min(1,\frac{M*P_{a1}}{1-M-P_{a1}})$ (if $1-M-P_{a1}>0$),
-  (3) when $P_{a2}<P_{a1}$, $P_{a2} < \frac{(1-M)(1-P_{a1})}{M}$ and $P_{evict}< min(1,P_{rootl})$ (if $P_{rootl}$ exists)
-or $P_{a2}\geq \frac{(1-M)(1-P_{a1})}{M}$,
-  we have $GDenominator\leq0$ and the Inequality~\ref{equ:gcondition} holds.
-
+  When $\Omega \geq 0$, $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$.
   \item
-  when conditions are opposite, i.e. $GDenominator>0$,  if $g$ is smaller than the minimum value of $Gexpression$, the Inequality~\ref{equ:gcondition} holds.
-
+  When $\Omega < 0$, $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$ if $g$ is smaller than the minimum value of $G_e$.
 \end{enumerate}
-At this point, $E(T^{M}) - E(T^{C})\geq 0$ and conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+That is:
+$\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
+At this point conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 
 
 
