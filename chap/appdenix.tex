@@ -92,9 +92,7 @@ If this inequality holds for all $P_{warm}^{\mathcal{M}} \in [0,1]$, it should b
 \begin{equation}\label{equ:omega}
   (C_{M}(1-P_{evict})P_{a}^{\mathfrak{2}}+D_{M})g+C_{M}P_{evict}(1-P_{a}^{\mathfrak{1}}) \geq 0 \ .
 \end{equation}
-
 We denote $C_{M}(1-P_{evict})P_{a}^{\mathfrak{2}}+D_{M}$ as $\Omega$.
-
 Therefore,
 \begin{equation}
 %\label{equ:detail2}
@@ -135,36 +133,33 @@ For the second case, denote
 \begin{enumerate}
 \item
     First, we regard $G_e$ as the function of $P_{a}^{\mathfrak{1}}$ and calculate the derivative on $P_{a}^{\mathfrak{1}}$, and get:
-    \begin{equation}
+    \begin{equation*}
     \begin{aligned}
     &\frac{d(G_e)}{d(P_{a}^{\mathfrak{1}})} = (P_{evict})^{3}(1-P_{a}^{\mathfrak{1}})^2\\
     &\ \ \ +M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{evict}+P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})^{2}
     \end{aligned}
-    \end{equation}
+    \end{equation*}
 
 Therefore,$\frac{d(G_e)}{d(P_{a}^{\mathfrak{1}})} \geq 0$, so that $G_e$ is a monotony increase function of $P_{a}^{\mathfrak{1}}$.
 When $P_{a}^{\mathfrak{1}}$ fetches the minimum value, $G_e$ gets its minimum value.
 
 \item
 Second, we regard $G_e$ as the function of $P_{a}^{\mathfrak{2}}$ and calculate the derivative on $P_{a}^{\mathfrak{2}}$, and get:
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} = &\{M(1-P_{evict})(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))^2\\
 &-(P_{evict})^2(1-P_{a}^{\mathfrak{1}})^2 \}P_{evict}
 \end{split}
-\end{equation}
+\end{equation*}
 
 Denote $P_{a\_rroot}^{\mathfrak{2}}$ as the greater root of equation $\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})}=0$.
-\begin{equation}
-  P_{a_rroot}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}})
-\end{equation}
-So, when 
-\begin{equation}
-\begin{split}
-0 \leq P_{a}^{\mathfrak{2}} \leq P_{a\_rroot}^{\mathfrak{2}},
-\end{split}
-\end{equation}
-$\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} \leq 0$.
+\begin{equation*}
+  P_{a\_rroot}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}})
+\end{equation*}
+So, when $
+0 \leq P_{a}^{\mathfrak{2}} \leq P_{a\_rroot}^{\mathfrak{2}}
+$,
+$$\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} \leq 0 \ .$$
 
 Therefore, when $P_{a\_rroot}^{\mathfrak{2}} \geq 1$, $G_e$ is a monotony decrease function of $P_{a}^{\mathfrak{1}}$.
 When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\mathfrak{2}}]$ and increases at $(P_{a\_rroot}^{\mathfrak{2}},1]$.
@@ -197,12 +192,12 @@ When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\ma
 
 \item
  Third, we regard $G_e$ as the function of $P_{evict}$ and calculate the derivative on $P_{evict}$, and get:
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \frac{d(G_e)}{d(P_{evict})} &= P_{a}^{\mathfrak{2}}(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})(P_{evict})^2\\
 &-2MP_{a}^{\mathfrak{1}}P_{a}^{\mathfrak{2}}(1-P_{a}^{\mathfrak{2}})P_{evict}-M(P_{a}^{\mathfrak{2}})^3
 \end{split}
-\end{equation}
+\end{equation*}
 When $P_{evict} = 0$, $\frac{d(G_e)}{d(P_{evict})} = -M(P_{a}^{\mathfrak{2}})^2 \leq 0 $.
 Let $\frac{d(G_e)}{d(P_{evict})} = 0$, we can get the right root of this equation:
 \begin{equation}
@@ -216,12 +211,10 @@ where
 &+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}})\  .\nonumber
 \end{align}
 So when
-\begin{equation}
-\begin{split}
-0 \leq P_{evict} \leq P_{evict\_rroot},
-\end{split}
-\end{equation}
-$\frac{d(G_e)}{d(P_{evict})} \leq 0$.
+$
+0 \leq P_{evict} \leq P_{evict\_rroot}
+$,
+$$\frac{d(G_e)}{d(P_{evict})} \leq 0\ .$$
 
 Therefore, when $P_{evict\_rroot} \geq 1$, $G_e$ is a monotony decrease function of $P_{evict}$.
 When $P_{evict\_rroot} < 1$, $G_e$ decreases at $[0,P_{evict\_rroot}]$ and increases at $(P_{evict\_rroot},1]$.
@@ -261,6 +254,7 @@ When $P_{evict\_rroot} < 1$, $G_e$ decreases at $[0,P_{evict\_rroot}]$ and incre
 %
 %Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
+
 Therefore, the minimum value of $G_e$ gets when
 \begin{equation}
 \left\{
@@ -280,6 +274,7 @@ From the above, we can make the following conclusions:
   \item
   When $\Omega < 0$, $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$ if $g$ is smaller than the minimum value of $G_e$.
 \end{enumerate}
+
 That is:
 $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
 At this point conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
@@ -394,7 +389,7 @@ We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the 
 %\begin{flalign}
 %\begin{split}
     P_{delay}^{128} = &1-   \nonumber \\
-    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,36)}}}}},
+    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,36)}}}}}, \nonumber
 %\end{split}
 %\end{flalign}
 \end{align}
@@ -402,13 +397,13 @@ We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the 
 \begin{align}
     %\scriptsize
     P_{delay}^{192} = &1-  \nonumber \\
-    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,44)}}}}},
+    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
     P_{delay}^{256} = &1-  \nonumber \\
-    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,52)}}}}},
+    \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,52)}}}}}, \nonumber
 \end{align}
 
 %\begin{equation}
@@ -445,19 +440,19 @@ where
 When the AES implementation uses 5KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
     P_{delay}^{128} = &1-   \nonumber \\
-    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}},
+    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
     P_{delay}^{192} = &1-  \nonumber \\
-    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,44)}}}}},
+    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
     P_{delay}^{256} = &1-  \nonumber \\
-    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,52)}}}}},
+    \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,52)}}}}}, \nonumber
 \end{align}
 where
   \begin{eqnarray*}
@@ -496,19 +491,19 @@ where
 When the AES implementation uses 4KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
     P_{delay}^{128} = &1-   \nonumber \\
-    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,40)}}}},
+    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,40)}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
     P_{delay}^{192} = &1-  \nonumber \\
-    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,48)}}}},
+    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,48)}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
     P_{delay}^{256} = &1-  \nonumber \\
-    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,56)}}}},
+    \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,56)}}}}, \nonumber
 \end{align}
 where
   \begin{eqnarray*}
@@ -543,17 +538,17 @@ where
 %\end{equation*}
 
 When the AES implementation uses 2KB lookup table, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
-\begin{equation}
+\begin{equation*}
     %\scriptsize
     P_{delay}^{128} = 1- (1-\frac{NC}{2048})^{16*10},
-\end{equation}
+\end{equation*}
 %for AES-192 is
-\begin{equation}
+\begin{equation*}
     %\scriptsize
     P_{delay}^{192} = 1- (1-\frac{NC}{2048})^{16*12},
-\end{equation}
+\end{equation*}
 %for AES-256 is
-\begin{equation}
+\begin{equation*}
     %\scriptsize
     P_{delay}^{256} = 1- (1-\frac{NC}{2048})^{16*14}.
-\end{equation} 
+\end{equation*} 
