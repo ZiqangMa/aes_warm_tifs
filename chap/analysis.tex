@@ -135,13 +135,16 @@ We apply the {\vwd}  scheme to AES-128 with a 2KB lookup table \cite{openssl},
 We show that, in this case, the {\scshape{Warm+Delay}} scheme produces the best performance in commodity computer systems,
 that is, introduces the least extra {\vwarm} and {\vdelay} operations.
 The details about other key sizes (192 and 256 bits) and different implementations (4KB, 4.25KB, and 5KB lookup tables),
-  are included in Appendix \ref{appendixb}.
+  are included in Section \ref{analy:otherkey}.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
-Denote the size of a cache line as $C$,
+\subsubsection{the content of {\vwarm}}
+{\vwarm} operation needs to load the lookup table into the caches.
+ It takes less time that loading parts of the table.
+  But it also may introduce extra {\vdelay} operation if the unloaded parts are accessed.
+We denote the size of a cache line as $C$,
     and the time cost to load a cache line of data from RAM to L1D cache as $T_{cl}$.
-  So we have the following theorem,
-  for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
+  For an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$), we have the following theorem.
 
 %The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
 
@@ -151,7 +154,7 @@ Denote the size of a cache line as $C$,
 If $B_{nl}(N) < D_{nl}(N)$ for any $0 < N \leq \frac{L}{C}$,
 %\Delta T_{warm} < E(T_{delay})$ ,
  loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
- than any part of entries,
+ than loading any part of entries,
 where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
 \end{theorem}
 %\begin{theorem}\label{theorm:warmall}
@@ -300,28 +303,36 @@ So the cost of {\vwarm} is reduced significantly, further making that loading al
 \end{table*}
 
 
-%For example, L1D xxx, AES xx KB, 3DES xx KB
-%How about Intel CPU, ARM CPU? L1D cache size?
+
 
 %************************************分隔符******************************************
 %\begin{theorem}\label{lemma:warmaftermiss}
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
-]]]]]]]]
-
-Next, let us consider the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
+\subsubsection{state transition of continuous invocations of AES}
+We consider the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
 The state of the lookup table is estimated after each execution of AES encryption.
   There are three states:
-(1) all entries of the lookup tables are in caches, denoted as $S_{c}$,
-   (2) some entries are uncached, and at least one of them is accessed during the AES encryption, denoted as $S_{\bar{c}, a}$,
- and  (3) some entries are uncached, but none of them is accessed during the AES encryption, denoted as $S_{\bar{c}, \bar{a}}$.
+  \begin{enumerate}
+   \item
+     $S_{c}$: all entries of the lookup tables are in caches,
+   \item
+     $S_{\bar{c}, a}$: some entries are uncached, and at least one of them is accessed during the AES encryption,
+   \item
+     $S_{\bar{c}, \bar{a}}$: some entries are uncached, but none of them is accessed during the AES encryption.
+  \end{enumerate}
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
-The transition among the three states can be triggered by three events.
-First is the \emph{Evict} event. If task scheduling, interrupts or any other system activities occur during the execution of encryptions,
- the entries of lookup tables may be evicted from the cache. The probability that eviction occurs is denoted as $P_{evict}$.
-Second is the \emph{Execution} event. For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is $P_{delay}$ in Theorem~\ref{theorm:warmall}.
-Third is the \emph{Warm} event. Performing {\vwarm} loads all the lookup tables into the cache which probability is denoted as $P_{warm}$.
+
+The transition among the three states can be triggered by three events:
+\begin{enumerate}
+  \item
+    \emph{Warm} event: performing {\vwarm} to load all the lookup tables into the cache which probability is denoted as $P_{warm}$.
+  \item
+    \emph{Evict} event: the entries of lookup tables may be evicted from the cache if task scheduling, interrupts or any other system activities occur during the execution of encryptions. The probability that eviction occurs is denoted as $P_{evict}$.
+  \item
+    \emph{Execution} event: For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is $P_{delay}$ in Theorem~\ref{theorm:warmall}.
+\end{enumerate}
 
 % 哪些事件导致状态转移？概率表示为。
 % 事件的定义
@@ -352,7 +363,13 @@ $T_{delay} = T_{W}-T_{NM}$ is constant for different executions,
     while $T_{warm}$ depends on the number of loaded cache lines of table entries.
 
 In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
-While considering other two cases: (1)performing {\vwarm} with a probability $P_{warm}^{\mathcal{L}}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption; (2)performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{warm}^{\mathcal{M}}\in[0,1]$ in other conditions. These two cases are denoted as less {\vwarm} and more {\vwarm} respectively.
+While considering other two cases:
+\begin{itemize}
+  \item
+    less {\vwarm}: performing {\vwarm} with a probability $P_{warm}^{\mathcal{L}}\in[0,1)$  when a cache miss occurs during the pervious execution of encryption;
+  \item
+    more {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{warm}^{\mathcal{M}}\in[0,1]$ in other conditions.
+\end{itemize}
 
 \begin{figure*}[t]
     \centering
@@ -367,11 +384,12 @@ While considering other two cases: (1)performing {\vwarm} with a probability $P_
     \hfil
     \subfloat[Complementary warm]{\includegraphics[width=3.5in]{pic/probwarmco.pdf}
     \label{fig:cocase}}
-    \caption{The Markov state-transferring probability diagram.}
+    \caption{The Markov state transition probability diagram.}
     \label{pic:statetrans}
 \end{figure*}
 
-For conditional {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
+\paragraph{For conditional {\vwarm}}
+ the Markov state transition diagram is in \figurename~\ref{fig:conditioncase}.
 %{\color{red}insert pa2.etc meaning.}
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
  Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ is no less than $P_{a}^{\mathfrak{1}}$.
@@ -389,7 +407,8 @@ We use $\Pi_{c}^{\mathcal{C}}$, $\Pi_{\bar{c}, \bar{a}}^{\mathcal{C}}$, $\Pi_{\b
 \end{eqnarray}
 %\setlength{\arraycolsep}{5pt}
 
-For less {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
+\paragraph{For less {\vwarm}}
+the Markov state transition diagram is in \figurename~\ref{fig:lesscase}.
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
 As the same in conditional {\vwarm}, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ is no less than $P_{a}^{\mathfrak{1}}$.
 Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ are the same.
@@ -412,7 +431,8 @@ D_L &= P_{evict}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\mathcal{L
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
-For more {\vwarm}, the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
+\paragraph{For more {\vwarm}}
+the Markov state transition diagram is in \figurename~\ref{fig:morecase}.
 $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
 As the same in conditional {\vwarm}, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ is no less than $P_{a}^{\mathfrak{1}}$.
 Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ are the same.
@@ -433,13 +453,13 @@ D_M &= P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}\mathcal{M}}- P_{a}^{
 &-P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{a}^{\mathfrak{1}}P_{warm}^{\mathcal{M}}) \ .  \nonumber
 \end{align}
 
-
+\subsubsection{the numbers of {\vwarm}}
 We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
  Followed we investigate the relationship on the performance between conditional {\vwarm} and general {\vwarm} strategy.
   Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
 
 %Then we have the following theorems.
-
+\paragraph{conditional warm vs less warm}
 \begin{theorem}\label{lemma:warmnum1}
   The conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{theorem}
@@ -459,6 +479,7 @@ And then, we get that $E(T^{\mathcal{L}}) > E(T^{\mathcal{C}})$ for all $P_{warm
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
+\paragraph{conditional warm vs More warm}
 Denote:
 \begin{align}
 &g = T_{delay} / T_{warm}\ , \nonumber \\
@@ -551,6 +572,7 @@ As an example,
 Therefore when this condition is satisfied, conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
+\paragraph{conditional warm vs general warm}
 \begin{theorem}\label{lemma:warmnum3}
     Performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
 if the following condition is satisfied:
@@ -729,8 +751,6 @@ Therefore, $g$ is smaller than the minimum value of $G_e$ when $\Omega < 0$.
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{IEEEproof}
 
-
-
 %\qed
 %\end{IEEEproof}
 
@@ -749,7 +769,7 @@ Therefore, $g$ is smaller than the minimum value of $G_e$ when $\Omega < 0$.
 %\end{table*}
 
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
-
+\subsection{Discussion}
 %$S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$
 \noindent\textbf{One AES execution is a partial warm operation.}
 When the system is in the state $S_{\bar{c}, a}$, one AES execution is a partial warm operation, as in this case, cache misses are resulted to load the corresponding entries into the cache.
