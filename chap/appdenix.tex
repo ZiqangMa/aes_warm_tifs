@@ -51,6 +51,64 @@ Therefore $E(T^{\mathcal{L}}) - E(T^{\mathcal{C}})\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
+The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\mathcal{M}})$ and $E(T^{\mathcal{C}})$, respectively.
+In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
+ However in more {\vwarm} strategy,
+the extra time introduced by {\vwarm} is the minimum value of $T_{warm}$ ($T_{warm_{min}}$) in the state $S_{c}$, as all lookup entries are in the caches.
+  Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{warm}$.
+Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
+%\begin{footnotesize}
+\begin{align}
+\label{equ:tpc2}
+&E(T^{\mathcal{M}})-E(T^{\mathcal{C}})=\Pi_{\bar{c}, a}^{\mathcal{M}} * T_{delay} + \Pi_{c}^{\mathcal{M}}*P_{warm}*T_{warm_{min}} \nonumber \\
+ &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{\mathcal{C}} * T_{delay}
+\end{align}
+
+Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
+Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$,
+by a serials of calculation(See Appendix~\ref{appendixa} for more details),
+  we get the condition that
+\begin{itemize}
+  \item
+    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
+\end{itemize}
+
+While $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
+The minimum value of $G_e$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
+\begin{equation}
+\label{equ:g}
+\left\{
+\begin{split}
+&P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
+&P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
+& if\  P_{evict} >1, P_{evict} = 1 \\
+& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
+\end{split}
+\right.
+\end{equation}
+where
+\begin{align}
+\Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
+&+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
+\end{align}
+
+As an example,
+\figurename~\ref{fig:Gexpression} shows the value of $G_e$ when $P_{a}^{\mathfrak{1}} = 0.85$.
+\begin{figure}
+  \centering
+  \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
+  \caption{the value of $G_e$ when $P_{a1} = 0.85$.}\label{fig:Gexpression}
+\end{figure}
+
+%
+%\begin{align}
+%Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
+%\end{align}
+
+   So in this condition, the formula $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$ holds.
+Therefore when this condition is satisfied, conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+
 To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
 So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
 
@@ -205,7 +263,7 @@ Let $\frac{d(G_e)}{d(P_{evict})} = 0$, we can get the right root of this equatio
 P_{evict\_rroot} &= \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})}
 \end{split}
 \end{equation}
-where 
+where
 \begin{align}
 \Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
 &+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}})\  .\nonumber
