@@ -142,7 +142,6 @@ Typically, it takes 3 to 4 cycles for a read operation in L1 cache,
 Two typical remote cache-based side channels of block ciphers are outlined as follows.
 Both of them exploit the relationship between the whole encryption time and the different input plaintexts( or ciphertexts), due to the time for accessing the lookup tables.
 
--- Linjq check here.
 
 \noindent\textbf{Internal collision attack.}
 Taking the first round attack of AES \cite{Bonneau2006Cache}as an example,
@@ -246,8 +245,6 @@ and infers the key bytes of the victim server with the obtained lookup table ind
 
 %Thus, if a total-data load is executed before processing, differences between the frequencies of cache misses will not be observed, making it impossible to determine the relationships between sets of S-boxes
 
-
-
 \subsection{Countermeasures against Cache Timing Side Channels}
 Although eliminating timing side channels remains difficult~\cite{Cock2014The},
 different countermeasures have been proposed on the  levels of hardware, software and OS.
@@ -289,8 +286,96 @@ Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding,
 
 The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
-]]]]]]]]]]]]
+\subsection{Notations}
+The meaning of the symbols used in the following is list in Table~\ref{notation}. 
 
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{symbols used in this paper}
+\label{notation}
+\centering
+\begin{tabular}{c|m{2.5in}}
+\hline\hline
+\bfseries Symbol & \multicolumn{1}{c}{\bfseries Notation} \\
+\hline
+$T_{NM}$ & The AES execution time when all lookup tables are in the caches\\
+\hline
+$T_{W}$ & The max AES execution time when all lookup tables are out of caches\\
+\hline
+$t1$ & the time that AES begins\\
+\hline
+$t2$ & the time that AES ends\\
+\hline
+$C$ & cache line size\\
+\hline
+$R$ & the number of rounds of AES\\
+\hline
+$L$ & the size of lookup tables\\
+\hline
+$T_{cl}$ & the time cost to load a cache line of data from RAM to L1D cache \\
+\hline
+$B_{nl}(N)$ & the benefit of not loading data into $N$ cache lines in the {\scshape{Warm}} operation\\
+\hline
+$D_{nl}(N)$ & the expected overhead (or the time cost) due to not loading $N$ cache lines of lookup tables\\
+\hline
+$P_{\bar{a}ccess}(N)$ & the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption\\
+\hline
+$P_{delay}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
+\hline
+     $S_{c}$& all entries of the lookup tables are in caches\\
+\hline   
+     $S_{\bar{c}, a}$& some entries are uncached, and at least one of them is accessed during the AES encryption\\
+\hline
+     $S_{\bar{c}, \bar{a}}$& some entries are uncached, but none of them is accessed during the AES encryption\\
+\hline
+$P_{evict}$ & The probability that eviction occurs\\
+\hline
+$P_{warm}$ & the probability that performing {\scshape{Warm}} operation\\
+\hline
+$P_{access}$ & the probability that some uncached entries are accessed during the AES execution\\
+\hline
+$X_n$ & The state of the lookup table in the caches \\
+\hline
+$P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
+\hline
+$P_{access|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
+\hline
+$P_{access|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
+\hline
+$\Pi_{c}$ & the probability that the system is in the state $S_c$ in the stationary distribution\\
+\hline
+$\Pi_{\bar{c}, \bar{a}}$ & the probability that the system is in the state $S_{\bar{c}, \bar{a}}$ in the stationary distribution\\
+\hline
+$\Pi_{\bar{c}, a}$ & the probability that the system is in the state $S_{\bar{c}, a}$ in the stationary distribution\\
+\hline
+$T_{delay}$ & the extra cost introduced by  {\scshape{Delay}} \\
+\hline
+$T_{warm}$ & the extra cost introduced by  {\scshape{Warm}}\\
+\hline
+$T_{warm_{min}}$ & the minimum value of $T_{warm}$\\
+\hline
+$G$ & $T_{delay}/T_{warm}$\\
+\hline
+$M$ & $T_{warm_{min}} / T_{delay}$\\
+\hline
+$R$ & represents an expression that $G$ should less than \\
+\hline
+$W$ & general warm strategy\\
+\hline
+$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
+\hline
+$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
+\hline
+$E(T)$ & the expected extra time cost\\
+%\hline
+%$$ & \\
+%\hline
+%$$ & \\
+%\hline
+%$$ & \\
+\hline\hline
+\end{tabular}
+\end{table}
 %
 %AES-NI
 %S. Gueron, ¡°Advanced Encryption Standard (AES) instructions
