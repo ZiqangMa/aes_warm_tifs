@@ -140,24 +140,24 @@ Cache timing side-channel attacks on block cipher implementations exploit the fa
 Typically, it takes 3 to 4 cycles for a read operation in L1 cache,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
 Two typical remote cache-based side channels of block ciphers are outlined as follows.
-Both of them exploit the relationship between the whole encryption time and the different input plaintexts( or ciphertexts), due to the time for accessing the lookup tables.
+Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
 
 
 \noindent\textbf{Internal collision attack.}
-Taking the first round attack of AES \cite{Bonneau2006Cache}as an example,
-the plaintext and the round key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$, respectively,
+Taking the first round attack of AES \cite{Bonneau2006Cache} as an example,
+the plaintext and the round key are denoted in bytes as $p_0, p_1, ..., p_{15}$ and $k_0, k_1, ..., k_{15}$, respectively,
 and the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
 When any two inputs of $T_i$ access the lookup table entries in a same cache line,
  it results in shorter execution time, which is called an internal collision.
- Then,
- the attacker can make a statistics of the average execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$ ($0 \leq j,k \leq 3$).
- The lowest time at the value $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}=\delta$ represents that cache collision occurs which means $k_{(i+4j)\%16} \oplus k_{(i+4k)\%16}=\delta$.
+ %Then,
+ The attacker  makes a statistics of the average execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}$ ($0 \leq j, j^{'} \leq 3$).
+ The lowest time at the value $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}=\delta$ represents that cache collision occurs, which means $k_{(i+4j)\%16} \oplus k_{(i+4j^{'})\%16}=\delta$.
    In this way the secret key is extracted.
 
 Since each cache line (64 bytes) contains multiple entries,
 the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
-The attacker need further analysis or more data to extract the full key.
-This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} that can extract the full secret key without extra information.
+The attacker needs further analysis or more data to extract the full key.
+This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to extract the full secret key without extra information.
 Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanalysis}.
 
 %A cache miss occurs when the inputs of each lookup table are different.
@@ -287,7 +287,7 @@ Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding,
 The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
 \subsection{Notations}
-The meaning of the symbols used in the following is list in Table~\ref{notation}. 
+The meaning of the symbols used in the following is list in Table~\ref{notation}.
 
 \begin{table}[!t]
 \renewcommand{\arraystretch}{1.3}
@@ -323,7 +323,7 @@ $P_{\bar{a}ccess}(N)$ & the probability that $N$ certain cache lines are not acc
 $P_{delay}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
 \hline
      $S_{c}$& all entries of the lookup tables are in caches\\
-\hline   
+\hline
      $S_{\bar{c}, a}$& some entries are uncached, and at least one of them is accessed during the AES encryption\\
 \hline
      $S_{\bar{c}, \bar{a}}$& some entries are uncached, but none of them is accessed during the AES encryption\\
