@@ -140,24 +140,35 @@ Cache timing side-channel attacks on block cipher implementations exploit the fa
 Typically, it takes 3 to 4 cycles for a read operation in L1 cache,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
 Two typical remote cache-based side channels of block ciphers are outlined as follows.
-Both of them exploit the relationship between the whole encryption time and the different input plaintexts( or ciphertexts), due to the time for accessing the lookup tables.
+Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
+
+%Bernstein
+\noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
+This attack statically analyzes the relation between the overall execution time and  lookup table indexes.
+The attacker firstly obtains the mapping between average maximum overall AES execution time and each table lookup index (i.e, $p_i \oplus k_i$, where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key respectively, and  $0 \leq i < 16$) on a duplicated server whose hardware and software configurations are the same as the victim one.
+For $i$th byte of the unknown key ($k_i^{'}$) on the victim server, it collects a large number of overall encryption times for different known plaintexts,  obtains $p_i^{'}$ corresponding to the maximum average AES execution from $256$ possible values,  and infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
+%In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
+%For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicated server.
+%Then, the attacker repeats the same experiment on the victim server and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
 
 
 \noindent\textbf{Internal collision attack.}
-Taking the first round attack of AES \cite{Bonneau2006Cache}as an example,
-the plaintext and the round key are denoted in bytes as $p_0,p_1,...,p_{15}$ and $k_0,k_1,...,k_{15}$, respectively,
-and the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
-When any two inputs of $T_i$ access the lookup table entries in a same cache line,
- it results in shorter execution time, which is called an internal collision.
- Then,
- the attacker can make a statistics of the average execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}$ ($0 \leq j,k \leq 3$).
- The lowest time at the value $p_{(i+4j)\%16} \oplus p_{(i+4k)\%16}=\delta$ represents that cache collision occurs which means $k_{(i+4j)\%16} \oplus k_{(i+4k)\%16}=\delta$.
-   In this way the secret key is extracted.
-
-Since each cache line (64 bytes) contains multiple entries,
-the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
-The attacker need further analysis or more data to extract the full key.
-This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} that can extract the full secret key without extra information.
+This attack is based on the fact that less time is needed for accessing the lookup table entries in the same cache line.
+%Taking the first round attack of AES \cite{Bonneau2006Cache} as an example,
+%the plaintext and the round key are denoted in bytes as $p_0, p_1, ..., p_{15}$ and $k_0, k_1, ..., k_{15}$, respectively, and
+Taking the attack  on  first round of AES~\cite{Bonneau2006Cache} as an example,
+ on the platform where each cache line (64 bytes) has $16$ entries (4 bytes),
+the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
+When any two inputs of $T_i$ require accessing the lookup table entries in a same cache line,
+ it results in shorter overall execution time, which is called an internal collision.
+ %Then,
+ The attacker  makes a statistics of the average execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}$ ($0 \leq j, j^{'} \leq 3$).
+ The lowest time at the value $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}=\delta$ represents that cache collision occurs, which means $k_{(i+4j)\%16} \oplus k_{(i+4j^{'})\%16}=\delta \mod 16$.
+   In this way, the higher $4$ bits of secret key are extracted.
+%Since each cache line (64 bytes) contains multiple entries (4 bytes),
+%the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
+%The attacker needs further analysis or more data to extract the full key.
+This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to extract the full secret key without extra information.
 Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanalysis}.
 
 %A cache miss occurs when the inputs of each lookup table are different.
@@ -201,11 +212,8 @@ Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanal
 
 %Considering the structure of DES, only 16 accesses are needed for each S-box during the encryption. Relatively to the 64 entries of an S-box, the number of 16 accesses is rather small, resulting in a high probability of accessing different elements of the separate S-boxes. So the authors implement the elimination table attack on a a Pentium III CPU having a cache load size of 32-bytes. As a result, the key is recovered by a success rate greater than 90\% with $2^{23}$ known plaintexts and $2^{24}$ calculations.
 
-\noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
-In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
-For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicated server.
-Then, the attacker repeats the same experiment on the victim server
-and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
+
+%One might speculate that the time for this array lookup depends on the array index; that the time for the whole AES computation is well correlated with the time for this array lo okup; that, consequently , the AES timings leak information about k[0] ^ n[0]; and that one can deduce the exact
 
 %Bernstein's attack uses the distribution of AES encryption time to recover each byte of the key \cite{Bernstein2005Cache}.
  %It contains three phases. The first one is the learning phases, in which the attacker constructs a duplicate server with the same CPU and AES implementation of the victim server, but with a known key, then encrypts a large number of 400, 600 and 800 byte random plaintexts to build a time pattern for the various bytes. The second phases is the attack phases, where the attacker builds the time pattern for the victim server whose AES key is unknown. In the last phases, the attacker analyses the time patterns of the duplicate and the victim server for each byte to produce a set of possible key bits.
@@ -322,11 +330,17 @@ $P_{\bar{a}ccess}(N)$ & the probability that $N$ certain cache lines are not acc
 \hline
 $P_{delay}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
 \hline
+<<<<<<< HEAD
 $X_n$ & The state of the lookup table in the caches \\
 \hline
      $S_{c}$&  the state that all entries of the lookup tables are in caches\\
 \hline
      $S_{\bar{c}, a}$& the state that some entries are uncached, and at least one of them is accessed during the AES encryption\\
+=======
+     $S_{c}$& all entries of the lookup tables are in caches\\
+\hline
+     $S_{\bar{c}, a}$& some entries are uncached, and at least one of them is accessed during the AES encryption\\
+>>>>>>> fddbd47d041db8cf4eedfbfcd5729866c90f767c
 \hline
      $S_{\bar{c}, \bar{a}}$& the state that some entries are uncached, but none of them is accessed during the AES encryption\\
 \hline
