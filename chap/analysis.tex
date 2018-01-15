@@ -10,8 +10,10 @@
 %All the detailed conditions are practical.
 
 
-In this section, we prove that the {\scshape{Warm+Delay}} scheme achieves the optimal performance with the least extra operations,
- by applying it to AES and analyzing  the situations that it produces the optimal performance.
+In this section, we apply the {\scshape{Warm+Delay}} scheme to AES.
+We analyze the situations for {\scshape{Warm}} and {\scshape{Delay}} operations that they produce the optimal performance.
+Then it is proved that the {\scshape{Warm+Delay}} scheme achieves the optimal performance with the least extra operations,
+
 
 \subsection{Overview}
 \label{sec:eval}
@@ -61,6 +63,7 @@ That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performa
 %\end{CJK}
 
 \subsection{Performance Analysis of \vdelay}
+\label{delayanalysis}
 %\vspace{-2mm}
 %The analysis of {\vdelay}  is independent of the encryption algorithm used in the scheme.
 \begin{theorem}
@@ -127,6 +130,7 @@ In our {\vwd}  scheme, the {\vdelay} operation satisfies the Theorem~\ref{delay2
 
 
 \subsection{Performance Analysis of \vwarm}
+\label{warmanalysis}
 %\vspace{-1mm}
 
 We apply the {\vwd}  scheme to AES-128 with a 2KB lookup table \cite{openssl},
@@ -142,7 +146,7 @@ The details about other key sizes (192 and 256 bits) and different implementatio
 {\vwarm} operation needs to load the lookup table into the caches.
  It takes less time that loading parts of the table.
   But it also may introduce extra {\vdelay} operation if the unloaded parts are accessed.
-  
+
 We denote the size of a cache line as $C$,
     and the time cost to load a cache line of data from RAM to L1D cache as $T_{cl}$.
   For an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$), we have the following theorem.
@@ -203,7 +207,7 @@ Therefore, if $N$ cache lines of table entries are not in caches,
     the probability of extra {\vdelay} is listed as follows.
   \begin{equation}
   \label{equ:delay}
- {P}_{delay} = 1-P_{\bar{a}ccess}(N) = 1- (1-\frac{NC}{L})^{16 R}
+ {P}_{delay}(N) = 1-P_{\bar{a}ccess}(N) = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
 
@@ -212,7 +216,7 @@ The execution time shall be delayed to $T_W$ according to Theorem \ref{delay2tw}
 So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
 \begin{eqnarray}
  \label{equ:tdelay}
-&D_{nl}(N)&={ }  {P}_{delay}  (T_{W}-T_{NM})  \nonumber \\
+&D_{nl}(N)&={ }  {P}_{delay}(N)  (T_{W}-T_{NM})  \nonumber \\
 &&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM}).
 \end{eqnarray}
 
@@ -255,7 +259,7 @@ and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading
 % 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET 时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
 \begin{corollary}
-
+\label{corollarywarm1}
 For the AES-128 implementation with a 2KB lookup table
 in commodity computer systems,
 loading all entries of the lookup table into caches in the {\vwarm} operation
@@ -275,7 +279,7 @@ $T_{W}$, $T_{NM}$, and $T_{cl}$ are $2834, 355, 55.68$ in CPU cycles, respective
  (see Section \ref{sec:implementation} for details).
 %%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
-    when $R = 10$, $L = 2KB$, and $C = 64B$.
+    when $R = 10$, $L = 2$KB, and $C = 64$B.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines of lookup table is always much greater than the benefit.
 The result is applicable to other commodity computer systems.
 So by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces the optimal performance.
@@ -311,8 +315,9 @@ So the cost of {\vwarm} is reduced significantly, further making that loading al
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
 \subsubsection{state transition of continuous invocations of AES}
-We consider the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
-The state of the lookup table is estimated after each execution of AES encryption.
+To determine the best warm opportunity, we should compare the costs introduced by different warm strategies.
+We use Markov Chain to analyze the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
+Then the extra costs can be calculated based on the probability of each state in the stationary distributions.
   There are three states:
   \begin{enumerate}
    \item
@@ -324,7 +329,7 @@ The state of the lookup table is estimated after each execution of AES encryptio
   \end{enumerate}
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
-
+The state of the lookup table is estimated after each execution of AES encryption.
 The transition among the three states can be triggered by three events:
 \begin{enumerate}
   \item
@@ -513,9 +518,9 @@ First we denote:
 \begin{align}
 &G = T_{delay} / T_{warm}\ , \nonumber \\
 &M = T_{warm_{min}} / T_{delay}\ ,  \nonumber \\
-&D_{R}=P_{evict|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}-P_{evict|S_{c}}P_{access|S_{c}})(P_{access|S_{c}}-1) \nonumber \\
+&D_{F}=P_{evict|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}-P_{evict|S_{c}}P_{access|S_{c}})(P_{access|S_{c}}-1) \nonumber \\
    & \ \ \ \ +M(1-P_{evict|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}}))\ , \nonumber \\
-&R = \frac{P_{evict|S_{c}}(P_{access|S_{c}}-1)(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}}))}{D_{R}}\ . \nonumber
+&F_G = \frac{P_{evict|S_{c}}(P_{access|S_{c}}-1)(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}}))}{D_{F}}\ . \nonumber
 \end{align}
 
 %Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
@@ -536,13 +541,13 @@ Conditional {\vwarm} strategy has better performance than the more {\vwarm} stra
  is satisfied:
 \begin{itemize}
   \item
-    $\forall D_{R}$, when  $D_{R} < 0$, $G < \min(R)$.
+    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
 \end{itemize}
 
 \end{theorem}
 
 \begin{IEEEproof}
-The process of proof is the same as Theorem~\ref{lemma:warmnum1} that comparing $E_{T}$ with $E_{T}^{\oplus}$. The details are in Appendix~\ref{appendixa}.
+The process of proof is the same as Theorem~\ref{lemma:warmnum1} that comparing $E(T)$ with $E(T^{\oplus})$. The details are in Appendix~\ref{appendixa}.
 \end{IEEEproof}
 
 \paragraph{comparing conditional \vwarm~ with general warm strategy}
@@ -553,7 +558,7 @@ By comparing the expected extra time introduced by the two strategies, we can ge
 if the following condition is satisfied:
 \begin{itemize}
   \item
-    $\forall D_{R}$, when  $D_{R} < 0$, $G < \min(R)$.
+    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
 \end{itemize}
 \end{theorem}
 
@@ -599,7 +604,7 @@ if condition:
 %\end{enumerate}
 \begin{itemize}
   \item
-    $\forall D_{R}$, when  $D_{R} < 0$, $G < \min(R)$.
+    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
 \end{itemize}
  is satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
@@ -704,8 +709,8 @@ Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
 %The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
 %So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In this environment, when $D_{R} < 0$, $R$ is a monotonous increasing function of $P_{access|S_c}$.
-$R$ gets the minimum value when $P_{access|S_c} = 0.994$.
+In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0491]$. When $D_{F} > 0$, Theorem~\ref{lemma:warmnum3} is satisfied. While $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{access|S_c}$.
+$F_G$ gets the minimum value when $P_{access|S_c} = 0.994$.
 Substitute the value into the equation~\ref{equ:g} and get:
 \begin{equation}
 \left\{
@@ -723,9 +728,9 @@ where
 &+(0.006M+ 0.988M^2)(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2} \nonumber
 \end{align}
 
-By computation we get that when $P_{evict|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{access|S_c} = 0.994$, $R$ gets the minimum value.
+By computation we get that when $P_{evict|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{access|S_c} = 0.994$, $F_G$ gets the minimum value.
 The minimum value is $167.7$.
-Therefore, $G$ is smaller than the minimum value of $R$ when $D_R < 0$.
+Therefore, $G$ is smaller than the minimum value of $F_G$ when $D_F < 0$.
  So based on Theorem~\ref{lemma:warmnum3} performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{IEEEproof}
@@ -749,6 +754,9 @@ Therefore, $G$ is smaller than the minimum value of $R$ when $D_R < 0$.
 
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
 \subsection{Additional Remarks}
+In the analysis of {\vwarm} operation, we assume that some conditions are not considered. In this part, we discuss these conditions.
+First is effect of partial warm caused by the AES execution. Second is the influence of process scheduling and interruptions.
+Finally, we summarize the relation between the measured time and the cache states.
 %$S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$
 %\noindent\textbf{One AES execution is a partial warm operation.}
 \subsubsection{One AES execution is a partial warm operation}

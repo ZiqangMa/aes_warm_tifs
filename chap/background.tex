@@ -245,7 +245,7 @@ and infers the key bytes of the victim server with the obtained lookup table ind
 
 %Thus, if a total-data load is executed before processing, differences between the frequencies of cache misses will not be observed, making it impossible to determine the relationships between sets of S-boxes
 
-\subsection{Countermeasures against Cache Timing Side Channels}
+\subsection{Control against Cache Timing Side Channels}
 Although eliminating timing side channels remains difficult~\cite{Cock2014The},
 different countermeasures have been proposed on the  levels of hardware, software and OS.
 These defense methods eliminate the execution time difference of cache hits/misses,
@@ -287,7 +287,7 @@ Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding,
 The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
 \subsection{Notations}
-The meaning of the symbols used in the following is list in Table~\ref{notation}. 
+The meaning of the symbols used in the following is list in Table~\ref{notation}.
 
 \begin{table}[!t]
 \renewcommand{\arraystretch}{1.3}
@@ -308,7 +308,7 @@ $t2$ & the time that AES ends\\
 \hline
 $C$ & cache line size\\
 \hline
-$R$ & the number of rounds of AES\\
+$R$ & the number of the round of AES\\
 \hline
 $L$ & the size of lookup tables\\
 \hline
@@ -322,19 +322,19 @@ $P_{\bar{a}ccess}(N)$ & the probability that $N$ certain cache lines are not acc
 \hline
 $P_{delay}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
 \hline
-     $S_{c}$& all entries of the lookup tables are in caches\\
-\hline   
-     $S_{\bar{c}, a}$& some entries are uncached, and at least one of them is accessed during the AES encryption\\
+$X_n$ & The state of the lookup table in the caches \\
 \hline
-     $S_{\bar{c}, \bar{a}}$& some entries are uncached, but none of them is accessed during the AES encryption\\
+     $S_{c}$&  the state that all entries of the lookup tables are in caches\\
+\hline
+     $S_{\bar{c}, a}$& the state that some entries are uncached, and at least one of them is accessed during the AES encryption\\
+\hline
+     $S_{\bar{c}, \bar{a}}$& the state that some entries are uncached, but none of them is accessed during the AES encryption\\
 \hline
 $P_{evict}$ & The probability that eviction occurs\\
 \hline
-$P_{warm}$ & the probability that performing {\scshape{Warm}} operation\\
+$P_{warm}$ & the probability of performing {\scshape{Warm}} operation\\
 \hline
 $P_{access}$ & the probability that some uncached entries are accessed during the AES execution\\
-\hline
-$X_n$ & The state of the lookup table in the caches \\
 \hline
 $P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
 \hline
@@ -348,9 +348,9 @@ $\Pi_{\bar{c}, \bar{a}}$ & the probability that the system is in the state $S_{\
 \hline
 $\Pi_{\bar{c}, a}$ & the probability that the system is in the state $S_{\bar{c}, a}$ in the stationary distribution\\
 \hline
-$T_{delay}$ & the extra cost introduced by  {\scshape{Delay}} \\
+$T_{delay}$ & the extra cost introduced by  {\scshape{Delay}} operation\\
 \hline
-$T_{warm}$ & the extra cost introduced by  {\scshape{Warm}}\\
+$T_{warm}$ & the extra cost introduced by  {\scshape{Warm}} operation\\
 \hline
 $T_{warm_{min}}$ & the minimum value of $T_{warm}$\\
 \hline
@@ -358,7 +358,7 @@ $G$ & $T_{delay}/T_{warm}$\\
 \hline
 $M$ & $T_{warm_{min}} / T_{delay}$\\
 \hline
-$R$ & represents an expression that $G$ should less than \\
+$F_G$ & represents an expression that $G$ should be less than \\
 \hline
 $W$ & general warm strategy\\
 \hline

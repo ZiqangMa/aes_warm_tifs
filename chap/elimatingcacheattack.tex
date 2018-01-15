@@ -8,7 +8,7 @@ Then, the {\scshape{Warm+Delay}} defense scheme is described,
   while keeps the potential to achieve the optimal performance.
 
 
-\subsection{Threat Model}
+\subsection{the Threat Model}
 %\vspace{-1mm}
 \label{sec:assumption}
 %goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
@@ -19,7 +19,7 @@ In particular,
   and the execution time depends mostly on the cache access of table lookup.
 
 The remote attackers know the operating system, cache hierarchy and other software/hardware configurations on the target systems,
- but the running states of the target system are unknown due to non-deterministic interrupts, task scheduling and other system activities..
+ but the running states of the target system are unknown due to non-deterministic interrupts, task scheduling and other system activities.
  They are able to
   invoke the encryption function arbitrarily
   and measure the time for each invocation.
@@ -36,7 +36,7 @@ The attackers do not have physical access to the hardware.
 
 \subsection{Design Goals}
 \label{sec:goal}
-This work aims to defend against the remote cache timing side-channel attacks,
+This work aims to investigate the performance of integrating {\scshape{Warm}} and {\scshape{Delay}} to defend against the remote cache timing side-channel attacks,
   which are launched with the least privileges (or capabilities) of attackers;
 other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
 We attempt to eliminate remote cache timing side channels,
@@ -114,14 +114,14 @@ So we want to integrate their advantages to form the defense scheme.
 %  %\item
 %\end{enumerate}
 
-A naive integration is to perform both {\scshape{Warm}} and {\scshape{Delay}} every time the protected cryptographic function is invoked.
+A naive integration is performing both {\scshape{Warm}} and {\scshape{Delay}} operation every time the protected cryptographic function is invoked.
  But it introduces too many unnecessary extra operations and the performance is seriously degraded, although the security is ensured.
 In order to achieve the optimal performance,
  we perform {\scshape{Delay}} as the last line of defense,
     only when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
-         (i.e., is not equal to the expected execution time with all tables cached);
+         i.e., is not equal to the expected execution time with all tables cached (detailed in Section~\ref{delayanalysis});
 similarly,
-     {\scshape{Warm}} is performed only when some entries are not in caches.
+     {\scshape{Warm}} is performed only when some entries are not in caches(detailed in Section~\ref{warmanalysis}).
 As the scheme does not involve privileged operations,
     the conditions of {\scshape{Warm}} and {\scshape{Delay}} are defined as regular timing.
 
@@ -142,6 +142,7 @@ So,
 
 
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
+For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 In this algorithm,
   there are two parameters, $T_{W}$ and $T_{NM}$.
 $T_{NM}$ is defined as the time period for one execution of encryption,
@@ -282,12 +283,13 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,
-       are random and unknown to the remote attackers,
-       so in this case {\scshape{Delay}} is not performed, too.
+       are random and unknown to the remote attackers, 
+        so the execution time is unavailable.
+       In this case {\scshape{Delay}} is not performed, too.
        %the attackers cannot find the actual execution time of encryption to infer the keys.
 \end{itemize}
 
-When applying the {\scshape{Warm+Delay}} scheme, the remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt}},
+When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt}},
  but not internal {\scshape{Crypt}}.
  So the measured time, i.e., the execution time of {\scshape{ProtectedCrypt}},
   falls into two intervals, $(0, T_{NM}]$ and $[T_{W}, \infty )$.
@@ -324,7 +326,7 @@ When applying the {\scshape{Warm+Delay}} scheme, the remote attackers are (assum
 
 
 In the following,
-we further explain that the integration scheme successfully prevent typical remote cache timing side-channel attacks.
+we further explain that the integration scheme successfully prevent typical remote cache timing side-channel attacks in the literature.
 %	对各个不同类型的攻击，用我们的防御方案以后，可以获得哪些数据，通过这些数据不能够实施这些攻击。
 %通过对AES的各种cache时间攻击进行分析，可以将时间攻击分为三种典型的类型：
 %一是统计攻击：

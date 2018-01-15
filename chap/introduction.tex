@@ -107,10 +107,11 @@ In particular,
 \item
 Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
    i.e., it is performed with all lookup tables in caches
-   or it is finished after a constant period of time.
+   or it is finished with a constant period of time.
 %Destroy the relationship between the execution time and cache misses/hits,   to ensure security.
 The measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
      or the worst case (i.e., it is delayed to the execution time without any caches).
+      Otherwise the cache side channel attacks may be launched.
 
 \item
 In order to optimize the performance,
@@ -155,7 +156,7 @@ For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
 when the ratio of
   the extra cost caused by {\scshape{Delay}} to the extra cost caused by {\scshape{Warm}},
-  denoted as $g$, is less than $167.7$.
+  denoted as $G$, is less than $167.7$.
 These conditions hold %for continuous AES executions
  in commodity computer systems,
   which is confirmed by our experiments.
