@@ -185,8 +185,8 @@ In each round of AES encryption,
 We assume that, in each round, the input of \texttt{SubBytes} is random and then
     each table entry is accessed  uniformly.
 Hence,
- the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption, denoted as $P_{\bar{a}ccess}(N)$,
-  is $P_{\bar{a}ccess}(N) = (1-\frac{NC}{L})^{16 R}$.
+ the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption, denoted as $P_{\bar{a}}(N)$,
+  is $P_{\bar{a}}(N) = (1-\frac{NC}{L})^{16 R}$.
 
 
 
@@ -207,7 +207,7 @@ Therefore, if $N$ cache lines of table entries are not in caches,
     the probability of extra {\vdelay} is listed as follows.
   \begin{equation}
   \label{equ:delay}
- {P}_{delay}(N) = 1-P_{\bar{a}ccess}(N) = 1- (1-\frac{NC}{L})^{16 R}
+ {P}_{d}(N) = 1-P_{\bar{a}}(N) = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
 
@@ -216,7 +216,7 @@ The execution time shall be delayed to $T_W$ according to Theorem \ref{delay2tw}
 So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
 \begin{eqnarray}
  \label{equ:tdelay}
-&D_{nl}(N)&={ }  {P}_{delay}(N)  (T_{W}-T_{NM})  \nonumber \\
+&D_{nl}(N)&={ }  {P}_{d}(N)  (T_{W}-T_{NM})  \nonumber \\
 &&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM}).
 \end{eqnarray}
 
@@ -333,11 +333,11 @@ The state of the lookup table is estimated after each execution of AES encryptio
 The transition among the three states can be triggered by three events:
 \begin{enumerate}
   \item
-    \emph{Warm} event: performing {\vwarm} to load all the lookup tables into the cache which probability is denoted as $P_{warm}$.
+    \emph{Warm} event: performing {\vwarm} to load all the lookup tables into the cache which probability is denoted as $P_{w}$.
   \item
-    \emph{Evict} event: the entries of lookup tables may be evicted from the cache if task scheduling, interrupts or any other system activities occur during the execution of encryptions. The probability that eviction occurs is denoted as $P_{evict}$.
+    \emph{Evict} event: the entries of lookup tables may be evicted from the cache if task scheduling, interrupts or any other system activities occur during the execution of encryptions. The probability that eviction occurs is denoted as $P_{e}$.
   \item
-    \emph{Execution} event: For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{access}$. Actually, $P_{access}$ equals $P_{delay}$ in Theorem~\ref{theorm:warmall}.
+    \emph{Execution} event: For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ equals $P_{d}$ in Theorem~\ref{theorm:warmall}.
 \end{enumerate}
 
 % 哪些事件导致状态转移？概率表示为。
@@ -367,9 +367,9 @@ In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache mis
 While considering other two cases:
 \begin{itemize}
   \item
-    less {\vwarm}: performing {\vwarm} with a probability $P_{warm}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
+    less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
   \item
-    more {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{warm}^{\oplus}\in[0,1]$ in other conditions.
+    more {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
 \end{itemize}
 
 The Markov Chain can be used to simulate the state transitions.
@@ -401,8 +401,8 @@ Then we analyze the stationary distributions for the three different strategies.
 
 \paragraph{Conditional {\vwarm}}
  The state transition diagram of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
-$P_{access|S_{c}}$ and $P_{access|S_{\bar{c}, \bar{a}}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
- Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{access|S_{\bar{c}, \bar{a}}}$ is no less than $P_{access|S_{c}}$.
+$P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
+ Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
  %We use $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$.
 %Because we can not determine how many lookup entries are evicted, the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ are the same.
 %So  $P_{a}^{\mathfrak{2}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
@@ -414,9 +414,9 @@ the stationary distribution of the three states and the values are as follows.
 \label{equ:pic}
 \left\{
 \begin{split}
-&\Pi_{c} = \frac{P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{evict|S_{c}})}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}})}\ \\
-&\Pi_{\bar{c}, \bar{a}} = \frac{P_{evict|S_{c}}(1-P_{access|S_{c}})}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}})}\  \\
-&\Pi_{\bar{c}, a} = \frac{P_{evict|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}})}
+&\Pi_{c} = \frac{P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{e|S_{c}})}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})}\ \\
+&\Pi_{\bar{c}, \bar{a}} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})}\  \\
+&\Pi_{\bar{c}, a} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})}
 \end{split}
 \right..
 \end{equation}
@@ -424,8 +424,8 @@ the stationary distribution of the three states and the values are as follows.
 
 \paragraph{Less {\vwarm}}
 The state transition diagram of less {\vwarm} is shown in \figurename~\ref{fig:lesscase}.
-$P_{access|S_{c}}$ and $P_{access|S_{\bar{c}, \bar{a}}}^{\ominus}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
-As the same in conditional {\vwarm}, $P_{access|S_{\bar{c}, \bar{a}}}^{\ominus}$ is no less than $P_{access|S_{c}}$.
+$P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
+As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ is no less than $P_{a|S_{c}}$.
 %Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ are the same.
 %So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
 % $P_{a}^{\mathfrak{3}\mathcal{L}}$ in the diagram has the same meaning with $P_{a}^{\mathfrak{2}\mathcal{L}}$.
@@ -437,25 +437,25 @@ the stationary distribution of the three states and the values are as follows.
 \label{equ:pil}
 \left\{
 \begin{split}
-&\Pi_{c}^{\ominus} = \frac{(1-P_{evict|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{warm}^{\ominus}}{D_L}\ \\
-&\Pi_{\bar{c}, \bar{a}}^{\ominus} = \frac{P_{evict|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},a},nowarm}^{\ominus})}{D_L} \\
-&\ \ \ \ +\frac{P_{evict|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a},nowarm}^{\ominus}-P_{access|S_{c}})P_{warm}^{\ominus}}{D_L}\  \\
-&\Pi_{\bar{c}, a}^{\ominus} = \frac{P_{evict|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}}{D_L}
+&\Pi_{c}^{\ominus} = \frac{(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}}{D_L}\ \\
+&\Pi_{\bar{c}, \bar{a}}^{\ominus} = \frac{P_{e|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})}{D_L} \\
+&\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
+&\Pi_{\bar{c}, a}^{\ominus} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}}{D_L}
 \end{split}
 \right.,
 \end{equation}
 where
 \begin{align}
-D_L &= P_{evict|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},nowarm}^{\ominus}) \nonumber \\
-&\ \ +(1-P_{evict|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{warm}^{\ominus} \nonumber \\
-&\ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a},nowarm}^{\ominus}-P_{access|S_{c}})P_{evict|S_{c}}P_{warm}^{\ominus} . \nonumber
+D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}) \nonumber \\
+&\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus} \nonumber \\
+&\ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} . \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
 \paragraph{More {\vwarm}}
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
-$P_{access|S_{c}}$ and $P_{access|S_{\bar{c}, \bar{a}}}^{\oplus}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
-As the same in conditional {\vwarm}, $P_{access|S_{\bar{c}, \bar{a}}}^{\oplus}$ is no less than $P_{access|S_{c}}$.
+$P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
+As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ is no less than $P_{a|S_{c}}$.
 %Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ are the same.
 %So we use $P_{a}^{\mathfrak{2}\mathcal{M}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{M}}P_{a}^{\mathfrak{21}\mathcal{M}}+(1-P_{evict}^{\mathfrak{2}\mathcal{M}})P_{a}^{\mathfrak{22}\mathcal{M}}$ and $P_{a}^{\mathfrak{2}\mathcal{M}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
 
@@ -466,18 +466,17 @@ the stationary distribution of the three states and the values are as follows.
 \label{equ:pim}
 \left\{
 \begin{split}
-&\Pi_{c}^{\oplus} = \frac{(1-P_{evict|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},nowarm}^{\ominus}(1-P_{warm}^{\oplus})+P_{warm}^{\oplus})}{D_M}\ \\
-&\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{evict|S_{c}}(1-P_{access|S_{c}})}{D_M}\  \\
-&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{evict|S_{c}}P_{access|S_{c}}P_{warm}^{\oplus}}{D_M} \\
-&\ \ \ \ +\frac{P_{evict|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},nowarm}^{\ominus}(1-P_{warm}^{\oplus})}{D_M}
+&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
+&\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{D_M}\  \\
+&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
 \end{split}
 \right.,
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 where
 \begin{align}
-D_M &= P_{evict|S_{c}}+P_{warm}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},nowarm}^{\ominus}(1- P_{warm}^{\oplus}) \nonumber \\
-&-P_{evict|S_{c}}(P_{warm}^{\oplus}+P_{access|S_{c}}-P_{access|S_{c}}P_{warm}^{\oplus}) \ .  \nonumber
+D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1- P_{w}^{\oplus}) \nonumber \\
+&-P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{a|S_{c}}P_{w}^{\oplus}) \ .  \nonumber
 \end{align}
 
 \subsubsection{The Timing of {\vwarm}}
@@ -486,9 +485,9 @@ We first compare the performance of  conditional {\vwarm} with less {\vwarm} and
   Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
 
   We denote the extra cost introduced by {\vdelay} and {\vwarm} as
-    $T_{delay}$ and $T_{warm}$, respectively.
-$T_{delay} = T_{W}-T_{NM}$ is constant for different executions.
-    $T_{warm}$ depends on the number of loaded cache lines of table entries.
+    $T_{d}$ and $T_{w}$, respectively.
+$T_{d} = T_{W}-T_{NM}$ is constant for different executions.
+    $T_{w}$ depends on the number of loaded cache lines of table entries.
 
 %Then we have the following theorems.
 \paragraph{comparing conditional \vwarm~ with less \vwarm~}
@@ -505,10 +504,10 @@ The difference between the expected extra time introduced by less {\vwarm} and c
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:tpc1}
-E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{delay} - \Pi_{\bar{c}, a} * T_{delay}
+E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{d} - \Pi_{\bar{c}, a} * T_{d}
 \end{equation}
 
-And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{warm}^{\ominus}\in(0,1)$.
+And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{w}^{\ominus}\in(0,1)$.
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
@@ -516,11 +515,11 @@ So the extra time introduced by less {\vwarm} strategy is always larger than con
 By comparing the expected extra time introduced due to the two strategies, we can get the following theorem.
 First we denote:
 \begin{align}
-&G = T_{delay} / T_{warm}\ , \nonumber \\
-&M = T_{warm_{min}} / T_{delay}\ ,  \nonumber \\
-&D_{F}=P_{evict|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}-P_{evict|S_{c}}P_{access|S_{c}})(P_{access|S_{c}}-1) \nonumber \\
-   & \ \ \ \ +M(1-P_{evict|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}}))\ , \nonumber \\
-&F_G = \frac{P_{evict|S_{c}}(P_{access|S_{c}}-1)(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{evict|S_{c}}(1-P_{access|S_{c}}))}{D_{F}}\ . \nonumber
+&G = T_{d} / T_{w}\ , \nonumber \\
+&M = T_{w}^{min} / T_{d}\ ,  \nonumber \\
+&D_{F}=P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})(P_{a|S_{c}}-1) \nonumber \\
+   & \ \ \ \ +M(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))\ , \nonumber \\
+&F_G = \frac{P_{e|S_{c}}(P_{a|S_{c}}-1)(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))}{D_{F}}\ . \nonumber
 \end{align}
 
 %Let $g = T_{delay} / T_{warm}$ and $M = T_{warm_{min}} / T_{delay}$.
@@ -563,7 +562,7 @@ if the following condition is satisfied:
 \end{theorem}
 
 \begin{IEEEproof}
-Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{warm}^{\odot}\in[0,1]$ just when cache misses do not occur during the pervious execution of encryption while not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
+Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{w}^{\odot}\in[0,1]$ just when cache misses do not occur during the pervious execution of encryption while not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
 %In this case, when there is a cache miss in the previous, {\vdelay} is needed. If the next encryption accesses any entry that is currently not in caches, performing {\vwarm} before hand introduces non extra overhead.
 % However, if not performing {\vwarm},
 %   the extra time introduced by {\vdelay} is listed in Table\ref{tbl:warmcontent}.
@@ -586,8 +585,8 @@ W = x_{1}W_{L}+x_{2}W_{M}+x_{3}W_{Co}
   where $x_{1}$, $x_{2}$ and $x_{3}$ satisfy:
 $$\left\{
 \begin{aligned}
-&x_{2}P_{warm}^{\oplus}+x_{3}P_{warm}^{\odot}=P_{2} \\
-&x_{1}P_{warm}^{\ominus}+x_{2}=P_{1} \\
+&x_{2}P_{w}^{\oplus}+x_{3}P_{w}^{\odot}=P_{2} \\
+&x_{1}P_{w}^{\ominus}+x_{2}=P_{1} \\
 &x_{1}+x_{2}+x_{3}=1
 \end{aligned}
 \right..
@@ -691,12 +690,12 @@ performing  {\vwarm}  when cache-miss occurs during the previous execution,
 \end{corollary}
 
 \begin{IEEEproof}
-For the AES-128 implementation with a 2KB lookup table, $P_{access|S_c}$ is larger than 0.994 from Equation~\ref{equ:delay}.
+For the AES-128 implementation with a 2KB lookup table, $P_{a|S_c}$ is larger than 0.994 from Equation~\ref{equ:delay}.
 The range of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ is $[0.994,1]$.
 For the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{delay}$ is $2479.00$ cycles;
-the minimum of $T_{warm}$($T_{warm_{min}}$) is $124$ cycles when accessing the lookup table from L1D caches;
-and the maximum of $T_{warm}$ is $1781.60$ cycles when all the lookup entries are not cached.
+$T_{d}$ is $2479.00$ cycles;
+the minimum of $T_{w}$($T_{w}^{min}$) is $124$ cycles when accessing the lookup table from L1D caches;
+and the maximum of $T_{w}$ is $1781.60$ cycles when all the lookup entries are not cached.
 Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
 
 
@@ -709,15 +708,15 @@ Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
 %The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
 %So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0491]$. When $D_{F} > 0$, Theorem~\ref{lemma:warmnum3} is satisfied. While $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{access|S_c}$.
-$F_G$ gets the minimum value when $P_{access|S_c} = 0.994$.
+In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0491]$. When $D_{F} > 0$, Theorem~\ref{lemma:warmnum3} is satisfied. While $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{a|S_c}$.
+$F_G$ gets the minimum value when $P_{a|S_c} = 0.994$.
 Substitute the value into the equation~\ref{equ:g} and get:
 \begin{equation}
 \left\{
 \begin{split}
-&P_{evict|S_c} = \frac{0.994M(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{0.006(1-0.006M)} \\
-&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = \frac{0.07746P_{evict|S_c}}{\sqrt{M(1-P_{evict|S_c})}}-0.006P_{evict|S_c} \\
-& if\  P_{evict|S_c} >1, P_{evict|S_c} = 1 \\
+&P_{e|S_c} = \frac{0.994M(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{0.006(1-0.006M)} \\
+&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = \frac{0.07746P_{e|S_c}}{\sqrt{M(1-P_{e|S_c})}}-0.006P_{e|S_c} \\
+& if\  P_{e|S_c} >1, P_{e|S_c} = 1 \\
 & if\  P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} >1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right.
@@ -728,7 +727,7 @@ where
 &+(0.006M+ 0.988M^2)(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2} \nonumber
 \end{align}
 
-By computation we get that when $P_{evict|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{access|S_c} = 0.994$, $F_G$ gets the minimum value.
+By computation we get that when $P_{e|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{a|S_c} = 0.994$, $F_G$ gets the minimum value.
 The minimum value is $167.7$.
 Therefore, $G$ is smaller than the minimum value of $F_G$ when $D_F < 0$.
  So based on Theorem~\ref{lemma:warmnum3} performing  {\vwarm}  when cache-miss occurs during the previous execution,
@@ -753,7 +752,7 @@ Therefore, $G$ is smaller than the minimum value of $F_G$ when $D_F < 0$.
 %\end{table*}
 
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
-\subsection{Additional Remarks}
+\subsection{Remarks}
 In the analysis of {\vwarm} operation, we assume that some conditions are not considered. In this part, we discuss these conditions.
 First is effect of partial warm caused by the AES execution. Second is the influence of process scheduling and interruptions.
 Finally, we summarize the relation between the measured time and the cache states.
@@ -810,7 +809,7 @@ Therefore, conditional {\vwarm} strategy still  has better performance.
 In this case,  $t2 - t1 > T_{W}$, {\vwarm}  will be triggered in our scheme. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
 As the process scheduling and interruption occur, we assume that $N$ cache lines of lookup tables are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
-Hence, the extra overhead introduced by using {\vwarm}  to load all lookup tables is $E(T_{warm},N) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
+Hence, the extra overhead introduced by using {\vwarm}  to load all lookup tables is $E(T_{w},N) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of lookup tables from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
 Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance when $N>0$. If $N = 0$, it means that the lookup tables are not evicted from the cache when the process scheduling and interruption occur. In this case {\vwarm} is not need. However from the overall execution we cannot distinguish whether the lookup tables are evicted. Thus performing {\vwarm} introduces some extra overhead.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
@@ -884,7 +883,7 @@ The relation between the cache state and execution time is as follows:
 %\vspace{-2mm}
   \centering
   \small
-  \caption{the minimum value of the $P_{delay}$ in different cases.}
+  \caption{the minimum value of the $P_{a}$ in different cases.}
   \label{tbl:pdelayvalue}
    \begin{tabular}{|c|c|c|c|c|}
    \hline
@@ -901,7 +900,7 @@ The relation between the cache state and execution time is as follows:
    \end{tabular}
 \end{table}
 
-All the theorems above still stand, with the only difference being the value of $P_{access}$,$T_{warm}$ and $T_{delay}$.
+All the theorems above still stand, with the only difference being the value of $P_{access}$, $T_{warm}$ and $T_{delay}$.
 The {\scshape{Warm+Delay}} scheme provides the optimal performance for various implementations of AES~\cite{openssl,polarssl} with different key length, if the conditions in previous theorems are satisfied.
 $P_{a}$ (detailed in Appendix~\ref{appendixb}) is the probability that some cache line size of lookup tables not in the cache are accessed. It depends  on the structure and size of lookup tables and the number of iterated rounds.
 For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, they have 5 lookup tables with the total size 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.

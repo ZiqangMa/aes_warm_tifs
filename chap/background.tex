@@ -306,9 +306,9 @@ The meaning of the symbols used in the following is list in Table~\ref{notation}
 \hline\hline
 \bfseries Symbol & \multicolumn{1}{c}{\bfseries Notation} \\
 \hline
-$T_{NM}$ & The AES execution time when all lookup tables are in the caches\\
+$T_{NM}$ & the AES execution time when no cache miss occurs\\
 \hline
-$T_{W}$ & The max AES execution time when all lookup tables are out of caches\\
+$T_{W}$ & the max AES execution time when all lookup tables are out of caches\\
 \hline
 $t1$ & the time that AES begins\\
 \hline
@@ -326,11 +326,11 @@ $B_{nl}(N)$ & the benefit of not loading data into $N$ cache lines in the {\scsh
 \hline
 $D_{nl}(N)$ & the expected overhead (or the time cost) due to not loading $N$ cache lines of lookup tables\\
 \hline
-$P_{\bar{a}ccess}(N)$ & the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption\\
+$P_{\bar{a}}(N)$ & the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption\\
 \hline
-$P_{delay}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
+$P_{d}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
 \hline
-$X_n$ & The state of the lookup table in the caches \\
+$X_n$ & the state of the lookup table in the caches \\
 \hline
      $S_{c}$&  the state that all entries of the lookup tables are in caches\\
 \hline
@@ -338,17 +338,17 @@ $X_n$ & The state of the lookup table in the caches \\
 \hline
      $S_{\bar{c}, \bar{a}}$& the state that some entries are uncached, but none of them is accessed during the AES encryption\\
 \hline
-$P_{evict}$ & The probability that eviction occurs\\
+$P_{e}$ & The probability that eviction occurs\\
 \hline
-$P_{warm}$ & the probability of performing {\scshape{Warm}} operation\\
+$P_{w}$ & the probability of performing {\scshape{Warm}} operation\\
 \hline
-$P_{access}$ & the probability that some uncached entries are accessed during the AES execution\\
+$P_{a}$ & the probability that some uncached entries are accessed during the AES execution\\
 \hline
 $P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
 \hline
-$P_{access|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
+$P_{a|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
 \hline
-$P_{access|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
+$P_{a|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
 \hline
 $\Pi_{c}$ & the probability that the system is in the state $S_c$ in the stationary distribution\\
 \hline
@@ -356,25 +356,25 @@ $\Pi_{\bar{c}, \bar{a}}$ & the probability that the system is in the state $S_{\
 \hline
 $\Pi_{\bar{c}, a}$ & the probability that the system is in the state $S_{\bar{c}, a}$ in the stationary distribution\\
 \hline
-$T_{delay}$ & the extra cost introduced by  {\scshape{Delay}} operation\\
+$T_{d}$ & the extra cost introduced by  {\scshape{Delay}} operation\\
 \hline
-$T_{warm}$ & the extra cost introduced by  {\scshape{Warm}} operation\\
+$T_{w}$ & the extra cost introduced by  {\scshape{Warm}} operation\\
 \hline
-$T_{warm_{min}}$ & the minimum value of $T_{warm}$\\
+$T_{w}^{min}$ & the minimum value of $T_{warm}$\\
 \hline
-$G$ & $T_{delay}/T_{warm}$\\
+$G$ & $T_{d}/T_{w}$\\
 \hline
-$M$ & $T_{warm_{min}} / T_{delay}$\\
+$M$ & $T_{w}^{min} / T_{d}$\\
 \hline
 $F_G$ & represents an expression that $G$ should be less than \\
-\hline
-$W$ & general warm strategy\\
-\hline
-$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
-\hline
-$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
-\hline
-$E(T)$ & the expected extra time cost\\
+%\hline
+%$W$ & general warm strategy\\
+%\hline
+%$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
+%\hline
+%$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
+%\hline
+%$E(T)$ & the expected extra time cost\\
 %\hline
 %$$ & \\
 %\hline
