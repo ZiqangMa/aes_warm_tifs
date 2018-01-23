@@ -26,7 +26,7 @@ The attackers are able to
   invoke the encryption function arbitrarily -- they could continuously invoke the function so that
         all lookup tables are cached, or stop using the function for a long time so that
            all tables are highly likely to be evicted from caches. They are also able to  measure the overall execution time for each execution of the block cipher. We assume unprivileged attackers, who cannot run privileged processes on the target system
-   to concurrently modify or probe the cache state of the system. Other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
+   to concurrently modify or probe the cache state of the system.
 The attackers do not have physical access to the hardware. This threat model represents most of the typical attack scenarios of cache-timing side-channel attacks.
 
 \subsection{Design Goals}
@@ -40,14 +40,21 @@ This work aims to provide an in-depth investigation of the \emph{performance} of
      to protect the block ciphers running in user mode and kernel mode, respectively.
 \end{itemize}
 
-Moreover, the objectives of our research are elaborated as follows:
+Moreover, the objective of our research, is elaborated as follows:
 
 \begin{itemize}
-  \item We attempt to develop the first mathematical model to formally analyze the performance of block cipher implementations that integrate {\scshape{Warm}} and {\scshape{Delay}} to defend against the cache timing side-channel attacks. 
-  \item Follow the mathematical model, we examine the strategies of invoking {\scshape{Warm}} and {\scshape{Delay}}, and present the theoretical boundaries for the optimal performance while ensuring security.
-%So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
-  \item In our model, the parameters are configurable. Therefore, by configuring appropriate parameters, optimal performance is achievable for different block-cipher implementations and computing platforms.
+  \item
+We attempt to optimize the performance while ensure the security.
+So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
+  \item
+   The parameters are configurable to optimize the performance.
+Then, it produces the optimal performance by configuring appropriate parameters
+    for different block-cipher implementations and computing platforms.
+
 \end{itemize}
+
+
+other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
 
 %while eliminating the remote cache timing side channel attacks on the symmetric encryption algorithm implementations based on the lookup tables.
 %The implementations using directly instruction mapping or Intel AES-NI, which are immune to the remote cache timing side channel attacks, are not considered here.
