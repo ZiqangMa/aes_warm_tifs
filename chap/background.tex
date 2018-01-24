@@ -172,8 +172,31 @@ When any two inputs of $T_i$ require accessing the lookup table entries in a sam
 This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to extract the full secret key without extra information.
 Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanalysis}.
 
-\subsubsection{Cache  Side Channel}
-Dca 
+\subsubsection{Active Cache Side Channel}
+In the local environment if the caches are shared between attackers and victims, the attackers can actively control the cache states and monitor the cache access patterns.
+Thereby the keys can be derived from the access patterns. This is called access-driven cache attacks.
+Attackers and victims can share either the L1 Cache or LLC (last level cache).
+Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
+
+These attacks can be divided into two categories: synchronous and asynchronous attacks~\cite{Osvik2006Cache}.
+In synchronous attacks, attackers can use Evict+time and Prime+Probe methods to measure the cache access patterns.
+  Using Evict+time, attackers first trigger the encryption, then evict the cache by accessing some different memory addresses and finally trigger the encryption again and time it.
+   The attackers repeat this steps can infer the key information from the observations.
+In Prime+Probe, attackers fill the cache with a known array before trigger the encryption.
+ Then they access the array again and find the cache access pattern from the different access time.
+These synchronous attacks monitor the cache once per encryption.
+While in asynchronous attacks, attackers run the spy process along with the encryption.
+ Also the Prime+Probe method can be used to monitor the cache states.
+  Attackers fill the cache with a known array and repeatedly record the time of accessing the identical array while the victim is running,
+Another method is Flush+Reload which needs the system supports the shared memory.
+ Flush+Reload method monitors other processes reading and executing access to shared memory pages.
+ Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
+monitored memory locations. From this information attackers can infer the victim's confidential data.
+The asynchronous attacks have higher precision which can monitor several times per encryption.
+
+There have been proposed some other attack methods like Flush+Flush~\cite{gruss2016flush+flush}, Prime+abort~\cite{disselkoen2017prime+abort}. All these attacks utilize the different methods to observe the cache access pattern and then attempt to retrieve the confidential data of the victims.
+
+
 %A cache miss occurs when the inputs of each lookup table are different.
 %In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
 %After collecting $2^{18}$  plaintexts with long encryption time, the 96-bit key differences are obtained, which are the values counted most often.
