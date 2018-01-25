@@ -203,10 +203,21 @@ The attackers with such abilities are not considered in our scheme,
   and will be considered in our future work.
 
 
-In principle, delay is not effective for trace-driven and access-driven attacks,
-because these attackers can observe the inner cache access pattern of the encryption/decryption execution.
-On the other hand,
-  warm is to some degree effective for these attacks,
-  provided that the cached lookup tables are not evicted by system activities or the local spy process.
+%In principle, delay is not effective for trace-driven and access-driven attacks,
+%because these attackers can observe the inner cache access pattern of the encryption/decryption execution.
+%On the other hand,
+%  warm is to some degree effective for these attacks,
+%  provided that the cached lookup tables are not evicted by system activities or the local spy process.
+
+For trace-driven attacks, attackers can observe the inner cache access pattern of the encryption/decryption execution, so {\scshape{Delay}} is not effective.
+While {\scshape{Warm}} is effective but not always executed.
+ Therefore, the {\scshape{Warm+Delay}} scheme can not eliminate but just mitigate the trace-driven attacks.
+For access-driven attacks, the asynchronous attacks can not be defended
+ because the attackers can change the cache states and observe the inner cache access pattern which the {\scshape{Warm+Delay}} scheme is helpless.
+However, the synchronous attacks can be prevented by the {\scshape{Warm+Delay}} scheme. 
+These attacks monitor the cache once per encryption, so the attackers can not observe the inner cache states.
+ With the {\scshape{Warm+Delay}} scheme the cache access pattern is masked to the attackers. So the {\scshape{Warm+Delay}} scheme is effective for the synchronous attacks.
+
+
 
 
