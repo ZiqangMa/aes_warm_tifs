@@ -51,22 +51,22 @@ Therefore $E(T^{\mathcal{L}}) - E(T^{\mathcal{C}})\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
-The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\mathcal{M}})$ and $E(T^{\mathcal{C}})$, respectively.
+The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
 In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
 so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
  However in more {\vwarm} strategy,
-the extra time introduced by {\vwarm} is the minimum value of $T_{warm}$ ($T_{warm_{min}}$) in the state $S_{c}$, as all lookup entries are in the caches.
-  Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{warm}$.
+the extra time introduced by {\vwarm} is the minimum value of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in the caches.
+  Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{w}$.
 Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
 \begin{align}
-\label{equ:tpc2}
-&E(T^{\mathcal{M}})-E(T^{\mathcal{C}})=\Pi_{\bar{c}, a}^{\mathcal{M}} * T_{delay} + \Pi_{c}^{\mathcal{M}}*P_{warm}*T_{warm_{min}} \nonumber \\
- &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\mathcal{M}}*P_{warm}*T_{warm} - \Pi_{\bar{c}, a}^{\mathcal{C}} * T_{delay}
+%label{equ:tpc22}
+&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}*T_{w}^{min} \nonumber \\
+ &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
 \end{align}
 
 Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
-Let $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$,
+Let $E(T^{\oplus})-E(T) \geq 0$,
 by a serials of calculation(See Appendix~\ref{appendixa} for more details),
   we get the condition that
 \begin{itemize}
