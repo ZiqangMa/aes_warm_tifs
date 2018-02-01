@@ -39,10 +39,10 @@ where
 In the Markov state transition diagram,
 \begin{equation*}
 \begin{split}
-&P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}=P_{evict}^{\mathfrak{3}\mathcal{L}}P_{a}^{\mathfrak{31}\mathcal{L}}+(1-P_{evict}^{\mathfrak{3}\mathcal{L}})P_{a}^{\mathfrak{32}\mathcal{L}} .
+&P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}} .
 \end{split}\end{equation*}
-It can be seen from analysis that $P_{a}^{\mathfrak{31}\mathcal{L}} > P_{a|S_{c}}$ and $P_{a}^{\mathfrak{32}\mathcal{L}} > P_{a|S_{c}}$.
-So we can get $P_{a}^{\mathfrak{3}\mathcal{L}} > P_{a|S_{c}}$.
+It can be seen from analysis that $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.
+So we can get $P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus} > P_{a|S_{c}}$.
 In this way,
 the function $y(P_{w}^{\ominus})$ is a monotony decrease function. When $P_{w}^{\ominus} = 1$, it gets the minimum value.
 At this point, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and $y(P_{w}^{\ominus}) = 0$.
@@ -113,112 +113,110 @@ Therefore, the difference between the expected extra time introduced by more {\v
 We estimate if it is larger than $0$.
 First, we find that $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
 Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
-
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
-
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:ypwarm2}
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{warm}^{\mathcal{M}}) = &B_{M}C_{M}P_{warm}^{\mathcal{M}}+A_{M}C_{M}+gD_{M} \,
+y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
 \end{split}\end{equation}
 \begin{equation}
 \label{equ:detail2}
 \begin{split}
-E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) = &\frac{y(P_{warm}^{\mathcal{M}})P_{warm}^{\mathcal{M}}T_{warm}}{E_{M}*F_{M}}
+E(T^{\oplus}) - E(T) = &\frac{y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M}*F_{M}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where
 \begin{equation*}
 \begin{split}
-&A_{M}= Mg(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})\\
-&B_{M}=Mg(1-P_{e|S_{c}})(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
+&A_{M}= MG(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})\\
+&B_{M}=MG(1-P_{e|S_{c}})(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
 &C_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}-P_{a|S_{c}}P_{e|S_{c}}\\
 &D_{M}=P_{e|S_{c}}(P_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{a|S_{c}}P_{e|S_{c}}-(P_{a|S_{c}})^2P_{e|S_{c}}-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
-&E_{M}=P_{e|S_{c}}+P_{warm}^{\mathcal{M}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{warm}^{\mathcal{M}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \\& \ \ \ \ \ \ \ \ -P_{e|S_{c}}(P_{warm}^{\mathcal{M}}+P_{a|S_{c}}-P_{warm}^{\mathcal{M}}P_{a}^{\mathfrak{1}})\\
+&E_{M}=P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{w}^{\oplus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \\& \ \ \ \ \ \ \ \ -P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{w}^{\oplus}P_{a|S_{c}})\\
 &F_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
 
-Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$, $y(P_{warm}^{\mathcal{M}})$ should be equal or greater than zero.
-Therefore we can get $ B_{M}C_{M}P_{warm}^{\mathcal{M}}+A_{M}C_{M}+gD_{M} \geq 0$.
-If this inequality holds for all $P_{warm}^{\mathcal{M}} \in [0,1]$, it should be satisfied that
+Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\oplus}) - E(T) \geq 0$, $y(P_{w}^{\oplus})$ should be equal or greater than zero.
+Therefore we can get $ B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \geq 0$.
+If this inequality holds for all $P_{w}^{\oplus} \in [0,1]$, it should be satisfied that
 \begin{equation}\label{equ:omega}
-  (C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M})g+C_{M}P_{e|S_{c}}(1-P_{a|S_{c}}) \geq 0 \ .
+  (C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M})G+C_{M}P_{e|S_{c}}(1-P_{a|S_{c}}) \geq 0 \ .
 \end{equation}
-We denote $C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M}$ as $\Omega$.
+We denote $C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M}$ as $D_{F}$.
 Therefore,
 \begin{equation}
 %\label{equ:detail2}
 \begin{split}
-\Omega &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2  \\
+D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2  \\
 &+(P_{e|S_{c}})^2P_{a|S_{c}}+(1-M(1-P_{e|S_{c}}))P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{a|S_{c}}\\
 &+M(1-P_{e|S_{c}})(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
 \end{split}\end{equation}
 
-Regard $\Omega$ as the function of $P_{a|S_{c}}$,
+Regard $D_{F}$ as the function of $P_{a|S_{c}}$,
 and we can find that it is an quadratic function.
 
 When $P_{a|S_{c}} = 1$,
-$$\Omega(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
+$$D_{F}(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
 
-Let $\Omega(P_{a|S_{c}}) = 0$,
- and denote the smaller root of the equation as $P_{a\_lroot}^{\mathfrak{1}}$.
-  so when $P_{a|S_{c}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
-   When $P_{a|S_{c}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
+Let $D_{F}(P_{a|S_{c}}) = 0$,
+ and denote the smaller root of the equation as $P_{a|S_{c},lroot}$.
+  so when $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
+   When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
  Thus,
 \begin{enumerate}
   \item
-  When $P_{a|S_{c}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
-  In this case, inequality \ref{equ:omega} holds. That is $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$.
+  When $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
+  In this case, inequality \ref{equ:omega} holds. That is $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When $P_{a|S_{c}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
+  When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
    In this case, to make the inequality \ref{equ:omega} holds,
    \begin{equation}\label{equ:ge}
-     g \leq \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{\Omega}
+     G \leq \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}
    \end{equation}
     for all $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
 \end{enumerate}
 
 For the second case, denote
-    $$G_e = \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{\Omega}$$
+    $$F_G = \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}$$
 
 
 \begin{enumerate}
 \item
-    First, we regard $G_e$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$, and get:
+    First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$, and get:
     \begin{equation*}
     \begin{aligned}
-    &\frac{d(G_e)}{d(P_{a|S_{c}})} = (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
+    &\frac{d(F_G)}{d(P_{a|S_{c}})} = (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
     &\ \ \ +M(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})^{2}
     \end{aligned}
     \end{equation*}
 
-Therefore,$\frac{d(G_e)}{d(P_{a|S_{c}})} \geq 0$, so that $G_e$ is a monotony increase function of $P_{a|S_{c}}$.
-When $P_{a|S_{c}}$ fetches the minimum value, $G_e$ gets its minimum value.
+Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotony increase function of $P_{a|S_{c}}$.
+When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum value.
 
 \item
-Second, we regard $G_e$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
+Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
 \begin{equation*}
 \begin{split}
-\frac{d(G_e)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = &\{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))^2\\
+\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = &\{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))^2\\
 &-(P_{e|S_{c}})^2(1-P_{a|S_{c}})^2 \}P_{e|S_{c}}
 \end{split}
 \end{equation*}
 
-Denote $P_{a\_rroot}^{\mathfrak{2}}$ as the greater root of equation $\frac{d(G_e)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$.
+Denote $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}$ as the greater root of equation $\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$.
 \begin{equation*}
-  P_{a\_rroot}^{\mathfrak{2}} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}})
+  P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{equation*}
 So, when $
-0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq P_{a\_rroot}^{\mathfrak{2}}
+0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}
 $,
-$$\frac{d(G_e)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0 \ .$$
+$$\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0 \ .$$
 
-Therefore, when $P_{a\_rroot}^{\mathfrak{2}} \geq 1$, $G_e$ is a monotony decrease function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
-When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\mathfrak{2}}]$ and increases at $(P_{a\_rroot}^{\mathfrak{2}},1]$.
+Therefore, when $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} \geq 1$, $F_G$ is a monotony decrease function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}]$ and increases at $(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot},1]$.
 
 %$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
 %$P_{a2r} > 0$.
@@ -247,18 +245,18 @@ When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\ma
 % And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
 \item
- Third, we regard $G_e$ as the function of $P_{e|S_{c}}$ and calculate the derivative on $P_{e|S_{c}}$, and get:
+ Third, we regard $F_G$ as the function of $P_{e|S_{c}}$ and calculate the derivative on $P_{e|S_{c}}$, and get:
 \begin{equation*}
 \begin{split}
-\frac{d(G_e)}{d(P_{e|S_{c}})} &= P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})(P_{e|S_{c}})^2\\
+\frac{d(F_G)}{d(P_{e|S_{c}})} &= P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})(P_{e|S_{c}})^2\\
 &-2MP_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{e|S_{c}}-M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^3
 \end{split}
 \end{equation*}
-When $P_{e|S_{c}} = 0$, $\frac{d(G_e)}{d(P_{e|S_{c}})} = -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \leq 0 $.
-Let $\frac{d(G_e)}{d(P_{e|S_{c}})} = 0$, we can get the right root of this equation:
+When $P_{e|S_{c}} = 0$, $\frac{d(F_G)}{d(P_{e|S_{c}})} = -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \leq 0 $.
+Let $\frac{d(F_G)}{d(P_{e|S_{c}})} = 0$, we can get the right root of this equation:
 \begin{equation}
 \begin{split}
-P_{evict\_rroot} &= \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})}
+P_{e|S_{c},rroot} &= \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})}
 \end{split}
 \end{equation}
 where
@@ -268,12 +266,12 @@ where
 \end{align}
 So when
 $
-0 \leq P_{e|S_{c}} \leq P_{evict\_rroot}
+0 \leq P_{e|S_{c}} \leq P_{e|S_{c},rroot}
 $,
-$$\frac{d(G_e)}{d(P_{e|S_{c}})} \leq 0\ .$$
+$$\frac{d(F_G)}{d(P_{e|S_{c}})} \leq 0\ .$$
 
-Therefore, when $P_{evict\_rroot} \geq 1$, $G_e$ is a monotony decrease function of $P_{e|S_{c}}$.
-When $P_{evict\_rroot} < 1$, $G_e$ decreases at $[0,P_{evict\_rroot}]$ and increases at $(P_{evict\_rroot},1]$.
+Therefore, when $P_{e|S_{c},rroot} \geq 1$, $F_G$ is a monotony decrease function of $P_{e|S_{c}}$.
+When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and increases at $(P_{e|S_{c},rroot},1]$.
 
 %If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
 %Otherwise, $\frac{d(Gexpression)}{d(P_{evict})}$ is a simple cubic equation on $P_{evict}$.
@@ -311,7 +309,7 @@ When $P_{evict\_rroot} < 1$, $G_e$ decreases at $[0,P_{evict\_rroot}]$ and incre
 %Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
 
-Therefore, the minimum value of $G_e$ gets when
+Therefore, the minimum value of $F_G$ gets when
 \begin{equation}
 \left\{
 \begin{split}
@@ -326,13 +324,13 @@ Therefore, the minimum value of $G_e$ gets when
 From the above, we can make the following conclusions:
 \begin{enumerate}
   \item
-  When $\Omega \geq 0$, $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$.
+  When $D_F \geq 0$, $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When $\Omega < 0$, $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$ if $g$ is smaller than the minimum value of $G_e$.
+  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimum value of $F_G$.
 \end{enumerate}
 
 That is:
-$\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
+$\forall D_F$, when  $D_F < 0$, $G$ is smaller than the minimum value of $F_G$.
 At this point conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 
 
