@@ -4,11 +4,11 @@
 \label{appendixa}
 In this section, we describe the proof details of Theorem~\ref{lemma:warmnum1} and Theorem~\ref{lemma:warmnum2}.
 
-For the following calculation, $0 \leq P_{a}^{\mathfrak{1}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}\mathcal{L}} \leq 1$, $0 \leq P_{a}^{\mathfrak{2}\mathcal{M}} \leq 1$, $0 \leq P_{warm}^{\mathcal{L}} \leq 1$, $0 \leq P_{warm}^{\mathcal{M}} \leq 1$
- and $0 \leq P_{evict} \leq 1$.
+For the following calculation, $0 \leq P_{a|S_{c}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} \leq 1$, $0 \leq P_{w}^{\ominus} \leq 1$, $0 \leq P_{w}^{\oplus} \leq 1$
+ and $0 \leq P_{e|S_{c}} \leq 1$.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum1}}
-To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{\mathcal{L}})$ with $E(T^{\mathcal{C}})$.
+To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{\ominus})$ with $E(T)$.
 So we get the Formula~\ref{equ:tpc1}, and estimate if it is larger than $0$.
 By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:ypwarm1} and \ref{equ:detail1}.
 
@@ -18,36 +18,36 @@ By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:y
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{warm}^{\mathcal{L}}) =& -P_{a}^{\mathfrak{2}}(P_{a}^{\mathfrak{2}\mathcal{L}}-P_{evict}(P_{a}^{\mathfrak{2}\mathcal{L}}+P_{a}^{\mathfrak{1}}-P_{a}^{\mathfrak{3}\mathcal{L}}))*P_{warm}^{\mathcal{L}} \\
-& +  P_{evict}P_{a}^{\mathfrak{2}\mathcal{L}}(1-P_{a}^{\mathfrak{1}})+P_{a}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{2}}\\
-& - P_{evict}P_{a}^{\mathfrak{2}}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\mathcal{L}}) \,
+y(P_{w}^{\ominus}) =& -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}}))*P_{w}^{\ominus} \\
+& +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
+& - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{a}^{\mathfrak{3}\mathcal{L}}) \,
 \end{split}\end{equation}
 
 \begin{equation}
 \label{equ:detail1}
 \begin{split}
-E(T^{\mathcal{L}}) - E(T^{\mathcal{C}}) = &\frac{y(P_{warm}^{\mathcal{L}})P_{evict}T_{delay}}{A_{L}*B_{L}}
+E(T^{\ominus}) - E(T) = &\frac{y(P_{w}^{\ominus})P_{e|S_{c}}T_{d}}{A_{L}*B_{L}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where
 \begin{equation*}
 \begin{split}
-&A_{L}=P_{evict}(1+P_{a}^{\mathfrak{2}\mathcal{L}}-P_{a}^{\mathfrak{3}\mathcal{L}})+(1-P_{evict})P_{a}^{\mathfrak{2}\mathcal{L}}P_{warm}^{\mathcal{L}}  \\
-&\ \ \ \ \ \ \ +(P_{a}^{\mathfrak{3}\mathcal{L}}-P_{a}^{\mathfrak{1}})P_{evict}P_{warm}^{\mathcal{L}} \\
-&B_{L}=P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}})
+&A_{L}=P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})+(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}  \\
+&\ \ \ \ \ \ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} \\
+&B_{L}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
 In the Markov state transition diagram,
 \begin{equation*}
 \begin{split}
-&P_{a}^{\mathfrak{3}\mathcal{L}}=P_{evict}^{\mathfrak{3}\mathcal{L}}P_{a}^{\mathfrak{31}\mathcal{L}}+(1-P_{evict}^{\mathfrak{3}\mathcal{L}})P_{a}^{\mathfrak{32}\mathcal{L}} .
+&P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}=P_{evict}^{\mathfrak{3}\mathcal{L}}P_{a}^{\mathfrak{31}\mathcal{L}}+(1-P_{evict}^{\mathfrak{3}\mathcal{L}})P_{a}^{\mathfrak{32}\mathcal{L}} .
 \end{split}\end{equation*}
-It can be seen from analysis that $P_{a}^{\mathfrak{31}\mathcal{L}} > P_{a}^{\mathfrak{1}}$ and $P_{a}^{\mathfrak{32}\mathcal{L}} > P_{a}^{\mathfrak{1}}$.
-So we can get $P_{a}^{\mathfrak{3}\mathcal{L}} > P_{a}^{\mathfrak{1}}$.
+It can be seen from analysis that $P_{a}^{\mathfrak{31}\mathcal{L}} > P_{a|S_{c}}$ and $P_{a}^{\mathfrak{32}\mathcal{L}} > P_{a|S_{c}}$.
+So we can get $P_{a}^{\mathfrak{3}\mathcal{L}} > P_{a|S_{c}}$.
 In this way,
-the function $y(P_{warm}^{\mathcal{L}})$ is a monotony decrease function. When $P_{warm}^{\mathcal{L}} = 1$, it gets the minimum value.
-At this point, $P_{a}^{\mathfrak{2}\mathcal{L}} = P_{a}^{\mathfrak{2}}$ and $y(P_{warm}^{\mathcal{L}}) = 0$.
+the function $y(P_{w}^{\ominus})$ is a monotony decrease function. When $P_{w}^{\ominus} = 1$, it gets the minimum value.
+At this point, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and $y(P_{w}^{\ominus}) = 0$.
 Also $A_{L}$ and $B_{L}$ are greater than zero.
-Therefore $E(T^{\mathcal{L}}) - E(T^{\mathcal{C}})\geq 0$.
+Therefore $E(T^{\ominus}) - E(T)\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
@@ -58,61 +58,60 @@ so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation
 the extra time introduced by {\vwarm} is the minimum value of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in the caches.
   Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{w}$.
 Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
-%\begin{footnotesize}
 \begin{align}
 %label{equ:tpc22}
 &E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}*T_{w}^{min} \nonumber \\
  &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
 \end{align}
 
-Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
-Let $E(T^{\oplus})-E(T) \geq 0$,
-by a serials of calculation(See Appendix~\ref{appendixa} for more details),
-  we get the condition that
-\begin{itemize}
-  \item
-    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
-\end{itemize}
-
-While $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
-The minimum value of $G_e$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
-\begin{equation}
-\label{equ:g}
-\left\{
-\begin{split}
-&P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
-&P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
-& if\  P_{evict} >1, P_{evict} = 1 \\
-& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
-\end{split}
-\right.
-\end{equation}
-where
-\begin{align}
-\Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
-&+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
-\end{align}
-
-As an example,
-\figurename~\ref{fig:Gexpression} shows the value of $G_e$ when $P_{a}^{\mathfrak{1}} = 0.85$.
-\begin{figure}
-  \centering
-  \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
-  \caption{the value of $G_e$ when $P_{a1} = 0.85$.}\label{fig:Gexpression}
-\end{figure}
-
+%Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\oplus}$.
+%Let $E(T^{\oplus})-E(T) \geq 0$.
+%by a serials of calculation(See Appendix~\ref{appendixa} for more details),
+%  we get the condition that
+%\begin{itemize}
+%  \item
+%    $\forall \Omega$, when  $\Omega < 0$, $g$ is smaller than the minimum value of $G_e$.
+%\end{itemize}
 %
+%While $G_e$ is a monotonous increasing function of $P_{a}^{\mathfrak{1}}$. But for $P_{a}^{\mathfrak{2}}$ and $P_{evict}$, it is not a monotonous function.
+%The minimum value of $G_e$ achieves when $P_{a}^{\mathfrak{1}}$ achieves its minimum value, and $P_{a}^{\mathfrak{2}}$ and $P_{evict}$ satisfy the following equations.
+%\begin{equation}
+%\label{equ:g}
+%\left\{
+%\begin{split}
+%&P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
+%&P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
+%& if\  P_{evict} >1, P_{evict} = 1 \\
+%& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
+%\end{split}
+%\right.
+%\end{equation}
+%where
 %\begin{align}
-%Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
+%\Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
+%&+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}}) \nonumber
 %\end{align}
+%
+%As an example,
+%\figurename~\ref{fig:Gexpression} shows the value of $G_e$ when $P_{a}^{\mathfrak{1}} = 0.85$.
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=2.5in]{pic/Gexpression.pdf}\\
+%  \caption{the value of $G_e$ when $P_{a1} = 0.85$.}\label{fig:Gexpression}
+%\end{figure}
+%
+%%
+%%\begin{align}
+%%Gexpression_{min} = \frac{(1-P_{a1})(3-P_{a1})}{(2-P_{a1})(1-M-P_{a1})-M}
+%%\end{align}
+%
+%   So in this condition, the formula $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$ holds.
+%Therefore when this condition is satisfied, conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 
-   So in this condition, the formula $E(T^{\mathcal{M}})-E(T^{\mathcal{C}}) \geq 0$ holds.
-Therefore when this condition is satisfied, conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
-
-To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
-So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
-
-First, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\mathcal{M}}$.
+%To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
+%So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
+We estimate if it is larger than $0$.
+First, we find that $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
 Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
@@ -126,7 +125,6 @@ Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{
 %\scriptsize
 y(P_{warm}^{\mathcal{M}}) = &B_{M}C_{M}P_{warm}^{\mathcal{M}}+A_{M}C_{M}+gD_{M} \,
 \end{split}\end{equation}
-
 \begin{equation}
 \label{equ:detail2}
 \begin{split}
@@ -136,90 +134,90 @@ E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) = &\frac{y(P_{warm}^{\mathcal{M}})P_{war
 where
 \begin{equation*}
 \begin{split}
-&A_{M}= Mg(1-P_{evict})P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}})\\
-&B_{M}=Mg(1-P_{evict})(1-P_{a}^{\mathfrak{2}})\\
-&C_{M}=P_{a}^{\mathfrak{2}}+P_{evict}-P_{a}^{\mathfrak{1}}P_{evict}\\
-&D_{M}=P_{evict}(P_{a}^{\mathfrak{1}}P_{a}^{\mathfrak{2}}+P_{a}^{\mathfrak{1}}P_{evict}-(P_{a}^{\mathfrak{1}})^2P_{evict}-P_{a}^{\mathfrak{2}})\\
-&E_{M}=P_{evict}+P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{2}}-P_{warm}^{\mathcal{M}}P_{a}^{\mathfrak{2}} \\& \ \ \ \ \ \ \ \ -P_{evict}(P_{warm}^{\mathcal{M}}+P_{a}^{\mathfrak{1}}-P_{warm}^{\mathcal{M}}P_{a}^{\mathfrak{1}})\\
-&F_{M}=P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}})
+&A_{M}= Mg(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})\\
+&B_{M}=Mg(1-P_{e|S_{c}})(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
+&C_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}-P_{a|S_{c}}P_{e|S_{c}}\\
+&D_{M}=P_{e|S_{c}}(P_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{a|S_{c}}P_{e|S_{c}}-(P_{a|S_{c}})^2P_{e|S_{c}}-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
+&E_{M}=P_{e|S_{c}}+P_{warm}^{\mathcal{M}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{warm}^{\mathcal{M}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \\& \ \ \ \ \ \ \ \ -P_{e|S_{c}}(P_{warm}^{\mathcal{M}}+P_{a|S_{c}}-P_{warm}^{\mathcal{M}}P_{a}^{\mathfrak{1}})\\
+&F_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
 
 Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$, $y(P_{warm}^{\mathcal{M}})$ should be equal or greater than zero.
 Therefore we can get $ B_{M}C_{M}P_{warm}^{\mathcal{M}}+A_{M}C_{M}+gD_{M} \geq 0$.
 If this inequality holds for all $P_{warm}^{\mathcal{M}} \in [0,1]$, it should be satisfied that
 \begin{equation}\label{equ:omega}
-  (C_{M}(1-P_{evict})P_{a}^{\mathfrak{2}}+D_{M})g+C_{M}P_{evict}(1-P_{a}^{\mathfrak{1}}) \geq 0 \ .
+  (C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M})g+C_{M}P_{e|S_{c}}(1-P_{a|S_{c}}) \geq 0 \ .
 \end{equation}
-We denote $C_{M}(1-P_{evict})P_{a}^{\mathfrak{2}}+D_{M}$ as $\Omega$.
+We denote $C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M}$ as $\Omega$.
 Therefore,
 \begin{equation}
 %\label{equ:detail2}
 \begin{split}
-\Omega &=-(P_{evict})^2(P_{a}^{\mathfrak{1}})^2  \\
-&+(P_{evict})^2P_{a}^{\mathfrak{1}}+(1-M(1-P_{evict}))P_{evict}P_{a}^{\mathfrak{2}}P_{a}^{\mathfrak{1}}\\
-&+M(1-P_{evict})(P_{evict}+P_{a}^{\mathfrak{2}})P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{2}}
+\Omega &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2  \\
+&+(P_{e|S_{c}})^2P_{a|S_{c}}+(1-M(1-P_{e|S_{c}}))P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{a|S_{c}}\\
+&+M(1-P_{e|S_{c}})(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
 \end{split}\end{equation}
 
-Regard $\Omega$ as the function of $P_{a}^{\mathfrak{1}}$,
+Regard $\Omega$ as the function of $P_{a|S_{c}}$,
 and we can find that it is an quadratic function.
 
-When $P_{a}^{\mathfrak{1}} = 1$,
-$$\Omega(P_{a}^{\mathfrak{1}})=M(1-P_{evict})(P_{a}^{\mathfrak{2}})^2 \geq 0 .$$
+When $P_{a|S_{c}} = 1$,
+$$\Omega(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
 
-Let $\Omega(P_{a}^{\mathfrak{1}}) = 0$,
+Let $\Omega(P_{a|S_{c}}) = 0$,
  and denote the smaller root of the equation as $P_{a\_lroot}^{\mathfrak{1}}$.
-  so when $P_{a}^{\mathfrak{1}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
-   When $P_{a}^{\mathfrak{1}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
+  so when $P_{a|S_{c}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
+   When $P_{a|S_{c}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
  Thus,
 \begin{enumerate}
   \item
-  When $P_{a}^{\mathfrak{1}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
+  When $P_{a|S_{c}} \geq P_{a\_lroot}^{\mathfrak{1}}$, $\Omega \geq 0$.
   In this case, inequality \ref{equ:omega} holds. That is $E(T^{\mathcal{M}}) - E(T^{\mathcal{C}}) \geq 0$.
   \item
-  When $P_{a}^{\mathfrak{1}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
+  When $P_{a|S_{c}} < P_{a\_lroot}^{\mathfrak{1}}$, $\Omega < 0$.
    In this case, to make the inequality \ref{equ:omega} holds,
    \begin{equation}\label{equ:ge}
-     g \leq \frac{C_{M}P_{evict}(P_{a}^{\mathfrak{1}}-1)}{\Omega}
+     g \leq \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{\Omega}
    \end{equation}
-    for all $P_{evict} \in [0,1]$ and $P_{a}^{\mathfrak{2}} \in [0,1]$.
+    for all $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
 \end{enumerate}
 
 For the second case, denote
-    $$G_e = \frac{C_{M}P_{evict}(P_{a}^{\mathfrak{1}}-1)}{\Omega}$$
+    $$G_e = \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{\Omega}$$
 
 
 \begin{enumerate}
 \item
-    First, we regard $G_e$ as the function of $P_{a}^{\mathfrak{1}}$ and calculate the derivative on $P_{a}^{\mathfrak{1}}$, and get:
+    First, we regard $G_e$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$, and get:
     \begin{equation*}
     \begin{aligned}
-    &\frac{d(G_e)}{d(P_{a}^{\mathfrak{1}})} = (P_{evict})^{3}(1-P_{a}^{\mathfrak{1}})^2\\
-    &\ \ \ +M(1-P_{evict})P_{a}^{\mathfrak{2}}(P_{evict}+P_{a}^{\mathfrak{2}}-P_{evict}P_{a}^{\mathfrak{1}})^{2}
+    &\frac{d(G_e)}{d(P_{a|S_{c}})} = (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
+    &\ \ \ +M(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})^{2}
     \end{aligned}
     \end{equation*}
 
-Therefore,$\frac{d(G_e)}{d(P_{a}^{\mathfrak{1}})} \geq 0$, so that $G_e$ is a monotony increase function of $P_{a}^{\mathfrak{1}}$.
-When $P_{a}^{\mathfrak{1}}$ fetches the minimum value, $G_e$ gets its minimum value.
+Therefore,$\frac{d(G_e)}{d(P_{a|S_{c}})} \geq 0$, so that $G_e$ is a monotony increase function of $P_{a|S_{c}}$.
+When $P_{a|S_{c}}$ fetches the minimum value, $G_e$ gets its minimum value.
 
 \item
-Second, we regard $G_e$ as the function of $P_{a}^{\mathfrak{2}}$ and calculate the derivative on $P_{a}^{\mathfrak{2}}$, and get:
+Second, we regard $G_e$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
 \begin{equation*}
 \begin{split}
-\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} = &\{M(1-P_{evict})(1-P_{a}^{\mathfrak{1}})(P_{a}^{\mathfrak{2}}+P_{evict}(1-P_{a}^{\mathfrak{1}}))^2\\
-&-(P_{evict})^2(1-P_{a}^{\mathfrak{1}})^2 \}P_{evict}
+\frac{d(G_e)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = &\{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))^2\\
+&-(P_{e|S_{c}})^2(1-P_{a|S_{c}})^2 \}P_{e|S_{c}}
 \end{split}
 \end{equation*}
 
-Denote $P_{a\_rroot}^{\mathfrak{2}}$ as the greater root of equation $\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})}=0$.
+Denote $P_{a\_rroot}^{\mathfrak{2}}$ as the greater root of equation $\frac{d(G_e)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$.
 \begin{equation*}
-  P_{a\_rroot}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}})
+  P_{a\_rroot}^{\mathfrak{2}} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{equation*}
 So, when $
-0 \leq P_{a}^{\mathfrak{2}} \leq P_{a\_rroot}^{\mathfrak{2}}
+0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq P_{a\_rroot}^{\mathfrak{2}}
 $,
-$$\frac{d(G_e)}{d(P_{a}^{\mathfrak{2}})} \leq 0 \ .$$
+$$\frac{d(G_e)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0 \ .$$
 
-Therefore, when $P_{a\_rroot}^{\mathfrak{2}} \geq 1$, $G_e$ is a monotony decrease function of $P_{a}^{\mathfrak{1}}$.
+Therefore, when $P_{a\_rroot}^{\mathfrak{2}} \geq 1$, $G_e$ is a monotony decrease function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
 When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\mathfrak{2}}]$ and increases at $(P_{a\_rroot}^{\mathfrak{2}},1]$.
 
 %$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
@@ -249,32 +247,32 @@ When $P_{a\_rroot}^{\mathfrak{2}} < 1$, $G_e$ decreases at $[0,P_{a\_rroot}^{\ma
 % And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
 \item
- Third, we regard $G_e$ as the function of $P_{evict}$ and calculate the derivative on $P_{evict}$, and get:
+ Third, we regard $G_e$ as the function of $P_{e|S_{c}}$ and calculate the derivative on $P_{e|S_{c}}$, and get:
 \begin{equation*}
 \begin{split}
-\frac{d(G_e)}{d(P_{evict})} &= P_{a}^{\mathfrak{2}}(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})(P_{evict})^2\\
-&-2MP_{a}^{\mathfrak{1}}P_{a}^{\mathfrak{2}}(1-P_{a}^{\mathfrak{2}})P_{evict}-M(P_{a}^{\mathfrak{2}})^3
+\frac{d(G_e)}{d(P_{e|S_{c}})} &= P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})(P_{e|S_{c}})^2\\
+&-2MP_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{e|S_{c}}-M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^3
 \end{split}
 \end{equation*}
-When $P_{evict} = 0$, $\frac{d(G_e)}{d(P_{evict})} = -M(P_{a}^{\mathfrak{2}})^2 \leq 0 $.
-Let $\frac{d(G_e)}{d(P_{evict})} = 0$, we can get the right root of this equation:
+When $P_{e|S_{c}} = 0$, $\frac{d(G_e)}{d(P_{e|S_{c}})} = -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \leq 0 $.
+Let $\frac{d(G_e)}{d(P_{e|S_{c}})} = 0$, we can get the right root of this equation:
 \begin{equation}
 \begin{split}
-P_{evict\_rroot} &= \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})}
+P_{evict\_rroot} &= \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})}
 \end{split}
 \end{equation}
 where
 \begin{align}
-\Delta = &M^{2}(P_{a}^{\mathfrak{1}})^{2}(1-P_{a}^{\mathfrak{2}})^2 \nonumber \\
-&+ M(P_{a}^{\mathfrak{2}})^{2}(1-P_{a}^\mathfrak{1})(1-M+MP_{a}^{\mathfrak{1}})\  .\nonumber
+\Delta = &M^{2}(P_{a|S_{c}})^{2}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \nonumber \\
+&+ M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})\  .\nonumber
 \end{align}
 So when
 $
-0 \leq P_{evict} \leq P_{evict\_rroot}
+0 \leq P_{e|S_{c}} \leq P_{evict\_rroot}
 $,
-$$\frac{d(G_e)}{d(P_{evict})} \leq 0\ .$$
+$$\frac{d(G_e)}{d(P_{e|S_{c}})} \leq 0\ .$$
 
-Therefore, when $P_{evict\_rroot} \geq 1$, $G_e$ is a monotony decrease function of $P_{evict}$.
+Therefore, when $P_{evict\_rroot} \geq 1$, $G_e$ is a monotony decrease function of $P_{e|S_{c}}$.
 When $P_{evict\_rroot} < 1$, $G_e$ decreases at $[0,P_{evict\_rroot}]$ and increases at $(P_{evict\_rroot},1]$.
 
 %If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
@@ -317,10 +315,10 @@ Therefore, the minimum value of $G_e$ gets when
 \begin{equation}
 \left\{
 \begin{split}
-&P_{evict} = \frac{MP_{a}^{\mathfrak{1}}(1-P_{a}^{\mathfrak{2}})+\sqrt{\Delta}}{(1-P_{a}^{\mathfrak{1}})(1-M+MP_{a}^{\mathfrak{1}})} \\
-&P_{a}^{\mathfrak{2}} = P_{evict}\sqrt{\frac{1-P_{a}^{\mathfrak{1}}}{M(1-P_{evict})}}-P_{evict}(1-P_{a}^{\mathfrak{1}}) \\
-& if\  P_{evict} >1, P_{evict} = 1 \\
-& if\  P_{a}^{\mathfrak{2}} >1, P_{a}^{\mathfrak{2}} = 1
+&P_{e|S_{c}} = \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})} \\
+&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}}) \\
+& if\  P_{e|S_{c}} >1, P_{e|S_{c}} = 1 \\
+& if\  P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} >1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right.
 \end{equation}

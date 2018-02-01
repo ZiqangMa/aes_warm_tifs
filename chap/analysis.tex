@@ -384,16 +384,16 @@ Then we analyze the stationary distributions for the three different strategies.
 
 \begin{figure*}[t]
     \centering
-    \subfloat[Conditional warm]{\includegraphics[width=2.9in]{pic/conditionwarm1.pdf}
+    \subfloat[Conditional warm]{\includegraphics[width=2.9in]{pic/conditionwarm2.pdf}
     \label{fig:conditioncase}}
     \hfil
-    \subfloat[Less warm]{\includegraphics[width=3.15in]{pic/probwarmless1.pdf}
+    \subfloat[Less warm]{\includegraphics[width=3.15in]{pic/probwarmless2.pdf}
     \label{fig:lesscase}}
     \hfil
-    \subfloat[More warm]{\includegraphics[width=3.5in]{pic/probwarmmore1.pdf}
+    \subfloat[More warm]{\includegraphics[width=3.5in]{pic/probwarmmore2.pdf}
     \label{fig:morecase}}
     \hfil
-    \subfloat[Complementary warm]{\includegraphics[width=3.5in]{pic/probwarmco1.pdf}
+    \subfloat[Complementary warm]{\includegraphics[width=3.5in]{pic/probwarmco2.pdf}
     \label{fig:cocase}}
     \caption{The Markov state transition probability diagram.}
     \label{pic:statetrans}
@@ -549,8 +549,8 @@ Conditional {\vwarm} strategy has better performance than the more {\vwarm} stra
 The process of proof is the same as Theorem~\ref{lemma:warmnum1} that comparing $E(T)$ with $E(T^{\oplus})$:
 \begin{align}
 \label{equ:tpc2}
-&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}*T_{w}^{min} \nonumber \\
- &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
+&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}^{\oplus}*T_{w}^{min} \nonumber \\
+ &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}^{\oplus}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
 \end{align}
 
 Through calculation, we can draw the result that $E(T^{\oplus})\geq E(T)$ if
