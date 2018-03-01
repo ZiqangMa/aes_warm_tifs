@@ -436,13 +436,13 @@ At this point conditional {\vwarm} strategy has better performance than the less
 %From the above analysis, we find that when $1< k \leq k_{0}$, $E(T^{p}) \geq E(T^{c})$.
 %%I.e. when $1< k \leq k_{0}$, $T^{p} \geq T^{C}$
 
-\section{The $P_{delay}$ in different AES key lengthes and different AES implementations }
+\section{The $P_{a}$ in different AES key lengthes and different AES implementations }
 \label{appendixb}
-We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the probability of performing delay operation with $N$ cache line size of lookup tables not in the cache. So when the AES implementation uses 4.25KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the probability that some of the $N$ cache line size of lookup tables not in the cache are accessed. So when the AES implementation uses 4.25KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
 %\begin{flalign}
 %\begin{split}
-    P_{delay}^{128} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,36)}}}}}, \nonumber
 %\end{split}
 %\end{flalign}
@@ -450,13 +450,13 @@ We assume the size of a cache line is $C$ Byte. $P_{delay}$ represents that the 
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{delay}^{192} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{delay}^{256} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,52)}}}}}, \nonumber
 \end{align}
 
@@ -491,21 +491,21 @@ where
     &&x_{2e} = \min(1024/C,N-x_4-x_0-x_1)
   \end{eqnarray*}
 
-When the AES implementation uses 5KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+When the AES implementation uses 5KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
-    P_{delay}^{128} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{delay}^{192} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{delay}^{256} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,52)}}}}}, \nonumber
 \end{align}
 where
@@ -542,21 +542,21 @@ where
 %  x_0+x_1+x_2+x_3+x_4=N.
 %\end{equation*}
 
-When the AES implementation uses 4KB lookup tables, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+When the AES implementation uses 4KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
-    P_{delay}^{128} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,40)}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{delay}^{192} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,48)}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{delay}^{256} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,56)}}}}, \nonumber
 \end{align}
 where
@@ -591,18 +591,18 @@ where
 %  x_0+x_1+x_2+x_3=N.
 %\end{equation*}
 
-When the AES implementation uses 2KB lookup table, the $P_{delay}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+When the AES implementation uses 2KB lookup table, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{equation*}
     %\scriptsize
-    P_{delay}^{128} = 1- (1-\frac{NC}{2048})^{16*10},
+    P_{a}^{128} = 1- (1-\frac{NC}{2048})^{16*10},
 \end{equation*}
 %for AES-192 is
 \begin{equation*}
     %\scriptsize
-    P_{delay}^{192} = 1- (1-\frac{NC}{2048})^{16*12},
+    P_{a}^{192} = 1- (1-\frac{NC}{2048})^{16*12},
 \end{equation*}
 %for AES-256 is
 \begin{equation*}
     %\scriptsize
-    P_{delay}^{256} = 1- (1-\frac{NC}{2048})^{16*14}.
+    P_{a}^{256} = 1- (1-\frac{NC}{2048})^{16*14}.
 \end{equation*} 

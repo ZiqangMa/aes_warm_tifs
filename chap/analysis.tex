@@ -10,7 +10,7 @@
 %All the detailed conditions are practical.
 
 
-In this section, we apply the {\scshape{Warm+Delay}} scheme to AES.
+In this section, we apply the {\scshape{Warm+Delay}} scheme in Algorithm~\ref{alg:aesdefense}  to AES.
 We analyze the situations for {\scshape{Warm}} and {\scshape{Delay}} operations that they produce the optimal performance.
 Then it is proved that the {\scshape{Warm+Delay}} scheme achieves the optimal performance with the least extra operations,
 
@@ -21,11 +21,11 @@ Then it is proved that the {\scshape{Warm+Delay}} scheme achieves the optimal pe
 In the scheme,
         the extra operations are introduced by {\scshape{Warm}}, {\scshape{Delay}} and {\scshape{GetTime}}.
    The cost of {\scshape{GetTime}} is fixed and necessary,
- so the overheads are determined by the cost of each {\scshape{Warm}} (or {\scshape{Delay}}) operation,
+ so the overhead is determined by the cost of each {\scshape{Warm}} (or {\scshape{Delay}}) operation,
     and the times of these operations.
 % so the main point is to optimize the use of {\scshape{Warm}} and {\scshape{Delay}}.
 %In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce {\vwarm}  (i.e., cache warm) to improve performance.
-Therefore, the following principles need to be satisfied to achieve the optimal performance:
+Therefore, the following necessary conditions should be satisfied to achieve the optimal performance:
 
 \begin{itemize}
     \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
@@ -67,26 +67,33 @@ That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performa
 %\vspace{-2mm}
 %The analysis of {\vdelay}  is independent of the encryption algorithm used in the scheme.
 \begin{theorem}
-\label{delay2tw} In the {\vdelay} operation, delay to $T_{W}$ imposes the minimal overhead
-   while effectively eliminates the cache timing side channels.
+\label{delay2tw}
+To effectively eliminate the cache timing side channels,
+ in the {\vdelay} operation $T_{W}$ is the minimal delay.
+%In the {\vdelay} operation, delay to $T_{W}$ imposes the minimal overhead
+ %  while effectively eliminates the cache timing side channels.
 \end{theorem}
 
 \begin{IEEEproof}
 From the attackers' point of view,
-   there are three types of measured time that are unexploitable
-    (i.e. the execution time does not reflect the cache misses/hits of \emph{specific} lookup table entries):
-    $T_{NM}$, $T_{W}$, and any value greater than $T_{W}$.
-$T_{NM}$  means that \emph{all} accessed lookup entries are in caches before encryption,
- and
-$T_{W}$ corresponds to the longest execution path, when all lookup tables are not cached before encryption (and they are loaded into caches as the encryption operation is performed);
- so such results are the same for any input.
-When the measured time is longer than $T_{W}$,
-  encryption is disturbed by unknown system activities (e.g. interrupts and task scheduling),
-   and it is impossible for the attackers to exclude the disturbance and find the exact execution time of encryption.
+   $T_{NM}$, $T_{W}$, and any value greater than $T_{W}$ are three types of measured time that are unexploitable.
+    (i.e. the execution time does not reflect the cache misses/hits of \emph{specific} lookup table entries)
+    %$T_{NM}$, $T_{W}$, and any value greater than $T_{W}$.
+%$T_{NM}$  means that \emph{all} accessed lookup entries are in caches before encryption,
+ %and
+%$T_{W}$ corresponds to the longest execution path, when all lookup tables are not cached before encryption (and they are loaded into caches as the encryption operation is performed);
+ %so such results are the same for any input.
+%When the measured time is longer than $T_{W}$,
+  %encryption is disturbed by unknown system activities (e.g. interrupts and task scheduling),
+  % and it is impossible for the attackers to exclude the disturbance and find the exact execution time of encryption.
 
-If we delay the execution time to any value less than $T_{W}$,
+If we delay the execution time to any value greater than $T_{W}$,
+ though the security is guaranteed,
+the overhead is larger than that delays to $T_{W}$.
+
+On the other hand, if we delay the execution time to any value less than $T_{W}$,
  a little information about the cache access leaks.
-Or, if we delay it to a random value, which may be greater or less than $T_{W}$,
+Meanwhile if we delay it to a random value, which may be greater or less than $T_{W}$,
     the attackers could exclude all results greater than $T_{W}$
       and the other results are still exploitable.
 Such methods reduce the attack accuracy on each invocation,
@@ -99,8 +106,8 @@ Therefore, delay to $T_{W}$ imposes the minimal overhead
 
 \begin{theorem}
 \label{delaynum}
- Performing the {\vdelay} operation when the execution time of encryption
- is in $(T_{NM}, T_{W})$ results in the smallest number of {\vdelay} operations. % when we cannot distinguish the reason why encryption takes longer than $T_{NM}$ (cache miss or the OS scheduler and  interrupt handler).
+ Performing the {\vdelay} operation if and only if the execution time of encryption
+ is in $(T_{NM}, T_{W})$ results in the least number of {\vdelay} operations. % when we cannot distinguish the reason why encryption takes longer than $T_{NM}$ (cache miss or the OS scheduler and  interrupt handler).
 \end{theorem} % 这里when后的部分需要吗
 %******BL: 我也觉得后面半句可以不要，因为下文有解释。我先把这半句注释掉了
 
@@ -263,7 +270,7 @@ and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading
 For the AES-128 implementation with a 2KB lookup table
 in commodity computer systems,
 loading all entries of the lookup table into caches in the {\vwarm} operation
-   provides better performance than any part of entries.
+   provides better performance than loading any part of entries.
 \end{corollary}
 
 \begin{IEEEproof}
@@ -806,7 +813,7 @@ When the system is in the state $S_{\bar{c}, a}$, one AES execution is a partial
 %In our analysis, the warmup operation is performed after the AES execution. When doing the delay operation, the time consumption of the warmup operation is included in the delay time. So it is better to perform warmup when need to delay because the warmup cost nothing at this time.%这段话是想说，warm是在delay之后做的，而且warm的消耗包含在了delay的消耗里，所以只要需要进行delay的时候，进行一次warm是一个更好的选择，因为这个时候warm是不会产生额外消耗的。这段话放在这里似乎不太合适，但我没想好放在哪里。
 
 When the system state is $S_{\bar{c}, a}$, conditional {\vwarm} strategy performs {\vwarm}  with probability 1,
- while the general warm strategy performs {\vwarm} with a probability $P_{1}^{'}\in[0,1]$ greater than $P_{1}$, due to partial warm by the AES execution.
+ while the general warm strategy performs {\vwarm} with a probability $P_{1}^{'}\in[0,1]$ greater than $P_{1}$ (in Theorem~\ref{lemma:warmnum3}), due to partial warm by the AES execution.
 %, it mean the AES expands the $P_{warm}$.
 However, the condition that makes $E(T^{\oplus}) > E(T)$ hold is not changed.
  Moreover based on Theorem~\ref{lemma:warmnum3}, although $P_{1}^{'}$ is different, the general warm strategy still can be divided. So
