@@ -181,10 +181,10 @@ Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Trom
 These attacks can be divided into two categories: synchronous and asynchronous attacks~\cite{Osvik2006Cache}.
 In synchronous attacks, attackers can use Evict+time and Prime+Probe methods to measure the cache access patterns.
   Using Evict+time, attackers first trigger the encryption, then evict the cache by accessing some different memory addresses and finally trigger the encryption again and time it.
-   The attackers repeat this steps can infer the key information from the observations.
+   The attackers repeat these steps and infer the key information from the observations.
 In Prime+Probe, attackers fill the cache with a known array before trigger the encryption.
  Then they access the array again and find the cache access pattern from the different access time.
-These synchronous attacks monitor the cache once per encryption.
+These synchronous attacks only monitor the cache once per encryption.
 While in asynchronous attacks, attackers run the spy process along with the encryption.
  Also the Prime+Probe method can be used to monitor the cache states.
   Attackers fill the cache with a known array and repeatedly record the time of accessing the identical array while the victim is running,

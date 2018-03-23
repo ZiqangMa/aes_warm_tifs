@@ -18,29 +18,38 @@ Then it is proved that the {\scshape{Warm+Delay}} scheme achieves the optimal pe
 \subsection{Overview}
 \label{sec:eval}
 
-In the scheme,
+In the {\scshape{Warm+Delay}} scheme,
         the extra operations are introduced by {\scshape{Warm}}, {\scshape{Delay}} and {\scshape{GetTime}}.
-   The cost of {\scshape{GetTime}} is fixed and necessary,
- so the overhead is determined by the cost of each {\scshape{Warm}} (or {\scshape{Delay}}) operation,
-    and the times of these operations.
-% so the main point is to optimize the use of {\scshape{Warm}} and {\scshape{Delay}}.
-%In the literature, the fundamental rule in defending against timing side channel attacks is to eliminate any observable pattern between the encryption times and the inputs (plaintexts), i.e. to make them fully independent. Three categories of solutions have been proposed~\cite{Braun2015Robust}: (1) application-specific changes, (2) static transformation, and (3) dynamic padding. The first two both require platform-specific modifications to the implementation of the encryption algorithms. We adopt the third approach in our solution (\vdelay), and further introduce {\vwarm}  (i.e., cache warm) to improve performance.
-Therefore, the following necessary conditions should be satisfied to achieve the optimal performance:
+   Because the cost of {\scshape{GetTime}} is fixed and necessary,
+ the overhead is determined by {\scshape{Warm}} and {\scshape{Delay}} operations.
+Therefore, to achieve the optimal performance we should solve the following questions:
+\begin{enumerate}
+ \item {\scshape{Warm}} or {\scshape{Delay}}, which operation do we prefer to choose?
+  
+ \item In {\scshape{Delay}} operation, how long is the delay added and when it is performed?
 
-\begin{itemize}
-    \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
-    \item The number of {\vdelay} operations is minimum.
-    \item In the {\vwarm} operation, only the minimum necessary data are loaded into caches. % as little as possible.
-    \item The number of  {\vwarm} operations is minimum.
-    \item Because {\vwarm} is much more efficient than {\vdelay},{\footnote{It is true for any computing platform in practice; otherwise, caches are useless in performance improvement.}} {\vwarm} is preferred over {\vdelay}. % than \verb+delay+.
-\end{itemize}
+ \item In {\scshape{Warm}} operation, what data need to be warmed and when it is performed? 
+\end{enumerate}
+%\begin{itemize}
+%    \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
+%    \item The number of {\vdelay} operations is minimum.
+%    \item In the {\vwarm} operation, only the minimum necessary data are loaded into caches. % as little as possible.
+%    \item The number of  {\vwarm} operations is minimum.
+%    \item Because {\vwarm} is much more efficient than {\vdelay},{\footnote{It is true for any computing platform in practice; otherwise, caches are useless in performance improvement.}} {\vwarm} is preferred over {\vdelay}. % than \verb+delay+.
+%\end{itemize}
 
+The {\vwarm} operation loading all lookup tables into caches speeds up the encryption.
+   While {\vdelay} operation adding delay to guarantee the security increases the overhead of the encryption.
+    Therefore {\scshape{Warm}} operation is preferred to choose in the {\scshape{Warm+Delay}} scheme.
+ 
+ In our design, we use a instruction loop to implement {\scshape{Delay}} operation. It does not influence the cache state.
+  
+    
 Next, we examine these principles with the {\vwd} scheme, and derive the practical conditions which make it optimal.
 We first examine the performance of \vdelay, and then analyze the {\vwarm} operation for AES-128 with 2KB lookup tables \cite{openssl}.
 In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which probably leads to more {\vdelay} in the future).
 Then we identify the best condition for the {\vwarm} operation,
   and eventually derive the practical condition so that the {\vwd} scheme (with appropriate parameters) is optimal.
-%That is, performing {\vwarm} when the execution time of encryption lies in $(T_{NM}, \infty)$ is the optimal in commodity systems.
 
 Last, we extend the conclusions to different key lengths of AES and different implementations,
   and show that, the conditions are applicable to these typical key lengths and implementations.
