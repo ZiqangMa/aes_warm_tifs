@@ -25,10 +25,10 @@ In the {\scshape{Warm+Delay}} scheme,
 Therefore, to achieve the optimal performance we should solve the following questions:
 \begin{enumerate}
  \item {\scshape{Warm}} or {\scshape{Delay}}, which operation do we prefer to choose?
-  
+
  \item In {\scshape{Delay}} operation, how long is the delay added and when it is performed?
 
- \item In {\scshape{Warm}} operation, what data need to be warmed and when it is performed? 
+ \item In {\scshape{Warm}} operation, what data need to be warmed and when it is performed?
 \end{enumerate}
 %\begin{itemize}
 %    \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
@@ -41,17 +41,25 @@ Therefore, to achieve the optimal performance we should solve the following ques
 The {\vwarm} operation loading all lookup tables into caches speeds up the encryption.
    While {\vdelay} operation adding delay to guarantee the security increases the overhead of the encryption.
     Therefore {\scshape{Warm}} operation is preferred to choose in the {\scshape{Warm+Delay}} scheme.
- 
- In our design, we use a instruction loop to implement {\scshape{Delay}} operation. It does not influence the cache state.
-  
+
+ The {\scshape{Delay}} operation only changes the execution time of the current AES.
+  In our design, we use a instruction loop to implement {\scshape{Delay}} operation.
+   It does not affect the following AES execution, because the cache state is not changed.
+    Thus the delay added in {\scshape{Delay}} operation should be shortest and it should be performed least for the purpose of optimal performance.
+However, performing {\scshape{Warm}} operation changes the cache state.
+ The {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the subsequent AES.
+   The amount of data loaded in {\scshape{Warm}} operation and when performing it may lead to the extra {\scshape{Delay}} operation.
+    So the optimal amount of data loaded in {\scshape{Warm}} operation and the optimal execution time should be found in order to achieve the optimal performance.
     
+     
+
 Next, we examine these principles with the {\vwd} scheme, and derive the practical conditions which make it optimal.
 We first examine the performance of \vdelay, and then analyze the {\vwarm} operation for AES-128 with 2KB lookup tables \cite{openssl}.
 In the proof, we show that it is statistically the most efficient to load all lookup tables in \vwarm, instead of loading parts of the tables (which probably leads to more {\vdelay} in the future).
 Then we identify the best condition for the {\vwarm} operation,
   and eventually derive the practical condition so that the {\vwd} scheme (with appropriate parameters) is optimal.
 
-Last, we extend the conclusions to different key lengths of AES and different implementations,
+Finally, we extend the conclusions to different key lengths of AES and different implementations,
   and show that, the conditions are applicable to these typical key lengths and implementations.
 That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performance for various AES implementations with lookup tables.
 
