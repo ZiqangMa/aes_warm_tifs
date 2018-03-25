@@ -44,13 +44,13 @@ The {\vwarm} operation loading all lookup tables into caches speeds up the encry
 
  The {\scshape{Delay}} operation only changes the execution time of the current AES.
   In our design, we use a instruction loop to implement {\scshape{Delay}} operation.
-   It does not affect the following AES execution, because the cache state is not changed.
+   Because the cache state is not changed, the {\scshape{Delay}} operation does not affect the following AES execution.
     Thus the delay added in {\scshape{Delay}} operation should be shortest and it should be performed least for the purpose of optimal performance.
 
-However, performing {\scshape{Warm}} operation changes the cache state.
- The {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the subsequent AES.
-   The amount of data loaded in {\scshape{Warm}} operation and when performing it may lead to the extra {\scshape{Delay}} operation.
-    So the optimal amount of data loaded in {\scshape{Warm}} operation and the optimal execution time should be found in order to achieve the optimal performance.
+However,
+ the {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the subsequent AES.
+   It is because the amount of data loaded in {\scshape{Warm}} operation and when performing it may lead to the extra {\scshape{Delay}} operation.
+    So the optimal amount of data loaded in {\scshape{Warm}} operation and \textcolor[rgb]{1.00,0.00,0.00}{the optimal execution time }should be found in order to achieve the optimal performance.
 
 In the following sections, we first determine the optimal conditions for {\scshape{Delay}} operation.
  We prove that it provides optimal performance if delaying to $T_W$ in {\scshape{Delay}} and performing it when the encryption time is in $(T_{NM} ,T_{W})$.
