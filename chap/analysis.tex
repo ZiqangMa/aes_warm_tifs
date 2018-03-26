@@ -173,7 +173,8 @@ The details about other key sizes (192 and 256 bits) and different implementatio
   are included in Section \ref{analy:otherkey}.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
-\subsubsection{the content of {\vwarm}}
+\vspace{2mm}
+\noindent\textbf{1. the content of {\vwarm}}
 {\vwarm} operation needs to load the lookup table into the caches.
  It takes less time that loading parts of the table.
   But it also may introduce extra {\vdelay} operation if the unloaded parts are accessed.
@@ -345,7 +346,8 @@ So the cost of {\vwarm} is reduced significantly, further making that loading al
 %\begin{theorem}\label{lemma:warmaftermiss}
 %For commodity computers, performing  {\vwarm}  when cache-miss occurred during the previous execution results the minimum extra time.
 %\end{theorem}
-\subsubsection{state transition of continuous invocations of AES}
+\vspace{2mm}
+\noindent\textbf{2. state transition of continuous invocations of AES}
 To determine the best warm opportunity, we should compare the costs introduced by different warm strategies.
 We use Markov Chain to analyze the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
 Then the extra costs can be calculated based on the probability of each state in the stationary distributions.
@@ -394,9 +396,12 @@ The occurrence of these three events will change the state of lookup tables in t
      It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables.
 In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.
 
-In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
-While considering other two cases:
+We first consider three specific warm strategies:
+%In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
+%While considering other two cases:
 \begin{itemize}
+  \item
+    conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
   \item
     less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
   \item
@@ -430,7 +435,8 @@ Then we analyze the stationary distributions for the three different strategies.
     \label{pic:statetrans}
 \end{figure*}
 
-\paragraph{Conditional {\vwarm}}
+\vspace{2mm}
+\noindent\textbf{2.a. Conditional {\vwarm}}
  The state transition diagram of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
 $P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
  Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
@@ -453,7 +459,8 @@ the stationary distribution of the three states and the values are as follows.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 
-\paragraph{Less {\vwarm}}
+\vspace{2mm}
+\noindent\textbf{2.b. Less {\vwarm}}
 The state transition diagram of less {\vwarm} is shown in \figurename~\ref{fig:lesscase}.
 $P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
 As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ is no less than $P_{a|S_{c}}$.
@@ -483,7 +490,8 @@ D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
-\paragraph{More {\vwarm}}
+\vspace{2mm}
+\noindent\textbf{2.c. More {\vwarm}}
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
 $P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
 As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ is no less than $P_{a|S_{c}}$.
@@ -510,7 +518,8 @@ D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}
 &-P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{a|S_{c}}P_{w}^{\oplus}) \ .  \nonumber
 \end{align}
 
-\subsubsection{The Timing of {\vwarm}}
+\vspace{2mm}
+\noindent\textbf{3. The Timing of {\vwarm}}
 We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
  Followed we investigate the relationship on the performance between conditional {\vwarm} and general {\vwarm} strategy.
   Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
@@ -521,7 +530,8 @@ $T_{d} = T_{W}-T_{NM}$ is constant for different executions.
     $T_{w}$ depends on the number of loaded cache lines of table entries.
 
 %Then we have the following theorems.
-\paragraph{comparing conditional \vwarm~ with less \vwarm~}
+\vspace{2mm}
+\noindent\textbf{3.a. comparing conditional \vwarm~ with less \vwarm~}
 By comparing the expected extra time introduced due to the two strategies, we can get the following theorem.
 \begin{theorem}\label{lemma:warmnum1}
   The conditional {\vwarm} strategy provides better performance than the less {\vwarm} strategy.
@@ -542,7 +552,8 @@ And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{w}^{\ominus}\in(0,1)$.
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{IEEEproof}
 
-\paragraph{Comparing conditional \vwarm~ with more {\vwarm}}
+\vspace{2mm}
+\noindent\textbf{3.b. Comparing conditional \vwarm~ with more {\vwarm}}
 By comparing the expected extra time introduced due to the two strategies, we can get the following theorem.
 First we denote:
 \begin{align}
@@ -569,10 +580,18 @@ First we denote:
 % \end{theorem}
 Conditional {\vwarm} strategy provides better performance than the more {\vwarm} strategy if the following condition
  is satisfied:
-\begin{itemize}
-  \item
-    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
-\end{itemize}
+%\begin{itemize}
+%  \item
+%    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
+%\end{itemize}
+    \begin{equation*}
+    \left\{
+    \begin{split}
+    &D_{F} \geq 0 \\
+    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+    \end{split}
+    \right. .
+    \end{equation*}
 
 \end{theorem}
 
@@ -585,24 +604,40 @@ The process of proof is the same as Theorem~\ref{lemma:warmnum1} that comparing 
 \end{align}
 
 Through calculation, we can draw the result that $E(T^{\oplus})\geq E(T)$ if
-\begin{itemize}
-  \item
-    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
-\end{itemize}
+%\begin{itemize}
+  %\item
+    \begin{equation*}
+    \left\{
+    \begin{split}
+    &D_{F} \geq 0 \\
+    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+    \end{split}
+    \right..
+    \end{equation*}
+    %$\{$.
+%\end{itemize}
 More details are in Appendix~\ref{appendixa}.
-
 \end{IEEEproof}
 
-\paragraph{comparing conditional \vwarm~ with general warm strategy}
+\vspace{2mm}
+\noindent\textbf{3.c. comparing conditional \vwarm~ with general warm strategy}
 By comparing the expected extra time introduced by the two strategies, we can get the following theorem.
 
 \begin{theorem}\label{lemma:warmnum3}
     Performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
 if the following condition is satisfied:
-\begin{itemize}
-  \item
-    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
-\end{itemize}
+%\begin{itemize}
+%  \item
+%    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
+%\end{itemize}
+    \begin{equation*}
+    \left\{
+    \begin{split}
+    &D_{F} \geq 0 \\
+    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+    \end{split}
+    \right..
+    \end{equation*}
 \end{theorem}
 
 \begin{IEEEproof}
@@ -645,10 +680,18 @@ if condition:
 %  \item
 %    or if $GDenominator > 0$, $g$ is smaller than the minimum value of $Gexpression$.
 %\end{enumerate}
-\begin{itemize}
-  \item
-    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
-\end{itemize}
+%\begin{itemize}
+%  \item
+%    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
+%\end{itemize}
+    \begin{equation*}
+    \left\{
+    \begin{split}
+    &D_{F} \geq 0 \\
+    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+    \end{split}
+    \right.
+    \end{equation*}
  is satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
 \end{IEEEproof}
