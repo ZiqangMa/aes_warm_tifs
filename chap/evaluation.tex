@@ -43,8 +43,8 @@ the average execution time of our scheme is less than $1.29$ times of the unprot
 
 
 \noindent\textbf{Performance of different warm strategies.}
-We compare conditional {\vwarm} with  {\vwarm} strategies with different probability and conditional {\vwarm}
- under low and high computing and memory workload when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
+We compare conditional {\vwarm} with  {\vwarm} strategies which have different $P_{1}$ and $P_{2}$.
+ The runtime environment is with low workload, high computing workload and high memory workload separately when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
 In each case, we perform $2^{30}$ AES encryptions with random plaintexts.
 The AES encryption process and the concurrent workload run on the same CPU core.
 We use the benchmark SysBench to simulate computing and memory workload. % in parallel with the AES encryption.
