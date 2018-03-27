@@ -23,7 +23,7 @@ In this section,
 
 
 %Our scheme aims to make the observed AES execution time independent of the input.
-\noindent\textbf{The result of {\scshape{Warm+Delay}} scheme.}
+\noindent\textbf{The AES distribution with {\scshape{Warm+Delay}} scheme.}
 To show the security of {\scshape{Warm+Delay}} scheme,
  we measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
   We compare the distribution of the protected AES with the unprotected ones using $2^{30}$ different plaintexts.
@@ -43,18 +43,18 @@ the average execution time of our scheme is less than $1.29$ times of the unprot
 
 
 \noindent\textbf{Performance of different warm strategies.}
-We evaluate general {\vwarm} strategies with different probability and conditional {\vwarm}
+We compare conditional {\vwarm} with  {\vwarm} strategies with different probability and conditional {\vwarm}
  under low and high computing and memory workload when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
-In each case, we perform $2^{30}$ AES encryptions for random plaintexts.
+In each case, we perform $2^{30}$ AES encryptions with random plaintexts.
 The AES encryption process and the concurrent workload run on the same CPU core.
 We use the benchmark SysBench to simulate computing and memory workload. % in parallel with the AES encryption.
 For computing workload, we run  SysBench in its CPU mode, which  launches $16$ threads to issue 10K requests to search the prime up to 300K.
 For memory workload, we adopt SysBench with $16$ threads in its memory mode, which reads or writes 1KB block each time to operate the total  3GB data on one CPU core.
 
 % The main overhead is caused by the timer function.
-Figure~\ref{pic:eval} validates that the performance of {\scshape{Warm+Delay}} scheme is the best.
+Figure~\ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
 Moreover, we calculated $P_{evict}$ under different workloads,  according to  the number of AES  encryption whose execution time  is greater than $T_{NM}$. %This value represent the $P_{evict}$.
-When $P_{evict}$ is the values in Table~\ref{tbl:pevict}, 
+When $P_{evict}$ is the values in Table~\ref{tbl:pevict},
   as proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
 %which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.
 
@@ -90,11 +90,11 @@ When $P_{evict}$ is the values in Table~\ref{tbl:pevict},
 \end{figure}
 
 
-\noindent\textbf{Performance of different defense methods.}
+\noindent\textbf{Comparison of different defense methods.}
 %\textbf{[[if possible, also in different scenarios as Fig. 6; more comprehensive]]}
-Furthermore, we evaluate the performance of our scheme with different defense methods:
- AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}. 
- For each method, we we perform $2^{30}$ AES encryptions within random plaintexts.
+Furthermore, we compare the performance of our scheme with different defense methods:
+ AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}.
+ For each method, we perform $2^{30}$ AES encryptions with random plaintexts.
   It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
 
 \begin{figure}[t]

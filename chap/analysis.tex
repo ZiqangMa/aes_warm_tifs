@@ -180,39 +180,39 @@ The details about other key sizes (192 and 256 bits) and different implementatio
 {\vwarm} operation needs to load the lookup table into the caches.
  It takes less time that loading parts of the table.
   But it also may introduce extra {\vdelay} operation if the unloaded parts are accessed.
+   The benefit of not loading $N$ cache lines data in the {\vwarm} operation is denoted as $B_{nl}(N)$, 
+    while the expected overhead due to not loading $N$ cache lines of table entries is denoted as $D_{nl}(N)$.
+     The amount of data to be loaded in {\vwarm} operation can be determined by comparing $B_{nl}(N)$ with $D_{nl}(N)$.
 
 We denote the size of a cache line as $C$,
     and the time cost to load a cache line of data from RAM to L1D cache as $T_{cl}$.
-  For an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$), we have the following theorem.
+ Then we have the following theorem for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
 %The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
 
 
 %\begin{theorem}\label{theorm:warmall} For the hardware of commodity computers, loading all the AES lookup tables into the cache is the best warm operation.\end {theorem}
+%\begin{theorem}\label{theorm:warmall}
+%If $B_{nl}(N) < D_{nl}(N)$ for any $0 < N \leq \frac{L}{C}$,
+% loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
+% than loading any part of entries,
+%where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
+%\end{theorem}
 \begin{theorem}\label{theorm:warmall}
 If $B_{nl}(N) < D_{nl}(N)$ for any $0 < N \leq \frac{L}{C}$,
-%\Delta T_{warm} < E(T_{delay})$ ,
  loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
  than loading any part of entries,
 where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
 \end{theorem}
-%\begin{theorem}\label{theorm:warmall}
-%If $T_{cl} < (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})/N$ for any $0 < N \leq \frac{L}{C}$,
-% then loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
-% than any part of entries.
-%%where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM})$.
-%\end{theorem}
 
 \begin{IEEEproof}
-It takes $T_{cl} > 0$ to load data into a cache line in the {\vwarm} operation;
- %on the other hand,
- while,
- if some entry is uncached,
-  the execution time of AES encryption may become longer and then it triggers an extra {\vdelay} operation.
+%It takes $T_{cl} > 0$ to load data into a cache line in the {\vwarm} operation;
+% while,
+% if some entry is uncached,
+%  the execution time of AES encryption may become longer and then it triggers an extra {\vdelay} operation.
 Not loading $N$ ($\frac{L}{C} \geq N > 0$) cache lines of table entries saves the execution time of \vwarm,
  while the potential cost is
     the longer execution of encryption  and the extra execution of \vdelay.
-
 Since $L \gg C$, we needs $\frac{L}{C}$ cache lines to hold the lookup table.
 In each round of AES encryption,
  the lookup table is accessed for $16$ times.
@@ -247,22 +247,22 @@ Therefore, if $N$ cache lines of table entries are not in caches,
 
 The execution time shall be delayed to $T_W$ according to Theorem \ref{delay2tw},
  while it is $T_{NM}$ if all entries are in caches.
-So the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
+So, %the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
 \begin{eqnarray}
  \label{equ:tdelay}
 &D_{nl}(N)&={ }  {P}_{d}(N)  (T_{W}-T_{NM})  \nonumber \\
 &&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM}).
 \end{eqnarray}
 
-On the other hand,
-the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is
+On the other hand, the time cost to load a cache line of data from RAM to L1D cache is $T_{cl}$, so
+%the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is
 \begin{eqnarray}
 B_{nl}(N) = N T_{cl}.
 \end{eqnarray}
 
-Finally,
+Therefore, we can conclude that
 (1)
-If $B_{nl}(N) < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$,
+if $B_{nl}(N) < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$,
  loading all entries of the lookup table into caches in the {\vwarm} operation provides the optimal performance;
 % (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
 and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading $N$ cache lines of table entries provides better performance.
