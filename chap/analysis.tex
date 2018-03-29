@@ -657,7 +657,7 @@ It can be proved that conditional {\vwarm} strategy has better performance than 
 
 Generally,
  any warm strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
-  We denote the arbitrary warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious execution of encryption while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
+  We denote the arbitrary warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious execution of encryption, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
    Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} as $W_{L}$, $W_{M}$ and $W_{Co}$.
   Then we can get the equation:
   \begin{equation}
@@ -674,7 +674,7 @@ $$\left\{
 $$
 
 In this way, the arbitrary warm strategy is divided. It is already proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
-So conditional {\vwarm} has better performance than any warm strategies for any $P_{1}$ and $P_{2}$,
+So conditional {\vwarm} has better performance than warm strategies with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}
 %  \item
@@ -799,7 +799,7 @@ Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
 
 In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0491]$. When $D_{F} > 0$, Theorem~\ref{lemma:warmnum3} is satisfied. While $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{a|S_c}$.
 $F_G$ gets the minimum value when $P_{a|S_c} = 0.994$.
-Substitute th\textcolor[rgb]{1.00,0.00,0.00}{e value into the equation}~\ref{equ:g} and get:
+At this point, $P_{e|S_c}$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ satisfy:
 \begin{equation}
 \left\{
 \begin{split}
@@ -808,12 +808,12 @@ Substitute th\textcolor[rgb]{1.00,0.00,0.00}{e value into the equation}~\ref{equ
 & if\  P_{e|S_c} >1, P_{e|S_c} = 1 \\
 & if\  P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} >1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
-\right.
+\right. \ ,
 \end{equation}
 where
 \begin{align}
 \Delta = &0.988036M^2- 1.976072M^{2}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \nonumber \\
-&+(0.006M+ 0.988M^2)(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2} \nonumber
+&+(0.006M+ 0.988M^2)(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2} \ . \nonumber
 \end{align}
 
 By computation we get that when $P_{e|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{a|S_c} = 0.994$, $F_G$ gets the minimum value.
@@ -843,7 +843,7 @@ Therefore, $G$ is smaller than the minimum value of $F_G$ when $D_F < 0$.
 %In the above proof, we treated AES as one atomic operation and excluded some special situations. In reality, the AES execution can be interrupted. We did not consider the cases such as when the process scheduling and interruption occur during the AES. These conditions will be discussed later.%这里我是想说，在上面的这个证明里面，我们将AES过程当做了一个黑盒子，也就是一个原子操作。因此，我们有两种情况没有考虑，1是没有考虑中断或者调度发生在AES过程中，2是没有考虑周期调度函数执行，但并未发生调度。这两个情况将会在后面进行论证。在这里需要说明一下么？
 %\subsection{Remarks}
 \vspace{2mm}
-\noindent\textbf{4. Remarks}
+\noindent\textbf{4. Remarks.}
 In the analysis of {\vwarm} operation, we assume that some conditions are not considered. In this part, we discuss these conditions.
 First is effect of partial warm caused by the AES execution. Second is the influence of process scheduling and interruptions.
 Finally, we summarize the relation between the measured time and the cache states.
@@ -1014,7 +1014,7 @@ Therefore, for different implementations and key length of AES, first we should 
 
 %For all the situations, the process of the proof of the Theorem 3 and Theorem 4 is almost the same. The main difference is the value of $P_{delay}$. We compute the value of $P_{delay}$ in the Table~\ref{tbl:pdelayvalue}, and find out that the Theorem 3 and Theorem 4 still hold true. %这段是说，对于这些不同的情况，在证明Lemma 3 and Lemma 4的时候，证明方法都是一样的，不同的就是P_{delay}的取值范围不同，但是经过计算，在每种取值范围内，Lemma 3 and Lemma 4都是成立的，也就是都是我们的方案最优。
 
-For other table-lookup block ciphers, we have to determine $P_{access}$, $T_{warm}$ and $T_{delay}$ according to the algorithm, the implementation and the running platform.
+For other table-lookup block ciphers, we have to determine $P_{a}$, $T_{w}$ and $T_{d}$ according to the algorithm, the implementation and the running platform.
 Once the conditions in these theorems are satisfied , {\scshape{Warm+Delay}}  provides the optimal performance.
 
 %it is similar to the AES. They just have different values of $P_{delay}$. The three states of the cache is same and they have the same state transition diagram. So it can be proved that the Theorem 3 and Theorem 4 hold true for them.% 这段是说，对于其他算法，Lemma 3 and Lemma 4 的证明也是类似的，同样对于cache有这三种状态，且状态转移图也是一样的，故而证明过程也一样，只是P_{delay}不同而已，可以证明对于其P_{delay}的范围，Lemma 3 and Lemma 4 也是成立的。

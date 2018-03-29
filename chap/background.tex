@@ -320,8 +320,8 @@ Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding,
 
 The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
-\subsection{Notations}
-The meaning of the symbols used in the following is list in Table~\ref{notation}.
+%\subsection{Notations}
+%The meaning of the symbols used in the following is list in Table~\ref{notation}.
 
 \begin{table}[!t]
 \renewcommand{\arraystretch}{1.3}
@@ -336,16 +336,16 @@ $T_{NM}$ & the AES execution time when no cache miss occurs\\
 \hline
 $T_{W}$ & the worst AES execution time when all lookup tables are out of caches\\
 \hline
-$t1$ & the time that AES begins\\
+$t1, t2$ & the time that AES execution begins and ends respectively\\
 \hline
-$t2$ & the time that AES ends\\
-\hline
-$C$ & cache line size\\
-\hline
-$R$ & the number of the round of AES\\
-\hline
-$L$ & the size of lookup tables\\
-\hline
+%$t2$ & the time that AES ends\\
+%\hline
+%$C$ & cache line size\\
+%\hline
+%$R$ & the number of the round of AES\\
+%\hline
+%$L$ & the size of lookup tables\\
+%\hline
 $T_{cl}$ & the time cost to load a cache line of data from RAM to L1D cache \\
 \hline
 $B_{nl}(N)$ & the benefit of not loading data into $N$ cache lines in the {\scshape{Warm}} operation\\
@@ -395,10 +395,10 @@ $M$ & $T_{w}^{min} / T_{d}$\\
 $F_G$ & represents an expression that $G$ should be less than \\
 %\hline
 %$W$ & general warm strategy\\
-%\hline
-%$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
-%\hline
-%$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
+\hline
+$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
+\hline
+$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
 %\hline
 %$E(T)$ & the expected extra time cost\\
 %\hline
