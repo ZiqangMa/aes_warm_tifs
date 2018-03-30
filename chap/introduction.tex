@@ -22,7 +22,7 @@
     %Gullasch2011Cache access-driven attack, 近乎实时攻击，所需的样本量很少，非特权的spy进程，也是先学习，后猜测的过程。针对AES
     %Osvik2005Cache: evict+time，on AES
     %Tromer2010Efficient 是Osvik2005Cache的journal版本
-In  practical implementations of a cryptographic algorithm,
+In  practical cryptographic algorithm implementations,
    the cryptographic keys could be leaked through  side channels on
     timing \cite{Acii2005Improving,Ac2006Trace,Bonneau2006Cache,Bernstein2005Cache,Gullasch2011Cache,Kocher1996Timing,Neve2006A,Osvik2006Cache,Tsunoo2003Cryptanalysis,Tromer2010Efficient}, % 引用一些在不同的方法上，有开创性的
     electromagnetic fields \cite{Electromagnetic-sidechannel}, power \cite{power-pc,Bertoni2005AES},
@@ -30,7 +30,7 @@ In  practical implementations of a cryptographic algorithm,
   even when the algorithm is semantically secure.
 %  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
   Among these vulnerabilities,
-   timing side-channel attacks are easily launched without special probe devices.
+   timing side-channel attacks are launched easily without special probe devices.
 In particular, remote timing side channels allow attackers, who do not have
     any system or physical privilege on the computer,
     to discover the keys
@@ -40,14 +40,14 @@ In particular, remote timing side channels allow attackers, who do not have
 %Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
-One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, passively exploits the time differences of data cache misses and hits. Such cache timing side channels are widely found in various implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, passively exploits the time differences of data cache hits and misses. Such cache timing side channels are widely found in various implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
 In these implementations,
   table lookup is the primary time-consuming operation in encryption and decryption.
 Because accessing data in caches is much faster than those in RAM chips,
- cache misses and hits in table lookup
+ cache hits and misses in table lookup
     significantly influence the overall execution time of block ciphers.
 Therefore,
-   from the execution time, the attackers are able to infer the inputs of table lookup operations that are determined by the secret keys (and also the known plaintext/ciphertext).
+   from the execution time, the attackers are able to infer the inputs of table lookup operations which are determined by the secret keys (and also the known plaintext/ciphertext).
 Generally, for a block cipher,
   encryption and decryption are symmetric computations with same basic operations.
 So  we only emphasize on encryption in the rest of the paper. Note that all the discussions and conclusions are also applicable to decryption.
