@@ -20,15 +20,15 @@ Then it is proved that the {\scshape{Warm+Delay}} scheme achieves the optimal pe
 
 In the {\scshape{Warm+Delay}} scheme,
         the extra operations are introduced by {\scshape{Warm}}, {\scshape{Delay}} and {\scshape{GetTime}}.
-   Because the cost of {\scshape{GetTime}} is static and always necessary,
- the additional overhead is determined by {\scshape{Warm}} and {\scshape{Delay}} operations.
-Therefore, to achieve the optimal performance we should answer the following questions:
+   Because the cost of {\scshape{GetTime}} is fixed and necessary,
+ the overhead is determined by {\scshape{Warm}} and {\scshape{Delay}} operations.
+Therefore, to achieve the optimal performance we should solve the following questions:
 \begin{enumerate}
  \item Between {\scshape{Warm}} and {\scshape{Delay}}, which is the preferred operation?
 
- \item When the {\scshape{Delay}} operation is performed, what is the best strategy that would result the best performance while ensuring security? In particular, what is the optimal {\scshape{Delay}} time?
+ \item In {\scshape{Delay}} operation, how long is the delay added and when it is performed?
 
- \item When the {\scshape{Warm}} operation is performed, what is the best strategy that would result the best performance? In particular, what is the optimal amount of data to be loaded during {\scshape{Warm}}?
+ \item In {\scshape{Warm}} operation, what data need to be warmed and when it is performed?
 \end{enumerate}
 %\begin{itemize}
 %    \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
