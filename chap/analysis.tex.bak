@@ -20,15 +20,19 @@ Then it is proved that the {\scshape{Warm+Delay}} scheme achieves the optimal pe
 
 In the {\scshape{Warm+Delay}} scheme,
         the extra operations are introduced by {\scshape{Warm}}, {\scshape{Delay}} and {\scshape{GetTime}}.
-   Because the cost of {\scshape{GetTime}} is fixed and necessary,
- the overhead is determined by {\scshape{Warm}} and {\scshape{Delay}} operations.
-Therefore, to achieve the optimal performance we should solve the following questions:
+   Because the cost of {\scshape{GetTime}} is static and always necessary,
+ the additional overhead is determined by {\scshape{Warm}} and {\scshape{Delay}} operations.
+Therefore, to achieve the optimal performance we should answer the following questions:
 \begin{enumerate}
- \item Between {\scshape{Warm}} and {\scshape{Delay}}, which is the preferred operation?
+ \item (1) Between {\scshape{Warm}} and {\scshape{Delay}}, which is the preferred operation?
 
- \item In {\scshape{Delay}} operation, how long is the delay added and when it is performed?
+ \item (2) What is the best strategy for the {\scshape{Delay}} operations that would result the optimal performance in the long run? The strategy includes two aspects: (2.A) When a {\scshape{Delay}} should be imposed? and (2.B) What is the optimal {\scshape{Delay}} time to be imposed?
 
- \item In {\scshape{Warm}} operation, what data need to be warmed and when it is performed?
+% When the {\scshape{Delay}} operation is performed, what is the best strategy that would result the best performance while ensuring security? In particular,
+
+ \item (3) What is the best strategy for the {\scshape{Warm}} operations? This strategy also includes two aspects: (3.A) When a {\scshape{Warm}} should be imposed? and (3.B) What is the optimal amount of data to be loaded during {\scshape{Warm}}?
+ 
+ When the {\scshape{Warm}} operation is performed, what is the best strategy that would result the best performance? In particular, what is the optimal amount of data to be loaded during {\scshape{Warm}}?
 \end{enumerate}
 %\begin{itemize}
 %    \item In the {\vdelay} operation, the imposed delay, or the execution time of padding instructions, is the shortest.
@@ -38,11 +42,14 @@ Therefore, to achieve the optimal performance we should solve the following ques
 %    \item Because {\vwarm} is much more efficient than {\vdelay},{\footnote{It is true for any computing platform in practice; otherwise, caches are useless in performance improvement.}} {\vwarm} is preferred over {\vdelay}. % than \verb+delay+.
 %\end{itemize}
 
-The {\vwarm} operation loading all lookup tables into caches speeds up the encryption.
-   While {\vdelay} operation adding delay to guarantee the security increases the overhead of the encryption.
-    Therefore {\scshape{Warm}} operation is preferred to choose in the {\scshape{Warm+Delay}} scheme.
+Note that in answering all the questions, we focus on the optimization of the global performance. That is, our objective is to optimize the overall performance of encrypting large mount of data (i.e. optimal performance in the long run), instead of the performance of encrypting one block. For instance, loading less data during one {\scshape{Warm}} operation may introduce less overhead for the current encryption, however, it might result more {\vdelay} and {\vwarm} operations in future encryptions. In this case, optimized short-term performance may cause worse long-term performance, which is not the expected output of our mechanism. 
 
- The {\scshape{Delay}} operation only changes the execution time of the current AES.
+%In particular, we may sacrifice .... if the additional (seemingly unnecessary) operations in this encryption will improve the encryption speed in the future.
+
+The first question is relatively easy to answer. The {\vwarm} operation, which loads (all) lookup tables into caches, will speed up the encryption. Meanwhile, the {\vdelay} operation, which adds delay to eliminate timing side-channels, increases the overhead of the encryption.
+    Therefore, intuitively, the {\scshape{Warm}} operation is always preferred over {\vdelay} in the {\scshape{Warm+Delay}} scheme.
+
+Next, the {\scshape{Delay}} operation only changes the execution time of the current AES.
   In our design, we use a instruction loop to implement {\scshape{Delay}} operation.
    Because the cache state is not changed, the {\scshape{Delay}} operation does not affect the following AES execution.
     Thus the delay added in {\scshape{Delay}} operation should be shortest and it should be performed least for the purpose of optimal performance.

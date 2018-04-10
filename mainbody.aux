@@ -86,7 +86,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-D}}Security Analysis}{6}}
 \citation{Bernstein2005Cache}
 \citation{openssl}
-\citation{openssl}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Towards the Optimal Performance of {{\scshape  {Warm+Delay}}}}{7}}
 \newlabel{sec:performanceproof}{{IV}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Overview}{7}}
@@ -94,9 +93,10 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}The Optimal Conditions for {{\scshape  {Delay}}} Operation}{7}}
 \newlabel{delayanalysis}{{\unhbox \voidb@x \hbox {IV-B}}{7}}
 \newlabel{delay2tw}{{1}{7}}
-\newlabel{delaynum}{{2}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-C}}The Optimal Conditions for {{\scshape  {Warm}}} Operation}{7}}
-\newlabel{warmanalysis}{{\unhbox \voidb@x \hbox {IV-C}}{7}}
+\citation{openssl}
+\newlabel{delaynum}{{2}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-C}}The Optimal Conditions for {{\scshape  {Warm}}} Operation}{8}}
+\newlabel{warmanalysis}{{\unhbox \voidb@x \hbox {IV-C}}{8}}
 \newlabel{theorm:warmall}{{3}{8}}
 \newlabel{equ:delay}{{1}{8}}
 \newlabel{equ:tdelay}{{2}{8}}
@@ -105,7 +105,6 @@
 \newlabel{tbl:warmcontent}{{II}{9}}
 \newlabel{equ:pic}{{4}{9}}
 \newlabel{equ:pil}{{5}{9}}
-\newlabel{equ:pim}{{6}{9}}
 \newlabel{fig:conditioncase}{{1a}{10}}
 \newlabel{sub@fig:conditioncase}{{(a)}{a}}
 \newlabel{fig:lesscase}{{1b}{10}}
@@ -120,10 +119,11 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Less warm}}}{10}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {More warm}}}{10}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Complementary warm}}}{10}}
+\newlabel{equ:pim}{{6}{10}}
 \newlabel{lemma:warmnum1}{{4}{10}}
 \newlabel{equ:tpc1}{{7}{10}}
-\newlabel{lemma:warmnum2}{{5}{10}}
-\newlabel{equ:tpc2}{{8}{10}}
+\newlabel{lemma:warmnum2}{{5}{11}}
+\newlabel{equ:tpc2}{{8}{11}}
 \newlabel{lemma:warmnum3}{{6}{11}}
 \citation{openssl,polarssl}
 \citation{polarssl}
@@ -131,13 +131,13 @@
 \citation{openssl}
 \citation{openssl}
 \citation{Canteaut2006Understanding,Bernstein2005Cache}
-\citation{guan2014copker}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-D}}Different Key Lengths and Implementations}{12}}
 \newlabel{analy:otherkey}{{\unhbox \voidb@x \hbox {IV-D}}{12}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Implementation and Performance Evaluation}{12}}
 \newlabel{sec:implementationEvalution}{{V}{12}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Implementation}{12}}
 \newlabel{sec:implementation}{{\unhbox \voidb@x \hbox {V-A}}{12}}
+\citation{guan2014copker}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces The introduced time by performing warmup operation or not (in cycle).\relax }}{13}}
 \newlabel{tbl:scheduaes}{{III}{13}}
 \@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces the minimum value of the $P_{a}$ in different cases.\relax }}{13}}
@@ -154,30 +154,30 @@
 \newlabel{fig:twocm}{{3}{13}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces AES execution performance in different scenarios.\relax }}{13}}
 \newlabel{pic:delay}{{4}{13}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}The implementation of {\scshape  {Delay()}}.}{13}}
 \citation{openssl}
 \citation{bitsliced}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The observed AES execution time with different plaintext.\relax }}{14}}
-\newlabel{pic:sec}{{5}{14}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}The implementation of {\scshape  {Delay()}}.}{14}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}Performance Evaluation}{14}}
 \newlabel{sec:eva}{{\unhbox \voidb@x \hbox {V-B}}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces AES execution performance in different scenarios.\relax }}{14}}
-\newlabel{pic:eval}{{6}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The observed AES execution time with different plaintext.\relax }}{14}}
+\newlabel{pic:sec}{{5}{14}}
 \@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces The value of $P_{evict}$ under different workload.\relax }}{14}}
 \newlabel{tbl:pevict}{{V}{14}}
 \citation{Onur2007Yet}
-\citation{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces AES execution performance in different scenarios.\relax }}{15}}
+\newlabel{pic:eval}{{6}{15}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Performance of different defense methods.\relax }}{15}}
 \newlabel{pic:diffscheme}{{7}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Apache Benchmark result\relax }}{15}}
-\newlabel{fig:apacheperformance}{{8}{15}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Discussions}{15}}
 \newlabel{sec:discussion}{{VI}{15}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Instruction Cache}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Apache Benchmark result\relax }}{15}}
+\newlabel{fig:apacheperformance}{{8}{15}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-B}}Timing Variations with Fully Cached Lookup Tables}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-C}}Other Cache-based Timing Side Channels}{15}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion}{15}}
-\newlabel{sec:conclusion}{{VII}{15}}
+\citation{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-C}}Other Cache-based Timing Side Channels}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion}{16}}
+\newlabel{sec:conclusion}{{VII}{16}}
 \@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: The detail proof of Theorem\nobreakspace  {}4\hbox {} and Theorem\nobreakspace  {}5\hbox {}}{16}}
 \newlabel{appendixa}{{A}{16}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {A-A}}The proof of Theorem\nobreakspace  {}4\hbox {}}{16}}

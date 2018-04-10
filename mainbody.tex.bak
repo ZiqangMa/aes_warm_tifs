@@ -32,7 +32,6 @@
 \usepackage{listings}
 \usepackage{cite}
 \usepackage{array}
-\usepackage{enumerate}
 
 
 %\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
