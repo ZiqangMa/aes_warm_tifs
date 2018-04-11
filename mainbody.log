@@ -1,0 +1,815 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.6.1)  10 APR 2018 00:28
+entering extended mode
+**C:/Users/bluo/Documents/GitHub/aes_warm_tifs/mainbody.tex
+(C:/Users/bluo/Documents/GitHub/aes_warm_tifs/mainbody.tex
+LaTeX2e <2017-04-15>
+Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+(IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpdimenC=\dimen104
+\@IEEEtrantmpcountA=\count79
+\@IEEEtrantmpcountB=\count80
+\@IEEEtrantmpcountC=\count81
+\@IEEEtrantmptoksA=\toks14
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 503.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen105
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen106
+\CLASSINFOnormalsizeunitybaselineskip=\dimen107
+\IEEEnormaljot=\dimen108
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+\IEEEquantizedlength=\dimen109
+\IEEEquantizedlengthdiff=\dimen110
+\IEEEquantizedtextheightdiff=\dimen111
+\IEEEilabelindentA=\dimen112
+\IEEEilabelindentB=\dimen113
+\IEEEilabelindent=\dimen114
+\IEEEelabelindent=\dimen115
+\IEEEdlabelindent=\dimen116
+\IEEElabelindent=\dimen117
+\IEEEiednormlabelsep=\dimen118
+\IEEEiedmathlabelsep=\dimen119
+\IEEEiedtopsep=\skip41
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@IEEEsubequation=\count86
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count87
+\c@table=\count88
+\@IEEEeqnnumcols=\count89
+\@IEEEeqncolcnt=\count90
+\@IEEEsubeqnnumrollback=\count91
+\@IEEEquantizeheightA=\dimen120
+\@IEEEquantizeheightB=\dimen121
+\@IEEEquantizeheightC=\dimen122
+\@IEEEquantizeprevdepth=\dimen123
+\@IEEEquantizemultiple=\count92
+\@IEEEquantizeboxA=\box26
+\@IEEEtmpitemindent=\dimen124
+\IEEEPARstartletwidth=\dimen125
+\c@IEEEbiography=\count93
+\@IEEEtranrubishbin=\box27
+) (C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+\captionmargin=\dimen126
+\captionmargin@=\dimen127
+\captionwidth=\dimen128
+\caption@tempdima=\dimen129
+\caption@indent=\dimen130
+\caption@parindent=\dimen131
+\caption@hangindent=\dimen132
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEta
+blestring \footnotesize \bgroup \par \centering \@IEEEtabletopskipstrut {\norma
+lfont \footnotesize #1}\\{\normalfont \footnotesize \scshape #2}\par \addvspace
+ {0.5\baselineskip }\egroup \@IEEEtablecaptionsepspace \else \@IEEEfigurecaptio
+nsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspac
+e \nobreakspace #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\nor
+malfont \footnotesize {#1.}\nobreakspace \nobreakspace }\parbox [t]{\hsize }{\n
+ormalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONcon
+ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
+\else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi 
+\fi .
+\c@ContinuedFloat=\count94
+) (C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\algorithms\algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count95
+\float@exts=\toks16
+\float@box=\box28
+\@float@everytoks=\toks17
+\@floatcapt=\box29
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks18
+\c@algorithm=\count96
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\algorithmicx\algorithmicx.s
+ty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count97
+\c@ALG@rem=\count98
+\c@ALG@nested=\count99
+\ALG@tlm=\skip44
+\ALG@thistlm=\skip45
+\c@ALG@Lnr=\count100
+\c@ALG@blocknr=\count101
+\c@ALG@storecount=\count102
+\c@ALG@tmpcounter=\count103
+\ALG@tmplength=\skip46
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\algorithmicx\algpseudocode.
+sty
+Package: algpseudocode 
+
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2016/11/05 v2.16a AMS math features
+\@mathmargin=\skip47
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen133
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen134
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count104
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count105
+\leftroot@=\count106
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count107
+\DOTSCASE@=\count108
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box30
+\strutbox@=\box31
+\big@size=\dimen135
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count109
+\c@MaxMatrixCols=\count110
+\dotsspace@=\muskip10
+\c@parentequation=\count111
+\dspbrk@lvl=\count112
+\tag@help=\toks20
+\row@=\count113
+\column@=\count114
+\maxfields@=\count115
+\andhelp@=\toks21
+\eqnshift@=\dimen136
+\alignsep@=\dimen137
+\tagshift@=\dimen138
+\tagwidth@=\dimen139
+\totwidth@=\dimen140
+\lineht@=\dimen141
+\@envbody=\toks22
+\multlinegap=\skip48
+\multlinetaggap=\skip49
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amscls\amsthm.sty"
+Package: amsthm 2015/03/04 v2.20.2
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip50
+\thm@postskip=\skip51
+\thm@headsep=\skip52
+\dth@everypar=\toks29
+)
+\c@theorem=\count116
+\c@corollary=\count117
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/04/14 v1.1b Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count118
+))
+\Gin@req@height=\dimen142
+\Gin@req@width=\dimen143
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
+Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
+\multirow@colwidth=\skip53
+\multirow@cntb=\count119
+\multirow@dima=\skip54
+\bigstrutjot=\dimen144
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.sty
+\lst@mode=\count120
+\lst@gtempboxa=\box32
+\lst@token=\toks30
+\lst@length=\count121
+\lst@currlwidth=\dimen145
+\lst@column=\count122
+\lst@pos=\count123
+\lst@lostspace=\dimen146
+\lst@width=\dimen147
+\lst@newlines=\count124
+\lst@lineno=\count125
+\lst@maxwidth=\dimen148
+
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count126
+\lst@skipnumbers=\count127
+\lst@framebox=\box33
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\cite\cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen149
+\extrarowheight=\dimen150
+\NC@list=\toks31
+\extratabsurround=\skip55
+\backup@length=\skip56
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\enumerate.sty"
+Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
+\@enLab=\toks32
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\subfig\subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+\c@KVtest=\count128
+\sf@farskip=\skip57
+\sf@captopadj=\dimen151
+\sf@capskip=\skip58
+\sf@nearskip=\skip59
+\c@subfigure=\count129
+\c@subfigure@save=\count130
+\c@lofdepth=\count131
+\c@subtable=\count132
+\c@subtable@save=\count133
+\c@lotdepth=\count134
+\sf@top=\skip60
+\sf@bottom=\skip61
+)
+(mainbody.aux)
+\openout1 = `mainbody.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+
+-- Lines per column: 58 (exact).
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count135
+\scratchdimen=\dimen152
+\scratchbox=\box34
+\nofMPsegments=\count136
+\nofMParguments=\count137
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count138
+\MPscratchDim=\dimen153
+\MPnumerator=\count139
+\makeMPintoPDFobject=\count140
+\everyMPtoPDFconversion=\toks34
+) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+\c@lstlisting=\count141
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 77.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <8> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 77.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 86.
+
+(chap/introduction.tex
+LaTeX Font Info:    Try loading font information for U+msa on input line 87.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 87.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1{C:/Users/bluo/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+]) (chap/background.tex
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 13.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [2] [3])
+(chap/elimatingcacheattack.tex [4] [5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6])
+(chap/analysis.tex [7]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 185.
+ [8]
+<pic/conditionwarm2.pdf, id=47, 327.20244pt x 213.39525pt>
+File: pic/conditionwarm2.pdf Graphic file (type pdf)
+
+<use pic/conditionwarm2.pdf>
+Package pdftex.def Info: pic/conditionwarm2.pdf used on input line 432.
+(pdftex.def)             Requested size: 209.58255pt x 136.6897pt.
+
+<pic/probwarmless2.pdf, id=48, 353.21861pt x 214.64993pt>
+File: pic/probwarmless2.pdf Graphic file (type pdf)
+
+<use pic/probwarmless2.pdf>
+Package pdftex.def Info: pic/probwarmless2.pdf used on input line 435.
+(pdftex.def)             Requested size: 227.65005pt x 138.34496pt.
+
+<pic/probwarmmore2.pdf, id=49, 386.95467pt x 219.98988pt>
+File: pic/probwarmmore2.pdf Graphic file (type pdf)
+
+<use pic/probwarmmore2.pdf>
+Package pdftex.def Info: pic/probwarmmore2.pdf used on input line 438.
+(pdftex.def)             Requested size: 252.94499pt x 143.8007pt.
+
+<pic/probwarmco2.pdf, id=50, 388.34386pt x 209.78174pt>
+File: pic/probwarmco2.pdf Graphic file (type pdf)
+
+<use pic/probwarmco2.pdf>
+Package pdftex.def Info: pic/probwarmco2.pdf used on input line 441.
+(pdftex.def)             Requested size: 252.94499pt x 136.64459pt.
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 465.
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 490.
+
+[9]
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 519.
+
+[10 <./pic/conditionwarm2.pdf> <./pic/probwarmless2.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/probwarmless2.pdf): PDF inclusion: mul
+tiple pdfs with page group included in a single page
+> <./pic/probwarmmore2.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/probwarmmore2.pdf): PDF inclusion: mul
+tiple pdfs with page group included in a single page
+> <./pic/probwarmco2.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/probwarmco2.pdf): PDF inclusion: multi
+ple pdfs with page group included in a single page
+>]
+Overfull \hbox (4.95166pt too wide) in paragraph at lines 573--573
+[] 
+ []
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 600.
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 622.
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 646.
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 700.
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 816.
+
+[11]
+Underfull \hbox (badness 1681) in paragraph at lines 940--944
+\OT1/ptm/b/n/10 4.c. Pe-ri-od-i-cal Sched-ule Func-tion Is Called with-out
+ []
+
+) (chap/implementation.tex [12]
+<pic/TWOCM_allwarm.pdf, id=235, 441.09402pt x 152.29597pt>
+File: pic/TWOCM_allwarm.pdf Graphic file (type pdf)
+
+<use pic/TWOCM_allwarm.pdf>
+Package pdftex.def Info: pic/TWOCM_allwarm.pdf used on input line 124.
+(pdftex.def)             Requested size: 202.35622pt x 69.86876pt.
+
+<pic/fwopensslbest.pdf, id=236, 433.61798pt x 163.10435pt>
+File: pic/fwopensslbest.pdf Graphic file (type pdf)
+
+<use pic/fwopensslbest.pdf>
+Package pdftex.def Info: pic/fwopensslbest.pdf used on input line 127.
+(pdftex.def)             Requested size: 202.35622pt x 76.11649pt.
+
+<pic/TWOCM_onenotin.pdf, id=237, 412.60919pt x 108.15105pt>
+File: pic/TWOCM_onenotin.pdf Graphic file (type pdf)
+
+<use pic/TWOCM_onenotin.pdf>
+Package pdftex.def Info: pic/TWOCM_onenotin.pdf used on input line 135.
+(pdftex.def)             Requested size: 206.39685pt x 54.10013pt.
+
+<pic/delay.pdf, id=238, 438.08278pt x 219.11662pt>
+File: pic/delay.pdf Graphic file (type pdf)
+ <use pic/delay.pdf>
+Package pdftex.def Info: pic/delay.pdf used on input line 164.
+(pdftex.def)             Requested size: 258.0pt x 129.04698pt.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 164--164
+ [][] 
+ []
+
+[13 <./pic/TWOCM_allwarm.pdf> <./pic/fwopensslbest.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/fwopensslbest.pdf): PDF inclusion: mul
+tiple pdfs with page group included in a single page
+> <./pic/TWOCM_onenotin.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/TWOCM_onenotin.pdf): PDF inclusion: mu
+ltiple pdfs with page group included in a single page
+> <./pic/delay.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/delay.pdf): PDF inclusion: multiple pd
+fs with page group included in a single page
+>] (C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
+(C:\Users\bluo\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+)
+LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <9> not available
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 217.
+)
+(chap/evaluation.tex
+<pic/ori_scheme_distri.pdf, id=279, 453.09767pt x 139.22916pt>
+File: pic/ori_scheme_distri.pdf Graphic file (type pdf)
+
+<use pic/ori_scheme_distri.pdf>
+Package pdftex.def Info: pic/ori_scheme_distri.pdf used on input line 40.
+(pdftex.def)             Requested size: 206.39685pt x 63.42159pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+[]|\OT1/ptm/m/n/9 Interval
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+\OT1/ptm/m/n/9 of OS
+ []
+
+
+Underfull \hbox (badness 4229) in paragraph at lines 68--68
+[]|\OT1/ptm/m/n/9 High CPU
+ []
+
+
+Underfull \hbox (badness 3029) in paragraph at lines 68--69
+[]|\OT1/ptm/m/n/9 High mem
+ []
+
+
+
+pdfTeX warning: pdflatex.exe (file ./pic/new_performance.pdf): PDF inclusion: f
+ound PDF version <1.6>, but at most version <1.5> allowed
+<pic/new_performance.pdf, id=280, 425.32831pt x 223.60257pt>
+File: pic/new_performance.pdf Graphic file (type pdf)
+
+<use pic/new_performance.pdf>
+Package pdftex.def Info: pic/new_performance.pdf used on input line 87.
+(pdftex.def)             Requested size: 258.0pt x 135.6365pt.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 87--87
+ [][] 
+ []
+
+[14 <./pic/ori_scheme_distri.pdf>]
+<pic/diff_scheme_compare.pdf, id=298, 433.01575pt x 246.99376pt>
+File: pic/diff_scheme_compare.pdf Graphic file (type pdf)
+
+<use pic/diff_scheme_compare.pdf>
+Package pdftex.def Info: pic/diff_scheme_compare.pdf used on input line 102.
+(pdftex.def)             Requested size: 206.39685pt x 117.73027pt.
+
+<pic/openssl_apache.pdf, id=299, 404.074pt x 233.60474pt>
+File: pic/openssl_apache.pdf Graphic file (type pdf)
+
+<use pic/openssl_apache.pdf>
+Package pdftex.def Info: pic/openssl_apache.pdf used on input line 128.
+(pdftex.def)             Requested size: 206.39685pt x 119.32574pt.
+) (chap/discussions.tex
+Underfull \vbox (badness 1565) has occurred while \output is active []
+
+ [15 <./pic/new_performance.pdf> <./pic/diff_scheme_compare.pdf> <./pic/openssl
+_apache.pdf
+
+pdfTeX warning: pdflatex.exe (file ./pic/openssl_apache.pdf): PDF inclusion: mu
+ltiple pdfs with page group included in a single page
+>]) (chap/conclusion.tex) (chap/appdenix.tex
+LaTeX Font Info:    Try loading font information for U+euf on input line 24.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\ueuf.fd"
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+)
+Overfull \hbox (49.62263pt too wide) in paragraph at lines 24--24
+[] 
+ []
+
+
+Overfull \hbox (32.47855pt too wide) in paragraph at lines 38--38
+[] 
+ []
+
+[16]
+Overfull \hbox (45.1844pt too wide) in paragraph at lines 141--141
+[] 
+ []
+
+
+Overfull \hbox (25.21729pt too wide) in paragraph at lines 157--157
+[] 
+ []
+
+
+Overfull \hbox (28.62889pt too wide) detected at line 195
+[][]
+ []
+
+
+Overfull \hbox (55.16606pt too wide) in paragraph at lines 207--207
+[] 
+ []
+
+
+Overfull \hbox (20.0pt too wide) detected at line 207
+[]
+ []
+
+
+Overfull \hbox (5.47385pt too wide) detected at line 212
+\OML/cmm/m/it/10 P[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 P[][] \OMS/cmsy/m/n/10 
+  \OML/cmm/m/it/10 P[]\OT1/cmr/m/n/10 (1 \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 P[
+]\OT1/cmr/m/n/10 )
+ []
+
+
+Overfull \hbox (34.27203pt too wide) in paragraph at lines 254--254
+[] 
+ []
+
+
+Overfull \hbox (20.0pt too wide) detected at line 254
+[]
+ []
+
+
+Package amsmath Warning: Cannot use `split' here;
+(amsmath)                trying to recover with `aligned' on input line 320.
+
+[17] [18]) (mainbody.bbl
+Underfull \hbox (badness 2875) in paragraph at lines 43--45
+[]\OT1/ptm/m/n/8 D. J. Bern-stein, ``Cache-timing at-tacks on AES,'' $http : / 
+/ cr . yp . to /
+ []
+
+Missing character: There is no ¡ in font ptmri7t!
+Missing character: There is no ¯ in font ptmri7t!
+Missing character: There is no ¡ in font ptmri7t!
+Missing character: There is no ¯ in font ptmri7t!
+[19]) [20] (mainbody.aux) ) 
+Here is how much of TeX's memory you used:
+ 7530 strings out of 493328
+ 113814 string characters out of 3139128
+ 252254 words of memory out of 3000000
+ 10871 multiletter control sequences out of 15000+200000
+ 62013 words of font info for 126 fonts, out of 3000000 for 9000
+ 1144 hyphenation exceptions out of 8191
+ 39i,19n,49p,1320b,1030s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r
+.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
+9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+msy5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/euler/eufm7.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/urw/courier/ucrb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/cou
+rier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/urw/times/utmri8a.pfb>
+Output written on mainbody.pdf (20 pages, 1621100 bytes).
+PDF statistics:
+ 456 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+
