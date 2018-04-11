@@ -29,7 +29,8 @@ The straightforward AES implementation needs four 1KB tables in all rounds, $T_{
 &T_{1}[x] = (3\cdot S(x), 2\cdot S(x), S(x), S(x))\nonumber\\
 &T_{2}[x] = (S(x), 3\cdot S(x), 2\cdot S(x), S(x))\nonumber\\
 &T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))\nonumber
-\end{eqnarray}\setlength{\arraycolsep}{5pt}\\
+\end{eqnarray}\setlength{\arraycolsep}{5pt}
+
 These four tables are encoded into a 2KB lookup table in the compact AES implementation,
 $T[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))$.
 Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[x]$.
@@ -75,8 +76,8 @@ Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[
 
 There are similar implementations of other block ciphers,
   consisting of table lookup operations and basic computations while
-   no data-dependent branch in the execution path.
-For example, 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
+   having no data-dependent branch in the execution path,
+such as 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
 %  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
 %Our scheme works for the symmetric encryption algorithm based on the lookup tables.
 %As shown in~\cite{Schneier1996Applied}, table lookup is a common operation in symmetric encryption algorithm.
@@ -289,8 +290,6 @@ These defense methods eliminate the execution time difference of cache hits/miss
  Some methods which are implemented on hardware to control the cache lack universality~\cite{Cock2014The,Dan2005Partitioned,Yinqian2013D}.
 Some using particular implementation to make algorithms constant time
  are just suitable to specific algorithms~\cite{kasper2009faster,K2008A,Taha2014Cache}.
-
-%extra operation举出一些例子
 Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads~\cite{Gullasch2011Cache,jayasinghe2010remote,Osvik2006Cache,Zhang2011Predictive}.
 
 \noindent\textbf{Eliminating the execution time difference.}
