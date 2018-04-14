@@ -31,8 +31,8 @@ In  practical cryptographic algorithm implementations,
 %  Side channel attacks are using these vulnerabilities to obtain the sensitive information.
   Among these vulnerabilities,
    timing side-channel attacks are launched easily without special probe devices.
-In particular, remote timing side channels allow attackers, who do not have
-    any system or physical privilege on the computer,
+In particular, remote timing side channels allow attackers, who have
+    no system privilege or physical access to the computer,
     to discover the keys
     by repeatedly invoking the encryption/decryption functions and measuring the execution time \cite{Tsunoo2002Cryptanalysis,Bernstein2005Cache,Bonneau2006Cache,Neve2006A,Brumley2011Remote,Brumley2005Remote}.
 % 公钥算法的timing，也很明显，但是与cache无关？引用remote cache攻击
@@ -122,8 +122,8 @@ Note that,
     compared with the best case protected by {\scshape{Warm}},
   the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
 Only when the effect of {\scshape{Warm}} is broken  by system activities, such as interrupts and task scheduling,
-    and information on the secret key may be leaked,
-  the execution time is delayed in the worst case.
+    i.e. the information on the secret key may be leaked,
+  the execution time is delayed to the worst case.
 
 \item
 % 将warm放到delay的时间中

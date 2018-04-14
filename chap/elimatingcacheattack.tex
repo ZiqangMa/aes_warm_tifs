@@ -16,7 +16,7 @@ For ease of reference, we summarize the notations commonly used in the paper in 
 \label{sec:assumption}
 %goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
 In this paper we consider the \emph{remote cache timing side-channel attacks} on block ciphers.
-The algorithms of block ciphers and their implementation details are publicly known, but the keys are kept secret, which become the target of the attacks.
+The algorithms of block ciphers and their implementation details are publicly known, but the keys are kept secret, which are the target of the attacks.
 In particular,
 lookup tables are used in the implementation of block ciphers,
   and the execution time highly depends on the cache access status during table lookup.
@@ -132,10 +132,10 @@ The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense
 For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 In this algorithm,
   there are two parameters, $T_{W}$ and $T_{NM}$.
-$T_{NM}$ is defined as the time period for one execution of encryption,
-  in the case that all lookup tables are in caches during the execution.
-$T_{W}$ is defined as the max time period for one execution of encryption,
-  in the case that none of table entries is cached before the execution.
+$T_{NM}$ is the time period for one encryption execution,
+  in the case that no cache misses occur during the execution, i.e. all lookup tables are in the caches.
+$T_{W}$ is defined as the worst execution time for one encryption,
+  in the case that none of table entries is cached before the execution and cache misses occur at most.
 These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
 Given a block cipher, $T_{NM}$ and $T_{W}$
   are constant on a certain computing platform.
@@ -193,8 +193,8 @@ In general,  {\scshape{ProtectedCrypt}} are invoked continuously to process larg
 So {\scshape{Warm}} takes effect in the \emph{next} execution of encryption.
 Therefore,
   if {\scshape{ProtectedCrypt}} has been idle for a long time,
-   we suggest an additional ``initial'' invocation of {\scshape{Warm}} before the loop of {\scshape{ProtectedCrypt}},
-     not shown in Algorithm~\ref{alg:aesdefense}.
+   we suggest an additional ``initial'' invocation of {\scshape{Warm}} before the loop of {\scshape{ProtectedCrypt}}.
+     %not shown in Algorithm~\ref{alg:aesdefense}.
 Note that,
   even if this initial {\scshape{Warm}}  is not performed,
    the security is still ensured by {\scshape{Delay}} afterward and

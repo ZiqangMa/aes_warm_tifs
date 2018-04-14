@@ -166,7 +166,7 @@ On the contrary,
     \label{pic:delay} %% label for entire figure
 \end{figure}
 
-We measure the time for different loop number of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
+We measure the time for different loop numbers of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
 The relation between the time delayed ($T_d$) and the loop number of \verb+xor+ instruction ($n$) is calculated through the least squares method. The result is $t_{delay} = 2.9886n + 15.68$, and the coefficient of determination is 0.99996.
 The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
 Implementation of {\scshape{Delay()}} is provided in Listing 1.
