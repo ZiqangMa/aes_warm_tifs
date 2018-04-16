@@ -40,14 +40,15 @@ In particular, remote timing side channels allow attackers, who have
 %Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
-One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, passively exploits the time differences of data cache hits and misses. Such cache timing side channels are widely found in various implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Bonneau2006Cache,Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
-In these implementations,
+One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, passively exploits the time differences of data cache hits and misses. Such cache timing side channels are widely found in block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+In these block cipher implementations,
   table lookup is the primary time-consuming operation in encryption and decryption.
-Because accessing data in caches is much faster than those in RAM chips,
- cache hits and misses in table lookup
-    significantly influence the overall execution time of block ciphers.
+The overall execution time of block ciphers is significantly influenced due to the number of cache misses in table lookups.
+%Because accessing data in caches is much faster than those in RAM chips,
+% cache hits and misses in table lookup
+%    significantly influence the overall execution time of block ciphers.
 Therefore,
-   from the execution time, the attackers are able to infer the inputs of table lookup operations which are determined by the secret keys (and also the known plaintext/ciphertext).
+   from the execution time, attackers are able to infer the inputs of table lookup operations which are determined by the secret keys (and also the known plaintext/ciphertext).
 Generally, for a block cipher,
   encryption and decryption are symmetric computations with same basic operations.
 So  we only emphasize on encryption in the rest of the paper. Note that all the discussions and conclusions are also applicable to decryption.
@@ -81,7 +82,7 @@ Intuitively,
 %It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
 In particular,
  {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent and implementation-transparent mechanisms
-    to eliminate cache timing side channels \cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding,Zhang2011Predictive}.
+    to eliminate cache timing side channels \cite{Braun2015Robust,Osvik2006Cache,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant lookup tables \emph{before} the encryption operations,
     and
     {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations\footnote{Another choice is to always perform encryption without using caches, however, it is very inefficient.
