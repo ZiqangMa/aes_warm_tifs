@@ -90,7 +90,7 @@ In particular,
      is to extend the encryption operation in constant time that is equal to the execution time without using caches.}. With {\scshape{Warm}} and/or {\scshape{Delay}}, the execution time measured by the attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
-    but they may also introduce extra operations and significantly degrade the performance, especially in naive implementations.
+    but they also introduce extra operations and significantly degrade the performance, especially in naive implementations.
 In this paper, we investigate the performance of symmetric cryptographic functions that implement {\scshape{Warm}} and {\scshape{Delay}} to defend cache timing side channel attacks,
   and attempt to find the optimal strategy to integrate these two complementary mechanisms.
 %    with the optimal performance while effectively eliminate remote cache side channels.
