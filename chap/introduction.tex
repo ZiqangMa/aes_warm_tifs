@@ -40,10 +40,12 @@ In particular, remote timing side channels allow attackers, who have
 %Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
-One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, passively exploits the time differences of data cache hits and misses. Such cache timing side channels are widely found in block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
-In these block cipher implementations,
+One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, %passively
+ exploits the time differences of data-cache hits and misses. Such cache timing side channels are widely found in the implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+In these implementations,
   table lookup is the primary time-consuming operation in encryption and decryption.
-The overall execution time of block ciphers is significantly influenced due to the number of cache misses in table lookups.
+The overall execution time %of block ciphers
+ is significantly influenced due to the number of cache misses in table lookups.
 %Because accessing data in caches is much faster than those in RAM chips,
 % cache hits and misses in table lookup
 %    significantly influence the overall execution time of block ciphers.
@@ -51,7 +53,8 @@ Therefore,
    from the execution time, attackers are able to infer the inputs of table lookup operations which are determined by the secret keys (and also the known plaintext/ciphertext).
 Generally, for a block cipher,
   encryption and decryption are symmetric computations with same basic operations.
-So  we only emphasize on encryption in the rest of the paper. Note that all the discussions and conclusions are also applicable to decryption.
+So  we only emphasize on encryption in the rest of the paper,
+    but all discussions and conclusions are also applicable to decryption.
 %Different inputs of table lookup cause different cache access behavior so that the overall time differs, which are related to the secret keys,    and then the information about keys leaks.
 
 %	Cache timing side channel是指利用密码计算过程中，对于cache/RAM访问而导致的timing特征，获得密钥。在大量的对称密码算法中，有“与key相关的查表操作”，与cache相关；影响到timing。攻击者就可以从timing获得推导密钥信息。
@@ -72,7 +75,7 @@ while other active cache-based side-channel attacks involve operations
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
 
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
-Different methods have been proposed to defend against cache timing side-channel attacks,
+Different methods have been proposed against cache timing side-channel attacks,
   by destroying the relationship between the secret keys and the execution time.
 Intuitively,
   the basic design is
@@ -80,17 +83,17 @@ Intuitively,
     or \emph{b}) in a constant period of time, regardless of cache utilization.
 %Although the existing methods can offer some security guarantee, most of them have some drawbacks.
 %It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
-In particular,
+%In particular,
  {\scshape{Warm}} and  {\scshape{Delay}} are two typical algorithm-independent and implementation-transparent mechanisms
     to eliminate cache timing side channels \cite{Braun2015Robust,Osvik2006Cache,Zhang2011Predictive}.
-    {\scshape{Warm}} fills cache lines by reading constant lookup tables \emph{before} the encryption operations,
+    {\scshape{Warm}} fills cache lines by reading constant tables \emph{before} the encryption operations,
     and
-    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations\footnote{Another choice is to always perform encryption without using caches, however, it is very inefficient.
+    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations.\footnote{Another choice is to perform encryption without caches; however, it is very inefficient.
      Moreover, a typical strategy of {\scshape{Delay}}
-     is to extend the encryption operation in constant time that is equal to the execution time without using caches.}. With {\scshape{Warm}} and/or {\scshape{Delay}}, the execution time measured by the attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
+     is to extend the encryption operation in constant time, equal to the execution time without using caches.} With {\scshape{Warm}} and/or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
-    but they also introduce extra operations and significantly degrade the performance, especially in naive implementations.
+    but they introduce extra operations and significantly degrade the performance, especially in naive implementations.
 In this paper, we investigate the performance of symmetric cryptographic functions that implement {\scshape{Warm}} and {\scshape{Delay}} to defend cache timing side channel attacks,
   and attempt to find the optimal strategy to integrate these two complementary mechanisms.
 %    with the optimal performance while effectively eliminate remote cache side channels.
@@ -112,7 +115,7 @@ Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
 %Destroy the relationship between the execution time and cache misses/hits,   to ensure security.
 The measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
      or the worst case (i.e., it is delayed to the execution time without any caches).
-      Otherwise the cache side channel attacks may be launched.
+      Otherwise, the cache side channel attacks may be launched.
 
 \item
 In order to optimize the performance,
@@ -141,6 +144,16 @@ and the performance is further improved.
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
+The integration scheme does not require any privileged operation on the computer system.
+The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
+Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
+    without special privileges.
+The scheme is independent of algorithms and transparent to implementations.
+   It does not depend on any special design or feature of block ciphers,
+and it is applicable to different implementations.
+%  except that the lookup tables are accessible in the warm operations.
+
+
 We apply the optimization  integration to protect AES,
     and analyze the situations that it produces the optimal performance.
 It is proven that,
@@ -159,25 +172,15 @@ when the ratio of
   the extra cost caused by {\scshape{Delay}} to the extra cost caused by {\scshape{Warm}},
   denoted as $G$, is less than $167.7$.
 These conditions hold %for continuous AES executions
- in commodity computer systems,
+ in commodity computers,
   which is confirmed by our experiments.
-The conditions for other AES implementations of different key sizes are not identical but also hold in commodity systems.
+The conditions of the optimal performance for other AES implementations of different key sizes are not identical but also hold in commodity systems.
 %In fact, our protection scheme produces the optimal performance for various AES implementations (the lookup tables in size of 2KB, 4KB, 4.25KB and 5KB) of different key sizes (128, 192 and 256 bits),
-
-
-The integration scheme does not require any privileged operation on the computer system.
-The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
-Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
-    without special privileges.
-The scheme is independent of algorithms and transparent to implementations.
-   It does not depend on any special design or feature of block ciphers,
-and it is applicable to different implementations.
-%  except that the lookup tables are accessible in the warm operations.
 
 
 
 To the best of our knowledge,
-  this work is the first to systematically analyze the optimal performance of
+  this is the first to systematically analyze the optimal performance of
     integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  in commodity computer systems.
 Our contributions are as follows:
 \begin{itemize}
