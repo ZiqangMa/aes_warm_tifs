@@ -106,22 +106,26 @@ In particular,
     the following principles are analyzed and discussed in the integration:
 \begin{enumerate}
 \item
+%Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
+%   i.e., it is performed with all lookup tables in caches
+%   or it is finished with a constant period of time.
+%%Destroy the relationship between the execution time and cache misses/hits,   to ensure security.
+%The measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
+%     or the worst case (i.e., it is delayed to the execution time without any caches).
+%      Otherwise the cache side channel attacks may be launched.
 Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
-   i.e., it is performed with all lookup tables in caches
-   or it is finished with a constant period of time.
-%Destroy the relationship between the execution time and cache misses/hits,   to ensure security.
-The measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
+so that the measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
      or the worst case (i.e., it is delayed to the execution time without any caches).
-      Otherwise the cache side channel attacks may be launched.
+      Otherwise the cache timing side channel attacks may be launched.
 
 \item
 In order to optimize the performance,
   {\scshape{Warm}} is preferred to {\scshape{Delay}};
   i.e.,
     finish  encryption operations as many as possible, with all lookup tables in caches.
-Note that,
-    compared with the best case protected by {\scshape{Warm}},
-  the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
+%Note that,
+%    compared with the best case protected by {\scshape{Warm}},
+%  the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
 Only when the effect of {\scshape{Warm}} is broken  by system activities, such as interrupts and task scheduling,
     i.e. the information on the secret key may be leaked,
   the execution time is delayed to the worst case.
@@ -131,8 +135,7 @@ Only when the effect of {\scshape{Warm}} is broken  by system activities, such a
 When {\scshape{Delay}} is performed,
   {\scshape{Warm}} is  done as a part of inserted instructions
    for the next encryption.
-So, the cost of {\scshape{Warm}} is masked by padding instructions,  % are utilized to perform warm instead.
-%Note that warm also consumes CPU cycles.
+So, the cost of {\scshape{Warm}} is masked by padding instructions,
 and the performance is further improved.
 \end{enumerate}
 
@@ -141,8 +144,8 @@ and the performance is further improved.
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-We apply the optimization  integration to protect AES,
-    and analyze the situations that it produces the optimal performance.
+We apply the integrated {\scshape{Warm+Delay}} scheme to protect AES,
+    and analyze the conditions that it produces the optimal performance.
 It is proven that,
    the integration scheme with appropriate parameters,
    achieves \emph{the optimal performance with the least extra operations};
@@ -165,7 +168,7 @@ The conditions for other AES implementations of different key sizes are not iden
 %In fact, our protection scheme produces the optimal performance for various AES implementations (the lookup tables in size of 2KB, 4KB, 4.25KB and 5KB) of different key sizes (128, 192 and 256 bits),
 
 
-The integration scheme does not require any privileged operation on the computer system.
+This integration scheme does not require any privileged operation on the computer system.
 The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
 Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
     without special privileges.
