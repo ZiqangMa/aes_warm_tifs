@@ -75,8 +75,7 @@ Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[
 %We use the mbed TLS (formerly known as PolarSSL) as the experimental subject. Its AES code is implemented with this design above. However, our protection model can also be employed in other implementations based on the lookup tables.
 
 There are similar implementations of other block ciphers,
-  consisting of table lookup operations and basic computations while
-   having no data-dependent branch in the execution path,
+  consisting of table lookup operations and basic computations without data-dependent branches in the execution path,
 such as 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
 %  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
 %Our scheme works for the symmetric encryption algorithm based on the lookup tables.
@@ -139,10 +138,11 @@ When the CPU core attempts to access a data block,
 Cache timing side-channel attacks on block cipher implementations exploit the fact that
  accessing cached data is about two orders of magnitude faster than those in RAM,
  to recover the keys based on the execution time.
-Typically, it takes 3 to 4 cycles for a read operation in L1 cache,
+Typically, it takes 3 to 4 cycles for a read operation in L1 caches,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
 Two typical remote cache-based side channels of block ciphers are outlined as follows.
-Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
+
+%Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
 
 %Bernstein
 \noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
