@@ -1,6 +1,16 @@
 %%%%%%% up to 18 pages, TDSC.
 
-\documentclass[journal]{IEEEtran}
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+\ifCLASSOPTIONcompsoc
+  % IEEE Computer Society needs nocompress option
+  % requires cite.sty v4.0 or later (November 2003)
+  \usepackage[nocompress]{cite}
+\else
+  % normal IEEE
+  \usepackage{cite}
+\fi
+
 \ifCLASSINFOpdf
   % \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
@@ -65,18 +75,20 @@ Eliminate Remote Cache Timing Side Channels} % with Optimal Performance}
         Jingqiang~Lin~\IEEEmembership{Senior Member,~IEEE,}
         Bo~Luo~\IEEEmembership{Member,~IEEE,}
         Jiwu~Jing~\IEEEmembership{Member,~IEEE}% <-this % stops a space
-\thanks{Ziqiang Ma, Quanwei Cai, Jingqiang Lin, Jiwu Jing are with Data Assurance and Communications Security Research Center,
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Ziqiang Ma, Quanwei Cai, Jingqiang Lin, Jiwu Jing are with Data Assurance and Communications Security Research Center,
   and also State Key Laboratory of Information Security, Institute of Information Engineering, Chinese Academy of Sciences,
-  Beijing 100093, CHINA; E-mail: \{maziqiang, caiquanwei, linjingqiang, jingjiwu\}\@iie.ac.cn.
-Bo Luo is with Department of Electrical Engineering and Computer Science, the University of Kansas,
-    KS 66045, USA; E-mail: bluo\@ku.edu.}% <-this % stops a space
+  Beijing 100093, CHINA.\protect\\
+E-mail: \{maziqiang, caiquanwei, linjingqiang, jingjiwu\}@iie.ac.cn.
+\IEEEcompsocthanksitem Bo Luo is with Department of Electrical Engineering and Computer Science, the University of Kansas,
+    KS 66045, USA.\protect\\
+E-mail: bluo@ku.edu.}% <-this % stops a space
 \thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
 
 % The paper headers
 \markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
-{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
+{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Computer Society Journals}
 
-\maketitle
+\IEEEtitleabstractindextext{%
 
 \begin{abstract}
 %remote cache timing side channels危害很大；攻击的privilege要求很少。
@@ -125,21 +137,19 @@ Experimental results confirm that,
 (\emph{a}) the execution time does not leak information on cache access,
  (\emph{b}) the scheme outperforms other integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
 (\emph{c}) the implementation works without any privileged operations on the computer system.
-
-
-
 %  Methods to defend against the cache side channel attacks are implemented a lot, but still exist some problems such as excess extra overhead, relying on hardware modification, non-portability etc.
 %Also it can be used to all the symmetric encryption algorithms implemented with lookup tables. The basic idea of our scheme is to combine performing cache warm and adding time delay.
 %Through reducing the context of cache warm and the time of delaying and eliminating the unnecessary cache warm and delay operation on the premise of guarantee security, we achieve the  performance.
 % Our scheme is independent with algorithms so that it can be easily transplanted.
 %We implement our scheme on AES. Through the contrast experiments it is further proved the security and the optimality of our scheme.
-
 \end{abstract}
 
 \begin{IEEEkeywords}
 AES, cache side channel, block cipher, performance, timing side channel.
-\end{IEEEkeywords}
+\end{IEEEkeywords}}
 
+\maketitle
+\IEEEdisplaynontitleabstractindextext
 \IEEEpeerreviewmaketitle
 
 \input{chap/introduction}
@@ -151,19 +161,25 @@ AES, cache side channel, block cipher, performance, timing side channel.
 \input{chap/discussions}
 \input{chap/conclusion}
 
-%\subsubsection*{Acknowledgments.} Quanwei Cai, Jingqiang Lin and Qiongxiao Wang were partially supported by National 973 Program of China under award No. 2014CB 340603 and No. 2013CB338001, and the National Natural Science Foundation of China (Grant No.61402470). Fengjun Li was partially supported by National Science Foundation under Award No. EPS-0903806 and matching support from the State of Kansas through the Kansas Board of Regents.
-%%F. Li was supported by NSF under Award No. EPS0903806 and matching support from the State of Kansas through the Kansas Board of Regents.
-
-% use section* for acknowledgment
-\section*{Acknowledgment}
-Ziqiang Ma, Quanwei Cai, Jingqiang Lin, and Jiwu Jing were partially supported
-     by National Natural Science Foundation of China (No. 61772518)
-      and National Basic Research Program of China (973 Program No. 2013CB338001).
-Bo Luo was partially supported by ...
 
 \appendices
 \input{chap/appdenix}
 
+%\subsubsection*{Acknowledgments.} Quanwei Cai, Jingqiang Lin and Qiongxiao Wang were partially supported by National 973 Program of China under award No. 2014CB 340603 and No. 2013CB338001, and the National Natural Science Foundation of China (Grant No.61402470). Fengjun Li was partially supported by National Science Foundation under Award No. EPS-0903806 and matching support from the State of Kansas through the Kansas Board of Regents.
+%%F. Li was supported by NSF under Award No. EPS0903806 and matching support from the State of Kansas through the Kansas Board of Regents.
+
+% use section* for acknowledgment
+\ifCLASSOPTIONcompsoc
+  % The Computer Society usually uses the plural form
+  \section*{Acknowledgments}
+\else
+  % regular IEEE prefers the singular form
+  \section*{Acknowledgment}
+\fi
+Ziqiang Ma, Quanwei Cai, Jingqiang Lin, and Jiwu Jing were partially supported
+     by National Natural Science Foundation of China (No. 61772518)
+      and National Basic Research Program of China (973 Program No. 2013CB338001).
+Bo Luo was partially supported by ...
 
 
 \ifCLASSOPTIONcaptionsoff
@@ -185,15 +201,12 @@ Bo Luo was partially supported by ...
 % or if you just want to reserve a space for a photo:
 
 % if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{John Doe}
+\begin{IEEEbiography}{Michael Shell}
 Biography text here.
-\end{IEEEbiographynophoto}
+\end{IEEEbiography}
 
-% insert where needed to balance the two columns on the last page with
-% biographies
-%\newpage
-
-\begin{IEEEbiographynophoto}{Jane Doe}
+% if you will not have a photo at all:
+\begin{IEEEbiographynophoto}{John Doe}
 Biography text here.
 \end{IEEEbiographynophoto}
 
