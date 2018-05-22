@@ -132,11 +132,11 @@ It is proven that,
    the integration scheme with appropriate parameters,
    achieves the optimal performance with the least extra operations.
 Finally,
-    we implement it on Linux with Intel Core CPUs. % to protect AES.
+    we implement it on Linux with Intel CPUs. % to protect AES.
 Experimental results confirm that,
 (\emph{a}) the execution time does not leak information on cache access,
  (\emph{b}) the scheme outperforms other integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-(\emph{c}) the implementation works without any privileged operations on the computer system.
+(\emph{c}) the implementation works without any privileged operations on the computer.
 %  Methods to defend against the cache side channel attacks are implemented a lot, but still exist some problems such as excess extra overhead, relying on hardware modification, non-portability etc.
 %Also it can be used to all the symmetric encryption algorithms implemented with lookup tables. The basic idea of our scheme is to combine performing cache warm and adding time delay.
 %Through reducing the context of cache warm and the time of delaying and eliminating the unnecessary cache warm and delay operation on the premise of guarantee security, we achieve the  performance.
