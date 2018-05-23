@@ -34,26 +34,32 @@ That is,
     the attackers cannot run privileged or unprivileged processes on the target system
    to modify or probe the cache state.
    %Other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
-The attackers do not have physical access to the hardware.
+The attackers do not have physical access to the hardware, either.
 
 \subsection{Design Goals}
 \label{sec:goal}
-This work aims to provide an in-depth investigation of the \emph{performance} of integrating {\scshape{Warm}} and {\scshape{Delay}} to defend against the remote cache timing side-channel attacks launched by unprivileged attackers, as we presented in the threat model. As the baseline, the defense mechanism should satisfy the following conditions:
+This work aims to provide an in-depth investigation of the \emph{performance} of integrating {\scshape{Warm}} and {\scshape{Delay}} to defend against the remote cache timing side-channel attacks.
+% launched by unprivileged attackers, as we presented in the threat model.
+As the baseline, the defense mechanism shall satisfy the following conditions:
 
 \begin{itemize}
-  \item The solution must be algorithm-independent, hence, it is universally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
-  \item The solution must be transparent to implementations that it does not require modification to the source code of the encryption functions.
-  \item The solution requires no privileged operations -- it should work well in user space or kernel space,
+  \item The solution is algorithm-independent.
+  It is universally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
+  \item The solution is transparent to implementations that it does not require modification to the source code of the encryption functions.
+  \item The solution requires no privileged operations. 
+  It works well in user space or kernel space,
      to protect the block ciphers running in user mode and kernel mode, respectively.
 \end{itemize}
 
-Moreover, the objectives of our research are elaborated as follows:
+More importantly, the objectives of our research are elaborated as follows:
 
 \begin{itemize}
-  \item We attempt to develop the first mathematical model to formally analyze the performance of block cipher implementations that integrate {\scshape{Warm}} and {\scshape{Delay}} to defend against the cache timing side-channel attacks.
-  \item Follow the mathematical model, we examine the strategies of invoking {\scshape{Warm}} and {\scshape{Delay}}, and present the theoretical boundaries for the optimal performance while ensuring security.
+  \item We attempt to develop the first %mathematical
+   model to formally analyze the performance of block cipher implementations that integrate {\scshape{Warm}} and {\scshape{Delay}} to defend against the cache timing side-channel attacks.
+  \item Follow the model, we examine the strategies of integrating {\scshape{Warm}} and {\scshape{Delay}}, and present the theoretical boundaries for the optimal performance while ensuring security.
 %So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
-  \item In our model, the parameters are configurable. Therefore, by configuring appropriate parameters, optimal performance is achievable for different block-cipher implementations and computing platforms.
+  \item In our model, the parameters are configurable. Therefore, by configuring appropriate parameters, optimal performance
+   is achieved  for different block-cipher implementations and computing platforms.
 \end{itemize}
 
 %while eliminating the remote cache timing side channel attacks on the symmetric encryption algorithm implementations based on the lookup tables.
@@ -86,14 +92,14 @@ Moreover, the objectives of our research are elaborated as follows:
 % 我们的防御方案，最主要的目的是为了保护cache时间攻击，同时，对于防御方案，有一些要求，首先是要运行在用户态下，其次是要与算法无关的，可移植的，同时，防御方案对算法本身并不进行修改。再次是要能够使得在安全性保证的前提下，效率达到最大。
 % 对于cache 攻击的软件防御一般分为两种方式，消除cache miss 和 混淆cache miss，使用warm可以消除，混淆的方法有多种，可以时间扭曲，随机置换表等。但是很多方法需要对算法本身进行修改，其中使用给每次计算进行延时的方法，可以有效混淆cache miss。 我们进过仔细分析，warm可以使查找表都在cache中，从而消除cache miss，但是在实际情况中，由于cache碰撞，进程调度等原因，并不能保证查找表一定在cache中。而对于延时的方法，会严重影响AES的效率。因此，经过仔细分析，我们提出了如下防御方案，结合了warm和delay的操作，将其融合在一起。下面的例子是以AES为例，但可以被移植到其他使用查找表来实现的对称算法。
 
-There are two basic countermeasures against remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
+There are two basic common countermeasures against remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
     \emph{a}) {\scshape{Warm}}, load the lookup tables into caches \emph{before} encryption;
   and \emph{b}) {\scshape{Delay}},     insert padding instructions \emph{after} encryption.
 These mechanisms work complementarily and each has its own advantages:
-    {\scshape{Warm}} improves the performance, but it cannot ensure security by itself
+    {\scshape{Warm}} improves the performance, but it cannot absolutely ensure security by itself
         because the effect may be broken by system activities;
     {\scshape{Delay}} completely eliminates the timing side channels, but the performance is significantly degraded.
-So we want to integrate their advantages to form the defense scheme.
+So we integrate their advantages to form the defense scheme.
 
 %
 %
@@ -108,7 +114,7 @@ So we want to integrate their advantages to form the defense scheme.
 %  %\item
 %\end{enumerate}
 
-A naive integration is performing both {\scshape{Warm}} and {\scshape{Delay}} operation every time the protected cryptographic function is invoked.
+A naive scheme is performing both {\scshape{Warm}} and {\scshape{Delay}} operation every time the protected cryptographic function is invoked.
  But it introduces too many unnecessary extra operations and the performance is seriously degraded, although the security is ensured.
 In order to achieve the optimal performance,
  we perform {\scshape{Delay}} as the last line of defense,
