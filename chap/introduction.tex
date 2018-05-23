@@ -66,20 +66,21 @@ Compared with other side channels, such as
  power, electromagnetic fields,
  ground electric potential and acoustic emanations,
  cache-based timing side-channel attacks do not require special equipments
-    or extra physical access to the victim computer system.
+    or extra physical access to the victim system.
  Moreover,
-  such remote attacks only require the least privilege to (remotely) invoke the encryption/decryption functions,
+  such remote attacks only require the least privilege to (remotely) invoke the encryption functions,
 while other active cache-based side-channel attacks involve operations
- by a malicious task that share caches with the victim cryptographic engine
+ by a malicious task that shares caches with the victim cryptographic engine
 %   such as cross-VM side-channel attack, FLUSH+RELOAD, and access-driven cache-attacks
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
+
 
 %Since little acquirements are needed, this type attack is easy to deploy and hard to defense.
 Different methods have been proposed against cache timing side-channel attacks,
   by destroying the relationship between the secret keys and the execution time.
 Intuitively,
   the basic design is
-    to perform encryption, \emph{a})  with the lookup tables completely inside/outside caches,
+    to perform encryption, \emph{a})  with the lookup tables completely inside or outside caches,
     or \emph{b}) in a constant period of time, regardless of cache utilization.
 %Although the existing methods can offer some security guarantee, most of them have some drawbacks.
 %It is difficult to perform a universal and high efficient method to defend against the remote cache timing attacks.
@@ -88,14 +89,14 @@ Intuitively,
     to eliminate cache timing side channels \cite{Braun2015Robust,Osvik2006Cache,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant tables \emph{before} the encryption operations,
     and
-    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations.\footnote{Another choice is to perform encryption without caches; however, it is very inefficient.
-     Moreover, a typical strategy of {\scshape{Delay}}
-     is to extend the encryption operation in constant time, equal to the execution time without using caches.} With {\scshape{Warm}} and/or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
+    {\scshape{Delay}} inserts padding instructions \emph{after} the encryption operations.\footnote{Another choice is to perform encryption without using caches, but it is very inefficient.
+     In fact, a typical strategy of {\scshape{Delay}}
+     is to extend the encryption operation in constant time, equal to the execution time without caches.} With {\scshape{Warm}} and/or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
-    but they introduce extra operations and significantly degrade the performance, especially in naive implementations.
+    but they introduce extra operations and significantly degrade the performance. %especially in naive implementations.
 In this paper, we investigate the performance of symmetric cryptographic functions that implement {\scshape{Warm}} and {\scshape{Delay}} to defend cache timing side channel attacks,
-  and attempt to find the optimal strategy to integrate these two complementary mechanisms.
+  and attempt to find \emph{the optimal strategy to integrate these two complementary mechanisms}.
 %    with the optimal performance while effectively eliminate remote cache side channels.
 %As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementations of block ciphers,
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
@@ -105,8 +106,7 @@ In this paper, we investigate the performance of symmetric cryptographic functio
 %	Remote side channel是指，攻击者可以远程发起，不需要接触或者近距离在密码系统旁边，也不需要在密码计算机器上有什么操作权限。相比其他的side channel，remote cache timing side channel的攻击条件很低，影响更多。最早是有……攻击[??]，后来又有什么发展。
 %    we attempt to integrate them into a scheme
 %   achieving the optimal performance while effectively eliminating remote cache timing side channels.
-In particular,
-    the following principles are analyzed and discussed in the integration:
+The following principles are analyzed and discussed in the integration:
 \begin{enumerate}
 \item
 %Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
@@ -119,7 +119,7 @@ In particular,
 Each encryption is protected by {\scshape{Warm}} or {\scshape{Delay}},
 so that the measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
      or the worst case (i.e., it is delayed to the execution time without any caches).
-      Otherwise the cache timing side channel attacks may be launched.
+      Otherwise, the cache timing side channel attacks may be launched.
 
 \item
 In order to optimize the performance,
@@ -147,8 +147,7 @@ and the performance is further improved.
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-
-The integration scheme does not require any privileged operation on the computer system.
+The integration scheme does not require any privileged operation on computer systems.
 The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
 Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
     without special privileges.
@@ -168,7 +167,7 @@ It is proven that,
 %It is found that,
 The optimal performance of the integrated {\scshape{Warm+Delay}} scheme with different key sizes (128, 192, and 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables),
-    is investigated in commodity computer systems.
+    is investigated in commodity computers.
 For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
 when the ratio of
@@ -183,23 +182,25 @@ The conditions of the optimal performance for other AES implementations of diffe
 
 To the best of our knowledge,
   this is the first to systematically analyze the optimal performance of
-    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  in commodity computer systems.
+    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache timing side channels  in commodity systems.
 Our contributions are as follows:
 \begin{itemize}
 \item
-We investigate the performance overheads of {\scshape{Warm}} and {\scshape{Delay}},
+We investigate the overheads of {\scshape{Warm}} and {\scshape{Delay}},
     and derive the scheme to integrate these countermeasures
         with the optimal performance while effectively eliminate remote cache side channels.
-Two basic countermeasures are algorithm-independent and implementation-transparent,
-   and the integration does not require any privileged operation on the computer system.
+These countermeasures are algorithm-independent and implementation-transparent,
+   and do not require any privileged operation. % on the computer system.
 We apply the integration scheme to AES,
-   and analyze the situations that it produces the optimal performance.
+   and analyze the detailed situations that it produces the optimal performance.
 
 \item
-We implement the {\scshape{Warm+Delay}} integration scheme on Linux with Intel Core CPUs for AES-128,
+We implement the optimal {\scshape{Warm+Delay}} integration scheme on Linux with Intel Core CPUs for AES-128,
   and experimentally confirm that it (\emph{a}) eliminates cache timing side channels,
-   (\emph{b}) outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-   (\emph{c}) works without any privileged operations on the system.
+   (\emph{b}) outperforms other different integration strategies, % of {\scshape{Warm}} and {\scshape{Delay}},
+    and
+   (\emph{c}) works without privileged operations on the system.
+
 
 
 
@@ -222,7 +223,7 @@ We implement the {\scshape{Warm+Delay}} integration scheme on Linux with Intel C
 The remainder of this paper is organized as follows.
 Section \ref{sec:background} presents the background and related works.
 Section \ref{sec:eliminating} discusses the {\scshape{Warm+Delay}} scheme and analyzes its security.
-Section \ref{sec:performanceproof} proves that the integration scheme achieves the optimal performance,
+Section \ref{sec:performanceproof} proves the optimal integration scheme,
  which is verified in Section \ref{sec:implementationEvalution}.
 Section \ref{sec:discussion} contains extended discussions.
 Section \ref{sec:conclusion} draws the conclusions.

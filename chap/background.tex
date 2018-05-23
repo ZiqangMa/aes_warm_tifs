@@ -74,9 +74,9 @@ Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[
 %\end{split}\end{equation}
 %We use the mbed TLS (formerly known as PolarSSL) as the experimental subject. Its AES code is implemented with this design above. However, our protection model can also be employed in other implementations based on the lookup tables.
 
-There are similar implementations of other block ciphers,
+There are implementations of other block ciphers,
   consisting of table lookup operations and basic computations without data-dependent branches in the execution path,
-such as 3DES, Blowfish~\cite{Schneier1993Description}, CAST128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
+such as 3DES, Blowfish~\cite{Schneier1993Description}, CAST-128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
 %  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
 %Our scheme works for the symmetric encryption algorithm based on the lookup tables.
 %As shown in~\cite{Schneier1996Applied}, table lookup is a common operation in symmetric encryption algorithm.
@@ -135,20 +135,23 @@ When the CPU core attempts to access a data block,
 
 %这里for different plaintexts 是否合适？
 \subsubsection{Cache Timing Side Channel}
-Cache timing side-channel attacks on block cipher implementations exploit the fact that
+Cache timing side-channel attacks %on block cipher implementations
+ exploit the fact that
  accessing cached data is about two orders of magnitude faster than those in RAM,
  to recover the keys based on the execution time.
 Typically, it takes 3 to 4 cycles for a read operation in L1 caches,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
-Two typical remote cache-based side channels of block ciphers are outlined as follows.
+Two typical remote cache side channels on block cipher implementations are outlined as follows.
 
 %Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
 
 %Bernstein
 \noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
-This attack statically analyzes the relation between the overall execution time and  lookup table indexes.
-The attacker firstly obtains the mapping between average maximum overall AES execution time and each table lookup index (i.e, $p_i \oplus k_i$, where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key respectively, and  $0 \leq i < 16$) on a duplicated server whose hardware and software configurations are the same as the victim one.
-For $i$th byte of the unknown key ($k_i^{'}$) on the victim server, it collects a large number of overall encryption times for different known plaintexts,  obtains $p_i^{'}$ corresponding to the maximum average AES execution from $256$ possible values,  and infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
+It statically analyzes the relation between the overall execution time and  lookup table indexes.
+The attacker firstly obtains the mapping between the ++ %average maximum overall
+    AES execution time and each table lookup index (i.e, $p_i \oplus k_i$, where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key, respectively) %, and  $0 \leq i < 16$)
+     on a duplicated server whose hardware and software configurations are the same as the victim server.
+For $i$th byte of the unknown key $k_i^{'}$ on the victim server, it collects a large number of overall encryption times for different known plaintexts,  obtains $p_i^{'}$ corresponding to the maximum average AES execution from $256$ possible values,  and infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
 %In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
 %For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicated server.
 %Then, the attacker repeats the same experiment on the victim server and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
@@ -159,10 +162,10 @@ This attack is based on the fact that less time is needed for accessing the look
 %Taking the first round attack of AES \cite{Bonneau2006Cache} as an example,
 %the plaintext and the round key are denoted in bytes as $p_0, p_1, ..., p_{15}$ and $k_0, k_1, ..., k_{15}$, respectively, and
 Taking the attack  on  first round of AES~\cite{Bonneau2006Cache} as an example,
- on the platform where each cache line (64 bytes) has $16$ entries (4 bytes),
+ on the platform where each cache line of64 bytes has $16$ 4-byte entries,
 the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
 When any two inputs of $T_i$ require accessing the lookup table entries in a same cache line,
- it results in shorter overall execution time, which is called an internal collision.
+ it results in shorter execution time, which is called an internal collision.
  %Then,
  The attacker  makes a statistics of the average execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}$ ($0 \leq j, j^{'} \leq 3$).
  The lowest time at the value $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}=\delta$ represents that cache collision occurs, which means $k_{(i+4j)\%16} \oplus k_{(i+4j^{'})\%16}=\delta \mod 16$.
@@ -170,22 +173,25 @@ When any two inputs of $T_i$ require accessing the lookup table entries in a sam
 %Since each cache line (64 bytes) contains multiple entries (4 bytes),
 %the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
 %The attacker needs further analysis or more data to extract the full key.
-This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to extract the full secret key without extra information.
-Also the internal collision attack works for DES, 3DES \cite{Tsunoo2003Cryptanalysis}.
+This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to extract the full secret key. %without extra information.
+It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
 \subsubsection{Active Cache Side Channel}
 In the local environment if the caches are shared between attackers and victims, the attackers can actively control the cache states and monitor the cache access patterns.
-Thereby the keys can be derived from the access patterns. This is called access-driven cache attacks.
-Attackers and victims can share either the L1 Cache or LLC (last level cache).
-Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
+Thereby the keys can be derived from the access patterns, called access-driven cache attacks.
+Attackers and victims can share either the L1 cache or last-level cache (LLC).
+%Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
-These attacks can be divided into two categories: synchronous and asynchronous attacks~\cite{Osvik2006Cache}.
-In synchronous attacks, attackers can use Evict+time and Prime+Probe methods to measure the cache access patterns.
-  Using Evict+time, attackers first trigger the encryption, then evict the cache by accessing some different memory addresses and finally trigger the encryption again and time it.
+These attacks are divided into two categories: synchronous and asynchronous attacks~\cite{Osvik2006Cache}.
+In synchronous attacks, the attackers can use Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient}
+ or Prime+Probe \cite{liu2015last,Tromer2010Efficient}
+    to measure the cache access patterns.
+The Evict+Time attackers trigger the encryption,
+ then evict the cache by accessing some different memory addresses and finally trigger the encryption again and time it.
    The attackers repeat these steps and infer the key information from the observations.
 In Prime+Probe, attackers fill the cache with a known array before trigger the encryption.
  Then they access the array again and find the cache access pattern from the different access time.
-These synchronous attacks only monitor the cache once per encryption.
+These synchronous attacks monitor the cache once per encryption.
 While in asynchronous attacks, attackers run the spy process along with the encryption.
  Also the Prime+Probe method can be used to monitor the cache states.
   Attackers fill the cache with a known array and repeatedly record the time of accessing the identical array while the victim is running,
