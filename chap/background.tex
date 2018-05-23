@@ -178,30 +178,32 @@ It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
 \subsubsection{Active Cache Side Channel}
 In the local environment if the caches are shared between attackers and victims, the attackers can actively control the cache states and monitor the cache access patterns.
-Thereby the keys can be derived from the access patterns, called access-driven cache attacks.
-Attackers and victims can share either the L1 cache or last-level cache (LLC).
+Thereby the keys are derived from the access patterns, called access-driven cache attacks.
+%Attackers and victims may share either the L1 cache or last-level cache (LLC).
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
-These attacks are divided into two categories: synchronous and asynchronous attacks~\cite{Osvik2006Cache}.
-In synchronous attacks, the attackers can use Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient}
+These active attacks are divided into two categories: synchronous and asynchronous attacks \cite{Osvik2006Cache}.
+In a synchronous attack, the attacker can use Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient}
  or Prime+Probe \cite{liu2015last,Tromer2010Efficient}
     to measure the cache access patterns.
 The Evict+Time attackers trigger the encryption,
  then evict the cache by accessing some different memory addresses and finally trigger the encryption again and time it.
    The attackers repeat these steps and infer the key information from the observations.
-In Prime+Probe, attackers fill the cache with a known array before trigger the encryption.
+In Prime+Probe, the attackers fill the cache with a known array before trigger the encryption.
  Then they access the array again and find the cache access pattern from the different access time.
-These synchronous attacks monitor the cache once per encryption.
+The synchronous attacks monitor the cache once per encryption.
 While in asynchronous attacks, attackers run the spy process along with the encryption.
  Also the Prime+Probe method can be used to monitor the cache states.
-  Attackers fill the cache with a known array and repeatedly record the time of accessing the identical array while the victim is running,
-Another method is Flush+Reload which needs the system supports the shared memory.
- Flush+Reload method monitors other processes reading and executing access to shared memory pages.
+  Attackers fill the cache with a known array and repeatedly record the time of accessing the identical array while the victim is running.
+Another method is Flush+Reload \cite{flushreload}, where the system supports shared memory.
+A  Flush+Reload attacker monitors other processes reading and executing access to shared memory pages.
  Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
 monitored memory locations. From this information attackers can infer the victim's confidential data.
 The asynchronous attacks have higher precision which can monitor several times per encryption.
 
-There have been proposed some other attack methods like Flush+Flush~\cite{gruss2016flush+flush}, Prime+abort~\cite{disselkoen2017prime+abort}. All these attacks utilize the different methods to observe the cache access pattern and then attempt to retrieve the confidential data of the victims.
+Active cache  side-channel attacks include Flush+Flush~\cite{gruss2016flush+flush}, Prime+Abort~\cite{disselkoen2017prime+abort}.
+They utilize different methods to observe the cache access pattern and then attempt to retrieve the confidential data
+ of the victim process.
 
 
 %A cache miss occurs when the inputs of each lookup table are different.
@@ -288,7 +290,7 @@ There have been proposed some other attack methods like Flush+Flush~\cite{gruss2
 
 \subsection{Control against Cache Timing Side Channels}
 Although eliminating timing side channels remains difficult~\cite{Cock2014The},
-different countermeasures have been proposed on the  levels of hardware, software and OS.
+different countermeasures have been proposed on the  levels of hardware, software and operating system (OS).
 These defense methods eliminate the execution time difference of cache hits/misses,
     introduce confusion to the execution time to obscure the difference,
     or both.

@@ -156,9 +156,6 @@ The scheme is independent of algorithms and transparent to implementations.
 and it is applicable to different implementations.
 %  except that the lookup tables are accessible in the warm operations.
 
-+++++
-
-
 We apply the integrated {\scshape{Warm+Delay}} scheme to protect AES,
     and analyze the conditions that it produces the optimal performance.
 It is proven that,
@@ -200,8 +197,10 @@ We apply the integration scheme to AES,
 \item
 We implement the optimal {\scshape{Warm+Delay}} integration scheme on Linux with Intel Core CPUs for AES-128,
   and experimentally confirm that it (\emph{a}) eliminates cache timing side channels,
-   (\emph{b}) outperforms other different integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
+   (\emph{b}) outperforms other different integration strategies, % of {\scshape{Warm}} and {\scshape{Delay}},
+    and
    (\emph{c}) works without privileged operations on the system.
+
 
 
 
@@ -224,7 +223,7 @@ We implement the optimal {\scshape{Warm+Delay}} integration scheme on Linux with
 The remainder of this paper is organized as follows.
 Section \ref{sec:background} presents the background and related works.
 Section \ref{sec:eliminating} discusses the {\scshape{Warm+Delay}} scheme and analyzes its security.
-Section \ref{sec:performanceproof} proves that the integration scheme achieves the optimal performance,
+Section \ref{sec:performanceproof} proves the optimal integration scheme,
  which is verified in Section \ref{sec:implementationEvalution}.
 Section \ref{sec:discussion} contains extended discussions.
 Section \ref{sec:conclusion} draws the conclusions.

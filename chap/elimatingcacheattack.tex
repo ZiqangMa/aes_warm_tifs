@@ -2,8 +2,8 @@
 \label{sec:eliminating}
 %\vspace{-2mm}
 
-This section presents the preliminaries of our work. First, we introduce the threat model and the objectives of this paper. We then describe the {\scshape{Warm+Delay}} defense scheme, and show its effectiveness through security analysis. This section provides a foundation for the analysis of performance optimization in Section \ref{sec:performanceproof}.
-For ease of reference, we summarize the notations commonly used in the paper in Table~\ref{notation}.
+This section presents the preliminaries of our work. First, we introduce the threat model and the objectives of this paper. We then describe the {\scshape{Warm+Delay}} defense scheme, and show its effectiveness through security analysis. This section provides a foundation for the analysis of performance optimization in next sections.
+%For ease of reference, we summarize the notations commonly used in the paper in Table~\ref{notation}.
 
 %This section firstly presents the threat mode and design goals.
 %Then, the  is described,
@@ -16,17 +16,23 @@ For ease of reference, we summarize the notations commonly used in the paper in 
 \label{sec:assumption}
 %goal: 抵御remoting cache timing攻击，针对对称算法，保证安全性，获得最优性能，同时不需要特权，不对算法本身进行改变，算法代码相当于一个盒子,具有通用性。
 We consider the \emph{remote cache timing side-channel attacks} on block ciphers.
-The algorithms of block ciphers and their implementation details are publicly known, but the keys are kept secret, which are the target of the attacks.
+The algorithms of block ciphers and their implementation details are publicly known, but the keys are kept secret, which are the attack targets.
 In particular,
-lookup tables are used in the implementation of block ciphers,
-  and the execution time highly depends on the cache access status during table lookup.
+lookup tables are used in the implementation,
+  and the execution time highly depends on the cache access during table lookup.
 
-We assume that remote attackers know the software/hardware configurations of the target system, including the operating system, cache hierarchy, etc. However, the running states of the target system are unknown to the attackers, due to non-deterministic interrupts, task scheduling and other system activities.
+The remote attackers know the software/hardware configurations of the target system, including the OS,
+ the cache hierarchy, etc. However, the running states of the system are unknown to the attackers, due to non-deterministic interrupts, task scheduling and other system activities.
 The attackers are able to
   invoke the encryption function arbitrarily -- they could continuously invoke the function so that
         all lookup tables are cached, or stop using the function for a long time so that
-           all tables are highly likely to be evicted from caches. They are also able to  measure the overall execution time for each execution of the block cipher. We assume unprivileged attackers, who cannot run privileged processes on the target system
-   to concurrently modify or probe the cache state of the system. Other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
+           all tables are highly likely to be evicted from caches. They are also able to  measure the overall execution time for each execution of the block cipher.
+
+The cache timing side-channels by active attackers are out of the scope of this paper.
+That is,
+    the attackers cannot run privileged or unprivileged processes on the target system
+   to modify or probe the cache state.
+   %Other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
 The attackers do not have physical access to the hardware. This threat model represents most of the typical attack scenarios of remote cache-timing side-channel attacks.
 
 \subsection{Design Goals}
