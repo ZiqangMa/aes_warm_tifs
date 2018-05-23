@@ -21,6 +21,7 @@ In particular,
 lookup tables are used in the implementation,
   and the execution time highly depends on the cache access during table lookup.
 
+This threat model represents most of the typical scenarios of remote cache timing side-channel attacks.
 The remote attackers know the software/hardware configurations of the target system, including the OS,
  the cache hierarchy, etc. However, the running states of the system are unknown to the attackers, due to non-deterministic interrupts, task scheduling and other system activities.
 The attackers are able to
@@ -33,14 +34,14 @@ That is,
     the attackers cannot run privileged or unprivileged processes on the target system
    to modify or probe the cache state.
    %Other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
-The attackers do not have physical access to the hardware. This threat model represents most of the typical attack scenarios of remote cache-timing side-channel attacks.
+The attackers do not have physical access to the hardware.
 
 \subsection{Design Goals}
 \label{sec:goal}
 This work aims to provide an in-depth investigation of the \emph{performance} of integrating {\scshape{Warm}} and {\scshape{Delay}} to defend against the remote cache timing side-channel attacks launched by unprivileged attackers, as we presented in the threat model. As the baseline, the defense mechanism should satisfy the following conditions:
 
 \begin{itemize}
-  \item The solution must be algorithm-independent, hence, it is universally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache-timing side channel attacks).
+  \item The solution must be algorithm-independent, hence, it is universally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
   \item The solution must be transparent to implementations that it does not require modification to the source code of the encryption functions.
   \item The solution requires no privileged operations -- it should work well in user space or kernel space,
      to protect the block ciphers running in user mode and kernel mode, respectively.
