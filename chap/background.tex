@@ -183,28 +183,30 @@ Thereby the keys are derived from the access patterns, called access-driven cach
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
 These active attacks are divided into two categories: synchronous and asynchronous attacks \cite{Osvik2006Cache}.
-In a synchronous attack, the attacker can use Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient}
- or Prime+Probe \cite{liu2015last,Tromer2010Efficient}
-    to measure the cache access patterns.
-The Evict+Time attackers trigger the encryption,
- then evict the cache by accessing some different memory addresses and finally trigger the encryption again and time it.
-   The attackers repeat these steps and infer the key information from the observations.
-In Prime+Probe, the attackers fill the cache with a known array before trigger the encryption.
- Then they access the array again and find the cache access pattern from the different access time.
-The synchronous attacks monitor the cache once per encryption.
-While in asynchronous attacks, attackers run the spy process along with the encryption.
- Also the Prime+Probe method can be used to monitor the cache states.
-  Attackers fill the cache with a known array and repeatedly record the time of accessing the identical array while the victim is running.
-Another method is Flush+Reload \cite{flushreload}, where the system supports shared memory.
-A  Flush+Reload attacker monitors other processes reading and executing access to shared memory pages.
- Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
-monitored memory locations. From this information attackers can infer the victim's confidential data.
-The asynchronous attacks have higher precision which can monitor several times per encryption.
+In a synchronous attack, the attacker runs serially with the victim. 
+ The attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
+While in an asynchronous attack, the attacker sets the cache states and detects the changes with the victim running parallel.
+The Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient} method is used in a synchronous attack. 
+ Using this method, the attacker triggers the encryption,
+ then evicts the cache by accessing some different memory addresses and finally triggers the encryption again and time it.
+   The attacker repeats these steps and infers the key information from the observations.
+Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
+  A  Flush+Reload attacker monitors other processes reading and executing access to shared memory pages.
+   Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
+    monitored memory locations. From this information attackers can infer the victim's confidential data.
+Another method is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
+In Prime phase, the attacker fills the cache with a known array.
+While in Probe phase, the attacker records the time of accessing the elements in the identical array.
+ The synchronous attacks monitor the cache once per encryption.
+While asynchronous attacks have higher precision which can monitor several times per encryption.
 
-Active cache  side-channel attacks include Flush+Flush~\cite{gruss2016flush+flush}, Prime+Abort~\cite{disselkoen2017prime+abort}.
-They utilize different methods to observe the cache access pattern and then attempt to retrieve the confidential data
- of the victim process.
+Active cache  side-channel attacks also include Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}.
+They utilize different methods to observe the cache access patterns.
+ Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
+Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with 
+TSX abort.
 
+  
 
 %A cache miss occurs when the inputs of each lookup table are different.
 %In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
