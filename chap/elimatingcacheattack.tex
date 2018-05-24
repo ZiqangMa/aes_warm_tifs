@@ -44,7 +44,7 @@ As the baseline, the defense mechanism shall satisfy the following conditions:
 
 \begin{itemize}
   \item The solution is algorithm-independent.
-  It is universally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
+  It is generally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
   \item The solution is transparent to implementations that it does not require modification to the source code of the encryption functions.
   \item The solution requires no privileged operations. 
   It works well in user space or kernel space,
@@ -58,7 +58,7 @@ More importantly, the objectives of our research are elaborated as follows:
    model to formally analyze the performance of block cipher implementations that integrate {\scshape{Warm}} and {\scshape{Delay}} to defend against the cache timing side-channel attacks.
   \item Follow the model, we examine the strategies of integrating {\scshape{Warm}} and {\scshape{Delay}}, and present the theoretical boundaries for the optimal performance while ensuring security.
 %So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
-  \item In our model, the parameters are configurable. Therefore, by configuring appropriate parameters, optimal performance
+  \item In our model, the parameters are configurable. Therefore, by configuring appropriate parameters, the optimal performance
    is achieved  for different block-cipher implementations and computing platforms.
 \end{itemize}
 
@@ -99,7 +99,7 @@ These mechanisms work complementarily and each has its own advantages:
     {\scshape{Warm}} improves the performance, but it cannot absolutely ensure security by itself
         because the effect may be broken by system activities;
     {\scshape{Delay}} completely eliminates the timing side channels, but the performance is significantly degraded.
-So we integrate their advantages to form the defense scheme.
+%So we integrate their advantages to form the defense scheme.
 
 %
 %
@@ -114,35 +114,37 @@ So we integrate their advantages to form the defense scheme.
 %  %\item
 %\end{enumerate}
 
-A naive scheme is performing both {\scshape{Warm}} and {\scshape{Delay}} operation every time the protected cryptographic function is invoked.
+A naive integration scheme is to perform both {\scshape{Warm}} and {\scshape{Delay}} operation every time the protected encryption
+  function is invoked.
  But it introduces too many unnecessary extra operations and the performance is seriously degraded, although the security is ensured.
 In order to achieve the optimal performance,
  we perform {\scshape{Delay}} as the last line of defense,
     only when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
          i.e., is not equal to the expected execution time with all tables cached (detailed in Section~\ref{delayanalysis});
 similarly,
-     {\scshape{Warm}} is performed only when some entries are not in caches(detailed in Section~\ref{warmanalysis}).
+     {\scshape{Warm}} is performed only when some entries are not in caches (detailed in Section~\ref{warmanalysis}).
 As the scheme does not involve privileged operations,
     the conditions of {\scshape{Warm}} and {\scshape{Delay}} are defined as regular timing.
 
 Next,
   when we consider that the cryptographic function is invoked continuously for large amounts of data,
- the time of performing {\scshape{Warm}} varies and this variation may reflect the cache access of the last encryption.
+ the time of performing {\scshape{Warm}} varies and this variation reflects the cache state after the last encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate the variation, but it brings another extra overhead.
 Fortunately,
     we find that,
      the conditions to perform {\scshape{Warm}} and {\scshape{Delay}} are related.
 That is,
-    when the execution time is greater than the expected time with all tables cached,
+    when the execution time is greater than the expected time with all tables cached (i.e.,
+    the execution time when no cache miss occurs),
         {\scshape{Delay}} is necessary to mitigate the risk and {\scshape{Warm}} is also necessary for the next encryption because some table entry is probably  uncached.
 So,
    {\scshape{Warm}} is performed as a part of inserted instructions by {\scshape{Delay}},
    if it is needed.
-   This design further improves the performance, and the variation of {\scshape{Warm}} is masked.
+   This design further improves the performance, and the variation of {\scshape{Warm}} is also masked.
 
 
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
-For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
+%For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 In this algorithm,
   there are two parameters, $T_{W}$ and $T_{NM}$.
 $T_{NM}$ is the time period for one encryption execution,
@@ -164,9 +166,9 @@ Given a block cipher, $T_{NM}$ and $T_{W}$
            %\State $state \gets 1$
            \Require $key$, $in$
            \Ensure $out$
-           \Function {ProtectedCrypt}{$key$, $in$, $out$}
+           \Function {ProtectedEncrypt}{$key$, $in$, $out$}
                 \State $t1 \gets \Call{GetTime}$
-                \State $\Call{Crypt}{key, in, out}$     {   } $//$ encrypt or decrypt
+                \State $\Call{Encrypt}{key, in, out}$     {   } % $//$ encrypt or decrypt
                 \State $t2 \gets \Call{GetTime}$
                 \If {$t2 - t1 > T_{NM}$}
                     %\State $state \gets 1$
@@ -181,7 +183,7 @@ Given a block cipher, $T_{NM}$ and $T_{W}$
     \end{algorithm}
 
 
-In addition to {\scshape{Crypt}}, three operations
+In addition to {\scshape{Encrypt}}, three operations
   are introduced by this defense scheme:
         \emph{a}) {\scshape{Warm}}, access lookup tables as constant data,
         \emph{b}) {\scshape{Delay}}, insert padding instructions,
@@ -201,17 +203,17 @@ We do not query the status of any cache line to determine whether an entry of th
 %   protected_crypt()
 % 说明一下，为什么warm在delay之前。而不是之后。
 
-In general,  {\scshape{ProtectedCrypt}} are invoked continuously to process large amounts of data,
+In general,  {\scshape{ProtectedEncrypt}} are invoked continuously to process large amounts of data,
   where the performance matters.
 So {\scshape{Warm}} takes effect in the \emph{next} execution of encryption.
 Therefore,
-  if {\scshape{ProtectedCrypt}} has been idle for a long time,
-   we suggest an additional ``initial'' invocation of {\scshape{Warm}} before the loop of {\scshape{ProtectedCrypt}}.
+  if {\scshape{ProtectedEncrypt}} has been idle for a long time,
+   we suggest an additional ``initial'' invocation of {\scshape{Warm}} before the loop of {\scshape{ProtectedEncrypt}}.
      %not shown in Algorithm~\ref{alg:aesdefense}.
 Note that,
   even if this initial {\scshape{Warm}}  is not performed,
    the security is still ensured by {\scshape{Delay}} afterward and
-    the impact of performance is  negligible if the loop of {\scshape{ProtectedCrypt}} is long enough.
+    the impact of performance is  negligible if the loop of {\scshape{ProtectedEncrypt}} is long enough.
 %Moreover,
 %    after an execution of encryption, some table entries are cached automatically for the next execution.
 
@@ -264,22 +266,22 @@ We ensure that the measured time does not leak any exploitable information about
 %Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{W}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{W} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
 %]]]]]]]
 
-The execution time of {\scshape{Crypt}}
+The execution time of {\scshape{Encrypt}}
 falls into three intervals, $(0, T_{NM}]$, $(T_{NM}, T_{W})$ and $[T_{W}, \infty )$.
 According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, respectively.
 
 \begin{itemize}
-  \item \textbf{Case 1}: The execution time of {\scshape{Crypt}} is in $(0, T_{NM}]$.
+  \item \textbf{Case 1}: The execution time of {\scshape{Encrypt}} is in $(0, T_{NM}]$.
    In fact, it is almost a fixed value for arbitrary data processed, as all tables are cached and the measured time is $T_{NM}$.
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time. So {\scshape{Delay}} is not performed in this case.
-  \item \textbf{Case 2}: The execution time of {\scshape{Crypt}} is in $(T_{NM}, T_{W})$. It will be delayed to $T_{W}$,
+  \item \textbf{Case 2}: The execution time of {\scshape{Encrypt}} is in $(T_{NM}, T_{W})$. It will be delayed to $T_{W}$,
     which is the max execution time as all accessed lookup tables are uncached before encryption.
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of {\scshape{Crypt}} is in $[T_{W}, \infty )$.
+  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{W}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,
@@ -289,9 +291,9 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
        %the attackers cannot find the actual execution time of encryption to infer the keys.
 \end{itemize}
 
-When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedCrypt}},
- but not internal {\scshape{Crypt}}.
- So the measured time, i.e., the execution time of {\scshape{ProtectedCrypt}},
+When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedEncrypt}},
+ but not internal {\scshape{Encrypt}}.
+ So the measured time, i.e., the execution time of {\scshape{ProtectedEncrypt}},
   falls into two intervals, $(0, T_{NM}]$ and $[T_{W}, \infty )$.
 
 %Next, we prove that,
