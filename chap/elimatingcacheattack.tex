@@ -268,41 +268,41 @@ We ensure that the measured time does not leak any exploitable information about
 %]]]]]]]
 
 The execution time of {\scshape{Encrypt}}
-falls into three intervals, $(0, T_{NM}]$, $(T_{NM}, T_{W})$ and $[T_{W}, \infty )$.
+falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{w})$ and $[T_{w}, \infty )$.
 According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, respectively.
 
 \begin{itemize}
-  \item \textbf{Case 1}: The execution time of {\scshape{Encrypt}} is in $(0, T_{NM}]$.
-   In fact, it is almost a fixed value for arbitrary data processed, as all tables are cached and the measured time is $T_{NM}$.
+  \item \textbf{Case 1}: The execution time of {\scshape{Encrypt}} is in $(0, T_{nm}]$.
+   It is almost a fixed value for arbitrary data processed, as all tables are cached and the measured time is $T_{nm}$.
     When all table entries are in caches,
     the access time for any entry is constant,
-     resulting in a fixed execution time. So {\scshape{Delay}} is not performed in this case.
-  \item \textbf{Case 2}: The execution time of {\scshape{Encrypt}} is in $(T_{NM}, T_{W})$. It will be delayed to $T_{W}$,
-    which is the max execution time as all accessed lookup tables are uncached before encryption.
+     resulting in a fixed execution time. {\scshape{Delay}} is not performed in this case.
+  \item \textbf{Case 2}: The execution time is in $(T_{nm}, T_{w})$. It will be delayed to $T_{w}$,
+    which is the execution time as all accessed lookup tables are uncached before encryption.
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{W}, \infty )$.
+  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{w}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,
        are random and unknown to the remote attackers,
-        so the execution time is unavailable.
-       In this case {\scshape{Delay}} is not performed, too.
+        so the execution time is unexploitable.
+       In this case, {\scshape{Delay}} is not performed, either.
        %the attackers cannot find the actual execution time of encryption to infer the keys.
 \end{itemize}
 
-When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure the time of each  execution of {\scshape{ProtectedEncrypt}},
+When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure each execution time of {\scshape{ProtectedEncrypt}},
  but not internal {\scshape{Encrypt}}.
  So the measured time, i.e., the execution time of {\scshape{ProtectedEncrypt}},
-  falls into two intervals, $(0, T_{NM}]$ and $[T_{W}, \infty )$.
+  falls into two intervals, $(0, T_{nm}]$ and $[T_{w}, \infty )$.
 
 %Next, we prove that,
 % no information about the status of cache lines  %lookup tables cached or data processed
 %  leaks through the time measured by attackers.
 
-  The value of $T_{NM}$ and $T_{W}$ are irrelevant to the data processed.
-   Also the time greater than $T_{W}$ is caused by random system activities and unrelated to the data processed.
+  The value of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed.
+   Also the time greater than $T_{w}$ is caused by random system activities and unrelated to the data processed.
     So the time in this two intervals cannot be exploited in cache timing side-channel attacks.
     Meanwhile, due to {\scshape{Warm}} operation, that the execution time may be greater than $T_{NM}$ is because the system activities.
    Which intervals the execution time will lie in is not related to the data processed.
