@@ -46,7 +46,7 @@ As the baseline, the defense mechanism shall satisfy the following conditions:
   \item The solution is algorithm-independent.
   It is generally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
   \item The solution is transparent to implementations that it does not require modification to the source code of the encryption functions.
-  \item The solution requires no privileged operations. 
+  \item The solution requires no privileged operations.
   It works well in user space or kernel space,
      to protect the block ciphers running in user mode and kernel mode, respectively.
 \end{itemize}
@@ -304,8 +304,6 @@ When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:
   The value of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed.
    Also the time greater than $T_{w}$ is caused by random system activities and unrelated to the data processed.
     So the time in this two intervals cannot be exploited in cache timing side-channel attacks.
-    Meanwhile, due to {\scshape{Warm}} operation, that the execution time may be greater than $T_{NM}$ is because the system activities.
-   Which intervals the execution time will lie in is not related to the data processed.
    Therefore, the time obtained by the remote attackers has no relation to the  data processed.
     The relationship between the execution time and data processed during encryption is destroyed.
      Thus, the cache timing side-channel attacks can not succeed under the {\scshape{Warm+Delay}} scheme.
