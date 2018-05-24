@@ -145,14 +145,14 @@ So,
 
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 %For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
-In this algorithm,
-  there are two parameters, $T_{W}$ and $T_{NM}$.
-$T_{NM}$ is the time period for one encryption execution,
-  in the case that no cache misses occur during the execution, i.e. all lookup tables are in the caches.
-$T_{W}$ is defined as the worst execution time for one encryption,
+%In this algorithm,
+There are two parameters, $T_{nm}$ and $T_{w}$.
+$T_{nm}$ is the time period for one encryption execution,
+  in the case that no cache misses occur during the execution, i.e. all lookup tables are in caches.
+$T_{w}$ is defined as the worst execution time for one encryption,
   in the case that none of table entries is cached before the execution and cache misses occur at most.
 These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
-Given a block cipher, $T_{NM}$ and $T_{W}$
+Given an implementation of  block ciphers, $T_{nm}$ and $T_{w}$
   are constant on a certain computing platform.
 
 
@@ -189,7 +189,7 @@ In addition to {\scshape{Encrypt}}, three operations
         \emph{b}) {\scshape{Delay}}, insert padding instructions,
         and \emph{c}) {\scshape{GetTime}}, get the current time as the conditions of {\scshape{Warm}} and {\scshape{Delay}}.
 All these operations are algorithms-independent and implementation-transparent,
-        except that the size and memory address of lookup tables are needed in {\scshape{Warm}}.
+        except that the memory address of lookup tables are needed in {\scshape{Warm}}.
 All these operations are supported in commodity computer systems without special privileges,
  either in user mode or kernel mode.
 %The conditions of warm and delay are defined by timing.
@@ -205,7 +205,7 @@ We do not query the status of any cache line to determine whether an entry of th
 
 In general,  {\scshape{ProtectedEncrypt}} are invoked continuously to process large amounts of data,
   where the performance matters.
-So {\scshape{Warm}} takes effect in the \emph{next} execution of encryption.
+{\scshape{Warm}} takes effect in the \emph{next} execution of encryption.
 Therefore,
   if {\scshape{ProtectedEncrypt}} has been idle for a long time,
    we suggest an additional ``initial'' invocation of {\scshape{Warm}} before the loop of {\scshape{ProtectedEncrypt}}.
@@ -213,7 +213,8 @@ Therefore,
 Note that,
   even if this initial {\scshape{Warm}}  is not performed,
    the security is still ensured by {\scshape{Delay}} afterward and
-    the impact of performance is  negligible if the loop of {\scshape{ProtectedEncrypt}} is long enough.
+    the performance impact is  negligible if the loop %of {\scshape{ProtectedEncrypt}}
+     is long enough.
 %Moreover,
 %    after an execution of encryption, some table entries are cached automatically for the next execution.
 
@@ -251,7 +252,7 @@ Note that,
 
 
 \subsection{Security Analysis}
-The cache timing side channels result from the relation between the measured execution time and the data processed;
+The timing side channels result from the relation between the measured execution time and the data processed;
    that is, different data processed (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
 We ensure that the measured time does not leak any exploitable information about the status of lookup tables in caches,
