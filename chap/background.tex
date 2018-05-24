@@ -183,10 +183,10 @@ Thereby the keys are derived from the access patterns, called access-driven cach
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
 These active attacks are divided into two categories: synchronous and asynchronous attacks \cite{Osvik2006Cache}.
-In a synchronous attack, the attacker runs serially with the victim. 
+In a synchronous attack, the attacker runs serially with the victim.
  The attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes with the victim running parallel.
-The Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient} method is used in a synchronous attack. 
+The Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient} method is used in a synchronous attack.
  Using this method, the attacker triggers the encryption,
  then evicts the cache by accessing some different memory addresses and finally triggers the encryption again and time it.
    The attacker repeats these steps and infers the key information from the observations.
@@ -201,12 +201,12 @@ While in Probe phase, the attacker records the time of accessing the elements in
 While asynchronous attacks have higher precision which can monitor several times per encryption.
 
 Active cache  side-channel attacks also include Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}.
-They utilize different methods to observe the cache access patterns.
+They work in asynchronous mode and utilize different methods to observe the cache access patterns.
  Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
-Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with 
+Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with
 TSX abort.
 
-  
+
 
 %A cache miss occurs when the inputs of each lookup table are different.
 %In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
