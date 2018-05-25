@@ -306,21 +306,16 @@ The values of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed,
 When the measured time is in $(0, T_{nm}]$,
     it is almost a fixed value.
 When the measured time is greater than $T_{w}$,
-    it is probably caused by random system activities
-    which mask the relationship between the time and data processed.
-The measured time is increased by {\scshape{Warm}} when $t2-t1 > T_{nm}$,
-    in the case that
-        (\emph{a}) almost all entries are into caches after the encryption,
-                so the Warm is no time, and Delay is involved to destroy the relationship.
-        (\emph{b}) no entry is in caches, then it means that system activities are involved during the encryption.
-Although Warm leak information.
-
-    Meanwhile, due to {\scshape{Warm}} operation, that the execution time may be greater than $T_{NM}$ is because the system activities.
-   Which intervals the execution time will lie in is not related to the data processed.
+    it is caused by random system activities or the {\scshape{Delay}} operations
+    which destroy the relationship between the time and data processed.
+Although the execution time of {\scshape{Warm}} may leak the cache state after encryption,
+    it is only a part of the measured time and masked by the system activities and/or {\scshape{Delay}} operations.
+{\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
+    when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
+    or {\scshape{Warm}} costs a lot of CPU cycles for {\scshape{Encryption}} is interrupted by system activities.
 %   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
-So the time in these two intervals cannot be exploited in cache timing side-channel attacks.
 %    The relationship between the execution time and data processed during encryption is destroyed.
-     Thus, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
+Finally, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
 %
 %The timing information and also its differential information,
 % are determined by non-deterministic system activities and unrelated to the secret keys.
