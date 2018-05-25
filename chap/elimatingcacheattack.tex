@@ -362,24 +362,25 @@ we further explain that the integration scheme successfully prevent typical remo
 %因此说，我们的方案保证了AES计算的安全性。
 %From the analysis all above, it can be concluded that our defense scheme combining the cache warm and delay methods guarantees the security of the AES execution against the cache timing attacks.
 %
-For Bernstein's attack \cite{Bernstein2005Cache}, the attackers can build the right time pattern for the duplicated server.
-But when building the time pattern for the target server,
-  it will be found that,
-  the pattern reflects only the system activities and has nothing to do with the data processed.
-   In result, the two patterns do not have the same meaning.
-%Since the system activities of the target servers are different from those of the duplicated server
-% and unknown to the attackers,
-  So the pattern for the target server cannot be used to infer the keys.
+For Bernstein's attack \cite{Bernstein2005Cache}, 
+    although the attacker can obtain
+        the maximum AES execution time for each $p_i \oplus k_i$ on the duplicated server,
+    the measured time of the victim server 
+        reflects only the system activities of the victim server.
+Because random and unknown system activities are involved in the measured AES execution time,
+    the maximum time is not determined by the lookup table index;
+        that is, it cannot be inferred that $k_i^{'} \oplus  p_i^{'} = p_i \oplus k_i$.
 
-To launch  the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
+
+[[[[[
+To launch  an internal collision attack \cite{Bonneau2006Cache,Ac2007Cache},
  the attackers need to compile a table $t[i,j,p_{i} \oplus p_j]$ ($0 \leq i,j< 16$) for different input $p_i$ and $p_j$
   and extract the key byte information through the relation between execution time and inputs reflected by the table.
 When protected by the {\scshape{Warm+Delay}} scheme,
- the time in the table obtained by attackers has no relation to the inputs
-  and the time variation is due to system activities.
-   So the table is no longer related to the input data.
-The attackers cannot extract useful information from this table.
-
+ the execution time measured by attackers is irrelative to the inputs of the lookup table
+  and the time variation is caused by system activities.
+So the attackers cannot extract useful information about the keys.
+]]]]]
 
 
 %二是Bernstein的攻击
