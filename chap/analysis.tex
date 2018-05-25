@@ -791,9 +791,9 @@ performing  {\vwarm}  when cache-miss occurs during the previous execution,
 For the AES-128 implementation with a 2KB lookup table, $P_{a|S_c}$ is larger than 0.994 from Equation~\ref{equ:delay}.
 The range of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ is $[0.994,1]$.
 For the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{d}$ is $2479.00$ cycles;
+$T_{d}$ is $2479.00$ CPU cycles;
 the minimum of $T_{w}$($T_{w}^{min}$) is $124$ cycles when accessing the lookup table from L1D caches;
-and the maximum of $T_{w}$ is $1781.60$ cycles when all the lookup entries are not cached.
+and the maximum of $T_{w}$ is $1781.60$ CPU cycles when all the lookup entries are not cached.
 Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
 
 
@@ -925,7 +925,7 @@ Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better perform
   %\small
   %\scriptsize
   %\footnotesize
-  \caption{The introduced time by performing warmup operation or not (in cycle).}\label{tbl:scheduaes}
+  \caption{The introduced time by performing warmup operation or not (in CPU cycles).}\label{tbl:scheduaes}
    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
    \hline
    {N}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  &31  & 32\\

@@ -305,17 +305,17 @@ The values of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed,
     and determined by the implementation and computing platform.
 When the measured time is in $(0, T_{nm}]$,
     it is almost a fixed value.
-When the measured time is greater than $T_{w}$,
+When the time is greater than $T_{w}$,
     it is caused by random system activities or the {\scshape{Delay}} operations
     which destroy the relationship between the time and data processed.
-Although the execution time of {\scshape{Warm}} may leak the cache state after encryption,
+Although the execution time of {\scshape{Warm}} may leak the cache states after encryption,
     it is only a part of the measured time and masked by the system activities and/or {\scshape{Delay}} operations.
 {\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
     when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
     or {\scshape{Warm}} costs a lot of CPU cycles for {\scshape{Encryption}} is interrupted by system activities.
 %   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
 %    The relationship between the execution time and data processed during encryption is destroyed.
-Finally, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
+Therefore, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
 %
 %The timing information and also its differential information,
 % are determined by non-deterministic system activities and unrelated to the secret keys.
@@ -362,13 +362,22 @@ we further explain that the integration scheme successfully prevent typical remo
 %因此说，我们的方案保证了AES计算的安全性。
 %From the analysis all above, it can be concluded that our defense scheme combining the cache warm and delay methods guarantees the security of the AES execution against the cache timing attacks.
 %
-To perform the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
- the attackers need compile a time table $t[i,j,p_{i} \oplus p_j]$ ($0 \leq i,j< 16$) for different input $p_i$ and $p_j$
+For Bernstein's attack \cite{Bernstein2005Cache}, the attackers can build the right time pattern for the duplicated server.
+But when building the time pattern for the target server,
+  it will be found that,
+  the pattern reflects only the system activities and has nothing to do with the data processed.
+   In result, the two patterns do not have the same meaning.
+%Since the system activities of the target servers are different from those of the duplicated server
+% and unknown to the attackers,
+  So the pattern for the target server cannot be used to infer the keys.
+
+To launch  the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
+ the attackers need to compile a table $t[i,j,p_{i} \oplus p_j]$ ($0 \leq i,j< 16$) for different input $p_i$ and $p_j$
   and extract the key byte information through the relation between execution time and inputs reflected by the table.
 When protected by the {\scshape{Warm+Delay}} scheme,
  the time in the table obtained by attackers has no relation to the inputs
   and the time variation is due to system activities.
-   So the table $t$  is no longer related to the input data.
+   So the table is no longer related to the input data.
 The attackers cannot extract useful information from this table.
 
 
@@ -381,15 +390,6 @@ The attackers cannot extract useful information from this table.
 %上一行成立的条件对于任意的密钥k， the graph of timings as a function of n[13] ⊕ k[13] looks the same，所以，让加密时间最长的n[13]=k[13] ⊕8, 因此再攻击受害者以后，就可以获取密钥字节。
 %攻击者使用这种方法攻击时，最重要的是能够通过已知密钥来学习对于n⊕k每个字节对应的加密时间分布，从而获得根据从被攻击者处获取到的加密时间最长来得到输入的n，从而得到密钥比特k。
 %应用我们的方案以后，攻击者使用这种类型的攻击方法，由于查找表在计算前已经load进入cache，AES计算时间一定，并不存在变化，而由于进程调度而导致计算时间的变化已经由delay到了最大加密时间，从而使得攻击者得到的加密时间分布已经不是本身明文对应的加密时间分布，而得到的分布中的高点也并不是因为明文比特不同而造成cache miss 所引起的，故攻击者也无法跟据这个分布来进行攻击。我们的方案因此能够对其进行抵抗。
-
-For Bernstein's attack \cite{Bernstein2005Cache}, the attackers can build the right time pattern for the duplicated server.
-But when building the time pattern for the target server,
-  it will be found that,
-  the pattern reflects only the system activities and has nothing to do with the data processed.
-   In result, the two patterns do not have the same meaning.
-%Since the system activities of the target servers are different from those of the duplicated server
-% and unknown to the attackers,
-  So the pattern for the target server cannot be used to infer the keys.
 
 %For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the T_{W} in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
 
