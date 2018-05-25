@@ -148,11 +148,14 @@ Two typical remote cache side channels on block cipher implementations are outli
 %Bernstein
 \noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
 It statically analyzes the relation between the overall execution time and  lookup table indexes.
-The attacker firstly obtains the AES execution time for different value of $p_i \oplus k_i$ (where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key, respectively.) %, and  $0 \leq i < 16$)
+The attacker firstly obtains the AES execution time for different value of $p_i \oplus k_i$ (where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key, respectively) %, and  $0 \leq i < 16$)
      on a duplicated server whose hardware and software configurations are the same as the victim server.
       It finds the value $p_i \oplus k_i$ corresponding to the maximum average AES execution time.
-Then for $i$th byte of the unknown key $k_i^{'}$ on the victim server, it collects a large number of overall encryption times for different known plaintexts,  obtains $p_i^{'}$ corresponding to the maximum average AES execution time. 
-The maximum time has the same index in the two stage, so the attacker infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
+Then for the $i$th byte of the unknown key (denoted as $k_i^{'}$) on the victim server,
+ it collects a large number of overall encryption times for different known plaintexts, 
+    and obtains $p_i^{'}$ corresponding to the maximum average AES execution time.
+The maximum time has the same index in the two stages,
+    so the attacker infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
 %In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
 %For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicated server.
 %Then, the attacker repeats the same experiment on the victim server and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
@@ -184,28 +187,33 @@ Thereby the keys are derived from the access patterns, called access-driven cach
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
 These active attacks are divided into two categories: synchronous and asynchronous attacks \cite{Osvik2006Cache}.
-In a synchronous attack, the attacker runs serially with the victim.
- The attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
-While in an asynchronous attack, the attacker sets the cache states and detects the changes with the victim running parallel.
-The Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient} method is used in a synchronous attack.
- Using this method, the attacker triggers the encryption,
+In a synchronous attack, %the attacker runs serially with the victim.
+ the attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
+While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
+ The synchronous attacks monitor the cache once per encryption.
+While asynchronous attacks have higher precision which can monitor several times per encryption.
+In an Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
+    which is a typical synchronous attack,
+the attacker triggers the encryption,
  then evicts the cache by accessing some different memory addresses and finally triggers the encryption again and time it.
-   The attacker repeats these steps and infers the key information from the observations.
-Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
-  A  Flush+Reload attacker monitors other processes reading and executing access to shared memory pages.
-   Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
-    monitored memory locations. From this information attackers can infer the victim's confidential data.
+%   The attacker repeats these steps and infers the key information from the observations.
+
 Another method is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
 In Prime phase, the attacker fills the cache with a known array.
 While in Probe phase, the attacker records the time of accessing the elements in the identical array.
- The synchronous attacks monitor the cache once per encryption.
-While asynchronous attacks have higher precision which can monitor several times per encryption.
 
+Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
+  A  Flush+Reload attacker monitors other processes reading and executing access to shared memory pages.
+   Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
+    monitored memory locations.
+%     From this information attackers can infer the victim's confidential data.
 Active cache  side-channel attacks also include Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}.
 They work in asynchronous mode and utilize different methods to observe the cache access patterns.
  Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
 Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with
 TSX abort.
+
+
 
 
 
@@ -295,9 +303,9 @@ TSX abort.
 Different defense methods against the remote cache timing attacks have been proposed on the  levels of hardware, software and operating system (OS).
 These defense methods eliminate the execution time difference of cache hits/misses,
     introduce confusion to the execution time to obscure the difference,
-    or both. 
+    or both.
  Some of them also are available for the active attacks.
- 
+
 \noindent\textbf{Eliminating the execution time difference.}
 The most direct method to defend against the cache side-channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical. At present, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is an hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations are suffered from high performance overload compared with using lookup tables.
 There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
