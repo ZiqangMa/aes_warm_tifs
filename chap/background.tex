@@ -183,10 +183,10 @@ Thereby the keys are derived from the access patterns, called access-driven cach
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
 These active attacks are divided into two categories: synchronous and asynchronous attacks \cite{Osvik2006Cache}.
-In a synchronous attack, the attacker runs serially with the victim. 
+In a synchronous attack, the attacker runs serially with the victim.
  The attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes with the victim running parallel.
-The Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient} method is used in a synchronous attack. 
+The Evict+Time \cite{Osvik2006Cache,Tromer2010Efficient} method is used in a synchronous attack.
  Using this method, the attacker triggers the encryption,
  then evicts the cache by accessing some different memory addresses and finally triggers the encryption again and time it.
    The attacker repeats these steps and infers the key information from the observations.
@@ -201,12 +201,12 @@ While in Probe phase, the attacker records the time of accessing the elements in
 While asynchronous attacks have higher precision which can monitor several times per encryption.
 
 Active cache  side-channel attacks also include Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}.
-They utilize different methods to observe the cache access patterns.
+They work in asynchronous mode and utilize different methods to observe the cache access patterns.
  Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
-Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with 
+Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with
 TSX abort.
 
-  
+
 
 %A cache miss occurs when the inputs of each lookup table are different.
 %In this attack, each encryption is invoked with the lookup tables evicted from the L1 data cache by the attackers \cite{Tsunoo2002Cryptanalysis,Tsunoo2003Cryptanalysis} or the other processes running in the same machine.
@@ -291,17 +291,12 @@ TSX abort.
 %Thus, if a total-data load is executed before processing, differences between the frequencies of cache misses will not be observed, making it impossible to determine the relationships between sets of S-boxes
 
 \subsection{Control against Cache Timing Side Channels}
-Although eliminating timing side channels remains difficult~\cite{Cock2014The},
-different countermeasures have been proposed on the  levels of hardware, software and operating system (OS).
+Different defense methods against the remote cache timing attacks have been proposed on the  levels of hardware, software and operating system (OS).
 These defense methods eliminate the execution time difference of cache hits/misses,
     introduce confusion to the execution time to obscure the difference,
-    or both.
-
- Some methods which are implemented on hardware to control the cache lack universality~\cite{Cock2014The,Dan2005Partitioned,Yinqian2013D}.
-Some using particular implementation to make algorithms constant time
- are just suitable to specific algorithms~\cite{kasper2009faster,K2008A,Taha2014Cache}.
-Some introducing many extra operations to eliminate or confuse the cache misses incur significant performance overheads~\cite{Gullasch2011Cache,jayasinghe2010remote,Osvik2006Cache,Zhang2011Predictive}.
-
+    or both. 
+ Some of them also are available for the active attacks.
+ 
 \noindent\textbf{Eliminating the execution time difference.}
 The most direct method to defend against the cache side-channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical. At present, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is an hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations are suffered from high performance overload compared with using lookup tables.
 There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
@@ -315,7 +310,7 @@ SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time fo
 Although they can effectively defend against the cache timing attacks, their deficiencies are obvious as these schemes have
 limited practical usage and cannot be deployed on ready-made commodity hardware.
 
-\noindent\textbf{Adding confusion to cache misses.}
+\noindent\textbf{Adding confusion to cache accesses.}
 Adding delay is a common way to make the attackers obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and dynamic padding which means adding delay to a constant value~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}. Besides these software methods, OS level defense methods are also proposed such as adding noise with periodic cache cleaning~\cite{Yinqian2013D}, also making encryption time to constant values by adding delay~\cite{Cleemput2012Compiler,Coppens2009Practical}, and using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler}. These methods are algorithm independent and can effectively defend against the cache side attacks. But the major drawback of these methods is that they incur large performance overhead.
 
 The author in paper \cite{Page2003Defending} suggests to add some dummy instructions or access some extra arrays to confusion the encryption time. A fixed number Of clock cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a hardware-based method PRC confuse the cache misses to the attackers. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.

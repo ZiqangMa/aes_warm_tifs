@@ -46,7 +46,7 @@ As the baseline, the defense mechanism shall satisfy the following conditions:
   \item The solution is algorithm-independent.
   It is generally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
   \item The solution is transparent to implementations that it does not require modification to the source code of the encryption functions.
-  \item The solution requires no privileged operations. 
+  \item The solution requires no privileged operations.
   It works well in user space or kernel space,
      to protect the block ciphers running in user mode and kernel mode, respectively.
 \end{itemize}
@@ -321,6 +321,7 @@ Although Warm leak information.
 So the time in these two intervals cannot be exploited in cache timing side-channel attacks.
 %    The relationship between the execution time and data processed during encryption is destroyed.
      Thus, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
+%
 %The timing information and also its differential information,
 % are determined by non-deterministic system activities and unrelated to the secret keys.
 % Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
