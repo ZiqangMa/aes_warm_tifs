@@ -148,10 +148,11 @@ Two typical remote cache side channels on block cipher implementations are outli
 %Bernstein
 \noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
 It statically analyzes the relation between the overall execution time and  lookup table indexes.
-The attacker firstly obtains the mapping between the ++ %average maximum overall
-    AES execution time and each table lookup index (i.e, $p_i \oplus k_i$, where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key, respectively) %, and  $0 \leq i < 16$)
+The attacker firstly obtains the AES execution time for different value of $p_i \oplus k_i$ (where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key, respectively.) %, and  $0 \leq i < 16$)
      on a duplicated server whose hardware and software configurations are the same as the victim server.
-For $i$th byte of the unknown key $k_i^{'}$ on the victim server, it collects a large number of overall encryption times for different known plaintexts,  obtains $p_i^{'}$ corresponding to the maximum average AES execution from $256$ possible values,  and infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
+      It finds the value $p_i \oplus k_i$ corresponding to the maximum average AES execution time.
+Then for $i$th byte of the unknown key $k_i^{'}$ on the victim server, it collects a large number of overall encryption times for different known plaintexts,  obtains $p_i^{'}$ corresponding to the maximum average AES execution time. 
+The maximum time has the same index in the two stage, so the attacker infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
 %In this attack the attacker collects a large number of encryption times for different plaintexts on the duplicated server whose hardware and software configuration is the same as the victim one, with a known key.
 %For each byte of the key, the attacker obtains the lookup table index ($p_i^{'} \oplus k_i^{'}$ where $0 \leq i < 16$) corresponding to the maximum AES execution time, from the execution on the duplicated server.
 %Then, the attacker repeats the same experiment on the victim server and infers the key bytes of the victim server with the obtained lookup table index and known plaintexts ($k_i = p_i^{'} \oplus k_i^{'} \oplus p_i$).
