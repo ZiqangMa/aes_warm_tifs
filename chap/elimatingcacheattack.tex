@@ -170,12 +170,12 @@ Given an implementation of  block ciphers, $T_{nm}$ and $T_{w}$
                 \State $t1 \gets \Call{GetTime}$
                 \State $\Call{Encrypt}{key, in, out}$     {   } % $//$ encrypt or decrypt
                 \State $t2 \gets \Call{GetTime}$
-                \If {$t2 - t1 > T_{NM}$}
+                \If {$t2 - t1 > T_{nm}$}
                     %\State $state \gets 1$
                     \State $\Call{Warm}$
                     \State $t3 \gets \Call{GetTime}$
-                    \If {$t3 - t1 < T_{W} $}
-                        \State $\Call{Delay}{T_{W}-t3+t1}$
+                    \If {$t3 - t1 < T_{w} $}
+                        \State $\Call{Delay}{T_{w}-t3+t1}$
                     \EndIf
                 \EndIf
            \EndFunction
@@ -301,12 +301,27 @@ When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:
 % no information about the status of cache lines  %lookup tables cached or data processed
 %  leaks through the time measured by attackers.
 
-  The value of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed.
-   Also the time greater than $T_{w}$ is caused by random system activities and unrelated to the data processed.
-    So the time in this two intervals cannot be exploited in cache timing side-channel attacks.
-   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
-    The relationship between the execution time and data processed during encryption is destroyed.
-     Thus, the cache timing side-channel attacks can not succeed under the {\scshape{Warm+Delay}} scheme.
+The values of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed,
+    and determined by the implementation and computing platform.
+When the measured time is in $(0, T_{nm}]$,
+    it is almost a fixed value.
+When the measured time is greater than $T_{w}$,
+    it is probably caused by random system activities
+    which mask the relationship between the time and data processed.
+The measured time is increased by {\scshape{Warm}} when $t2-t1 > T_{nm}$,
+    in the case that
+        (\emph{a}) almost all entries are into caches after the encryption,
+                so the Warm is no time, and Delay is involved to destroy the relationship.
+        (\emph{b}) no entry is in caches, then it means that system activities are involved during the encryption.
+Although Warm leak information.
+
+    Meanwhile, due to {\scshape{Warm}} operation, that the execution time may be greater than $T_{NM}$ is because the system activities.
+   Which intervals the execution time will lie in is not related to the data processed.
+%   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
+So the time in these two intervals cannot be exploited in cache timing side-channel attacks.
+%    The relationship between the execution time and data processed during encryption is destroyed.
+     Thus, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
+%
 %The timing information and also its differential information,
 % are determined by non-deterministic system activities and unrelated to the secret keys.
 % Cases 1 and 2 cannot be exploited in cache timing side-channel attacks,
@@ -333,7 +348,7 @@ we further explain that the integration scheme successfully prevent typical remo
 %一是统计攻击：
 %由于对于查找表的访问导致AES加密时间的变化，可以认为产生多的cache miss会导致加密时间变长，产生少的cache miss对应于短的加密时间。攻击者可以利用其进行攻击，一种攻击是定义一个小的阈值，找那些加密时间小于阈值的明文，说明这些明文产生的cache miss 少，在这些明文中，找那些出现频率最高的明文，计算得到的差分值作为密钥比特间的差分值。或者攻击者定义一个高的阈值，寻找那些加密时间大于阈值的明文，这些明文产生的cache miss 多，在这些明文中，找那些出现频率最少的明文，计算得到的差分作为密钥比特的差分。
 %对于这种攻击，最主要的是要能够获取到这么两个集合，一个是加密时间长的集合，一个是加密时间短的集合。通过我们的保护方案，攻击者能够获得到的是一个最短的加密时间，一个由于延迟而最大的加密时间，以及由于进程调度得到的非真实加密时间。首先由于进程调度得到的时间是一个干扰时间，要被排除在集合之外，其次得到最短加密时间的集合都是查找表全部在cache中时的加密时间，而并不是因为明文不同使得访问查找表不同而导致的加密时间最短，因此这个集合并不是攻击需要的集合，而对于加密时间最长的集合，也是同样的情况，攻击者获取到的集合中的加密时间，都是经过延时以后的最大加密时间，与明文输入的关系已经不存在了，故而不能够用来形成攻击。因此我们的方案可以抵抗这种类型的攻击。
-
+%
 %三是碰撞攻击
 %碰撞攻击利用了如下原理：对于查找表中任意一对下标i，j，对于大量的随机的AES加密，使用同样的密钥k，当<i>=<j>时平均时间短，反之平均时间长。
 %第一轮的攻击：
@@ -346,12 +361,12 @@ we further explain that the integration scheme successfully prevent typical remo
 %The collision attack relies on the case that when the inputs of the S-box introduce the collision, the encryption time will be shorter.
 %However, in our scheme, the necessary condition of a shorter encryption time is not the collision as the cache warm loads all the lookup tables in the cache, but no OS schedulers nor interrupt handlers exist before and during the encryption. So the table $t[i, j,\langle P_{i}\rangle \oplus \langle P_{j}\rangle]$ observed by attackers can't reflect the relation between encryption time and input plaintexts. So the collision attack doesn't work under our scheme.
 %For the collision attack, attackers using this type attack also take advantages of the AES execution time different by the number of cache misses. That is the attack is also based on the relation between the plaintexts and execution time. Collision attack has several analyse methods but the essence is the same that gain key bits through the relation between plaintexts and execution time. However, with our scheme, the different plaintexts have the same execution time. The variety of the execution time comes from the process scheduling or interrupt not the input plaintexts. Therefore the changes in the table $ t[i, j,\langle P_{i}\rangle \oplus \langle P_{j}\rangle]$ gained by the attackers using the collision attack are not generated by the cache miss but the scheduling or the interrupt. In other words, the table losses the relations generated by the cache miss between the plaintexts and the execution time. So the collision attack doesn't work under our defense scheme.
-
+%
 %而使用我们的保护方案以后，对于不同的明文，得到相同的加密时间，对于攻击者而言，获取到的table t[i, j, <pi>⊕<pj>]并非由于不同明文所造成的cache miss引起的，失去了和明文的对应关系，因此攻击也并不会起到作用。因此我们的方案也能够进行保护。
 %
 %因此说，我们的方案保证了AES计算的安全性。
 %From the analysis all above, it can be concluded that our defense scheme combining the cache warm and delay methods guarantees the security of the AES execution against the cache timing attacks.
-
+%
 To perform the internal collision attacks  \cite{Bonneau2006Cache,Ac2007Cache},
  the attackers need compile a time table $t[i,j,p_{i} \oplus p_j]$ ($0 \leq i,j< 16$) for different input $p_i$ and $p_j$
   and extract the key byte information through the relation between execution time and inputs reflected by the table.
