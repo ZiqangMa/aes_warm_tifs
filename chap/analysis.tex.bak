@@ -72,10 +72,12 @@ Meanwhile,
 %    So the optimal amount of data loaded in {\scshape{Warm}} operation and the optimal execution occasion should be found in order to achieve the optimal performance.
 
 
-In the next, we first examine the optimal conditions for {\scshape{Delay}}.
- We prove that it provides the optimal performance while ensuring security if delaying to $T_w$ in {\scshape{Delay}} and performing it when the encryption time is in $(T_{NM} ,T_{W})$.
++++ In the next, we first examine the optimal conditions for {\scshape{Delay}}.
+ We prove that,
+  it provides the optimal performance while ensuring security
+  if delaying to $T_w$ in {\scshape{Delay}} and performing {\scshape{Delay}} only when the encryption time is in $(T_{NM} ,T_{W})$.
     Then we investigate the {\vwarm} operation for AES-128 with 2KB lookup tables~\cite{openssl}.
-     We prove that it is statistically the most efficient to load all lookup tables in {\vwarm} and perform it when cache-miss occurs during the previous encryption.
+     We prove that it is statistically the most efficient to load all lookup table entries in {\vwarm} and perform it when cache-miss occurs during the previous encryption.
   Finally, we extend the conclusions to different key lengths of AES and different implementations,
   and show that, the conditions are applicable to these typical key lengths and implementations.
 That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performance for various AES implementations with lookup tables.
