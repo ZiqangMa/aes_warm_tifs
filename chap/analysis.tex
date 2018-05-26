@@ -55,20 +55,27 @@ Meanwhile, the {\vdelay} operation, which inserts padding instructions to elimin
     Therefore, intuitively, the {\scshape{Warm}} operation is %always
      preferred over {\vdelay}. %in the {\scshape{Warm+Delay}} scheme.
 
-++++++ 
-Next, in our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}}, hence, the cache state is not changed.  That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption, while it will \emph{not} affect the following AES executions.
++++
+In our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}}, hence, the cache state is not changed.  That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption, while it will \emph{not} affect the following AES executions.
     Therefore, to answer question (2): (2.A) we should only impose {\vdelay} when it is required for security purposes (i.e., to impose minimal number of {\vdelay} operations); and (2.B) the length of the imposed delay should be just enough to ensure security, but not more than that (i.e. to impose minimal length of delay in each {\vdelay} operation).
+]]]]
 
 Meanwhile,
- the {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the subsequent AES encryptions. Intuitively, loading less data during one {\scshape{Warm}} operation may introduce less overhead for the current encryption, however, it might result more {\vdelay} and {\vwarm} operations in future encryptions. In this case, optimized short-term performance may cause worse long-term performance, which is not desirable. Therefore, to answer question (3), we need to build a quantitative model for the impacts of a partial/full {\vwarm} on future encryptions. This will be the main task of this section.
+ the {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the next encryptions. Intuitively, loading less data during one {\scshape{Warm}} operation introduces less overhead for the current encryption;
+ however, it may result in more {\vdelay} and {\vwarm} operations in future encryptions.
+ In this case, optimized short-term performance may cause worse long-term performance, which is not desirable. Therefore, to answer Question (3),
+  we need to build a quantitative model for the impacts of a partial/full {\vwarm} on future encryptions.
+  It will be the main task of this section.
 
 
 %   It is because the amount of data loaded in {\scshape{Warm}} operation and when performing it may lead to the extra {\scshape{Delay}} operation.
 %    So the optimal amount of data loaded in {\scshape{Warm}} operation and the optimal execution occasion should be found in order to achieve the optimal performance.
 
 
-In the following subsections, we first examine the optimal conditions for {\scshape{Delay}} operation.
- We prove that it provides the optimal performance while ensuring security if delaying to $T_W$ in {\scshape{Delay}} and performing it when the encryption time is in $(T_{NM} ,T_{W})$.
++++ In the next, we first examine the optimal conditions for {\scshape{Delay}}.
+ We prove that,
+  it provides the optimal performance while ensuring security
+  if delaying to $T_w$ in {\scshape{Delay}} and performing {\scshape{Delay}} only when the encryption time is in $(T_{NM} ,T_{W})$.
     Then we investigate the {\vwarm} operation for AES-128 with 2KB lookup tables~\cite{openssl}.
      We prove that it is statistically the most efficient to load all lookup tables in {\vwarm} and perform it when cache-miss occurs during the previous encryption.
   Finally, we extend the conclusions to different key lengths of AES and different implementations,
