@@ -55,7 +55,7 @@ So, multiple access operations to the same cache bank are slower than to differe
  we disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1D cache for the cache bank conflict.
 All the following experiments, Hyper-Threading is disabled.
 
-The other is read-write conflict that the load from L1 cache takes slightly more time if it involves the same set of cache lines as a recent store.
+The other is read-write conflict that the load from the L1D cache takes slightly more time if it involves the same set of cache lines as a recent store.
 \figurename~\ref{fig:fullwarmworst} shows the distribution of the AES execution time for $2^{30}$ random plaintexts when this conflict occurs.
 We avoid the read-write conflict by exploiting the stack switch technique~\cite{guan2014copker}. The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
 We declare a 2KB global array as the stack, with which we can easily control the address.
@@ -234,7 +234,7 @@ We use the stack switch technique to eliminate the read-write conflict, at the s
  This helps the determination of $T_{NM}$ can be more accurate and reasonable.
   Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{NM}$ that might occur.
 Finally, we choose 355 cycles as $T_{NM}$.
-This value is chosen to ensure that all tables are in L1 caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
+This value is chosen to ensure that all tables are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
 
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{W}}$.}
