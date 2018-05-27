@@ -362,25 +362,25 @@ we further explain that the integration scheme successfully prevent typical remo
 %因此说，我们的方案保证了AES计算的安全性。
 %From the analysis all above, it can be concluded that our defense scheme combining the cache warm and delay methods guarantees the security of the AES execution against the cache timing attacks.
 %
-For Bernstein's attack \cite{Bernstein2005Cache}, 
+For Bernstein's attack \cite{Bernstein2005Cache},
     although the attacker can obtain
         the maximum AES execution time for each $p_i \oplus k_i$ on the duplicated server,
-    the measured time of the victim server 
+    the measured time of the victim server
         reflects only the system activities of the victim server.
 Because random and unknown system activities are involved in the measured AES execution time,
     the maximum time is not determined by the lookup table index;
         that is, it cannot be inferred that $k_i^{'} \oplus  p_i^{'} = p_i \oplus k_i$.
 
 
-[[[[[
 To launch  an internal collision attack \cite{Bonneau2006Cache,Ac2007Cache},
- the attackers need to compile a table $t[i,j,p_{i} \oplus p_j]$ ($0 \leq i,j< 16$) for different input $p_i$ and $p_j$
-  and extract the key byte information through the relation between execution time and inputs reflected by the table.
+ the attackers need to determine the minimum execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq i \leq 3, 0 \leq j, j^{'} \leq 3$)
+  and use $k_i \oplus  k_j = p_i \oplus p_j$ to obtain the key information.
 When protected by the {\scshape{Warm+Delay}} scheme,
  the execution time measured by attackers is irrelative to the inputs of the lookup table
-  and the time variation is caused by system activities.
-So the attackers cannot extract useful information about the keys.
-]]]]]
+  and the time variation is caused by the random and unknown system activities.
+   So the minimum time does not mean a collision occurrence, that is $p_i \oplus  k_i = p_j \oplus k_j$ at here does not hold any more.
+Therefore the attackers cannot extract useful information about the keys.
+
 
 
 %二是Bernstein的攻击
