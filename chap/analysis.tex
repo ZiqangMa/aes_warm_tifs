@@ -379,14 +379,12 @@ So the cost of {\vwarm} is further reduced, ensuring that loading all entries of
 %\vspace{2mm}
 %\noindent\textbf{2. State Transition of Warm Strategies.}
 
-++++++++++ 
-
-\subsubsection{State Transitions of Different Warm Strategies}
-To determine the optimal warm operation,
- we shall compare the costs by different warm strategies.
-We use Markov Chain to analyze the different states of the lookup table in the L1D cache during the continuous invocations of AES encryption.
-Then the extra costs can be calculated based on the probability of each state in the stationary distributions.
-  There are three states:
+\subsubsection{State Transitions of Different {\vwarm} Strategies}
+To determine the optimal {\vwarm} operation,
+ we shall compare the costs by different {\vwarm} strategies.
+We use Markov Chain to analyze the states of the lookup table in the L1D cache during the continuous invocations of AES encryption.
+Then the extra costs are calculated based on the probability of each state in the stationary distributions.
+Generally, there are three states:
   \begin{enumerate}
    \item
      $S_{c}$: all entries of the lookup tables are in caches,
@@ -398,14 +396,17 @@ Then the extra costs can be calculated based on the probability of each state in
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
 The state of the lookup table is estimated after each execution of AES encryption.
-The transition among the three states can be triggered by three events:
+The transition among the three states is triggered by three events:
 \begin{enumerate}
   \item
-    \emph{Warm} event: performing {\vwarm} to load all the lookup tables into the cache which probability is denoted as $P_{w}$.
+    \emph{Warm} event: Performing {\vwarm} to load all lookup table entries into caches, and the probability is $P_{w}$.
   \item
-    \emph{Evict} event: the entries of lookup tables may be evicted from the cache if task scheduling, interrupts or any other system activities occur during the execution of encryptions. The probability that eviction occurs is denoted as $P_{e}$.
+    \emph{Eviction} event: The entries of lookup tables may be evicted from caches when task scheduling, interrupts or any other system activities occur during the execution of encryption. The probability that an eviction occurs is denoted as $P_{e}$.
   \item
-    \emph{Execution} event: For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ equals $P_{d}$ in Theorem~\ref{theorm:warmall}.
+    \emph{Execution} event: For one execution of AES encryption,
+     some entries are uncached before encryption and it is possible that some of them is accessed during the encryption,
+      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ equals $P_{d}$ in Theorem~\ref{theorm:warmall};
+      i.e., an execution event results in {\vdelay}.
 \end{enumerate}
 
 % 哪些事件导致状态转移？概率表示为。
@@ -423,15 +424,17 @@ The transition among the three states can be triggered by three events:
 %AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
 %先warm后evict
 
-The occurrence of these three events will change the state of lookup tables in the cache.
+++++++++++
+
+The occurrence of these events changes the state of lookup tables in the cache.
  %During the state transition, the state of lookup tables changes which means one AES executes.
   We assume that during one state transition, each of the three events occurs once at most.
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-    Besides we assume that the \emph{Warm} event occurs after the \emph{Evict} event.
-     It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables.
+    Besides we assume that the \emph{Warm} event occurs after the \emph{Eviction} event.
+     It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
 In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.
 
-We consider three specific warm strategies:
+We consider three specific strategies:
 %In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 %While considering other two cases:
 \begin{itemize}
@@ -557,7 +560,7 @@ D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
 \subsubsection{The Best Opportunity to Perform {\vwarm} Operation}
 We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
- Followed we investigate the relationship on the performance between conditional {\vwarm} and any warm strategies.
+ Followed we investigate the relationship on the performance between conditional {\vwarm} and any strategies.
   Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
 
   We denote the extra cost introduced by {\vdelay} and {\vwarm} as
@@ -656,7 +659,7 @@ More details are in Appendix~\ref{appendixa}.
 \end{proof}
 
 \vspace{2mm}
-\noindent\textbf{The Warm Strategy with The Best Performance.}
+\noindent\textbf{The {\vwarm} Strategy with the Best Performance.}
 By computing the expected extra time introduced by different warm strategies, we can get the following theorem.
 
 \begin{theorem}\label{lemma:warmnum3}
@@ -690,7 +693,7 @@ Firstly, we consider an extreme case that is performing {\vwarm} with a probabil
 It can be proved that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy using the same method as in Theorem~\ref{lemma:warmnum1}.
 
 Generally,
- any warm strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
+ any {\vwarm} strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
   We denote the arbitrary warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious execution of encryption, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
    Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} as $W_{L}$, $W_{M}$ and $W_{Co}$.
   Then we can get the equation:
@@ -707,7 +710,7 @@ $$\left\{
 \right..
 $$
 
-In this way, the arbitrary warm strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
+In this way, the arbitrary strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
 So conditional {\vwarm} has better performance than warm strategies with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}
