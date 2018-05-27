@@ -152,7 +152,7 @@ The attacker firstly obtains the AES execution time for each possible value of $
      on a duplicated server whose hardware and software configurations are the same as the victim server.
       It finds the value of $p_i \oplus k_i$ corresponding to the maximum average AES execution time.
 Then for the $i$th byte of the unknown key (denoted as $k_i^{'}$) on the victim server,
- it collects a large number of encryption times for different known plaintexts, 
+ it collects a large number of encryption times for different known plaintexts,
     and obtains $p_i^{'}$ corresponding to the maximum average AES execution time.
 The maximum time shall result from the same index in the two phases,
     so the attacker infers $k_i^{'} = p_i^{'} \oplus ( p_i \oplus k_i) $.
@@ -168,13 +168,13 @@ This attack exploits the fact that less time is needed for accessing the lookup 
 Each cache line of 64 bytes has $16$ 4-byte entries,
  and in the first round of AES~\cite{Bonneau2006Cache},
 % on the platform where
-the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}$ where $0 \leq j \leq 3$.
+the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{i+4j} \oplus k_{i+4j}$ where $0 \leq j \leq 3$.
 When any two inputs of $T_i$ access the lookup table entries in a same cache line,
  it results in less execution time.
  %Then,
- The attacker measures the execution time for all possible $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}$ ($0 \leq j, j^{'} \leq 3$).
- The least time at the value $p_{(i+4j)\%16} \oplus p_{(i+4j^{'})\%16}=\delta$ means that $k_{(i+4j)\%16} \oplus k_{(i+4j^{'})\%16}=\delta \mod 16$ (called an internal collision).
-   In this way, the information about the higher $4$ bits of key bytes are leaked. ++++
+ The attacker measures the execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq j, j^{'} \leq 3$).
+ The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that $\langle k_{i+4j}\rangle \oplus \langle k_{i+4j^{'}}\rangle =\delta$ ($\langle k\rangle$ represents the high $4$ bits of $k$).
+   In this way, the information about the high $4$ bits of key bytes are leaked.
 %Since each cache line (64 bytes) contains multiple entries (4 bytes),
 %the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
 %The attacker needs further analysis or more data to extract the full key.
@@ -194,20 +194,20 @@ In a synchronous attack, %the attacker runs serially with the victim.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
  The synchronous attacks monitor the cache once per encryption.
 While asynchronous attacks have higher precision which can monitor several times per encryption.
+
 In an Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
     which is a typical synchronous attack,
-the attacker triggers the encryption,
- then evicts the cache by accessing some different memory addresses and finally triggers the encryption again and time it.
+the attacker sets the cache states by triggering the encryption and accessing some memory addresses.
+ by the change of cache states, it can be inferred that whether these addresses are accessed.
 %   The attacker repeats these steps and infers the key information from the observations.
 
-Another method is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
-In Prime phase, the attacker fills the cache with a known array.
-While in Probe phase, the attacker records the time of accessing the elements in the identical array.
+However, Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
+   Using the attack, a spy program sets the cache states empty by flushing it, then read access the shared memory to find the change of cache states and retrieve the memory access pattern by the victim.
 
-Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
-  A  Flush+Reload attacker monitors other processes reading and executing access to shared memory pages.
-   Using the attack, a spy program reads access to the shared memory pages, and learns when the victim executes the code in the
-    monitored memory locations.
+Another attack is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
+The attacker sets the cache states by filling a known array (called Prime).
+It accesses the identical array to determine the cache states and achieves the cache access pattern (called Probe).
+
 %     From this information attackers can infer the victim's confidential data.
 Active cache  side-channel attacks also include Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}.
 They work in asynchronous mode and utilize different methods to observe the cache access patterns.
@@ -314,14 +314,6 @@ There are also some methods using normal lookup tables that can avoid the cache 
 
 Cache warm is one way to eliminating the cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into the caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods would introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
 
-\noindent\textbf{Cache.} %Cache独占使用
-Another way to eliminate cache misses is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
-The new cache design~\cite{Kong2009Hardware,Wang2007New} uses partition-locked caches to prevent cache interference.
-Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
-SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time for better performance.
-Although they can effectively defend against the cache timing attacks, their deficiencies are obvious as these schemes have
-limited practical usage and cannot be deployed on ready-made commodity hardware.
-
 \noindent\textbf{Confusing the execution time.}
 Adding delay is a common way to make the attackers obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and dynamic padding which means adding delay to a constant value~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}. Besides these software methods, OS level defense methods are also proposed such as adding noise with periodic cache cleaning~\cite{Yinqian2013D}, also making encryption time to constant values by adding delay~\cite{Cleemput2012Compiler,Coppens2009Practical}, and using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler}. These methods are algorithm independent and can effectively defend against the cache side attacks. But the major drawback of these methods is that they incur large performance overhead.
 
@@ -330,6 +322,14 @@ The author in paper \cite{Page2003Defending} suggests to add some dummy instruct
 Another method to confuse the attackers' observations is modifying the precision of the time measured
  by attackers \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}.
 But it is useless in the remote environment because the attackers can use its own timers.
+
+\noindent\textbf{Limiting Cache Sharing.} %Cache独占使用
+Another way to eliminate cache misses is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
+The new cache design~\cite{Kong2009Hardware,Wang2007New} uses partition-locked caches to prevent cache interference.
+Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
+SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time for better performance.
+Although they can effectively defend against the cache timing attacks, their deficiencies are obvious as these schemes have
+limited practical usage and cannot be deployed on ready-made commodity hardware.
 
 \noindent\textbf{Integrated methods.}
 Some schemes integrate several strategies to defend against the cache timing attack. The scheme proposed in \cite{Brickell2006Software} consists of three parts: using compact tables, frequently randomizing tables, and pre-loading of relevant cache-lines. It makes cache misses occur as little as possible while makes the observations secret-independent. But the drawback is the performance overload as a result that three parts all would introduce some extra overhead.
