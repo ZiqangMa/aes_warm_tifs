@@ -432,18 +432,18 @@ The occurrence of these events changes the state of lookup tables in the cache.
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
     Besides we assume that the \emph{Warm} event occurs after the \emph{Eviction} event.
      It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
-In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.
+In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.?????
 
-We consider three specific strategies:
+We consider three strategies:
 %In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 %While considering other two cases:
 \begin{itemize}
   \item
-    conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
+    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
   \item
-    less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
+    Less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
   \item
-    more {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
+    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
 \end{itemize}
 
 The Markov Chain can be used to simulate the state transitions.
