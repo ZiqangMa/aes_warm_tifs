@@ -169,7 +169,8 @@ Each cache line of 64 bytes has $16$ 4-byte entries,
  and in the first round of AES~\cite{Bonneau2006Cache},
 % on the platform where
 the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{i+4j} \oplus k_{i+4j}$ where $0 \leq j \leq 3$.
-When any two inputs of $T_i$ access the lookup table entries in a same cache line,
+When any two inputs of $T_i$ access the lookup table entries in a same cache line
+(i.e., the higher 4 bits of $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}    \oplus    p_{(i+4j')\%16} \oplus k_{(i+4j')\%16}$ is zero),
  it results in less execution time.
  %Then,
  The attacker measures the execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq j, j^{'} \leq 3$).
