@@ -185,7 +185,8 @@ This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} 
 It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
 \subsubsection{Active Cache Side Channel}
-In the local environment if the caches are shared between attackers and victims, the attackers can actively control the cache states and monitor the cache access patterns.
+In the local environment if the caches are shared between attackers and victims,
+ the attackers can actively control the cache states and monitor the cache access patterns.
 Thereby the keys are derived from the access patterns, called access-driven cache attacks.
 %Attackers and victims may share either the L1 cache or last-level cache (LLC).
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
@@ -194,8 +195,8 @@ These active attacks are divided into two categories: synchronous and asynchrono
 In a synchronous attack, %the attacker runs serially with the victim.
  the attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
- The synchronous attacks monitor the cache once per encryption.
-While asynchronous attacks have higher precision which can monitor several times per encryption.
+ The synchronous attacks monitor the cache state once per encryption,
+ while the asynchronous attacks monitor it for several times per encryption with higher precision.
 
 In an Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
     which is a typical synchronous attack,
