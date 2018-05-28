@@ -168,14 +168,14 @@ This attack exploits the fact that less time is needed for accessing the lookup 
 Each cache line of 64 bytes has $16$ 4-byte entries,
  and in the first round of AES~\cite{Bonneau2006Cache},
 % on the platform where
-the inputs of lookup table $T_i$ $(0 \leq i \leq 3)$ are $p_{i+4j} \oplus k_{i+4j}$ where $0 \leq j \leq 3$.
+the inputs of lookup table $T_i$ are $p_{i+4j} \oplus k_{i+4j}$ where $0 \leq i,j \leq 3$.
 When any two inputs of $T_i$ access the lookup table entries in a same cache line
-(i.e., the higher 4 bits of $p_{(i+4j)\%16} \oplus k_{(i+4j)\%16}    \oplus    p_{(i+4j')\%16} \oplus k_{(i+4j')\%16}$ is zero),
+(i.e., the high 4 bits of $p_{i+4j} \oplus k_{i+4j}    \oplus    p_{i+4j'} \oplus k_{i+4j'}$ is zero),
  it results in less execution time.
  %Then,
  The attacker measures the execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq j, j^{'} \leq 3$).
- The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that $\langle k_{i+4j}\rangle \oplus \langle k_{i+4j^{'}}\rangle =\delta$ ($\langle k\rangle$ represents the high $4$ bits of $k$).
-   In this way, the information about the high $4$ bits of key bytes are leaked.
+ The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that the high 4 bits of $k_{i+4j} \oplus  k_{i+4j^{'}}$ are the same with $\delta$ .
+   In this way, the key bytes information are leaked.
 %Since each cache line (64 bytes) contains multiple entries (4 bytes),
 %the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
 %The attacker needs further analysis or more data to extract the full key.
@@ -191,7 +191,7 @@ Thereby the keys are derived from the access patterns, called access-driven cach
 
 These active attacks are divided into two categories: synchronous and asynchronous attacks \cite{Osvik2006Cache}.
 In a synchronous attack, %the attacker runs serially with the victim.
- the attacker first sets the cache states, then triggers the encryption, and detects the change of cache states after the encryption.
+ the attacker first sets the cache states, then triggers the encryption, and monitor the memory access pattern by detecting the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
  The synchronous attacks monitor the cache once per encryption.
 While asynchronous attacks have higher precision which can monitor several times per encryption.
@@ -202,16 +202,15 @@ the attacker sets the cache states by triggering the encryption and accessing so
  by the change of cache states, it can be inferred that whether these addresses are accessed.
 %   The attacker repeats these steps and infers the key information from the observations.
 
-However, Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
-   Using the attack, a spy program sets the cache states empty by flushing it, then read access the shared memory to find the change of cache states and retrieve the memory access pattern by the victim.
-
 Another attack is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
 The attacker sets the cache states by filling a known array (called Prime).
 It accesses the identical array to determine the cache states and achieves the cache access pattern (called Probe).
 
+However, Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
+   Using the attack, a spy program sets the cache states empty by flushing it, then read access the shared memory to find the change of cache states and retrieve the memory access pattern by the victim.
 %     From this information attackers can infer the victim's confidential data.
-Active cache  side-channel attacks also include Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}.
-They work in asynchronous mode and utilize different methods to observe the cache access patterns.
+Other active attacks like Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}
+ work in asynchronous mode and utilize different methods to observe the cache access patterns.
  Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
 Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with
 TSX abort.
