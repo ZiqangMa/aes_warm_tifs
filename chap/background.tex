@@ -174,12 +174,13 @@ When any two inputs of $T_i$ access the lookup table entries in a same cache lin
  it results in less execution time.
  %Then,
  The attacker measures the execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq j, j^{'} \leq 3$).
- The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that $\langle k_{i+4j}\rangle \oplus \langle k_{i+4j^{'}}\rangle =\delta$ ($\langle k\rangle$ represents the high $4$ bits of $k$).
-   In this way, the information about the high $4$ bits of key bytes are leaked.
+ The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that
+  $k_{i+4j} \oplus k_{i+4j^{'}}$ has the same high $4$ bits as $\delta$.
+   In this way, the information of key bytes are leaked.
 %Since each cache line (64 bytes) contains multiple entries (4 bytes),
 %the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
 %The attacker needs further analysis or more data to extract the full key.
-
+%
 This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to extract the full secret key. %without extra information.
 It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
