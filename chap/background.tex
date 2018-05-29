@@ -165,7 +165,7 @@ The maximum time shall result from the same index in the two phases,
 This attack exploits the fact that less time is needed for accessing the lookup table entries in the same cache line.
 %Taking the first round attack of AES \cite{Bonneau2006Cache} as an example,
 %the plaintext and the round key are denoted in bytes as $p_0, p_1, ..., p_{15}$ and $k_0, k_1, ..., k_{15}$, respectively, and
-Each cache line of 64 bytes has $16$ 4-byte entries,
+Each 64-byte cache line has $16$ 4-byte entries,
  and in the first round of AES~\cite{Bonneau2006Cache},
 % on the platform where
 the inputs of lookup table $T_i$ are $p_{i+4j} \oplus k_{i+4j}$ where $0 \leq i,j \leq 3$.
@@ -174,8 +174,9 @@ When any two inputs of $T_i$ access the lookup table entries in a same cache lin
  it results in less execution time.
  %Then,
  The attacker measures the execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq j, j^{'} \leq 3$).
- The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that the higher 4 bits of $k_{i+4j} \oplus  k_{i+4j^{'}}$ are the same as $\delta$ .
-   In this way, the key bytes information are leaked.
+ The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that
+   $k_{i+4j} \oplus k_{i+4j^{'}}$ has the same high $4$ bits as $\delta$.
+    In this way, the information of key bytes is leaked.
 %Since each cache line (64 bytes) contains multiple entries (4 bytes),
 %the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
 %The attacker needs further analysis or more data to extract the full key.
