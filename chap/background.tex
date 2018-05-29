@@ -200,28 +200,36 @@ While in an asynchronous attack, the attacker sets the cache states and detects 
 
 In an Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
     which is a typical synchronous attack,
-the attacker sets the cache states by triggering the encryption and accessing some memory addresses.
+the attacker first triggers the encryption and evicts some certain memory addresses from caches
+ to load the data needed by the encryption into caches and to make the addresses to be monitored out of caches.
+  Thus the cache states are set.
+   Then by triggering the encryption again, the attacker records the encryption time and infers whether the addresses are accessed.
+    Through monitoring different addresses, the memory access pattern is obtained.
+ 
 %% 以上，使得进入到了什么state？
 % encryption?
 %%%% monitor pattern? 通过什么获得pattern？
- by the change of cache states ,    % 如何获得change？
-  it can be inferred that whether these addresses are accessed.
+ %by the change of cache states ,    % 如何获得change？
+  %it can be inferred that whether these addresses are accessed.
 %   The attacker repeats these steps and infers the key information from the observations.
 
 Another attack is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
-The attacker sets the cache states by filling an array (called Prime).      % 到了什么状态？
-It accesses the identical array to determine the cache states and achieves the cache access pattern (called Probe).
+The attacker sets the cache states by filling one cache set with known data (Prime).      % 到了什么状态？
+It accesses the data, determines whether the data are accessed before through the access time (Probe).
+ Through monitoring different cache sets, it obtains the cache access pattern for a synchronous attack, 
+  while it is enough to monitor one cache set access pattern for an asynchronous attack.
 
 Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
-   Using the attack, a spy program sets the cache states empty by flushing it,
-    then read access the shared memory to find the change of cache states and retrieve the memory access pattern by the victim.
+   Using the attack, a spy program flushes the memory addresses to be monitored out of caches to set the cache in an empty state (Flush),
+    then waits a minute and read access these memory addresses to find whether bo be accessed before through accessed time (Reload).
+     Thus it retrieves the memory access pattern of the victim.
 %     From this information attackers can infer the victim's confidential data.
 Other active attacks like Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}
- work in asynchronous mode and utilize different methods to observe the cache access patterns.
- Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
-Prime+Abort protects the array of the Prime phase in Intel TSX.
-When it is accessed by victim, an abort occurs % the attacker know where is accessed.
- This attack replaces the Probe phase with TSX abort.
+ work in asynchronous mode and exploit different methods to observe the cache access patterns.
+ Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing memory.
+Prime+Abort protects the data of the Prime phase in Intel TSX.
+When it is accessed by the victim, an abort occurs. So the attacker obtains the cache access pattern through the abort.
+ This attack replaces the Probe phase with the TSX abort.
 
 
 
@@ -324,10 +332,15 @@ Meanwhile, several implementations without lookup tables are proposed. AES-NI is
 
 Cache warm is another way to eliminate cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods would introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
 
-\noindent\textbf{Confusing the execution time.}
-Adding delay is a common way to make the attackers obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and dynamic padding which means adding delay to a constant value~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}. Besides these software methods, OS level defense methods are also proposed such as adding noise with periodic cache cleaning~\cite{Yinqian2013D}, also making encryption time to constant values by adding delay~\cite{Cleemput2012Compiler,Coppens2009Practical}, and using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler}. These methods are algorithm independent and can effectively defend against the cache side attacks. But the major drawback of these methods is that they incur large performance overhead.
+\noindent\textbf{Confusing the cache accesses.}
+Adding delay is a common way to make the attackers obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and adding dynamic delay to make the encryption time constant~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}.
+  Besides these software methods, OS level defense methods are also proposed such as adding noise with periodic cache cleaning~\cite{Yinqian2013D},
+  and making encryption time to constant values by adding delay~\cite{Cleemput2012Compiler,Coppens2009Practical}.
+   Using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} is other way to confuse the cache accesses.
+    These methods are algorithm independent and can effectively defend against the cache side attacks. But the major drawback of these methods is that they incur large performance overhead.
 
-The author in paper \cite{Page2003Defending} suggests to add some dummy instructions or access some extra arrays to confusion the encryption time. A fixed number Of clock cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a hardware-based method PRC confuse the cache misses to the attackers. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
+A fixed number Of CPU cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round.
+In paper \cite{Page2003Defending}, the author suggests to add some dummy instructions or access some extra arrays to confusion the encryption time. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache(RPC) confuses the cache misses to the attackers. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
 
 Another method to confuse the attackers' observations is modifying the precision of the time measured
  by attackers \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}.
