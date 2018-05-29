@@ -56,7 +56,8 @@ Meanwhile, the {\vdelay} operation, which inserts padding instructions to elimin
      preferred over {\vdelay}. %in the {\scshape{Warm+Delay}} scheme.
 
 +++
-In our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}}, hence, the cache state is not changed.  That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption, while it will \emph{not} affect the following AES executions.
+In our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}},
+ hence, the cache state is not changed.  That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption, while it will \emph{not} affect the following AES executions.
     Therefore, to answer question (2): (2.A) we should only impose {\vdelay} when it is required for security purposes (i.e., to impose minimal number of {\vdelay} operations); and (2.B) the length of the imposed delay should be just enough to ensure security, but not more than that (i.e. to impose minimal length of delay in each {\vdelay} operation).
 ]]]]
 
@@ -179,11 +180,10 @@ However, the attackers may distinguish them by repeatedly invoking the encryptio
 %\qed
 \end{proof}
 
-It is easy to that, in our {\vwd}  scheme, the {\vdelay} operation satisfies Theorems~\ref{delay2tw} and \ref{delaynum}.
+It is easy to verify that, in our {\vwd}  scheme, the {\vdelay} operation satisfies Theorems~\ref{delay2tw} and \ref{delaynum}.
 % So the use of {\vdelay} can achieve the optimal performance in the {\vwd}  scheme.
 
 
-+++++++++
 \subsection{The Optimal Conditions for {\vwarm}}
 \label{warmanalysis}
 %\vspace{-1mm}
@@ -196,7 +196,7 @@ We first determine the amount of data to be loaded in {\vwarm} for the optimal p
   we use Markov Chain to model different {\vwarm} strategies
   and compare their performance.
 We show that, %in this case,
-    the best conditions of performing the {\vwarm} operation (i.e., with the optimal performance)
+    the best conditions of performing the {\vwarm} operation (i.e., with the optimal performance) 
  hold in commodity computer systems.
 The discussions about different key sizes (192 and 256 bits) and implementations (4KB, 4.25KB, and 5KB lookup tables),
   are included in Section \ref{analy:otherkey}.
@@ -204,17 +204,19 @@ The discussions about different key sizes (192 and 256 bits) and implementations
 
 %\vspace{2mm}
 %\noindent\textbf{1. The Amount of Data To Be Loaded in {\vwarm} Operation.}
-\subsubsection{The Amount of Data To Be Loaded in {\vwarm}}
-{\vwarm} operation needs to load the lookup table into the caches.
- It takes less time that loading parts of the table.
-  But it also may introduce extra {\vdelay} operation if the unloaded parts are accessed.
-   The benefit of not loading $N$ cache lines data in the {\vwarm} operation is denoted as $B_{nl}(N)$,
+
+
+\subsubsection{The Amount of Data to Be Loaded in {\vwarm}}
+A {\vwarm} operation loads the lookup table into caches.
+ It takes less time if only a part of the table is loaded,
+  but it may introduce extra {\vdelay} operations if the unloaded part is accessed.
+   The benefit of not loading $N$ cache lines of data in the {\vwarm} operation is denoted as $B_{nl}(N)$,
     while the expected overhead due to not loading $N$ cache lines of table entries is denoted as $D_{nl}(N)$.
-     The amount of data to be loaded in {\vwarm} operation can be determined by comparing $B_{nl}(N)$ with $D_{nl}(N)$.
+So the amount of data to be loaded in {\vwarm} shall be determined by comparing $B_{nl}(N)$ with $D_{nl}(N)$.
 
 We denote the size of a cache line as $C$,
-    and the time cost to load a cache line of data from RAM to L1D cache as $T_{cl}$.
- Then we have the following theorem for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
+    and the time cost to load a cache line of data from RAM to the L1D cache as $T_{cl}$.
+We have the following theorem for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
 %The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
 
@@ -266,7 +268,7 @@ Hence,
 If a table entry is uncached but accessed during the execution of AES encryption,
    the execution time is greater than $T_{NM}$ and {\vdelay} is performed.
 Therefore, if $N$ cache lines of table entries are not in caches,
-    the probability of extra {\vdelay} is as follows.
+    the probability of extra {\vdelay} is as follows
   \begin{equation}
   \label{equ:delay}
  {P}_{d}(N) = 1-P_{\bar{a}}(N) = 1- (1-\frac{NC}{L})^{16 R}
@@ -282,16 +284,16 @@ So, %the expected overhead (or the time cost) due to not loading $N$ cache lines
 &&= (1- (1-\frac{NC}{L})^{16 R})(T_{W}-T_{NM}).
 \end{eqnarray}
 
-On the other hand, the time cost to load a cache line of data from RAM to L1D cache is $T_{cl}$, so
+On the other hand, the time cost to load a cache line of data is $T_{cl}$, so
 %the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is
 \begin{eqnarray}
 B_{nl}(N) = N T_{cl}.
 \end{eqnarray}
 
-Therefore, we can conclude that
-(1)
+Therefore, we conclude that
+(\emph{a})
 if $B_{nl}(N) < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$,
- loading all entries of the lookup table into caches in the {\vwarm} operation provides the optimal performance;
+ loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance;
 % (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
 and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading $N$ cache lines of table entries provides better performance.
 %  and (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines provides equivalent performance.
@@ -329,27 +331,26 @@ loading all entries of the lookup table into caches in the {\vwarm} operation
 \end{corollary}
 
 \begin{proof}
-Firstly,
- with commodity hardware, the cache is enough to load all entries of the lookup tables.
-For example, AES is implemented with the lookup tables of 2KB, 4KB, 4.25KB or 5KB,
+With commodity hardware, the cache is enough for all entries of the lookup tables.
+For example, AES is implemented with the lookup table of 2KB, 4KB, 4.25KB or 5KB,
    and the lookup table of DES/3DES is 2KB.
-However, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
+Meanwhile, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
 
 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{W}$, $T_{NM}$, and $T_{cl}$ are $2834, 355, 55.68$ in CPU cycles, respectively
- (see Section \ref{sec:implementation} for details).
+$T_{W}$, $T_{NM}$, and $T_{cl}$ are $2834$, $355$, and $55.68$ CPU cycles, respectively
+ (see Section \ref{sec:implementation} for details). [[.xx +++]]
 %%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
     when $R = 10$, $L = 2$KB, and $C = 64$B.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines of lookup table is always much greater than the benefit.
 The result is applicable to other commodity computer systems.
-So by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces the optimal performance.
+Then, by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces better performance.
 \end{proof}
 
-In our {\vwd} scheme, {\vwarm} is performed  after encryption
+Moreover, in our {\vwd} scheme, {\vwarm} is performed % after encryption
    as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
-So the cost of {\vwarm} is reduced significantly, further making that loading all entries of the lookup table in {\vwarm} is better.
+So the cost of {\vwarm} is further reduced, ensuring that loading all entries of the lookup table in {\vwarm} is better.
 
  %The time $T_{W}$ is 2834 CPU cycles, while the shortest AES execution time $T_{NM}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
 
@@ -378,11 +379,13 @@ So the cost of {\vwarm} is reduced significantly, further making that loading al
 %\end{theorem}
 %\vspace{2mm}
 %\noindent\textbf{2. State Transition of Warm Strategies.}
-\subsubsection{State Transition of Warm Strategies}
-To determine the best warm opportunity, we should compare the costs introduced by different warm strategies.
-We use Markov Chain to analyze the different states of the lookup table in the L1 cache during the continuous invocations of AES encryption.
-Then the extra costs can be calculated based on the probability of each state in the stationary distributions.
-  There are three states:
+
+\subsubsection{State Transitions of Different {\vwarm} Strategies}
+To determine the optimal {\vwarm} operation,
+ we shall compare the costs by different {\vwarm} strategies.
+We use Markov Chain to analyze the states of the lookup table in the L1D cache during the continuous invocations of AES encryption.
+Then the extra costs are calculated based on the probability of each state in the stationary distributions.
+Generally, there are three states:
   \begin{enumerate}
    \item
      $S_{c}$: all entries of the lookup tables are in caches,
@@ -394,14 +397,17 @@ Then the extra costs can be calculated based on the probability of each state in
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
 The state of the lookup table is estimated after each execution of AES encryption.
-The transition among the three states can be triggered by three events:
+The transition among the three states is triggered by three events:
 \begin{enumerate}
   \item
-    \emph{Warm} event: performing {\vwarm} to load all the lookup tables into the cache which probability is denoted as $P_{w}$.
+    \emph{Warm} event: Performing {\vwarm} to load all lookup table entries into caches, and the probability is $P_{w}$.
   \item
-    \emph{Evict} event: the entries of lookup tables may be evicted from the cache if task scheduling, interrupts or any other system activities occur during the execution of encryptions. The probability that eviction occurs is denoted as $P_{e}$.
+    \emph{Eviction} event: The entries of lookup tables may be evicted from caches when task scheduling, interrupts or any other system activities occur during the execution of encryption. The probability that an eviction occurs is denoted as $P_{e}$.
   \item
-    \emph{Execution} event: For one AES encryption, some entries are uncached before encryption and it is possible that some of them is accessed during the encryption, and this probability is denoted as $P_{a}$. Actually, $P_{a}$ equals $P_{d}$ in Theorem~\ref{theorm:warmall}.
+    \emph{Execution} event: For one execution of AES encryption,
+     some entries are uncached before encryption and it is possible that some of them is accessed during the encryption,
+      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ equals $P_{d}$ in Theorem~\ref{theorm:warmall};
+      i.e., an execution event results in {\vdelay}.
 \end{enumerate}
 
 % 哪些事件导致状态转移？概率表示为。
@@ -419,24 +425,26 @@ The transition among the three states can be triggered by three events:
 %AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
 %先warm后evict
 
-The occurrence of these three events will change the state of lookup tables in the cache.
+++++++++++
+
+The occurrence of these events changes the state of lookup tables in the cache.
  %During the state transition, the state of lookup tables changes which means one AES executes.
   We assume that during one state transition, each of the three events occurs once at most.
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-    Besides we assume that the \emph{Warm} event occurs after the \emph{Evict} event.
-     It is reasonable because if the Warm event occurs, the Evict event before it has no effect on the state of lookup tables.
-In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.
+    Besides we assume that the \emph{Warm} event occurs after the \emph{Eviction} event.
+     It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
+In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.?????
 
-We consider three specific warm strategies:
+We consider three strategies:
 %In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 %While considering other two cases:
 \begin{itemize}
   \item
-    conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
+    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
   \item
-    less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
+    Less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
   \item
-    more {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
+    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
 \end{itemize}
 
 The Markov Chain can be used to simulate the state transitions.
@@ -553,7 +561,7 @@ D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
 \subsubsection{The Best Opportunity to Perform {\vwarm} Operation}
 We first compare the performance of  conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies.
- Followed we investigate the relationship on the performance between conditional {\vwarm} and any warm strategies.
+ Followed we investigate the relationship on the performance between conditional {\vwarm} and any strategies.
   Finally, we estimate whether the conditional {\vwarm} has the optimal performance in  commodity computer systems.
 
   We denote the extra cost introduced by {\vdelay} and {\vwarm} as
@@ -652,7 +660,7 @@ More details are in Appendix~\ref{appendixa}.
 \end{proof}
 
 \vspace{2mm}
-\noindent\textbf{The Warm Strategy with The Best Performance.}
+\noindent\textbf{The {\vwarm} Strategy with the Best Performance.}
 By computing the expected extra time introduced by different warm strategies, we can get the following theorem.
 
 \begin{theorem}\label{lemma:warmnum3}
@@ -686,7 +694,7 @@ Firstly, we consider an extreme case that is performing {\vwarm} with a probabil
 It can be proved that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy using the same method as in Theorem~\ref{lemma:warmnum1}.
 
 Generally,
- any warm strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
+ any {\vwarm} strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
   We denote the arbitrary warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious execution of encryption, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
    Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} as $W_{L}$, $W_{M}$ and $W_{Co}$.
   Then we can get the equation:
@@ -703,7 +711,7 @@ $$\left\{
 \right..
 $$
 
-In this way, the arbitrary warm strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
+In this way, the arbitrary strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
 So conditional {\vwarm} has better performance than warm strategies with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}

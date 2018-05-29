@@ -176,7 +176,7 @@ When any two inputs of $T_i$ access the lookup table entries in a same cache lin
  The attacker measures the execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq j, j^{'} \leq 3$).
  The least time at the value $p_{i+4j} \oplus p_{i+4j^{'}}=\delta$ means that
    $k_{i+4j} \oplus k_{i+4j^{'}}$ has the same high $4$ bits as $\delta$.
-    In this way, the information of key bytes is leaked.
+    Thus, the information of key bytes is leaked.
 %Since each cache line (64 bytes) contains multiple entries (4 bytes),
 %the low $4$ bits of $k_{i}$ can not be determined using the first round attack.
 %The attacker needs further analysis or more data to extract the full key.
@@ -201,21 +201,27 @@ While in an asynchronous attack, the attacker sets the cache states and detects 
 In an Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
     which is a typical synchronous attack,
 the attacker sets the cache states by triggering the encryption and accessing some memory addresses.
- by the change of cache states, it can be inferred that whether these addresses are accessed.
+%% 以上，使得进入到了什么state？
+% encryption?
+%%%% monitor pattern? 通过什么获得pattern？
+ by the change of cache states ,    % 如何获得change？
+  it can be inferred that whether these addresses are accessed.
 %   The attacker repeats these steps and infers the key information from the observations.
 
 Another attack is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
-The attacker sets the cache states by filling a known array (called Prime).
+The attacker sets the cache states by filling an array (called Prime).      % 到了什么状态？
 It accesses the identical array to determine the cache states and achieves the cache access pattern (called Probe).
 
-However, Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
-   Using the attack, a spy program sets the cache states empty by flushing it, then read access the shared memory to find the change of cache states and retrieve the memory access pattern by the victim.
+Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
+   Using the attack, a spy program sets the cache states empty by flushing it,
+    then read access the shared memory to find the change of cache states and retrieve the memory access pattern by the victim.
 %     From this information attackers can infer the victim's confidential data.
 Other active attacks like Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}
  work in asynchronous mode and utilize different methods to observe the cache access patterns.
  Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing the memory.
-Prime+Abort protects the array of the Prime phase in Intel TSX. When it is accessed by victim, an abort occurs. This attack replaces the Probe phase with
-TSX abort.
+Prime+Abort protects the array of the Prime phase in Intel TSX.
+When it is accessed by victim, an abort occurs % the attacker know where is accessed.
+ This attack replaces the Probe phase with TSX abort.
 
 
 

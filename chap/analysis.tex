@@ -56,7 +56,10 @@ Meanwhile, the {\vdelay} operation, which inserts padding instructions to elimin
      preferred over {\vdelay}. %in the {\scshape{Warm+Delay}} scheme.
 
 +++
-In our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}}, hence, the cache state is not changed.  That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption, while it will \emph{not} affect the following AES executions.
+In our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}},
+ hence, the cache state is not changed.
+ That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption,
+  while it will \emph{not} affect the following AES executions.
     Therefore, to answer question (2): (2.A) we should only impose {\vdelay} when it is required for security purposes (i.e., to impose minimal number of {\vdelay} operations); and (2.B) the length of the imposed delay should be just enough to ensure security, but not more than that (i.e. to impose minimal length of delay in each {\vdelay} operation).
 ]]]]
 
