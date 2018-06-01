@@ -198,7 +198,7 @@ We first determine the amount of data to be loaded in {\vwarm} for the optimal p
   we use Markov Chain to model different {\vwarm} strategies
   and compare their performance.
 We show that, %in this case,
-    the best conditions of performing the {\vwarm} operation (i.e., with the optimal performance) 
+    the best conditions of performing the {\vwarm} operation (i.e., with the optimal performance)
  hold in commodity computer systems.
 The discussions about different key sizes (192 and 256 bits) and implementations (4KB, 4.25KB, and 5KB lookup tables),
   are included in Section \ref{analy:otherkey}.
@@ -340,8 +340,8 @@ Meanwhile, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32K
 
 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{W}$, $T_{NM}$, and $T_{cl}$ are $2834$, $355$, and $55.68$ CPU cycles, respectively
- (see Section \ref{sec:implementation} for details). [[.xx +++]]
+$T_{W}$, $T_{NM}$, and $T_{cl}$ are $2834.00$, $355.00$, and $55.68$ CPU cycles, respectively
+ (see Section \ref{sec:implementation} for details).
 %%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
     when $R = 10$, $L = 2$KB, and $C = 64$B.
@@ -435,7 +435,7 @@ The occurrence of these events changes the state of lookup tables in the cache.
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
     Besides we assume that the \emph{Warm} event occurs after the \emph{Eviction} event.
      It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
-In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event.?????
+In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event, and it will be discussed in Section~\ref{remark}.
 
 We consider three strategies:
 %In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
@@ -885,6 +885,7 @@ Therefore, $G$ is smaller than the minimum value of $F_G$ when $D_F < 0$.
 %\vspace{2mm}
 %\noindent\textbf{4. Remarks.}
 \subsubsection{Remarks}
+\label{remark}
 In the analysis of {\vwarm} operation, we assume that some conditions are not considered. In this part, we discuss these conditions.
 First is effect of partial warm caused by the AES execution. Second is the influence of process scheduling and interruptions.
 Finally, we summarize the relation between the measured time and the cache states.

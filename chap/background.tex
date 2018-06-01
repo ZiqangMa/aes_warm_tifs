@@ -205,7 +205,7 @@ the attacker first triggers the encryption and evicts some certain memory addres
   Thus the cache states are set.
    Then by triggering the encryption again, the attacker records the encryption time and infers whether the addresses are accessed.
     Through monitoring different addresses, the memory access pattern is obtained.
- 
+
 %% 以上，使得进入到了什么state？
 % encryption?
 %%%% monitor pattern? 通过什么获得pattern？
@@ -216,7 +216,7 @@ the attacker first triggers the encryption and evicts some certain memory addres
 Another attack is Prime+Probe \cite{liu2015last,Tromer2010Efficient} which can be used in both scenarios.
 The attacker sets the cache states by filling one cache set with known data (Prime).      % 到了什么状态？
 It accesses the data, determines whether the data are accessed before through the access time (Probe).
- Through monitoring different cache sets, it obtains the cache access pattern for a synchronous attack, 
+ Through monitoring different cache sets, it obtains the cache access pattern for a synchronous attack,
   while it is enough to monitor one cache set access pattern for an asynchronous attack.
 
 Flush+Reload \cite{flushreload} is an asynchronous method, where the system supports shared memory.
@@ -377,7 +377,7 @@ $T_{nm}$ & the encryption execution time when no cache miss occurs\\
 \hline
 $T_{me}$ & the maximum encryption execution time when all lookup tables are out of caches, without \\        % 定义需要再准确一些！
 \hline
-$t1, t2$ & the time that AES execution begins and ends respectively\\
+$t1, t2$ & the time that encryption execution begins and ends respectively\\
 \hline
 %$t2$ & the time that AES ends\\
 %\hline
