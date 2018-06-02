@@ -222,19 +222,21 @@ Different cache sets are monitored one by one in synchronous attacks,
   or the access pattern of a cache set is detected in an asynchronous attack.
 
 Flush+Reload \cite{flushreload} is another asynchronous threat that exploits shared memory.
-The attack process first flushes the shared memory data out of caches (Flush),
-    and then measures the access time of some addresses to    
-     find whether they are accessed by the concurrent encryption (Reload).
+The attack process first flushes the shared memory data out of caches,
+    and then measures the access time of some addresses in the shared memory to    
+     find whether they are accessed by the concurrent encryption or not (called Reload).
 %     Thus it retrieves the memory access pattern of the victim.
 %     From this information attackers can infer the victim's confidential data.
 %
-Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort} are 
- work in asynchronous mode and exploit different methods to observe the cache access patterns.
- Flush+Flush is the variant of Flush+Reload, where recording the time of flush instead of the time of accessing memory.
-Prime+Abort protects the data of the Prime phase in Intel TSX.
-When it is accessed by the victim, an abort occurs. So the attacker obtains the cache access pattern through the abort.
- This attack replaces the Probe phase with the TSX abort.
-
+Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort} 
+ work in the asynchronous mode and exploit different methods to observe the cache access patterns.
+ Flush+Flush is a variant of Flush+Reload, which 
+    monitors the cache state by flushing some addresses in the shared memory 
+          instead of reading them.
+Prime+Abort accesses the Prime data within Intel TSX,
+    and then if some of them is accessed by the victim during the encryption,
+     an abort occurs.
+So the attacker studies the cache access pattern through the abort events.
 
 
 
