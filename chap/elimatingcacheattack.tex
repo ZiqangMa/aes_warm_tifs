@@ -146,13 +146,13 @@ So,
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 %For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 %In this algorithm,
-There are two parameters, $T_{nm}$ and $T_{w}$.
+There are two parameters, $T_{nm}$ and $T_{mt}$.
 $T_{nm}$ is the time period for one encryption execution,
   in the case that no cache misses occur during the execution, i.e. all lookup tables are in caches.
-$T_{w}$ is defined as the worst execution time for one encryption,
+$T_{mt}$ is defined as the worst execution time for one encryption,
   in the case that none of table entries is cached before the execution and cache misses occur at most.
 These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
-Given an implementation of  block ciphers, $T_{nm}$ and $T_{w}$
+Given an implementation of  block ciphers, $T_{nm}$ and $T_{mt}$
   are constant on a certain computing platform.
 
 
@@ -174,8 +174,8 @@ Given an implementation of  block ciphers, $T_{nm}$ and $T_{w}$
                     %\State $state \gets 1$
                     \State $\Call{Warm}$
                     \State $t3 \gets \Call{GetTime}$
-                    \If {$t3 - t1 < T_{w} $}
-                        \State $\Call{Delay}{T_{w}-t3+t1}$
+                    \If {$t3 - t1 < T_{mt} $}
+                        \State $\Call{Delay}{T_{mt}-t3+t1}$
                     \EndIf
                 \EndIf
            \EndFunction
@@ -227,7 +227,7 @@ Note that,
 
 
 %[[[[\textbf{ this content shall be in Section Implementation}.
-%Further, although the design of our scheme is independent of the software and hardware, the implementation details vary according to the underlying hardwares and softwares. For example, we adopts the \verb+rdtscp+ instruction provided by Intel to get the timestamp efficiently. The threshold (\verb+ENC_THRESHOLD+) and T_{W} are related to the hardware, operating system and the implementation of the encryption algorithm, and can be calculated by performing the multiple encryption in the environment previously. ]]]]
+%Further, although the design of our scheme is independent of the software and hardware, the implementation details vary according to the underlying hardwares and softwares. For example, we adopts the \verb+rdtscp+ instruction provided by Intel to get the timestamp efficiently. The threshold (\verb+ENC_THRESHOLD+) and T_{MT} are related to the hardware, operating system and the implementation of the encryption algorithm, and can be calculated by performing the multiple encryption in the environment previously. ]]]]
 
 
 %[[this table may be needed in \textbf{Section Analysis of Optimization}]]
@@ -264,11 +264,11 @@ We ensure that the measured time does not leak any exploitable information about
 
 %[[[[[[[\textbf{this paragraph shall not be here. Section 4?}
 %To achieve the optimal performance, our scheme only performs the cache warm in the necessary cases: the encryption time is larger than the \verb+ENC_THRESHOLD+ (line $5$ in Algorithm~\ref{alg:aesdefense}) which means some of the needed lookup tables are evicted from the cache.
-%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{W}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{W} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
+%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{mt}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{W} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
 %]]]]]]]
 
 The execution time of {\scshape{Encrypt}}
-falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{w})$ and $[T_{w}, \infty )$.
+falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{mt})$ and $[T_{mt}, \infty )$.
 According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, respectively.
 
 \begin{itemize}
@@ -277,12 +277,12 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time. {\scshape{Delay}} is not performed in this case.
-  \item \textbf{Case 2}: The execution time is in $(T_{nm}, T_{w})$. It will be delayed to $T_{w}$,
+  \item \textbf{Case 2}: The execution time is in $(T_{nm}, T_{mt})$. It will be delayed to $T_{mt}$,
     which is the execution time as all accessed lookup tables are uncached before encryption.
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{w}, \infty )$.
+  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{mt}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,
@@ -295,17 +295,17 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
 When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure each execution time of {\scshape{ProtectedEncrypt}},
  but not internal {\scshape{Encrypt}}.
  So the measured time, i.e., the execution time of {\scshape{ProtectedEncrypt}},
-  falls into two intervals, $(0, T_{nm}]$ and $[T_{w}, \infty )$.
+  falls into two intervals, $(0, T_{nm}]$ and $[T_{mt}, \infty )$.
 
 %Next, we prove that,
 % no information about the status of cache lines  %lookup tables cached or data processed
 %  leaks through the time measured by attackers.
 
-The values of $T_{nm}$ and $T_{w}$ are irrelevant to the data processed,
+The values of $T_{nm}$ and $T_{mt}$ are irrelevant to the data processed,
     and determined by the implementation and computing platform.
 When the measured time is in $(0, T_{nm}]$,
     it is almost a fixed value.
-When the time is greater than $T_{w}$,
+When the time is greater than $T_{mt}$,
     it is caused by random system activities or the {\scshape{Delay}} operations
     which destroy the relationship between the time and data processed.
 Although the execution time of {\scshape{Warm}} may leak the cache states after encryption,
