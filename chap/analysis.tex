@@ -433,35 +433,39 @@ Without loss of generality,
 we assume that during one state transition, each of the three events occurs once at most.\footnote{Even if some occurs more than once actually,
     they can be viewed as one event with  the strengthened impact on the state transition.}
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-
+[[[[[[[[]]]]]]]]
 We assume that,
      the \emph{Warm} event occurs after the \emph{Eviction} event (if both of they occur).
      It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
 In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event, and it will be discussed in Section~\ref{remark}.
+]]]
 
-++++++++++
 
 We consider three strategies:
 %In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 %While considering other two cases:
 \begin{itemize}
   \item
-    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
+    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption, as done in the {\vwd} scheme;
   \item
     Less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
   \item
-    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption and also performing {\vwarm} with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
+    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption, and also performing with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
 \end{itemize}
 
-The Markov Chain can be used to simulate the state transitions.
- The state of the lookup table in the caches denoted as $X_{n}$ takes values in the state space $\{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
+Markov Chain is used to simulate the state transitions.
+ The state of the lookup table denoted as $X_{n}$,
+     takes values in the state space $\{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
   %The transition probabilities denoted as $P_{j|i}$, where $i$ and $j$ are in the state space, represents that
-   If the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step is given by $P_{j|i}$, where $i$ and $j$ are in the state space.
-    That is
+   If it is in the state $i$, the probability that it will be in the state $j$ after one step is denoted as $P_{j|i}$.
+    That is,
     $$
-    P\{X_{n+1}=j|X_n=i\}=P_{j|i}\ \ , \ \ \  i,j \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\} .
+    P\{X_{n+1}=j|X_n=i\}=P_{j|i}, where i,j \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}.
     $$
+
 The stationary distributions for the three different strategies are as follow.
+
+++++++++++
 
 \begin{figure*}[t]
     \centering

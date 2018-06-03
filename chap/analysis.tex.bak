@@ -427,20 +427,26 @@ The transition among the three states is triggered by three events:
 %AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
 %先warm后evict
 
-The occurrence of these events changes the state of lookup tables in the cache.
+The occurrence of these events changes the state of lookup tables.
  %During the state transition, the state of lookup tables changes which means one AES executes.
-  We assume that during one state transition, each of the three events occurs once at most.
+Without loss of generality,
+we assume that during one state transition, each of the three events occurs once at most.\footnote{Even if some occurs more than once actually,
+    they can be viewed as one event with  the strengthened impact on the state transition.}
    Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-    Besides we assume that the \emph{Warm} event occurs after the \emph{Eviction} event.
+
+We assume that,
+     the \emph{Warm} event occurs after the \emph{Eviction} event (if both of they occur).
      It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
 In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event, and it will be discussed in Section~\ref{remark}.
+
+++++++++++
 
 We consider three strategies:
 %In {\vwd} scheme, the warm strategy that performing {\vwarm} when some cache misses occur during the pervious execution of encryption is denoted as conditional {\vwarm}.
 %While considering other two cases:
 \begin{itemize}
   \item
-    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in {\vwd} scheme;
+    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious execution of encryption as done in the {\vwd} scheme;
   \item
     Less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious execution of encryption;
   \item
