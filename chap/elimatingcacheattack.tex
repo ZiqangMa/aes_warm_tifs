@@ -373,14 +373,14 @@ Because random and unknown system activities are involved in the measured AES ex
 
 
 To launch  an internal collision attack \cite{Bonneau2006Cache,Ac2007Cache},
- the attackers need to determine the least execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq i \leq 3, 0 \leq j, j^{'} \leq 3$)
+ the attackers need to determine the least execution time for all possible $p_{i+4j} \oplus p_{i+4j^{'}}$ ($0 \leq i, j, j^{'} \leq 3$)
   and
   exploit the high 4 bits of $p_{i+4j} \oplus p_{i+4j'}$ to disclose the high 4 bits of $k_{i+4j}    \oplus    k_{i+4j'}$.
 When protected by the {\scshape{Warm+Delay}} scheme,
  the execution time measured by attackers is irrelative to the inputs of the lookup table
   and the time variation is caused by the random and unknown system activities.
    So the least time does not mean an internal  collision,
-    that is $p_i \oplus  k_i = p_j \oplus k_j$ at here does not hold any more.
+    that is, $p_i \oplus  k_i = p_j \oplus k_j$ does not hold.
 Therefore the attackers cannot extract useful information about the keys.
 
 
