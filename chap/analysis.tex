@@ -432,12 +432,14 @@ The occurrence of these events changes the state of lookup tables.
 Without loss of generality,
 we assume that during one state transition, each of the three events occurs once at most.\footnote{Even if some occurs more than once actually,
     they can be viewed as one event with  the strengthened impact on the state transition.}
-   Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
+  % Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
+  Because we observe the state of lookup tables after the \emph{Execution} event, the \emph{Execution} event occurs the last.
 
 We assume that,
-     the \emph{Warm} event occurs after the \emph{Eviction} event (if both of they occur).
-     It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
-In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event, and it will be discussed in Section~\ref{remark}.
+     the \emph{Warm} event occurs before the \emph{Eviction} event (if both of they occur).
+     It is reasonable because if the \emph{Warm} event occurs, the \emph{Eviction} event before it has no effect on the state of lookup tables.
+In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event. 
+ Because it only increases the value of $P_{w}$ which has no influence on the later conclusions as discussed in Section~\ref{remark}.
 
 ++++++++++
 

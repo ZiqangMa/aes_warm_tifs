@@ -199,7 +199,7 @@ The synchronous attack monitors the cache state once per encryption,
  while the asynchronous one does it for several times per encryption with higher performance.
 
 In an synchronous Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
-the attacker first triggers the encryption to load the data needed into caches 
+the attacker first triggers the encryption to load the data needed into caches
     and evicts some data from caches, of which the addresses will be monitored.
 So the cache states are set.
    Then the attacker triggers the encryption again,
@@ -216,22 +216,23 @@ So the cache states are set.
 Prime+Probe \cite{liu2015last,Tromer2010Efficient} is launched in both scenarios.
 The attacker sets the cache states by filling one cache set with its own data, called Prime.      % 到了什么状态？
 Then, it accesses these data and measures the access time,
- to determines whether some memory data are accessed and cached in the same cache set during the encryption,
+ %to determine whether some memory data are accessed and cached in the same cache set during the encryption,
+ to determine whether the monitored cache set is used by the encryption after the Prime phase,
  called Probe.
 Different cache sets are monitored one by one in synchronous attacks,
   or the access pattern of a cache set is detected in an asynchronous attack.
 
 Flush+Reload \cite{flushreload} is another asynchronous threat that exploits shared memory.
 The attack process first flushes the shared memory data out of caches,
-    and then measures the access time of some addresses in the shared memory to    
+    and then measures the access time of some addresses in the shared memory to
      find whether they are accessed by the concurrent encryption or not (called Reload).
 %     Thus it retrieves the memory access pattern of the victim.
 %     From this information attackers can infer the victim's confidential data.
 %
-Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort} 
+Flush+Flush~\cite{gruss2016flush+flush} and Prime+Abort~\cite{disselkoen2017prime+abort}
  work in the asynchronous mode and exploit different methods to observe the cache access patterns.
- Flush+Flush is a variant of Flush+Reload, which 
-    monitors the cache state by flushing some addresses in the shared memory 
+ Flush+Flush is a variant of Flush+Reload, which
+    monitors the cache state by flushing some addresses in the shared memory
           instead of reading them.
 Prime+Abort accesses the Prime data within Intel TSX,
     and then if some of them is accessed by the victim during the encryption,
@@ -326,44 +327,42 @@ So the attacker studies the cache access pattern through the abort events.
 \subsection{Control against Cache Timing Side Channels}
 Different defense methods against the remote cache timing attacks have been proposed on the  levels of hardware, software and operating system (OS).
 These defense methods eliminate the execution time difference, % of cache hits/misses,
-    introduce confusion to the execution time,% to obscure the difference,
+    introduce confusion to cache accesses,% to obscure the difference,
     or limit the cache sharing.
  Some of them also are effective against the active attacks.
 
 \noindent\textbf{Eliminating the execution time difference.}
 The most direct method to defend against the cache side-channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical.
 Exploiting cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache} can avoid the usage of caches, but they suffer from low performance and effect other processes running concurrently.
-Meanwhile, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is an hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations have significant low performance compared with using lookup tables.
+Meanwhile, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is a hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations have significant low performance compared with using lookup tables.
 %There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
 
-Cache warm is another way to eliminate cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods would introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
+Cache warm is another way to eliminate cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
 
 \noindent\textbf{Confusing the cache accesses.}
-Adding delay is a common way to make the attackers obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and adding dynamic delay to make the encryption time constant~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}.
-  Besides these software methods, OS level defense methods are also proposed such as adding noise with periodic cache cleaning~\cite{Yinqian2013D},
-  and making encryption time to constant values by adding delay~\cite{Cleemput2012Compiler,Coppens2009Practical}.
-   Using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} is other way to confuse the cache accesses.
-    These methods are algorithm independent and can effectively defend against the cache side attacks. But the major drawback of these methods is that they incur large performance overhead.
+Adding delay is a common way to make the attacker obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and adding dynamic delay to make the encryption time constant~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive} in software level and OS level~\cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical}.
+   Using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} to replace the original time-based scheduling is another way to confuse the cache accesses.
+    These methods are algorithm-independent and can effectively defend against the cache side channel attacks. But the major drawback of these methods is that they incur large performance overhead.
 
-A fixed number Of CPU cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round.
-In paper \cite{Page2003Defending}, the author suggests to add some dummy instructions or access some extra arrays to confusion the encryption time. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache(RPC) confuses the cache misses to the attackers. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
+%A fixed number Of CPU cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round.
+In paper \cite{Page2003Defending}, the author suggests to add some dummy instructions or access some extra arrays to confusion the encryption time. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache(RPC) confuse the cache misses to the attacker. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
 
-Another method to confuse the attackers' observations is modifying the precision of the time measured
- by attackers \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}.
-But it is useless in the remote environment because the attackers can use its own timers.
+Another method to confuse the attacker' observations is modifying the precision of the time measured
+ by the attacker \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}.
+But it is useless in the remote environment because the attacker can use its own timers.
 
 \noindent\textbf{Limiting Cache Sharing.} %Cache独占使用
-Another way to eliminate cache misses is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
+Another way to eliminate the cache attacks is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
 The new cache design~\cite{Kong2009Hardware,Wang2007New} uses partition-locked caches to prevent cache interference.
 Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
 SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time for better performance.
 Although they can effectively defend against the cache timing attacks, their deficiencies are obvious as these schemes have
-limited practical usage and cannot be deployed on ready-made commodity hardware.
+limited practical usage and are hard to be deployed on ready-made commodity hardware.
 
 \noindent\textbf{Integrated methods.}
-Some schemes integrate several strategies to defend against the cache timing attack. The scheme proposed in \cite{Brickell2006Software} consists of three parts: using compact tables, frequently randomizing tables, and pre-loading of relevant cache-lines. It makes cache misses occur as little as possible while makes the observations secret-independent. But the drawback is the performance overload as a result that three parts all would introduce some extra overhead.
+Some schemes integrate several strategies to defend against the cache timing attack. The scheme proposed in \cite{Brickell2006Software} consists of three parts: using compact tables, frequently randomizing tables, and pre-loading of relevant cache-lines. It makes cache misses occur as little as possible while makes the observations secret-independent. But the drawback is the performance overload as all three parts would introduce some extra overhead.
 
-Another scheme is hold in \cite{Braun2015Robust}, which employs dynamic padding, isolating shared resources and lazily cleansing state to form a robust defense. It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
+Another scheme is held in \cite{Braun2015Robust}, which employs dynamic padding, isolating shared resources and lazily cleansing state to form a robust defense. It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
 
 The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
 
