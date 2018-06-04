@@ -55,13 +55,11 @@ Meanwhile, the {\vdelay} operation, which inserts padding instructions to elimin
     Therefore, intuitively, the {\scshape{Warm}} operation is %always
      preferred over {\vdelay}. %in the {\scshape{Warm+Delay}} scheme.
 
-+++
-In our design (as in other implementations of {\vdelay}), we use a instruction loop to impose {\scshape{Delay}},
- hence, the cache state is not changed.
- That says, the {\scshape{Delay}} operation only changes the execution time of the current AES encryption,
+In our design (as in other implementations), we use a instruction loop to impose {\scshape{Delay}},
+ so the cache state is not changed by {\scshape{Delay}}.
+The {\scshape{Delay}} operation only changes the execution time of the current AES encryption,
   while it will \emph{not} affect the following AES executions.
-    Therefore, to answer question (2): (2.A) we should only impose {\vdelay} when it is required for security purposes (i.e., to impose minimal number of {\vdelay} operations); and (2.B) the length of the imposed delay should be just enough to ensure security, but not more than that (i.e. to impose minimal length of delay in each {\vdelay} operation).
-]]]]
+Therefore, the answers to Question (2) are: (2.A) we should only impose {\vdelay} when it is required for security purposes (i.e., to impose minimal number of {\vdelay} operations); and (2.B) the length of the imposed delay should be just enough to ensure security, but not more than that (i.e. to impose minimal length of delay in each {\vdelay} operation).
 
 Meanwhile,
  the {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the next encryptions. Intuitively, loading less data during one {\scshape{Warm}} operation introduces less overhead for the current encryption;
@@ -402,14 +400,14 @@ The state of the lookup table is estimated after each execution of AES encryptio
 The transition among the three states is triggered by three events:
 \begin{enumerate}
   \item
-    \emph{Warm} event: Performing {\vwarm} to load all lookup table entries into caches, and the probability is $P_{w}$.
+    {\scshape{Warm}}: Performing {\vwarm} to load all lookup table entries into caches, and the probability is $P_{w}$.
   \item
-    \emph{Eviction} event: The entries of lookup tables may be evicted from caches when task scheduling, interrupts or any other system activities occur during the execution of encryption. The probability that an eviction occurs is denoted as $P_{e}$.
+    {\scshape{Eviction}}: The entries of lookup tables may be evicted from caches when task scheduling, interrupts or any other system activities occur during the execution of encryption. The probability that such an event occurs is denoted as $P_{e}$.
   \item
-    \emph{Execution} event: For one execution of AES encryption,
+    {\scshape{Access-Uncached}}: For one execution of AES encryption,
      some entries are uncached before encryption and it is possible that some of them is accessed during the encryption,
-      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ equals $P_{d}$ in Theorem~\ref{theorm:warmall};
-      i.e., an execution event results in {\vdelay}.
+      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
+      i.e., {\scshape{Access-Uncached}} results in {\vdelay}.
 \end{enumerate}
 
 % 哪些事件导致状态转移？概率表示为。
@@ -432,24 +430,21 @@ The occurrence of these events changes the state of lookup tables.
 Without loss of generality,
 we assume that during one state transition, each of the three events occurs once at most.\footnote{Even if some occurs more than once actually,
     they can be viewed as one event with  the strengthened impact on the state transition.}
-<<<<<<< HEAD
-   Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-[[[[[[[[]]]]]]]]
-We assume that,
-     the \emph{Warm} event occurs after the \emph{Eviction} event (if both of they occur).
-     It is reasonable because if the Warm event occurs, the Eviction event before it has no effect on the state of lookup tables.
-In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event, and it will be discussed in Section~\ref{remark}.
-]]]
-=======
   % Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-  Because we observe the state of lookup tables after the \emph{Execution} event, the \emph{Execution} event occurs the last.
-
 We assume that,
-     the \emph{Warm} event occurs before the \emph{Eviction} event (if both of they occur).
-     It is reasonable because if the \emph{Warm} event occurs, the \emph{Eviction} event before it has no effect on the state of lookup tables.
-In the following, we temporarily do not consider the effect of the partial warm caused by the \emph{Execution} event. 
- Because it only increases the value of $P_{w}$ which has no influence on the later conclusions as discussed in Section~\ref{remark}.
->>>>>>> 71e2ebe87581f6e3f300fd3443726ae88a1cf45d
+    during one state transition,
+    {\scshape{Warm}} occurs before {\scshape{Eviction}} (if both of they occur).
+It is reasonable,
+    because 
+    an {\scshape{Eviction}} event occurring before  {\scshape{Warm}} has no effect on the state of lookup tables,
+        and then can be ignored.
+Besides,
+    since the state of lookup tables is observed immediately after the execution of AES encryption,
+  the \emph{Access-Uncached} event occurs in the last during one state transition (if occurs).
++++++++++
+In the following, we temporarily do not consider the effect of the partial warm by the \emph{Access-Uncached} event.
+In Section~\ref{remark}, we will show that
+    it only increases the value of $P_{w}$ which has no influence on the later conclusions.
 
 
 We consider three strategies:
@@ -497,7 +492,7 @@ The stationary distributions for the three different strategies are as follow.
 
 \vspace{2mm}
 \noindent\textbf{Conditional {\vwarm}.}
- The state transition diagram of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
+ The state transition of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
 $P_{a|S_{c}}$ and $P_{a|S_{\bar{c}, \bar{a}}}$ represent the probability that some entries of lookup tables which are uncached before encryption are accessed during the encryption.
  Due to the difference of the quantity of entries of lookup tables not in the cache, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
  %We use $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$.
