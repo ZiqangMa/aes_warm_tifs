@@ -16,7 +16,7 @@ We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K look
 As we attempt to optimize performance while eliminate remote cache timing side channels,
  efficient {\scshape{Warm}}, {\scshape{GetTime}},  and {\scshape{Delay}}
   are finished;
-and the constant parameters ($T_{NM}$ and $T_{W}$) are determined properly.
+and the constant parameters ($T_{nm}$ and $T_{mt}$) are determined properly.
  Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
 
 
@@ -148,7 +148,7 @@ In the implementation, we need to perform the following operations to achieve th
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation.
-so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{W}$,
+so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mt}$,
    instead of every time after {\scshape{Warm}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
@@ -222,8 +222,8 @@ volatile int delay(uint64_t t_delay){
 \end{lstlisting}
 
 
-\vspace{1mm}\noindent\textbf{$\mathbf{T_{NM}}$.}
-$T_{NM}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{nm}}$.}
+$T_{nm}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
 and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
 In our environment it is $331$ cycles.
@@ -231,15 +231,15 @@ In our environment it is $331$ cycles.
    while all lookup tables except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
 We use the stack switch technique to eliminate the read-write conflict, at the same time it makes the AES execution time much more concentrated as shown in \figurename~\ref{fig:sim}.
- This helps the determination of $T_{NM}$ can be more accurate and reasonable.
-  Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{NM}$ that might occur.
-Finally, we choose 355 cycles as $T_{NM}$.
+ This helps the determination of $T_{nm}$ can be more accurate and reasonable.
+  Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{nm}$ that might occur.
+Finally, we choose 355 cycles as $T_{nm}$.
 This value is chosen to ensure that all tables are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
 
-\vspace{1mm}\noindent\textbf{$\mathbf{T_{W}}$.}
-$T_{W}$ is the worst AES execution time and unrelated to the cache states.
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{mt}}$.}
+$T_{mt}$ is the worst AES execution time and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as   $T_{W}$.
- In this case $T_{W}$ is 2834 CPU cycles.
+In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as   $T_{mt}$.
+ In this case $T_{mt}$ is 2834 CPU cycles.
 
