@@ -425,7 +425,7 @@ The transition among the three states is triggered by three events:
 %AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
 %先warm后evict
 
-These events changes the state of the lookup table.
+These events change the states of the lookup table.
  %During the state transition, the state of lookup tables changes which means one AES executes.
 Without loss of generality,
 we assume that during one state transition, each of the three events occurs once at most.\footnote{Even if some occurs more than once actually,
@@ -439,7 +439,7 @@ It is reasonable,
     an {\scshape{Eviction}} event occurring before  {\scshape{Warm}} has no effect on the state of the lookup table,
         and then can be ignored.
 Besides,
-    since the state of the lookup table is observed immediately after the execution of AES encryption,
+    since the state of the lookup table is observed immediately after the AES execution,
   the {\scshape{Access-Uncached}} event occurs in the last during one state transition (if occurs).
 In the following analysis, we firstly ignore the partial-warm effect of the {\scshape{Access-Uncached}} event,
     and in Section~\ref{remark} we show that
@@ -458,7 +458,7 @@ We consider three strategies:
     More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, and also performing with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
 \end{itemize}
 
-Markov Chain is used to simulate the state transitions.
+Markov Chain is used to simulate the state transition.
  The state of the lookup table denoted as $X_{n}$,
      takes values in the state space $\{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
   %The transition probabilities denoted as $P_{j|i}$, where $i$ and $j$ are in the state space, represents that
