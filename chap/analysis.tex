@@ -487,13 +487,15 @@ the stationary distributions for the three different strategies are analyzed as 
 
 \vspace{2mm}
 \noindent\textbf{Conditional {\vwarm}.}
- The state transition of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
+The state transition of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
 $P_{a|S_{c}}$ represents the probability that if in the state $S_{c}$, some uncached entries of the lookup table before encryption are accessed during the encryption (due to the {\scshape{Eviction}} event).
  $P_{a|S_{\bar{c}, \bar{a}}}$ represents the probability that if in the state $S_{\bar{c}, \bar{a}}$, some uncached entries are accessed during the encryption.
- Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
- %We use $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$ to represent $P_{evict}^{\mathfrak{2}}P_{a}^{\mathfrak{21}}+(1-P_{evict}^{\mathfrak{2}})P_{a}^{\mathfrak{22}}$.
-%Because we can not determine how many lookup entries are evicted, the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}}$ and $P_{a}^{\mathfrak{22}}$ are the same.
-%So  $P_{a}^{\mathfrak{2}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+  Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
+
+When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{Eviction}} event does not occur, the {\scshape{Access-Uncached}} does not occur and the state is not changed. While if the {\scshape{Eviction}} event occurs, some lookup entries may be evicted from caches. Then if these evicted entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$.
+  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed and all lookup entries are in caches. If the {\scshape{Eviction}} event does not occur, the state turns to $S_{c}$. While if the {\scshape{Eviction}} event occurs, if these evicted entries caused by the {\scshape{Eviction}} event are accessed during the AES execution, the state remains the same, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$.
+    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it remains the state $S_{\bar{c}, \bar{a}}$.
+
 
 We use $\Pi_{c}$, $\Pi_{\bar{c}, \bar{a}}$, $\Pi_{\bar{c}, a}$ to represent
 the stationary distribution of the three states and the values are as follows.
@@ -515,9 +517,11 @@ the stationary distribution of the three states and the values are as follows.
 The state transition diagram of less {\vwarm} is shown in \figurename~\ref{fig:lesscase}.
 $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ represents the probability that some entries uncached before encryption are accessed during the encryption if in the state $S_{\bar{c}, \bar{a}}$.
 As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ is no less than $P_{a|S_{c}}$.
-%Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{L}}$ and $P_{a}^{\mathfrak{22}\mathcal{L}}$ are the same.
-%So we use $P_{a}^{\mathfrak{2}\mathcal{L}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{L}}P_{a}^{\mathfrak{21}\mathcal{L}}+(1-P_{evict}^{\mathfrak{2}\mathcal{L}})P_{a}^{\mathfrak{22}\mathcal{L}}$ and $P_{a}^{\mathfrak{2}\mathcal{L}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
-% $P_{a}^{\mathfrak{3}\mathcal{L}}$ in the diagram has the same meaning with $P_{a}^{\mathfrak{2}\mathcal{L}}$.
+
+When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{Eviction}} event does not occur, the {\scshape{Access-Uncached}} does not occur and the state is not changed. While if the {\scshape{Eviction}} event occurs, some lookup entries may be evicted from caches. Then if these evicted entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$.
+  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$. When the {\scshape{Warm}} is performed, the state transition is the same as in Conditional {\vwarm}. When {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. If these uncached entries are accessed during the AES execution, it remains the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$.
+    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it remains the state $S_{\bar{c}, \bar{a}}$.
+
 
 We use $\Pi_{c}^{\ominus}$, $\Pi_{\bar{c}, \bar{a}}^{\ominus}$, $\Pi_{\bar{c}, a}^{\ominus}$ to represent
 the stationary distribution of the three states and the values are as follows.
@@ -546,8 +550,10 @@ D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
 $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ represents the probability that some entries uncached before encryption are accessed during the encryption if in the state $S_{\bar{c}, \bar{a}}$.
 As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ is no less than $P_{a|S_{c}}$.
-%Also the ranges of $P_{a}^{\mathfrak{1}}$, $P_{a}^{\mathfrak{21}\mathcal{M}}$ and $P_{a}^{\mathfrak{22}\mathcal{M}}$ are the same.
-%So we use $P_{a}^{\mathfrak{2}\mathcal{M}}$ to represent $P_{evict}^{\mathfrak{2}\mathcal{M}}P_{a}^{\mathfrak{21}\mathcal{M}}+(1-P_{evict}^{\mathfrak{2}\mathcal{M}})P_{a}^{\mathfrak{22}\mathcal{M}}$ and $P_{a}^{\mathfrak{2}\mathcal{M}}$ has the same range with $P_{a}^{\mathfrak{1}}$.
+
+When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{Eviction}} event does not occur, the {\scshape{Access-Uncached}} does not occur and the state is not changed. While if the {\scshape{Eviction}} event occurs, some lookup entries may be evicted from caches. Then if these evicted entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$.
+  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$. When the {\scshape{Warm}} is performed, the state transition is the same as in Conditional {\vwarm}. When {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. If these uncached entries are accessed during the AES execution, it remains the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$.
+    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it remains the state $S_{\bar{c}, \bar{a}}$.
 
 We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent
 the stationary distribution of the three states and the values are as follows.
