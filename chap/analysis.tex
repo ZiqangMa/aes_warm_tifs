@@ -589,10 +589,10 @@ We first compare the performance of  conditional {\vwarm} with less {\vwarm} and
 $T_{d} = T_{mt}-T_{nm}$ is constant for different executions.
     $T_{w}$ depends on the number of loaded cache lines of table entries.
 
-%Then we have the following theorems.
-\vspace{2mm}
-\noindent\textbf{Comparing Conditional \vwarm~ with Less {\vwarm}.}
-By comparing the expected extra time introduced by the two strategies, we get the following theorem.
+%%Then we have the following theorems.
+%\vspace{2mm}
+%\noindent\textbf{Comparing Conditional \vwarm~ with Less {\vwarm}.}
+%By comparing the expected extra time introduced by the two strategies, we get the following theorem.
 \begin{theorem}\label{lemma:warmnum1}
   The conditional {\vwarm} strategy provides better performance than the less {\vwarm} strategy.
 \end{theorem}
@@ -612,9 +612,9 @@ And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{w}^{\ominus}\in(0,1)$.
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{proof}
 
-\vspace{2mm}
-\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
-By comparing the expected extra time introduced by the two strategies, we get the following theorem.
+%\vspace{2mm}
+%\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
+%By comparing the expected extra time introduced by the two strategies, we get the following theorem.
 First we denote:
 \begin{align}
 &G = T_{d} / T_{w}\ , \nonumber \\
@@ -679,9 +679,9 @@ Through calculation, we draw the result that $E(T^{\oplus})\geq E(T)$ if
 More details are in Appendix~\ref{appendixa}.
 \end{proof}
 
-\vspace{2mm}
-\noindent\textbf{The {\vwarm} Strategy with the Best Performance.}
-By computing the expected extra time introduced by different warm strategies, we can get the following theorem.
+%\vspace{2mm}
+%\noindent\textbf{The {\vwarm} Strategy with the Best Performance.}
+%By computing the expected extra time introduced by different warm strategies, we can get the following theorem.
 
 \begin{theorem}\label{lemma:warmnum3}
     the conditional {\vwarm} strategy that performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
