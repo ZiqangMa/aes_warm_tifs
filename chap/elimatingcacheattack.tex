@@ -146,13 +146,13 @@ So,
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 %For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 %In this algorithm,
-There are two parameters, $T_{nm}$ and $T_{mt}$.
+There are two parameters, $T_{nm}$ and $T_{mm}$.
 $T_{nm}$ is the time period for one encryption execution,
   in the case that no cache misses occur during the execution, i.e. all lookup tables are in caches.
-$T_{mt}$ is defined as the worst execution time for one encryption,
+$T_{mm}$ is defined as the worst execution time for one encryption,
   in the case that none of table entries is cached before the execution and cache misses occur at most.
 These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
-Given an implementation of  block ciphers, $T_{nm}$ and $T_{mt}$
+Given an implementation of  block ciphers, $T_{nm}$ and $T_{mm}$
   are constant on a certain computing platform.
 
 
@@ -174,8 +174,8 @@ Given an implementation of  block ciphers, $T_{nm}$ and $T_{mt}$
                     %\State $state \gets 1$
                     \State $\Call{Warm}$
                     \State $t3 \gets \Call{GetTime}$
-                    \If {$t3 - t1 < T_{mt} $}
-                        \State $\Call{Delay}{T_{mt}-t3+t1}$
+                    \If {$t3 - t1 < T_{mm} $}
+                        \State $\Call{Delay}{T_{mm}-t3+t1}$
                     \EndIf
                 \EndIf
            \EndFunction
@@ -264,11 +264,11 @@ We ensure that the measured time does not leak any exploitable information about
 
 %[[[[[[[\textbf{this paragraph shall not be here. Section 4?}
 %To achieve the optimal performance, our scheme only performs the cache warm in the necessary cases: the encryption time is larger than the \verb+ENC_THRESHOLD+ (line $5$ in Algorithm~\ref{alg:aesdefense}) which means some of the needed lookup tables are evicted from the cache.
-%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{mt}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{mt} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
+%Our scheme invokes $Delay$ (line $9$ in Algorithm~\ref{alg:aesdefense})only when the encryption time is larger than the \verb+ENC_THRESHOLD+ but less than T_{mm}(worst execution time). The $Delay$ introduces the time delay to make the encryption time equal to T_{mm} for cache miss confusion.%这两句是对方案进行解释说明，warm只在必要的时候进行，delay进行的条件是大于阈值小于WET，同时说了delay是将所有需要delay的时间延迟到WET。
 %]]]]]]]
 
 The execution time of {\scshape{Encrypt}}
-falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{mt})$ and $[T_{mt}, \infty )$.
+falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{mm})$ and $[T_{mm}, \infty )$.
 According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, respectively.
 
 \begin{itemize}
@@ -277,12 +277,12 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time. {\scshape{Delay}} is not performed in this case.
-  \item \textbf{Case 2}: The execution time is in $(T_{nm}, T_{mt})$. It will be delayed to $T_{mt}$,
+  \item \textbf{Case 2}: The execution time is in $(T_{nm}, T_{mm})$. It will be delayed to $T_{mm}$,
     which is the execution time as all accessed lookup tables are uncached before encryption.
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{mt}, \infty )$.
+  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{mm}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states including the system activities,
@@ -295,17 +295,17 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
 When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure each execution time of {\scshape{ProtectedEncrypt}},
  but not internal {\scshape{Encrypt}}.
  So the measured time, i.e., the execution time of {\scshape{ProtectedEncrypt}},
-  falls into two intervals, $(0, T_{nm}]$ and $[T_{mt}, \infty )$.
+  falls into two intervals, $(0, T_{nm}]$ and $[T_{mm}, \infty )$.
 
 %Next, we prove that,
 % no information about the status of cache lines  %lookup tables cached or data processed
 %  leaks through the time measured by attackers.
 
-The values of $T_{nm}$ and $T_{mt}$ are irrelevant to the data processed,
+The values of $T_{nm}$ and $T_{mm}$ are irrelevant to the data processed,
     and determined by the implementation and computing platform.
 When the measured time is in $(0, T_{nm}]$,
     it is almost a fixed value.
-When the time is greater than $T_{mt}$,
+When the time is greater than $T_{mm}$,
     it is caused by random system activities or the {\scshape{Delay}} operations
     which destroy the relationship between the time and data processed.
 Although the execution time of {\scshape{Warm}} may leak the cache states after encryption,
@@ -394,7 +394,7 @@ Therefore the attackers cannot extract useful information about the keys.
 %攻击者使用这种方法攻击时，最重要的是能够通过已知密钥来学习对于n⊕k每个字节对应的加密时间分布，从而获得根据从被攻击者处获取到的加密时间最长来得到输入的n，从而得到密钥比特k。
 %应用我们的方案以后，攻击者使用这种类型的攻击方法，由于查找表在计算前已经load进入cache，AES计算时间一定，并不存在变化，而由于进程调度而导致计算时间的变化已经由delay到了最大加密时间，从而使得攻击者得到的加密时间分布已经不是本身明文对应的加密时间分布，而得到的分布中的高点也并不是因为明文比特不同而造成cache miss 所引起的，故攻击者也无法跟据这个分布来进行攻击。我们的方案因此能够对其进行抵抗。
 
-%For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the T_{mt} in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
+%For Bernstein's attack, the most significant thing is obtaining the AES execution time distribution of each $k_{j} \oplus p_{j}$ at the learning phrase. Then the attackers match the AES execution time distribution obtained from the victim with the one from the learning phrase to get the valid key information. With our defense scheme, because the lookup tables are all loaded in the cache, the AES execution time usually is invariable. Some generated changes are due to the process scheduling or the computer architecture not because of the input plaintexts. Also we make the changed time due to the process scheduling that may be utilized to the T_{mm} in order to confuse the real exection time. At this way, attackers using this type attack can have an AES execution time distribution but it is not the time distribution related to the plaintexts. Meanwhile the high point of the distribution is not caused by the plaintexts with cache misses but because of the process scheduling. So our scheme is effective to defense the Bernstein's attack.
 
 %full warm caiquanwei
 %However, even in this case, some timing variations may still be observed on superscalar processors and can be used for mounting an attack.

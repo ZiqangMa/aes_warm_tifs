@@ -1,7 +1,7 @@
 \subsection{Performance Evaluation}
 \label{sec:eva}
 %\subsection{The distribution of AES execution time}
-%The Figure~\ref{aesdistri} shows the distribution of AES execution time of the original AES and the AES using our defense scheme. The original AES execution time is distributed all positions on x axis means the execution time is affected by the different input plaintexts. However, the execution time of AES with our defense scheme is distributed at position that is less than the computation threshold ,the T_{mt} and the position larger than T_{mt}. Therefore, the relation between the AES execution time and the different input plaintexts is eliminated. So our defense scheme is efficient against the cache timing attacks.
+%The Figure~\ref{aesdistri} shows the distribution of AES execution time of the original AES and the AES using our defense scheme. The original AES execution time is distributed all positions on x axis means the execution time is affected by the different input plaintexts. However, the execution time of AES with our defense scheme is distributed at position that is less than the computation threshold ,the T_{mm} and the position larger than T_{mm}. Therefore, the relation between the AES execution time and the different input plaintexts is eliminated. So our defense scheme is efficient against the cache timing attacks.
 %
 %\begin{figure}
 %  \centering
@@ -12,7 +12,7 @@
 %\textbf{Eliminating remote cache timing side channels.}
 
 In this section,
- we first demonstrate the result that with our scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mt}$,
+ we first demonstrate the result that with our scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mm}$,
    which meets our expectation.
      Then, we evaluate the performance of {\scshape{Warm+Delay}} scheme in three different aspects.
       Firstly we compare our scheme with different \vwarm~ strategies to show that our scheme has the best performance among the different strategies using warm and delay operations.
@@ -29,8 +29,8 @@ To show the security of {\scshape{Warm+Delay}} scheme,
   We compare the distribution of the protected AES with the unprotected ones using $2^{30}$ different plaintexts.
 
 
-Figure~\ref{pic:sec} shows the distributions of AES execution time for two cases. It is clearly that most of the execution time is less than $T_{nm}$ or no less than $T_{mt}$ using the {\scshape{Warm+Delay}} scheme.
-  The time between $T_{nm}$ and $T_{mt}$ in unprotected AES distribution is delayed to $T_{mt}$.
+Figure~\ref{pic:sec} shows the distributions of AES execution time for two cases. It is clearly that most of the execution time is less than $T_{nm}$ or no less than $T_{mm}$ using the {\scshape{Warm+Delay}} scheme.
+  The time between $T_{nm}$ and $T_{mm}$ in unprotected AES distribution is delayed to $T_{mm}$.
    Also from this figure,
 the average execution time of our scheme is less than $1.29$ times of the unprotected AES.
 
