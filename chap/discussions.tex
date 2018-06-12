@@ -26,7 +26,7 @@ such a greater $T_{nm}$ will offer attack opportunities
 %As the instruction cache miss and data cache miss are indistinguishable from the execution time,
 %our scheme chooses $T_{nm}$ which ensures no cache miss of the instruction or data cache exists to defend against the remote cache timing  side channel attacks.
 Similarly,
- we determine  $T_{mt}$ as the execution time
+ we determine  $T_{mm}$ as the execution time
   when all instructions are not in instruction caches (and all lookup tables are not in data caches).
 Otherwise,
  the measured time might also leak some information about data cache access.
@@ -74,10 +74,10 @@ Otherwise,
 %Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution that the first address of the array is the same as the lookup table module 4096.
 
 
-%When {\scshape{Warm+Delay}} scheme is adopted, the observed encryption time is either in the interval $(0,T_{nm}]$ or $[T_{mt}, \infty)$.
+%When {\scshape{Warm+Delay}} scheme is adopted, the observed encryption time is either in the interval $(0,T_{nm}]$ or $[T_{mm}, \infty)$.
 %The loaded state attack cannot infer any key bit directly, when $T_{nm} = 381$.
 %
-%However, for different plaintexts, the probability that the observed time of one encryption falls into $[T_{mt}, \infty)$, varies from $0$ to $8.42*10^{-3}$ (The probability interval is obtained by performing $10^{4}$ encryption for  each of $2^{20}$ random plaintext.).
+%However, for different plaintexts, the probability that the observed time of one encryption falls into $[T_{mm}, \infty)$, varies from $0$ to $8.42*10^{-3}$ (The probability interval is obtained by performing $10^{4}$ encryption for  each of $2^{20}$ random plaintext.).
 %The adversary may attempt to infer the plaintexts for the loaded initial state attack by encrypting the plaintext multiple times.
 %The {\scshape{Warm+Delay}} scheme may choose a smaller T_{nm}, to make the difference of probability negligible, with the performance degradation.
 %
@@ -111,22 +111,22 @@ Otherwise,
 % is exploited to launch cache timing side-channel attacks \cite{Canteaut2006Understanding},
 % even when all lookup tables are in caches.
 %After the {\scshape{Warm+Delay}} scheme is adopted,
- %    this collection is delayed to T_{mt} and even easier to be identified.
+ %    this collection is delayed to T_{mm} and even easier to be identified.
 %So the attackers still exist on these platforms,
 %  in the case that there is no system activity.
 
-%When using our the value of $T_{nm}$ (350 in our experiment) already makes the variational time enlarge to $T_{mt}$. However, these variations caused in the full warm condition still rely on the inputs.
+%When using our the value of $T_{nm}$ (350 in our experiment) already makes the variational time enlarge to $T_{mm}$. However, these variations caused in the full warm condition still rely on the inputs.
 
 %In the case that no any system activities,
 %  attackers can
-%send requests with the same plaintext repeatedly to distinguish the full warm condition with others. So, just enlarging to $T_{mt}$ can't eliminate the attack in~\cite{Canteaut2006Understanding}.
+%send requests with the same plaintext repeatedly to distinguish the full warm condition with others. So, just enlarging to $T_{mm}$ can't eliminate the attack in~\cite{Canteaut2006Understanding}.
 
 %In the {\scshape{Warm+Delay}} scheme,
 % we choose a threshold smaller than T_{nm} as the condition to execute {\scshape{Warm()}} and {\scshape{Delay()}}
 %   (Line 5 in Algorithm \ref{alg:aesdefense}),
 %  to prevent these attacks on fully-warmed caches.
 %By choose a smaller threshold,
-%  more and more executions of encryption/decryption will be delayed to T_{mt},
+%  more and more executions of encryption/decryption will be delayed to T_{mm},
 %   as well as the fully-warmed attack collection.
 %When the ratio of delayed time in the  attack case of Figure \ref{fig:fullwarmese-diffinput}
 %   is approximately equal to that in the unexploitable case of Figure \ref{fig:fullwarmese-sameinput},
@@ -138,13 +138,13 @@ Otherwise,
 %  we choose 332ms as the threshold, to prevent the fully-warmed cache timing attacks.
 %Then about 48%
 %We choose the value that the number of AES execution time larger than it is in the same order of magnitude when using different inputs and same inputs as the $T_{nm}$.
-%In this way we can eliminate the full warm attack. However, this process decreases the performance of the AES. For example, in our experiment environment, we choose 336 as T_{nm}, which can satisfy the requirement. There are about 18.5\% of AES executions should be enlarged to T_{mt}, while when not considering the full warm case, the number is just about 0.28\% in low overhead and 0.41\% in high memory reading overhead.
+%In this way we can eliminate the full warm attack. However, this process decreases the performance of the AES. For example, in our experiment environment, we choose 336 as T_{nm}, which can satisfy the requirement. There are about 18.5\% of AES executions should be enlarged to T_{mm}, while when not considering the full warm case, the number is just about 0.28\% in low overhead and 0.41\% in high memory reading overhead.
 
 
 
 %, the author finds even the lookup tables are all in the cache the AES execution time can change due to the computer architecture. The peak of the distribution of AES execution time nearby the fastest value can be used to attack. We make an experiment that measure the distribution of AES execution time on different CPUs to find out the influence by the architecture. We perform the AES on Intel Core2 Q8200, Intel Core i5, Intel Core i7 and Xeon*** and find that the peak which can be utilized almost disappears and is smaller and smaller when the performance of the CPU is better.
 
-%For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the T_{mt}. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
+%For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the T_{mm}. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
 
 
 \subsection{Timing Variations with Fully Cached Lookup Tables}
