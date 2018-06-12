@@ -324,17 +324,20 @@ So the attacker studies the cache access pattern through the abort events.
 
 %Thus, if a total-data load is executed before processing, differences between the frequencies of cache misses will not be observed, making it impossible to determine the relationships between sets of S-boxes
 
-\subsection{Control against Cache Timing Side Channels}
-Different defense methods against the remote cache timing attacks have been proposed on the  levels of hardware, software and operating system (OS).
-These defense methods eliminate the execution time difference, % of cache hits/misses,
-    introduce confusion to cache accesses,% to obscure the difference,
-    or limit the cache sharing.
+\subsection{Defense against Cache Timing Side Channels}
+Defense methods against the remote cache timing attacks have been proposed on different levels,
+ %These defense methods 
+ by eliminating the execution time difference, % of cache hits/misses,
+    introducing confusion to cache accesses, % to obscure the difference,
+    or limiting the cache sharing.
  Some of them also are effective against the active attacks.
 
 \noindent\textbf{Eliminating the execution time difference.}
-The most direct method to defend against the cache side-channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical.
+The straightforward method to defend against the cache side-channel attacks is to avoid using caches. Page suggests to disable caches in paper~\cite{Page2003Defending}, which now is unrealistical.
 Exploiting cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache} can avoid the usage of caches, but they suffer from low performance and effect other processes running concurrently.
-Meanwhile, several implementations without lookup tables are proposed. AES-NI is a widely used and useful method to resist the cache attacks, which is a hardware implementation introduced by Intel. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations have significant low performance compared with using lookup tables.
+Meanwhile, several implementations without lookup tables are proposed. Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES based on software can effectively defend against the cache timing attacks. However, they are application specific and hard to design. Besides, the software implementations have significant low performance compared with using lookup tables.
+AES-NI is a widely used and useful method to resist the cache attacks, which is a hardware implementation introduced by Intel.
+But it only works for AES and only available on Intel CPUs. 
 %There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
 
 Cache warm is another way to eliminate cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
