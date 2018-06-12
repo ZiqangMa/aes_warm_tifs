@@ -966,7 +966,7 @@ In this case,  $t2 - t1 > T_{mm}$, {\vwarm}  will be triggered in our scheme. %A
 As the process scheduling and interruption occur, we assume that $N$ cache lines of the lookup table are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
 Hence, the extra overhead introduced by using {\vwarm}  to load the lookup table is $E(T_{w},N) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of the lookup table from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
-Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance when $N>0$. If $N = 0$, it means that the lookup table is not evicted from the cache when the process scheduling and interruption occur. In this case {\vwarm} is not needed. However from the overall execution we cannot distinguish whether the lookup table is evicted. Thus performing {\vwarm} introduces some extra overhead.
+Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance when $N>0$. If $N = 0$, it means that the lookup table is not evicted from the cache when the process scheduling and interruption occur. In this case {\vwarm} is not needed. However from the overall execution we cannot distinguish whether the lookup table is evicted, otherwise we need more privileged operations. Therefore, we have to perform {\vwarm} and thus it introduces some extra overhead.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
@@ -1074,8 +1074,9 @@ Therefore, for different implementations and key length of AES, first we should 
 
 %For all the situations, the process of the proof of the Theorem 3 and Theorem 4 is almost the same. The main difference is the value of $P_{delay}$. We compute the value of $P_{delay}$ in the Table~\ref{tbl:pdelayvalue}, and find out that the Theorem 3 and Theorem 4 still hold true. %这段是说，对于这些不同的情况，在证明Lemma 3 and Lemma 4的时候，证明方法都是一样的，不同的就是P_{delay}的取值范围不同，但是经过计算，在每种取值范围内，Lemma 3 and Lemma 4都是成立的，也就是都是我们的方案最优。
 
-For other table-lookup block ciphers, we have to determine $P_{a}$, $T_{w}$ and $T_{d}$ according to the algorithm, the implementation and the running platform.
-Once the conditions in these theorems are satisfied, {\scshape{Warm+Delay}}  provides the optimal performance.
+For other table-lookup block ciphers, first it has to determine $P_{a}$, $T_{w}$ and $T_{d}$ according to the algorithm, the implementation and the running platform.
+Then following our analysis before the conditions can be obtained for {\scshape{Warm+Delay}} scheme to get the optimal performance.
+%Once the conditions in these theorems are satisfied, {\scshape{Warm+Delay}}  provides the optimal performance.
 
 %it is similar to the AES. They just have different values of $P_{delay}$. The three states of the cache is same and they have the same state transition diagram. So it can be proved that the Theorem 3 and Theorem 4 hold true for them.% 这段是说，对于其他算法，Lemma 3 and Lemma 4 的证明也是类似的，同样对于cache有这三种状态，且状态转移图也是一样的，故而证明过程也一样，只是P_{delay}不同而已，可以证明对于其P_{delay}的范围，Lemma 3 and Lemma 4 也是成立的。
 
