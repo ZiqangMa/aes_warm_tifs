@@ -406,7 +406,7 @@ The transition among the three states is triggered by three events:
   \item
     {\scshape{Access-Uncached}}: For one execution of AES encryption,
      some entries are uncached before encryption and it is possible that some of them is accessed during the encryption,
-      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
+      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ has the same meaning with $P_{d}$ in Theorem~\ref{theorm:warmall};
       i.e., {\scshape{Access-Uncached}} results in {\vdelay}.
 \end{enumerate}
 
@@ -837,8 +837,8 @@ performing  {\vwarm}  when cache-miss occurs during the previous execution,
 \end{corollary}
 
 \begin{proof}
-For the AES-128 implementation with a 2KB lookup table, $P_{a|S_c}$ is larger than 0.994 from Equation~\ref{equ:delay}.
-The range of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ is $[0.994,1]$.
+For the AES-128 implementation with a 2KB lookup table, $P_{a|S_c}$ is larger than 0.994 calculated from Equation~\ref{equ:delay},
+and the range of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ is $[0.994,1]$.
 For the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
 $T_{d}$ is $2479.00$ CPU cycles;
 the minimum of $T_{w}$($T_{w}^{min}$) is $124$ cycles when accessing the lookup table from the L1D cache;
@@ -875,8 +875,8 @@ where
 \end{align}
 
 By computation we get that when $P_{e|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{a|S_c} = 0.994$, $F_G$ gets the minimum value.
-The minimum value is $167.7$.
-Therefore, $G$ is smaller than the minimum value of $F_G$ when $D_F < 0$.
+The minimum value is $167.70$.
+Therefore, $G$ is much less than the minimum value of $F_G$ when $D_F < 0$.
  So based on Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{proof}
