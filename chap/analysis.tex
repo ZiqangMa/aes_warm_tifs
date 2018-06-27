@@ -859,11 +859,12 @@ In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0491]$.
 $F_G$ gets the minimum value when $P_{a|S_c} = 0.994$.
 At this point, $P_{e|S_c}$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ satisfy:
 \begin{equation}
+\label{equ:fg}
 \left\{
 \begin{split}
 &P_{e|S_c} = \frac{0.994M(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{0.006(1-0.006M)} \\
 &P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = \frac{0.07746P_{e|S_c}}{\sqrt{M(1-P_{e|S_c})}}-0.006P_{e|S_c} \\
-& if\  P_{e|S_c} >1, P_{e|S_c} = 1 \\
+& if\  P_{e|S_c} >1, P_{e|S_c} = 1 and P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1 \\
 & if\  P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} >1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right. \ ,
@@ -875,11 +876,27 @@ where
 \end{align}
 
 By computation we get that when $P_{e|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{a|S_c} = 0.994$, $F_G$ gets the minimum value.
-The minimum value is $167.70$.
+The minimum value is $167.67$.
 Therefore, $G$ is much less than the minimum value of $F_G$ when $D_F < 0$.
  So based on Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{proof}
+
+%1.对极值点和极值的影响
+For different platforms, $T_{w}$ and $T_{d}$ are different. So the value of $M$ and the rang of $G$ are different.
+ This may leads to the change of the minimum value of $F_G$.
+  Through the analysis of Equation~\ref{equ:fg}, when $M \geq 0.0069$, $P_{e|S_c} >1$.
+   In this case, $F_G$ has the same minimum value when $P_{e|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{a|S_c} = 0.994$.
+    While when $M < 0.0069$, the minimum point($P_{e|S_c}$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$,$P_{a|S_c}$) may be different.
+     And the minimum value is less than $167.67$.
+
+%2.对G的范围的影响
+The maximum value of $G$ is $1/M$. When $M\geq 0.0069$, $1/M\leq 144.93$. This value is less than $167.67$, so the condition in Theorem~\ref{lemma:warmnum3} is satisfied which means performing  {\vwarm}  when cache-miss occurs during the previous execution,
+  results in the least extra time of {\vdelay} and {\vwarm}.
+    When $M < 0.0059$, the maximum value of $G$ is larger than $169.49$. 
+     Thus the condition in Theorem~\ref{lemma:warmnum3} is not hold any more. In this case, the more {\vwarm} strategy has better performance.
+      This is reasonable because the cost of {\vwarm} is very little here.
+  While when $ 0.0059 \geq M < 0.0069$, whether the conditional {\vwarm} has better performance depends on the minimum value of $F_G$.
 
 %\qed
 %\end{proof}
