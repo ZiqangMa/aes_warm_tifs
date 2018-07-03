@@ -893,7 +893,7 @@ For different platforms, $T_{w}$ and $T_{d}$ are different. So the value of $M$ 
 %2.对G的范围的影响
 The maximum value of $G$ is $1/M$. When $M\geq 0.0069$, $1/M\leq 144.93$. This value is less than $167.67$, so the condition in Theorem~\ref{lemma:warmnum3} is satisfied which means performing  {\vwarm}  when cache-miss occurs during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
-    When $M < 0.0059$, the maximum value of $G$ is larger than $169.49$. 
+    When $M < 0.0059$, the maximum value of $G$ is larger than $169.49$.
      Thus the condition in Theorem~\ref{lemma:warmnum3} is not hold any more. In this case, the more {\vwarm} strategy has better performance.
       This is reasonable because the cost of {\vwarm} is very little here.
   While when $ 0.0059 \geq M < 0.0069$, whether the conditional {\vwarm} has better performance depends on the minimum value of $F_G$.
@@ -1020,7 +1020,7 @@ However, {\vwarm}   is a better choice, as we cannot predict whether the lookup 
 \vspace{2mm}
 \noindent\textbf{The Relationship between The Cache State and Execution Time.}
 In the above, we prove that performing  {\vwarm}  when not all lookup entries are in caches, results the least extra time.
-However, in our scheme, we perform the {\vwarm} operation according to the previous AES execution time,
+However, in our {\vwd} scheme, we perform the {\vwarm} operation according to the previous AES execution time,
  as we are technically unable to observe the cache state without introducing additional overhead.
 % \footnote{Otherwise, we perform  the warmup operation before each execution, which is less efficient as proved in Theorem 4.}.% 这个脚注是什么意思？为什么？
 The relationship between the cache state and execution time is as follows:
@@ -1033,8 +1033,11 @@ The relationship between the cache state and execution time is as follows:
 %      when performing \verb+warmup+ for the AES execution next to the current one, the expected extra time is $T_{warm}^{t-w} = ( \frac{encEnd_c-encStart_c}{t_{interval}}*(1-P_{evict})+ \frac{encStart_c-encStart_p}{t_{interval}}*P_{evict}) * t_{warm}$;
 %       while not performing the \verb+warmup+, the expected extra time is $T_{delay}^{t-w} = \frac{encStart_c-encStart_p}{t_{interval}}*P_{evict} * t_{delay}$. When $P_{evict}$ satisfies Equation~\ref{equ:con}, $T_{warm}^{t-w} < T_{delay}^{t-w}$, which means the \verb+warmup+ operation is not needed when the workload is small. In our evaluation environment, we find that when $P_{evict} < 0.18$, the \verb+warmup+ operation is unnecessary.
     %all the lookup tables may be in the cache or not.
-    the system is in the state $S_{\bar{c}, a}$ or $S_{c}$, {\vwarm}   is better according to previous analysis. %the periodic schedule function is called but scheduling not occurs during AES execution. But we treat them all as in the state $S_{as}$. On the above we already explain it reasonable.%这里就是说，这里对应两种情况，但是都只能当S_{as}这个状态来处理，但是之前已经说明过了，这样是没问题的。
+    the system is in the state $S_{c}$ or $S_{\bar{c}, a}$, {\vwarm} is better according to previous analysis. %the periodic schedule function is called but scheduling not occurs during AES execution. But we treat them all as in the state $S_{as}$. On the above we already explain it reasonable.%这里就是说，这里对应两种情况，但是都只能当S_{as}这个状态来处理，但是之前已经说明过了，这样是没问题的。
 \end{itemize}
+
+As all situations are discussed before, according to the previous AES execution time to perform {\vwarm} is reasonable to get the best performance.
+
 
 %\begin{figure}
 %  \centering
