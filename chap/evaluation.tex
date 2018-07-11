@@ -56,9 +56,13 @@ The AES encryption process and the concurrent workload run on the same CPU core.
 % The main overhead is caused by the timer function.
 Figure~\ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
 Moreover, we approximately calculated $P_{evict}$ under different workloads.
-  according to  the number of AES  encryption whose execution time  is greater than $T_{nm}$. %This value represent the $P_{evict}$.
-When $P_{evict}$ is the values in Table~\ref{tbl:pevict},
-  as proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
+ When {\scshape{Eviction}} event occurs, the encryption time will be greater than $T_{nm}$.
+  But not all encryption times greater than $T_{nm}$ are due to the {\scshape{Eviction}} event.
+   Based on the analysis in section~\ref{remark}, there are other cases that make the encryption time greater than $T_{nm}$.
+    Fortunately, these cases occur very little.
+  So, we use the number of the AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{evict}$, which value is a little larger than $P_{evict}$.
+The approximate value of $P_{evict}$ is in Table~\ref{tbl:pevict}.
+  As proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
 %which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.
 
 \begin{table}[b]
