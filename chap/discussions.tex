@@ -5,31 +5,31 @@
 
 \subsection{Instruction Cache}
 %\vspace{-1mm}
-Firstly,
-  the implementation of block ciphers is not subject
-   to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
-  because there is generally no branch in the execution path.
-The instructions of block ciphers
-  may be evicted from the caches due to system activities,
-   which causes instruction cache misses and increases the execution time.
-The status of instruction caches affect the execution time,
-  but is not related to the data (i.e., keys and plaintexts/ciphertexts).
-
-%The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
-
-As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
-  we determine $T_{nm}$ when all instructions of encryption are cached;
- and the value will be greater if it is done when the instructions are uncached.
-However,    when the encryption functions are invoked and all the instructions are cached,
-such a greater $T_{nm}$ will offer attack opportunities
- because the measured time may leak some information about data cache access.
-%As the instruction cache miss and data cache miss are indistinguishable from the execution time,
-%our scheme chooses $T_{nm}$ which ensures no cache miss of the instruction or data cache exists to defend against the remote cache timing  side channel attacks.
-Similarly,
- we determine  $T_{mm}$ as the execution time
-  when all instructions are not in instruction caches (and all lookup tables are not in data caches).
-Otherwise,
- the measured time might also leak some information about data cache access.
+%Firstly,
+%  the implementation of block ciphers is not subject
+%   to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
+%  because there is generally no branch in the execution path.
+%The instructions of block ciphers
+%  may be evicted from the caches due to system activities,
+%   which causes instruction cache misses and increases the execution time.
+%The status of instruction caches affect the execution time,
+%  but is not related to the data (i.e., keys and plaintexts/ciphertexts).
+%
+%%The cryptosystem implementations with fixed instruction flow, which is usually the case for block ciphers like AES, are notvulnerable to I-cache and Branch prediction analysis whilst data cache attacks can exploit the table lookups of such ciphers~\ref{}.
+%
+%As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
+%  we determine $T_{nm}$ when all instructions of encryption are cached;
+% and the value will be greater if it is done when the instructions are uncached.
+%However,    when the encryption functions are invoked and all the instructions are cached,
+%such a greater $T_{nm}$ will offer attack opportunities
+% because the measured time may leak some information about data cache access.
+%%As the instruction cache miss and data cache miss are indistinguishable from the execution time,
+%%our scheme chooses $T_{nm}$ which ensures no cache miss of the instruction or data cache exists to defend against the remote cache timing  side channel attacks.
+%Similarly,
+% we determine  $T_{mm}$ as the execution time
+%  when all instructions are not in instruction caches (and all lookup tables are not in data caches).
+%Otherwise,
+% the measured time might also leak some information about data cache access.
 
 %As the instructions are loaded into the cache per block in size of **** Byte, while the size of AES encryption is *** Byte, we can add a lightweight function before the AES encryption, which is invoked before every AES encryption to avoid instruction cache miss during the AES execution.
 

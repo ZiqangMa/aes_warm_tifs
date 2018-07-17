@@ -240,6 +240,22 @@ This value is chosen to ensure that all tables are in L1D caches and no fluctuat
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
 $T_{mm}$ is the maximum encryption execution time when all lookup tables are out of caches and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as   $T_{mm}$.
+In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as $T_{mm}$.
  In this case $T_{mm}$ is 2834 CPU cycles.
+ 
+ Noted that we should consider the effect of the instruction caches.
+  The implementation of block ciphers is not subject
+   to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
+  because there is generally no branches in the execution path.
+However, the instructions of block ciphers
+  may be evicted from the caches due to system activities,
+   which causes instruction cache misses and increases the execution time.
+As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
+  we determine $T_{nm}$ when all instructions of encryption are cached
+and $T_{mm}$ as the execution time
+  when all instructions are not in instruction caches (and all lookup tables are not in data caches).
+Otherwise,
+ the measured time might leak some information about data cache access.
+
+
 
