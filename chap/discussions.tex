@@ -3,7 +3,7 @@
 
 %This section includes some extended discussions on the {\scshape{Warm+Delay}} scheme.
 
-\subsection{Instruction Cache}
+%\subsection{Instruction Cache}
 %\vspace{-1mm}
 %Firstly,
 %  the implementation of block ciphers is not subject
@@ -190,21 +190,24 @@ However, when using larger lookup tables, all cache sets will be occupied by def
 
 \subsection{Other Cache-based Timing Side Channels}
 Our {\scshape{Warm+Delay}} scheme can be used in active cache side channel attacks.
+For the trace-driven attack, attackers can observe the inner cache access pattern of the encryption execution, so {\scshape{Delay}} is not effective.
+While {\scshape{Warm}} is effective but not always executed.
+ Therefore, the {\scshape{Warm+Delay}} scheme can not eliminate but just mitigates the trace-driven attacks.
 %In synchronous attacks, the attacker only monitors the cache pattern for the whole encryption.
 %For Evict+time, the attacker
-the synchronous attacks can be prevented by the {\scshape{Warm+Delay}} scheme.
+For the access-driven attack, the synchronous attacks can be prevented by the {\scshape{Warm+Delay}} scheme.
 These attacks monitor the cache once per encryption, so the attackers can not observe the inner cache states.
  With the {\scshape{Warm+Delay}} scheme the cache access pattern is masked to the attackers. So the {\scshape{Warm+Delay}} scheme is effective for the synchronous attacks.
-while the asynchronous attacks can not be defended
+While the asynchronous attacks can not be defended
  because the attackers can change the cache states and observe the inner cache access pattern which the {\scshape{Warm+Delay}} scheme is helpless.
 
-Additionally, there is another type of cache attack called trace-driven attack.
-During the execution of encryption,
-the trace-driven attackers need direct physical contact to the victim machine to monitor the variations of electromagnetic fields or power
-  to capture the profile of cache activities and deduce cache hits and misses
-  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace},
-For trace-driven attacks, attackers can observe the inner cache access pattern of the encryption execution, so {\scshape{Delay}} is not effective.
-While {\scshape{Warm}} is effective but not always executed.
- Therefore, the {\scshape{Warm+Delay}} scheme can not eliminate but just mitigate the trace-driven attacks.
+%Additionally, there is another type of cache attack called trace-driven attack.
+%During the execution of encryption,
+%the trace-driven attackers need direct physical contact to the victim machine to monitor the variations of electromagnetic fields or power
+%  to capture the profile of cache activities and deduce cache hits and misses
+%  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace},
+%For trace-driven attacks, attackers can observe the inner cache access pattern of the encryption execution, so {\scshape{Delay}} is not effective.
+%While {\scshape{Warm}} is effective but not always executed.
+% Therefore, the {\scshape{Warm+Delay}} scheme can not eliminate but just mitigate the trace-driven attacks.
 
 
