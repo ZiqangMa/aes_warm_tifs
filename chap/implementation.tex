@@ -106,27 +106,29 @@ Finally,
 
 \begin{figure}[!t]
 %\centering
-%    \begin{minipage}[t]{\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
-%    %\centering
-%    \includegraphics[width=\textwidth]{pic/fwopensslworst.pdf}
-%    \caption*{(a) the worst case}%加*可以去掉默认前缀，作为图片单独的说明
-%    \label{fig:fullwarmworst}
-%    \end{minipage}
-%    \begin{minipage}[t]{\linewidth}%需要几张添加即可，注意设定合适的linewidth
-%    %\centering
-%    \includegraphics[width=\textwidth]{pic/fwopensslbest.pdf}
-%    \caption*{(b) the best case}
-%    \label{fig:fullwarmbest}
-%    \end{minipage}
-%    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition..}%n张图片共享的说明
-\centering
-\subfloat[in normal case]{\includegraphics[width=2.8in]{pic/TWOCM_allwarm.pdf}
-\label{fig:fullwarmworst}}
-\vfil
-\subfloat[the best case]{\includegraphics[width=2.8in]{pic/fwopensslbest.pdf}
-\label{fig:fullwarmbest}}
-\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
+    \begin{minipage}[t]{0.5\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
+    %\centering
+    \includegraphics[width=\textwidth]{pic/fwnormal.pdf}
+    \caption*{(a) in normal case}%加*可以去掉默认前缀，作为图片单独的说明
+    \label{fig:fullwarmworst}
+    \end{minipage}
+    \begin{minipage}[t]{0.5\linewidth}%需要几张添加即可，注意设定合适的linewidth
+    %\centering
+    \includegraphics[width=\textwidth]{pic/fwbest.pdf}
+    \caption*{(b) the best case}
+    \label{fig:fullwarmbest}
+    \end{minipage}
+    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
+%\centering
+%\subfloat[in normal case]{\includegraphics[width=2.8in]{pic/fwnormal.pdf}
+%\label{fig:fullwarmworst}}
+%\vfil
+%\subfloat[the best case]{\includegraphics[width=2.8in]{pic/fwbest.pdf}
+%\label{fig:fullwarmbest}}
+%\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
 \end{figure}
+
+
 
 %In our environment, for each of $2^{30}$ random plaintexts, we perform the encryption after loading  all the lookup tables into cache. Figure~\ref{fig:fullwarmese-diffinput} describes the distribution of encrypting time.
 
@@ -242,7 +244,7 @@ $T_{mm}$ is the maximum encryption execution time when all lookup tables are out
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
 In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as $T_{mm}$.
  In this case $T_{mm}$ is 2834 CPU cycles.
- 
+
  Noted that we should consider the effect of the instruction caches.
   The implementation of block ciphers is not subject
    to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},

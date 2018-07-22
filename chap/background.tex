@@ -184,21 +184,24 @@ When any two inputs of $T_i$ access the lookup table entries in a same cache lin
 This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to fully extract the secret key. %without extra information.
 It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
-\subsubsection{Active Cache Side Channel}
-One type of cache attack is called trace-driven attack.
+\subsubsection{Passive Cache Side Channel}
+The passive cache side channel means that the attacker cannot impact the cache activities of the victim. 
+ Bernstein's attack and internal collision attack belong to this category.
+
+Another type is called trace-driven attack.
 During the execution of encryption,
 the trace-driven attacker directly physical contacts to the victim machine to monitor the variations of electromagnetic fields or power
   to capture the profile of cache activities and deduce cache hits and misses
   \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}.
 
-Another type is called access-driven attack. 
+\subsubsection{Active Cache Side Channel}
  When the caches are shared by attackers and victims on the same system,
   the attackers could actively control the cache states and monitor the cache accesses by the victim process.
-Then, the keys are derived from the access patterns.
+Then, the keys are derived from the access patterns, which is called access-driven attack.
 %Attackers and victims may share either the L1 cache or last-level cache (LLC).
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
-The access-driven attack falls into two categories: synchronous and asynchronous attack \cite{Osvik2006Cache}.
+This attack falls into two categories: synchronous and asynchronous attack \cite{Osvik2006Cache}.
 In a synchronous attack, %the attacker runs serially with the victim.
  the attacker first sets the cache states, triggers the encryption, and monitor the memory access by detecting the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
