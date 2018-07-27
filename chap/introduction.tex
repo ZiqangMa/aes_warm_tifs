@@ -96,7 +96,7 @@ Intuitively,
 These two common mechanisms prevent cache-based timing attacks at different phases,
     but they introduce extra operations and significantly degrade the performance. %especially in naive implementations.
 In this paper, we investigate the performance of symmetric cryptographic functions that implement {\scshape{Warm}} and {\scshape{Delay}} to defend cache timing side channel attacks,
-  and attempt to find \emph{the optimal strategy to integrate these two complementary mechanisms}.
+  and attempt to find \emph{the optimal strategy to integrate these two complementary mechanisms} to get the optimal performance.
 %    with the optimal performance while effectively eliminate remote cache side channels.
 %As there are different strategies to apply {\scshape{Warm}} and  {\scshape{Delay}} in the implementations of block ciphers,
 %% %Gullasch2011Cache 是说：1.将进程和data绑定，从而保证cache hit；2.将查找表uncacheable，每次cache miss
@@ -147,7 +147,7 @@ and the performance is further improved.
 %2. 优先使用warm；使得能够提高效率；注意：warm也是需要占用时间的。warm没有效果时，用delay。
 %3. 条件的判断，基于时间，不需要特殊的操作和权限；
 
-The integration scheme does not require any privileged operation on computer systems.
+The integrated scheme does not require any privileged operation on computer systems.
 The conditions to perform {\scshape{Warm}} and {\scshape{Delay}}, are defined as regular timing.
 Reading constant tables, inserting padding instructions, and timing are commonly supported in computer systems
     without special privileges.
@@ -159,7 +159,7 @@ and it is applicable to different implementations.
 We apply the integrated {\scshape{Warm+Delay}} scheme to protect AES,
     and analyze the conditions that it produces the optimal performance.
 It is proven that,
-   the integration scheme with appropriate parameters,
+   the integrated scheme with appropriate parameters,
    achieves \emph{the optimal performance with the least extra operations};
     that is, without any unnecessary lookup table read operations
    or inserted padding instructions.
@@ -171,7 +171,7 @@ The optimal performance of the integrated {\scshape{Warm+Delay}} scheme with dif
 For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
 when the ratio of
-  the extra cost caused by {\scshape{Delay}} to the extra cost caused by {\scshape{Warm}},
+  the extra execution time caused by {\scshape{Delay}} to the extra execution time caused by {\scshape{Warm}},
   denoted as $G$, is less than $167.7$.
 These conditions hold %for continuous AES executions
  in commodity computers,

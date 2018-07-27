@@ -36,7 +36,7 @@ That is,
    %Other cache timing side-channels by active attackers (such as Flush+Reload \cite{flushreload} and Prime+Probe \cite{liu2015last}) are out of the scope of this paper.
 The attackers do not have physical access to the hardware, either.
 
-\subsection{Design Goals}
+\subsection{Objective}
 \label{sec:goal}
 This work aims to provide an in-depth investigation of the \emph{performance} of integrating {\scshape{Warm}} and {\scshape{Delay}} to defend against the remote cache timing side-channel attacks.
 % launched by unprivileged attackers, as we presented in the threat model.
@@ -58,7 +58,7 @@ More importantly, the objectives of our research are elaborated as follows:
    quantitative model to formally analyze the performance of block cipher implementations that integrate {\scshape{Warm}} and {\scshape{Delay}} to defend against the cache timing side-channel attacks.
   \item Follow the model, we examine the strategies of integrating {\scshape{Warm}} and {\scshape{Delay}}, and present the theoretical boundaries for the optimal performance while ensuring security.
 %So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
-  \item In our model, the parameters are configurable. Therefore, by configuring appropriate parameters, the optimal performance
+  \item In our strategy, the parameters are configurable. Therefore, by configuring appropriate parameters, the optimal performance
    is achieved  for different block-cipher implementations and computing platforms.
 \end{itemize}
 
@@ -128,7 +128,7 @@ As the scheme does not involve privileged operations,
 
 Next,
   when we consider that the cryptographic function is invoked continuously for large amounts of data,
- the time of performing {\scshape{Warm}} varies and this variation reflects the cache state after the last encryption.
+ the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the last encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate the variation, but it brings another extra overhead.
 Fortunately,
     we find that,
@@ -151,7 +151,7 @@ $T_{nm}$ is the time period for one encryption execution,
   in the case that no cache misses occur during the execution, i.e. all lookup tables are in caches.
 $T_{mm}$ is defined as the worst execution time for one encryption,
   in the case that none of table entries is cached before the execution and cache misses occur at most.
-These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
+%These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
 Given an implementation of  block ciphers, $T_{nm}$ and $T_{mm}$
   are constant on a certain computing platform.
 
@@ -306,13 +306,13 @@ The values of $T_{nm}$ and $T_{mm}$ are irrelevant to the data processed,
 When the measured time is in $(0, T_{nm}]$,
     it is almost a fixed value.
 When the time is greater than $T_{mm}$,
-    it is caused by random system activities or the {\scshape{Delay}} operations
+    it is caused by random system activities and/or the {\scshape{Delay}} operations
     which destroy the relationship between the time and data processed.
 Although the execution time of {\scshape{Warm}} may leak the cache states after encryption,
-    it is only a part of the measured time and masked by the system activities and/or {\scshape{Delay}} operations.
-{\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
-    when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
-    or {\scshape{Warm}} costs a lot of CPU cycles for {\scshape{Encryption}} is interrupted by system activities.
+    it is only a part of the measured time and masked by the system activities or {\scshape{Delay}} operations.
+%{\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
+%    when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
+%    or {\scshape{Warm}} costs a lot of CPU cycles for {\scshape{Encryption}} is interrupted by system activities.
 %   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
 %    The relationship between the execution time and data processed during encryption is destroyed.
 Therefore, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.

@@ -134,14 +134,26 @@ When the CPU core attempts to access a data block,
 %Different types of CPU don't have the same cache structure even coming from the same company. The Intel CPU which is the most widely used at present is chosen for illustrating our defense scheme in this paper. Our experimental platform selects the Intel Core2 Q8200 CPU which contains two separate cache-sharing core sets, and each has two cores. Each core has a L1D cache of 32 KB, 8-way set associative, 64-byte cache line size and also an instruction cache of 32 KB. The two cores of each cache set share a unified L2 cache of 2 MB, 8-way set associative, 64-byte cache line size.
 
 %这里for different plaintexts 是否合适？
-\subsubsection{Cache Timing Side Channel}
 Cache timing side-channel attacks %on block cipher implementations
  exploit the fact that
  accessing cached data is about two orders of magnitude faster than those in RAM,
  to recover the keys based on the execution time.
 Typically, it takes 3 to 4 cycles for a read operation in L1D caches,
  while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
-Two typical remote cache side channels on block cipher implementations are outlined as follows.
+ 
+  Based on the ability of the attacker, cache attacks are divided into three categories: trace-driven, time-driven and access-driven attack.
+   In trace-driven attack, the attacker is able to access the physical hardware directly to monitor the electromagnetic fields or power variation.
+    And in time-driven attack, the attacker can monitor the encryption execution time.
+     While in access-driven attack, the attacker can actively control the cache state so that it can monitor the cache access pattern of the encryption.
+      For trace-driven and time-driven attack, the attacker cannot impact the cache activities of the encryption. 
+ 
+
+
+%  依据攻击者所拥有的能力，基于cache的侧信道攻击分为三类：轨迹驱动、时间驱动和访问驱动攻击。轨迹驱动（trace-driven）的攻击[10]是指攻击者有能力接触到目标物理机器硬件，通过在密码运算时对cache和内存的能量、电磁辐射等变化进行物理监听，从而分析出密钥比特信息。时间驱动（time-driven）的攻击[3][4]是指攻击者可以测量密码运算的整体时间来统计由cache命中和未命中所造成的密码计算的时间差别，而获取密钥比特之间的关系。访问驱动（access-driven）的攻击[1][6][7][11]是指攻击者可以判断密码操作访问了哪些cache sets，也就是说攻击者有能力监控cache的变化，从而更细粒度的通过cache访问模式来分析密钥信息。
+
+\subsubsection{Time-driven Side Channel}
+
+Two typical remote time side channels on block cipher implementations are outlined as follows.
 
 %Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
 
@@ -184,11 +196,7 @@ When any two inputs of $T_i$ access the lookup table entries in a same cache lin
 This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to fully extract the secret key. %without extra information.
 It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
-\subsubsection{Passive Cache Side Channel}
-The passive cache side channel means that the attacker cannot impact the cache activities of the victim. 
- Bernstein's attack and internal collision attack belong to this category.
-
-Another type is called trace-driven attack.
+\subsubsection{Trace-driven Side Channel}
 During the execution of encryption,
 the trace-driven attacker directly physical contacts to the victim machine to monitor the variations of electromagnetic fields or power
   to capture the profile of cache activities and deduce cache hits and misses
@@ -196,8 +204,8 @@ the trace-driven attacker directly physical contacts to the victim machine to mo
 
 \subsubsection{Active Cache Side Channel}
  When the caches are shared by attackers and victims on the same system,
-  the attackers could actively control the cache states and monitor the cache accesses by the victim process.
-Then, the keys are derived from the access patterns, which is called access-driven attack.
+  the attacker could actively control the cache states and monitor the cache accesses by the victim process.
+Then, the keys are derived from the access patterns.%, which is called access-driven attack.
 %Attackers and victims may share either the L1 cache or last-level cache (LLC).
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
