@@ -11,7 +11,11 @@
 
 
 In this section, we apply the {\scshape{Warm+Delay}} scheme in Algorithm~\ref{alg:aesdefense}  to AES.
-We first introduce the practical conditions for the {\scshape{Warm+Delay}} scheme to produce optimized long-term performance, and then present a statistical model to examine the {\scshape{Warm}} operations. We propose a strategy for the {\scshape{Warm+Delay}} scheme, and quantitatively prove that the optimal performance is achieved through our strategy.
+We first discuss the factors for the {\scshape{Warm+Delay}} scheme to produce optimized long-term performance.
+Then we present the practical conditions for the {\scshape{Delay}} operation to get the optimal performance.
+ Meanwhile we use a statistical model to examine the {\scshape{Warm}} operations.
+  Furthermore, we propose a strategy for the {\scshape{Warm+Delay}} scheme,
+   and quantitatively prove that the optimal performance is achieved through our strategy.
 
 \subsection{Overview}
 \label{sec:eval}
@@ -42,8 +46,8 @@ Therefore, to achieve the optimal performance we shall discuss the following que
 %\end{itemize}
 
 When attempting to answer these questions,
- we focus on the optimization of the global performance.
- That is, our objective is to optimize the overall performance of encrypting large amounts of data (i.e. optimal performance in the long term),
+ we focus on the optimization of the long-term performance.
+ That is, our objective is to optimize the overall performance of encrypting large amounts of data,
   instead of the performance of encrypting one block (i.e., short-term performance).
 %In this section, we will provide a comprehensive quantitative analysis on how to achieve this long-term optimal.
 
@@ -55,7 +59,7 @@ Meanwhile, the {\vdelay} operation, which inserts padding instructions to elimin
     Therefore, intuitively, the {\scshape{Warm}} operation is %always
      preferred over {\vdelay}. %in the {\scshape{Warm+Delay}} scheme.
 
-In our design (as in other implementations), we use a instruction loop to impose {\scshape{Delay}},
+In our design (as in other implementations), we use an instruction loop to impose {\scshape{Delay}} which uses no memory,
  so the cache state is not changed by {\scshape{Delay}}.
 The {\scshape{Delay}} operation only changes the execution time of the current AES encryption,
   while it will \emph{not} affect the following AES executions.
@@ -76,12 +80,12 @@ Meanwhile,
 In the next, we first examine the optimal conditions for {\scshape{Delay}}.
  We prove that,
   it provides the optimal performance while ensuring security
-  if delaying to $T_w$ in {\scshape{Delay}} and performing {\scshape{Delay}} only when the encryption time is in $(T_{nm} ,T_{mm})$.
+  if delaying to $T_{mm}$ in {\scshape{Delay}} and performing {\scshape{Delay}} only when the encryption time is in $(T_{nm} ,T_{mm})$.
     Then we investigate the {\vwarm} operation for AES-128 with 2KB lookup tables~\cite{openssl}.
      We prove that it is statistically the most efficient to load all lookup table entries in {\vwarm} and perform it
-      when a cache miss occurs during the previous encryption.
+      if a cache miss occurs during the previous encryption.
 Finally, we extend the conclusions to different key lengths of AES and different implementations,
-  and show that, the conditions are applicable to these typical key lengths and implementations.
+  and show that, the conlusions are applicable to these typical key lengths and implementations.
 That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performance for various AES implementations with lookup tables.
 
 %Next, we examine these principles with the {\vwd} scheme, and derive the practical conditions which make it optimal.
@@ -117,14 +121,14 @@ That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performa
 \begin{theorem}
 \label{delay2tw}
 To effectively eliminate the cache timing side channels,
- in the {\vdelay} operation $T_{mm}$ is the minimal delay.
+ in the {\vdelay} operation delaying to $T_{mm}$ imposes the minimal delay.
 %In the {\vdelay} operation, delay to $T_{mm}$ imposes the minimal overhead
  %  while effectively eliminates the cache timing side channels.
 \end{theorem}
 
 \begin{proof}
 From the attackers' point of view,
-   $T_{nm}$, $T_{mm}$, and any value greater than $T_{mm}$ are three types of measured time that are unexploitable;
+   $T_{nm}$, $T_{mm}$ and any value greater than $T_{mm}$ are three types of measured time that are unexploitable;
    i.e. the measured time does not reflect the cache misses/hits of certain lookup table entries.
     %$T_{nm}$, $T_{mm}$, and any value greater than $T_{mm}$.
 %$T_{nm}$  means that \emph{all} accessed lookup entries are in caches before encryption,
@@ -140,7 +144,7 @@ If we delay the execution time to any value greater than $T_{mm}$,
 the overhead is larger than that delays to $T_{mm}$.
 On the other hand, if we delay the time to any value less than $T_{mm}$,
  a little information about the cache access leaks.
-Meanwhile, if we delay it to a random value, which may be greater or less than $T_{mm}$,
+Meanwhile, if we delay it to a random/pseudorandom value, which may be greater or less than $T_{mm}$,
     the attackers could exclude all results greater than $T_{mm}$
       and the other results are still exploitable.
 Such methods reduce the attack accuracy,
@@ -164,7 +168,7 @@ Therefore, delaying to $T_{mm}$ imposes the minimal overhead
 As described above,
  if the execution time of encryption is equal to or less than $T_{nm}$, no cache miss occurs,
   and
-if the execution time is equal to $T_W$ or greater, it is unexploitable.
+if the execution time is equal to $T_{mm}$ or greater, it is unexploitable.
 The execution time is independent of keys and plaintexts/ciphertexts in these cases,
   so {\vdelay} is unnecessary.
 
@@ -173,10 +177,10 @@ The execution time is independent of keys and plaintexts/ciphertexts in these ca
 % it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
 
 When the execution time is in $(T_{nm}, T_{mm})$,
- it may result from cache misses, and/or system activities (but the overhead is less than $T_{mm} - T_{nm}$).
+ it may result from cache misses due to the access of the uncached lookup table or system activities (but the overhead is less than $T_{mm} - T_{nm}$).
 We cannot distinguish the exact reasons without special privileges.
-However, the attackers may distinguish them by repeatedly invoking the encryption function using the same input.
- Therefore, {\vdelay} is  necessary in this case.
+However, the attackers may eliminate the effect of system activities by repeatedly invoking the encryption function using the same input.
+ Therefore, {\vdelay} is necessary in this case.
 %\qed
 \end{proof}
 
@@ -198,8 +202,6 @@ We first determine the amount of data to be loaded in {\vwarm} for the optimal p
 We show that, %in this case,
     the best conditions of performing the {\vwarm} operation (i.e., with the optimal performance)
  hold in commodity computer systems.
-The discussions about different key sizes (192 and 256 bits) and implementations (4KB, 4.25KB, and 5KB lookup tables),
-  are included in Section \ref{analy:otherkey}.
 %In Section \ref{analy:otherkey}, we also discuss other key lengths and other implementations and other algorithms.
 
 %\vspace{2mm}
@@ -212,7 +214,7 @@ A {\vwarm} operation loads the lookup table into caches.
   but it may introduce extra {\vdelay} operations if the unloaded part is accessed.
    The benefit of not loading $N$ cache lines of data in the {\vwarm} operation is denoted as $B_{nl}(N)$,
     while the expected overhead due to not loading $N$ cache lines of table entries is denoted as $D_{nl}(N)$.
-So the amount of data to be loaded in {\vwarm} shall be determined by comparing $B_{nl}(N)$ with $D_{nl}(N)$.
+So the amount of data to be loaded in {\vwarm} is determined by comparing $B_{nl}(N)$ with $D_{nl}(N)$.
 
 We denote the size of a cache line as $C$,
     and the time cost to load a cache line of data from RAM to the L1D cache as $T_{cl}$.
@@ -275,7 +277,7 @@ Therefore, if $N$ cache lines of table entries are not in caches,
 \end{equation}
 
 
-The execution time shall be delayed to $T_W$ according to Theorem \ref{delay2tw},
+The execution time shall be delayed to $T_{mm}$ according to Theorem \ref{delay2tw},
  while it is $T_{nm}$ if all entries are in caches.
 So, %the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
 \begin{eqnarray}
@@ -385,7 +387,7 @@ To determine the optimal {\vwarm} operation,
  we shall compare the costs by different {\vwarm} strategies.
 We use Markov Chain to analyze the states of the lookup table in the L1D cache during the continuous invocations of AES encryption.
 Then the extra costs are calculated based on the probability of each state in the stationary distributions.
-Generally, there are three states:
+Generally, there are three states after one AES execution (i.e. {\scshape{Encrypt}} in Algorithm~\ref{alg:aesdefense}):
   \begin{enumerate}
    \item
      $S_{c}$: all entries of the lookup table are in caches,
@@ -441,9 +443,9 @@ It is reasonable,
 Besides,
     since the state of the lookup table is observed immediately after the AES execution,
   the {\scshape{Access-Uncached}} event occurs in the last during one state transition (if occurs).
-In the following analysis, we firstly ignore the partial-warm effect of the {\scshape{Access-Uncached}} event,
+In the following analysis, we firstly ignore the partial-warm effect of the {\scshape{Access-Uncached}} event in the analysis of the different warm strategies,
     and in Section~\ref{remark} we show that
-    this effect only increases the value of $P_{w}$ but has no influence on our conclusions.
+    this effect has no influence on our conclusions.
 
 
 We consider three strategies:
@@ -455,7 +457,7 @@ We consider three strategies:
   \item
     Less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious encryption execution;
   \item
-    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, and also performing with a probability $P_{w}^{\oplus}\in[0,1]$ in other conditions.
+    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, and also performing with a probability $P_{w}^{\oplus}\in(0,1]$ in other conditions.
 \end{itemize}
 
 Markov Chain is used to simulate the state transition.
@@ -493,7 +495,9 @@ $P_{a|S_{c}}$ represents the probability that if in the state $S_{c}$, some unca
   Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
 
 When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{Eviction}} event does not occur, the {\scshape{Access-Uncached}} does not occur and the state remains, i.e. $P_{S_{c}|S_{c}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, some lookup entries may be evicted from caches. Then if these evicted entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, thus $P_{S_{\bar{c}, a}|S_{c}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{c}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
+
   When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed and all lookup entries are in caches. Then the state transition is like in $S_{c}$. If the {\scshape{Eviction}} event does not occur, the state turns to $S_{c}$ and $P_{S_{c}|S_{\bar{c}, a}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, and if these evicted entries caused by the {\scshape{Eviction}} event are accessed during the AES execution, the state remains the same, thus $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
+  
     When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$. But the probability $P_{a}$ in the {\scshape{Access-Uncached}} event would be different when the {\scshape{Eviction}} event occurs or not. Thus, $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}=P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}+(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
     Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$.
 
