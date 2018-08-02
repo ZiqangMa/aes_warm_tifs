@@ -465,6 +465,14 @@ Markov Chain is used to simulate the state transition.
      takes values in the state space $\{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
   %The transition probabilities denoted as $P_{j|i}$, where $i$ and $j$ are in the state space, represents that
    If it is in the state $i$, the probability that it will be in the state $j$ after one step is denoted as $P_{j|i} = P\{X_{n+1}=j|X_n=i\}$, where $i,j \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
+
+Also, we denote $P_{a|i}$ to represent the probability that {\scshape{Access-Uncached}} event occurs (due to the occurrence of the {\scshape{Eviction}} event) in the state $i$, where $i \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
+ $P_{e|i}$ is to represent the probability of the occurrence of the {\scshape{Eviction}} event in the state $i$, where $i \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
+   We use $\ominus$ and $\oplus$ to represent the less {\vwarm} and more {\vwarm} as the superscript.
+
+
+
+
 Next,
 the stationary distributions for the three different strategies are analyzed as follow.
 
@@ -490,14 +498,12 @@ the stationary distributions for the three different strategies are analyzed as 
 \vspace{2mm}
 \noindent\textbf{Conditional {\vwarm}.}
 The state transition of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
-$P_{a|S_{c}}$ represents the probability that if in the state $S_{c}$, some uncached entries of the lookup table before encryption are accessed during the encryption (due to the {\scshape{Eviction}} event).
- $P_{a|S_{\bar{c}, \bar{a}}}$ represents the probability that if in the state $S_{\bar{c}, \bar{a}}$, some uncached entries are accessed during the encryption.
-  Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
+  %Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
 
 When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{Eviction}} event does not occur, the {\scshape{Access-Uncached}} does not occur and the state remains, i.e. $P_{S_{c}|S_{c}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, some lookup entries may be evicted from caches. Then if these evicted entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, thus $P_{S_{\bar{c}, a}|S_{c}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{c}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
 
-  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed and all lookup entries are in caches. Then the state transition is like in $S_{c}$. If the {\scshape{Eviction}} event does not occur, the state turns to $S_{c}$ and $P_{S_{c}|S_{\bar{c}, a}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, and if these evicted entries caused by the {\scshape{Eviction}} event are accessed during the AES execution, the state remains the same, thus $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
-  
+  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed to load all lookup entries into caches. Then the state transition is like in $S_{c}$. If the {\scshape{Eviction}} event does not occur, the state turns to $S_{c}$ and $P_{S_{c}|S_{\bar{c}, a}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, and if these evicted entries caused by the {\scshape{Eviction}} event are accessed during the AES execution, the state remains the same, thus $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
+
     When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$. But the probability $P_{a}$ in the {\scshape{Access-Uncached}} event would be different when the {\scshape{Eviction}} event occurs or not. Thus, $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}=P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}+(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
     Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$.
 
@@ -520,11 +526,11 @@ the stationary distribution of the three states and the values are as follows.
 \vspace{2mm}
 \noindent\textbf{Less {\vwarm}.}
 The state transition diagram of less {\vwarm} is shown in \figurename~\ref{fig:lesscase}.
-$P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ represents the probability that some entries uncached before encryption are accessed during the encryption if in the state $S_{\bar{c}, \bar{a}}$.
-As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}$ is no less than $P_{a|S_{c}}$.
 
 When in the state $S_{c}$, {\scshape{Warm}} is not performed. The transition probability is the same as in the Conditional {\vwarm}.
+
   When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$. When the {\scshape{Warm}} is performed, the state transition is the same as in Conditional {\vwarm}. When {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. If these uncached entries are accessed during the AES execution, it remains the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$. In summary, the state turns to $S_c$ with $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}(1-P_{e|S_c})$, remains $S_{\bar{c}, a}$ with $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$ and turns to $S_{\bar{c}, \bar{a}}$ with $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
+
     When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, and the transition probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}=P_{e|S_{\bar{c}, \bar{a}}}^{\ominus}P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}+(1-P_{e|S_{\bar{c}, \bar{a}}}^{\ominus})P_{a|S_{c}}$. Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
 
 
@@ -553,12 +559,12 @@ D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar
 \vspace{2mm}
 \noindent\textbf{More {\vwarm}.}
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
-$P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ represents the probability that some entries uncached before encryption are accessed during the encryption if in the state $S_{\bar{c}, \bar{a}}$.
-As the same in conditional {\vwarm}, $P_{a|S_{\bar{c}, \bar{a}}}^{\oplus}$ is no less than $P_{a|S_{c}}$.
 
 When in the state $S_{c}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$ but has no effect.
+
   When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed and all lookup entries are in caches.
    The two situations are the same with  Conditional {\vwarm} and the transition probability is the same as in the Conditional {\vwarm}.
+   
     When in the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$. If {\scshape{Warm}} is performed, all lookup entries are in caches and the state transition is the same as in the state $S_{c}$. If {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it remains the state $S_{\bar{c}, \bar{a}}$. Thus, the state turns to $S_c$ with the probability $P_{S_{c}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}(1-P_{e|S_c})$, turns to $S_{\bar{c}, a}$ with $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$, and remains with $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$ means the probability of state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
 
 We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent
