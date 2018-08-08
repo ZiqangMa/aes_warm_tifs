@@ -504,7 +504,7 @@ When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{E
 
   When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed to load all lookup entries into caches. Then the state transition is like in $S_{c}$. If the {\scshape{Eviction}} event does not occur, the state turns to $S_{c}$ and $P_{S_{c}|S_{\bar{c}, a}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, and if these evicted entries caused by the {\scshape{Eviction}} event are accessed during the AES execution, the state remains the same, thus $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
 
-    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$. If the {\scshape{Eviction}} event occurs, the probability is $P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}$. And if not occur, the probability is $(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.     
+    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$. If the {\scshape{Eviction}} event occurs, the probability is $P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}$. And if not occur, the probability is $(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
      Thus, the probability to the state $S_{\bar{c}, a}$ is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}=P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}+(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
     Otherwise the uncached entries are not accessed, it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$.
 
@@ -530,14 +530,14 @@ The state transition diagram of less {\vwarm} is shown in \figurename~\ref{fig:l
 
 When in the state $S_{c}$, {\scshape{Warm}} is not performed. The transition probability is the same as in the Conditional {\vwarm}.
 
-  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$. 
-  When the {\scshape{Warm}} is performed, the state transition is the same as in Conditional {\vwarm}. 
+  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$.
+  When the {\scshape{Warm}} is performed, the state transition is the same as in Conditional {\vwarm}.
   The state turns to $S_c$ if the {\scshape{Warm}} is performed and the {\scshape{Eviction}} event does not occur. So the probability is $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P_{w}^{\ominus}(1-P_{e|S_c})$.
-   The state remains if the uncached entries are accessed during the AES execution whether the {\scshape{Warm}} is performed. 
+   The state remains if the uncached entries are accessed during the AES execution whether the {\scshape{Warm}} is performed.
    Thus, the probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
     The state turns to $S_{\bar{c}, \bar{a}}$ if the uncached entries are not accessed,
     and the probability is $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$.
-   
+
 %
 %  When {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. If these uncached entries are accessed during the AES execution, it remains the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$. In summary, the state turns to $S_c$ with $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}(1-P_{e|S_c})$, remains $S_{\bar{c}, a}$ with $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$ and turns to $S_{\bar{c}, \bar{a}}$ with $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
 
@@ -573,9 +573,16 @@ The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:m
 
 When in the state $S_{c}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$ but has no effect.
   When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed loading all lookup entries into caches.
-   The two situations are the same with  Conditional {\vwarm} and the transition probability is the same as in the Conditional {\vwarm}.
+   The two situations are the same with  Conditional {\vwarm} and the transition probability is the same.
 
-    When in the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$. If {\scshape{Warm}} is performed, all lookup entries are in caches and the state transition is the same as in the state $S_{c}$. If {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, otherwise it remains the state $S_{\bar{c}, \bar{a}}$. Thus, the state turns to $S_c$ with the probability $P_{S_{c}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}(1-P_{e|S_c})$, turns to $S_{\bar{c}, a}$ with $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$, and remains with $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$ means the probability of state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
+    When in the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$.
+     If {\scshape{Warm}} is performed, all lookup entries are in caches and the state transition is the same as in the state $S_{c}$.
+      The state turns to $S_c$ with the probability $P_{S_{c}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{S_{c}|S_{c}}=P_{w}^{\oplus}(1-P_{e|S_c})$.
+    If {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache.
+     So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$,
+      and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$.
+      Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and
+      $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$ means the probability of state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
 
 We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent
 the stationary distribution of the three states and the values are as follows.
@@ -604,10 +611,11 @@ We first compare the performance of conditional {\vwarm} with less {\vwarm} and 
  Followed we investigate the relationship on the performance between conditional {\vwarm} and arbitrary strategies.
   Finally, we estimate whether the conditions for the conditional {\vwarm} to get the optimal performance are satisfied in commodity computer systems.
 
-  We denote the extra cost introduced by {\vdelay} and {\vwarm} as
+  We denote the extra cost (execution time) introduced by {\vdelay} and {\vwarm} as
     $T_{d}$ and $T_{w}$, respectively.
 $T_{d} = T_{mm}-T_{nm}$ is constant while
-    $T_{w}$ depends on the number of loaded cache lines of table entries.
+    $T_{w}$ varies because the number of loaded cache lines of table entries may be different when {\vwarm} is performed.
+
 
 %%Then we have the following theorems.
 %\vspace{2mm}
@@ -619,7 +627,7 @@ $T_{d} = T_{mm}-T_{nm}$ is constant while
 \begin{proof}
 The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
 In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
-so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
+so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation.
  In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for these two strategies.
 The difference between the expected extra time introduced by less {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
@@ -630,11 +638,13 @@ E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{d} - \Pi_{\bar{c}, a} * T_{d
 
 And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{w}^{\ominus}\in(0,1)$.
 So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+Detailed calculation process for equation~\ref{equ:tpc1} is in Appendix~\ref{appendixa}.
 \end{proof}
 
 %\vspace{2mm}
 %\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
+Next, we compare the more {\vwarm} with conditional {\vwarm} strategy.
 First we denote:
 \begin{align}
 &G = T_{d} / T_{w}\ , \nonumber \\
@@ -665,18 +675,24 @@ Conditional {\vwarm} strategy provides better performance than the more {\vwarm}
 %    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
 %\end{itemize}
     \begin{equation*}
-    \left\{
-    \begin{split}
-    &D_{F} \geq 0 \\
-    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-    \end{split}
-    \right. .
+    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%    \left\{
+%    \begin{split}
+%    &D_{F} \geq 0 \\
+%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%    \end{split}
+%    \right. .
     \end{equation*}
 
 \end{theorem}
 
 \begin{proof}
-The process of proof is the same as Theorem~\ref{lemma:warmnum1} that comparing $E(T)$ with $E(T^{\oplus})$:
+The process of proof is the same as Theorem~\ref{lemma:warmnum1} that compares $E(T)$ with $E(T^{\oplus})$.
+In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation for these two strategies.
+ In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm}.
+But for more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
+ Thus,
 \begin{align}
 \label{equ:tpc2}
 &E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}^{\oplus}*T_{w}^{min} \nonumber \\
@@ -687,16 +703,17 @@ Then we draw the result that $E(T^{\oplus})\geq E(T)$ if
 %\begin{itemize}
   %\item
     \begin{equation*}
-    \left\{
-    \begin{split}
-    &D_{F} \geq 0 \\
-    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-    \end{split}
-    \right..
+    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%    \left\{
+%    \begin{split}
+%    &D_{F} \geq 0 \\
+%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%    \end{split}
+%    \right..
     \end{equation*}
     %$\{$.
 %\end{itemize}
-More details are in Appendix~\ref{appendixa}.
+The detailed calculation steps are in Appendix~\ref{appendixa}.
 \end{proof}
 
 %\vspace{2mm}
@@ -711,17 +728,19 @@ if the following condition is satisfied:
 %    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
 %\end{itemize}
     \begin{equation*}
-    \left\{
-    \begin{split}
-    &D_{F} \geq 0 \\
-    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-    \end{split}
-    \right..
+    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%    \left\{
+%    \begin{split}
+%    &D_{F} \geq 0 \\
+%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%    \end{split}
+%    \right..
     \end{equation*}
 \end{theorem}
 
 \begin{proof}
-Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{w}^{\odot}\in[0,1]$ just when cache misses do not occur during the pervious encryption execution, while not performing {\vwarm} when cache misses occur. This case is denoted as complementary {\vwarm}.
+Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{w}^{\odot}\in[0,1]$ just when cache misses do not occur during the pervious encryption execution, while not performing {\vwarm} when cache misses occur. This case is denoted as unusual {\vwarm}.
+The state transition of unusual {\vwarm} is shown in \figurename~\ref{fig:cocase}.
 %In this case, when there is a cache miss in the previous, {\vdelay} is needed. If the next encryption accesses any entry that is currently not in caches, performing {\vwarm} before hand introduces non extra overhead.
 % However, if not performing {\vwarm},
 %   the extra time introduced by {\vdelay} is listed in Table\ref{tbl:warmcontent}.
@@ -731,15 +750,15 @@ Firstly, we consider an extreme case that is performing {\vwarm} with a probabil
 %On the other hand, the Markov state transition diagram of complementary {\vwarm} is in \figurename~\ref{fig:cocase}.
 %Using the same calculation process within Theorem~\ref{lemma:warmnum1},
 % we can get that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy.
-It can be proved that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy using the same method as in Theorem~\ref{lemma:warmnum1}.
+It can be proved that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy using the same method as in Theorem~\ref{lemma:warmnum1}. The detailed calculation steps are in Appendix~\ref{appendixa}.
 
 Generally,
- any {\vwarm} strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and complementary {\vwarm}.
+ any {\vwarm} strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and unusual {\vwarm}.
   We denote the arbitrary warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious encryption execution, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
-   Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and complementary {\vwarm} as $W_{L}$, $W_{M}$ and $W_{Co}$.
+   Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and unusual {\vwarm} as $W_{L}$, $W_{M}$ and $W_{U}$.
   Then we can get the equation:
   \begin{equation}
-W = x_{1}W_{L}+x_{2}W_{M}+x_{3}W_{Co}
+W = x_{1}W_{L}+x_{2}W_{M}+x_{3}W_{U}
 \end{equation}
   where $x_{1}$, $x_{2}$ and $x_{3}$ satisfy:
 $$\left\{
@@ -751,7 +770,7 @@ $$\left\{
 \right..
 $$
 
-In this way, the arbitrary strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and complementary {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
+In this way, the arbitrary strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and unusual {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
 So conditional {\vwarm} has better performance than warm strategies with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}
@@ -765,12 +784,13 @@ if condition:
 %    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
 %\end{itemize}
     \begin{equation*}
-    \left\{
-    \begin{split}
-    &D_{F} \geq 0 \\
-    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-    \end{split}
-    \right.
+    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%    \left\{
+%    \begin{split}
+%    &D_{F} \geq 0 \\
+%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%    \end{split}
+%    \right.
     \end{equation*}
  is satisfied.
 That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
@@ -999,7 +1019,7 @@ Therefore, conditional {\vwarm} strategy still  has better performance.
 %\subsubsection{Process scheduling and interruption occur during the AES execution}
 \vspace{2mm}
 \noindent\textbf{Process Scheduling and Interruption Occur during The AES Execution.}
-In this case,  $t2 - t1 > T_{mm}$, {\vwarm}  will be triggered in our scheme. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
+In this case,  the time of {\scshape{Encrypt}} is larger than $T_{mm}$ (i.e.$t2 - t1 > T_{mm}$), {\vwarm}  will be triggered in our scheme. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
 As the process scheduling and interruption occur, we assume that $N$ cache lines of the lookup table are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
 Hence, the extra overhead introduced by using {\vwarm}  to load the lookup table is $E(T_{w},N) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of the lookup table from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
