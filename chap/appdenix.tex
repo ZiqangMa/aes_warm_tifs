@@ -8,6 +8,7 @@ For the following calculation, $0 \leq P_{a|S_{c}} \leq 1$, $0 \leq P_{S_{\bar{c
  and $0 \leq P_{e|S_{c}} \leq 1$.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum1}}
+\label{appendixa1}
 To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{\ominus})$ with $E(T)$.
 So we get the Formula~\ref{equ:tpc1}, and estimate if it is larger than $0$.
 By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:ypwarm1} and \ref{equ:detail1}.
@@ -18,7 +19,8 @@ By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:y
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{w}^{\ominus}) =& -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}}))*P_{w}^{\ominus} \\
+y(&P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \\
+&-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}}))*P_{w}^{\ominus} \\
 & +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
 & - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{a}^{\mathfrak{3}\mathcal{L}}) \,
 \end{split}\end{equation}
@@ -32,8 +34,8 @@ E(T^{\ominus}) - E(T) = &\frac{y(P_{w}^{\ominus})P_{e|S_{c}}T_{d}}{A_{L}*B_{L}}
 where
 \begin{equation*}
 \begin{split}
-&A_{L}=P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})+(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}  \\
-&\ \ \ \ \ \ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} \\
+&A_{L}=P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})\\
+&\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}+(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} \\
 &B_{L}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
 In the Markov state transition diagram,
@@ -51,6 +53,7 @@ Therefore $E(T^{\ominus}) - E(T)\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
 \subsection{The proof of Theorem~\ref{lemma:warmnum2}}
+\label{appendixa2}
 The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
 In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
 so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
@@ -135,7 +138,8 @@ where
 &A_{M}= MG(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})\\
 &B_{M}=MG(1-P_{e|S_{c}})(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
 &C_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}-P_{a|S_{c}}P_{e|S_{c}}\\
-&D_{M}=P_{e|S_{c}}(P_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{a|S_{c}}P_{e|S_{c}}-(P_{a|S_{c}})^2P_{e|S_{c}}-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
+&D_{M}=P_{e|S_{c}}(P_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{a|S_{c}}P_{e|S_{c}}) \\
+& \ \ \ \ \ \ \ \ -P_{e|S_{c}}((P_{a|S_{c}})^2P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})\\
 &E_{M}=P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{w}^{\oplus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \\& \ \ \ \ \ \ \ \ -P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{w}^{\oplus}P_{a|S_{c}})\\
 &F_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
@@ -151,9 +155,10 @@ Therefore,
 \begin{equation}
 %\label{equ:detail2}
 \begin{split}
-D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2  \\
-&+(P_{e|S_{c}})^2P_{a|S_{c}}+(1-M(1-P_{e|S_{c}}))P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{a|S_{c}}\\
-&+M(1-P_{e|S_{c}})(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
+D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2+(P_{e|S_{c}})^2P_{a|S_{c}}  \\
+&+(1-M(1-P_{e|S_{c}}))P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{a|S_{c}}\\
+&+M(1-P_{e|S_{c}})(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
+&-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
 \end{split}\end{equation}
 
 Regard $D_{F}$ as the function of $P_{a|S_{c}}$,
@@ -187,12 +192,13 @@ For the second case, denote
 \begin{enumerate}
 \item
     First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$, and get:
-    \begin{equation*}
-    \begin{aligned}
-    &\frac{d(F_G)}{d(P_{a|S_{c}})} = (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
-    &\ \ \ +M(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(P_{e|S_{c}}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})^{2}
-    \end{aligned}
-    \end{equation*}
+    %\begin{equation*}
+    \begin{flalign*}
+    \frac{d(F_G)}{d(P_{a|S_{c}})} &= (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
+    &\ \ \ \ \ \ +M(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(P_{e|S_{c}}\\
+    &\ \ \ \ \ \ +P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})^{2}
+    \end{flalign*}
+    %\end{equation*}
 
 Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotony increase function of $P_{a|S_{c}}$.
 When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum value.
@@ -201,8 +207,8 @@ When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum value.
 Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
 \begin{equation*}
 \begin{split}
-\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = &\{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))^2\\
-&-(P_{e|S_{c}})^2(1-P_{a|S_{c}})^2 \}P_{e|S_{c}}
+&\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = \{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
+&\ \ \  \ +P_{e|S_{c}}(1-P_{a|S_{c}}))^2-(P_{e|S_{c}})^2(1-P_{a|S_{c}})^2 \}P_{e|S_{c}}
 \end{split}
 \end{equation*}
 
@@ -248,8 +254,10 @@ When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,
  Third, we regard $F_G$ as the function of $P_{e|S_{c}}$ and calculate the derivative on $P_{e|S_{c}}$, and get:
 \begin{equation*}
 \begin{split}
-\frac{d(F_G)}{d(P_{e|S_{c}})} &= P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})(P_{e|S_{c}})^2\\
-&-2MP_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{e|S_{c}}-M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^3
+&\frac{d(F_G)}{d(P_{e|S_{c}})}=\\
+&\ \ \ \ \ \ P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})(P_{e|S_{c}})^2\\
+&\ \ \ \ -2MP_{a|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})P_{e|S_{c}}\\
+&\ \ \ \ -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^3
 \end{split}
 \end{equation*}
 When $P_{e|S_{c}} = 0$, $\frac{d(F_G)}{d(P_{e|S_{c}})} = -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \leq 0 $.
