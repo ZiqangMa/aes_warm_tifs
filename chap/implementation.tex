@@ -103,29 +103,42 @@ Finally,
 %\end{figure}
 
 
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{subf
+%igcase1}
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{sub
+%figcase2}
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+
 
 \begin{figure}[!t]
-%\centering
-    \begin{minipage}[t]{0.5\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
-    %\centering
-    \includegraphics[width=\textwidth]{pic/fwnormal.pdf}
-    \caption*{(a) in normal case}%加*可以去掉默认前缀，作为图片单独的说明
-    \label{fig:fullwarmworst}
-    \end{minipage}
-    \begin{minipage}[t]{0.5\linewidth}%需要几张添加即可，注意设定合适的linewidth
-    %\centering
-    \includegraphics[width=\textwidth]{pic/fwbest.pdf}
-    \caption*{(b) the best case}
-    \label{fig:fullwarmbest}
-    \end{minipage}
-    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
-%\centering
-%\subfloat[in normal case]{\includegraphics[width=2.8in]{pic/fwnormal.pdf}
-%\label{fig:fullwarmworst}}
-%\vfil
-%\subfloat[the best case]{\includegraphics[width=2.8in]{pic/fwbest.pdf}
-%\label{fig:fullwarmbest}}
-%\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
+%%\centering
+%    \begin{minipage}[t]{0.5\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
+%    %\centering
+%    \includegraphics[width=\textwidth]{pic/fwnormal.pdf}
+%    \caption{(a) in normal case}%加*可以去掉默认前缀，作为图片单独的说明
+%    \label{fig:fullwarmworst}
+%    \end{minipage}
+%    \begin{minipage}[t]{0.5\linewidth}%需要几张添加即可，注意设定合适的linewidth
+%    %\centering
+%    \includegraphics[width=\textwidth]{pic/fwbest.pdf}
+%    \caption{(b) the best case}
+%    \label{fig:fullwarmbest}
+%    \end{minipage}
+%    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
+\centering
+\subfloat[in normal case]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
+\label{fig:fullwarmworst}}
+\hfil
+\subfloat[the best case]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
+\label{fig:fullwarmbest}}
+\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
 \end{figure}
 
 

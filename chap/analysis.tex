@@ -340,7 +340,7 @@ Meanwhile, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32K
 
 
 In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{mm}$, $T_{nm}$, and $T_{cl}$ are $2834.00$, $355.00$, and $55.68$ CPU cycles, respectively
+$T_{mm}$, $T_{nm}$, and $T_{cl}$ are $2834.00$, $355.00$, and $54.55$ CPU cycles, respectively
  (see Section \ref{sec:implementation} for details).
 %%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
@@ -364,7 +364,7 @@ So the cost of {\vwarm} is further reduced, ensuring that loading all entries of
    \hline
    {$N$}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  & 31  & 32\\
    \hline
-   {$B_{nl}(N)$} & 55.68 & 111.35 & 167.03 & 278.38 & 556.75 & 835.13 & 1113.50 & 1391.88 & 1670.25 & 1725.93 & 1781.60 \\
+   {$B_{nl}(N)$} & 54.55 & 109.10 & 163.65 & 272.75 & 545.50 & 818.25 & 1091.00 & 1386.25 & 1636.50 & 1691.05 & 1745.60 \\
    \hline
    %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
@@ -881,9 +881,9 @@ For the AES-128 implementation with a 2KB lookup table, $P_{a|S_c}$ is larger th
 and the range of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ is $[0.994,1]$.
 For the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
 $T_{d}$ is $2479.00$ CPU cycles;
-the minimum of $T_{w}$($T_{w}^{min}$) is $124$ cycles when accessing the lookup table from the L1D cache;
-and the maximum of $T_{w}$ is $1781.60$ CPU cycles when all the lookup entries are not cached.
-Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
+the minimum of $T_{w}$($T_{w}^{min}$) is $88$ cycles when accessing the lookup table from the L1D cache;
+and the maximum of $T_{w}$ is $1745.60$ CPU cycles when all the lookup entries are not cached.
+Thus, $M=0.0355$ and the rang of $G$ is $[1.42,28.17]$.
 
 
 %
@@ -895,7 +895,7 @@ Thus, $M=0.0491$ and the rang of $G$ is $[1.39,19.99]$.
 %The max value of $g$ is less than the minimum value of $g_{max}$, that is $g < g_{max}$.
 %So according to Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution results the minimum extra time
 
-In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0491]$. When $D_{F} > 0$, Theorem~\ref{lemma:warmnum3} is satisfied. While $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{a|S_c}$.
+In this environment, the range of $D_{F}$ is calculated as $[-0.000036,0.0355]$. When $D_{F} > 0$, Theorem~\ref{lemma:warmnum3} is satisfied. While $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{a|S_c}$.
 $F_G$ gets the minimum value when $P_{a|S_c} = 0.994$.
 At this point, $P_{e|S_c}$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ satisfy:
 \begin{equation}
@@ -1040,7 +1040,7 @@ Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better perform
    %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
    \hline
-   {$E(T_{warm})$} & 175.80 & 227.60 & 279.4 & 383.00 & 642.00 & 901.00 & 1160.00 & 1419.00 & 1678.00 & 1729.80 & 1781.60 \\
+   {$E(T_{warm})$} & 139.80 & 191.60 & 243.40 & 347.00 & 606.00 & 865.00 & 1124.00 & 1383.00 & 1642.00 & 1693.80 & 1745.60 \\
    \hline
    \end{tabular}
 \end{table*}
