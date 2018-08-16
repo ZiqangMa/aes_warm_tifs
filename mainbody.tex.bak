@@ -107,7 +107,7 @@ They destroy the relationship between the execution time
 %  . However, the extra operations are sometimes unnecessary,
    and then bring remarkable performance overheads.
 In this paper, we investigate the performance of cryptographic functions protected by {\scshape{Warm}} and {\scshape{Delay}},
-  and attempt to find the best strategy to integrate these two common countermeasures
+  and attempt to find the best strategy to integrate these two countermeasures
     with the optimal performance while effectively eliminate remote cache side channels.
 To the best of our knowledge,
   this work is the first to systematically analyze the performance of
@@ -136,7 +136,7 @@ Finally,
 Experimental results confirm that,
 (\emph{a}) the execution time does not leak information on cache access,
  (\emph{b}) the scheme outperforms other integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-(\emph{c}) the implementation works without any privileged operations on the computer system.
+(\emph{c}) the implementation works without any privileged operations on the computer.
 %  Methods to defend against the cache side channel attacks are implemented a lot, but still exist some problems such as excess extra overhead, relying on hardware modification, non-portability etc.
 %Also it can be used to all the symmetric encryption algorithms implemented with lookup tables. The basic idea of our scheme is to combine performing cache warm and adding time delay.
 %Through reducing the context of cache warm and the time of delaying and eliminating the unnecessary cache warm and delay operation on the premise of guarantee security, we achieve the  performance.
