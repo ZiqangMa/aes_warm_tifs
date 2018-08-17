@@ -5,33 +5,33 @@
 \label{back:aes}
 %\vspace{-1mm}
 % 通用的描述
-AES is a popular block cipher with
+AES is a block cipher with
 128-bit blocks,
   and the key is 128, 192 or 256 in bits.
-AES encryption (or decryption) consists of a certain round of transformations
+AES encryption (or decryption) consists of several rounds of transformations
  and the number depends on the key length.
-Each round transformation consists of \texttt{SubBytes}, \texttt{ShiftRows},
- \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state.\footnote{The last round of AES performs only \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey}.}
+Each round consists of \texttt{SubBytes}, \texttt{ShiftRows},
+ \texttt{MixColumns} and \texttt{AddRoundKey} on the 128-bit state.\footnote{The last round of AES encryption performs only \texttt{SubBytes}, \texttt{ShiftRows} and \texttt{AddRoundKey}.}
 % 应该能够说明：包括了什么操作？某些操作用了lookup table，就是访问data；lookup table是与key/data有关系。
 % 别的操作，是什么？能够让大家觉得不会有timing差异产生。
-These steps except \texttt{AddRoundKey},
- are usually implemented as lookup operations on constant tables \cite{Daemen2002The}.
+The transformations except \texttt{AddRoundKey},
+ are implemented as lookup operations on constant tables \cite{Daemen2002The},
 %For the implementation of AES in OpenSSL-1.1.0e~\cite{openssl}, four lookup tables, $T_{0}, T_{1}, T_{2}, T_{3}$,  each of which is 1KB,
 %  are used in each round exception the last one,
 % and a 256-byte lookup table $T_{4}$ in the last round.
-\texttt{AddRoundKey} consists of bitwise-XOR operations on the state.
+and \texttt{AddRoundKey} consists of bitwise-XOR on the state.
 
-The straightforward AES implementation needs four 1KB tables in all rounds, $T_{0}, T_{1}, T_{2}$ and $T_{3}$, as follows,
+The straightforward AES implementation needs four 1KB tables in all rounds, $T_{0}, T_{1}, T_{2}$ and $T_{3}$, 
  where $S(x)$ is the result of an AES S-box lookup for the input $x$.
-\setlength{\arraycolsep}{0.0em}
+%\setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
 &T_{0}[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x))\nonumber\\
 &T_{1}[x] = (3\cdot S(x), 2\cdot S(x), S(x), S(x))\nonumber\\
 &T_{2}[x] = (S(x), 3\cdot S(x), 2\cdot S(x), S(x))\nonumber\\
 &T_{3}[x] = (S(x), S(x), 3\cdot S(x), 2\cdot S(x))\nonumber
-\end{eqnarray}\setlength{\arraycolsep}{5pt}
-
-These four tables are encoded into a 2KB lookup table in the compact AES implementation,
+\end{eqnarray}
+%\setlength{\arraycolsep}{5pt}
+Four tables are encoded into a 2KB lookup table in the compact implementation,
 $T[x] = (2\cdot S(x), S(x), S(x), 3\cdot S(x), 2\cdot S(x), S(x), S(x), 3\cdot S(x))$.
 Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[x]$.
 
@@ -74,8 +74,8 @@ Note that, $T_{0}[x]$, $T_{1}[x]$, $T_{2}[x]$ and $T_{3}[x]$ are included in $T[
 %\end{split}\end{equation}
 %We use the mbed TLS (formerly known as PolarSSL) as the experimental subject. Its AES code is implemented with this design above. However, our protection model can also be employed in other implementations based on the lookup tables.
 
-There are implementations of other block ciphers,
-  consisting of table lookup operations and basic computations without data-dependent branches in the execution path,
+Implementations of other block ciphers,
+  usually consist of table lookup operations and basic computations without data-dependent branches in the execution path,
 such as 3DES, Blowfish~\cite{Schneier1993Description}, CAST-128~\cite{Adams1997The} in OpenSSH-7.4p1~\cite{openssh}.
 %  [[we example in implementation, e.g., xx algorithm in xx GPG / OpenSSH?]]
 %Our scheme works for the symmetric encryption algorithm based on the lookup tables.
@@ -139,14 +139,23 @@ Cache timing side-channel attacks %on block cipher implementations
  accessing cached data is about two orders of magnitude faster than those in RAM,
  to recover the keys based on the execution time.
 Typically, it takes 3 to 4 cycles for a read operation in L1D caches,
- while an operation in RAM takes about 250 cycles \cite{drepper2007every}.
- 
-  Based on the ability of the attacker, cache attacks are divided into three categories: trace-driven, time-driven and access-driven attack.
-   In trace-driven attack, the attacker is able to access the physical hardware directly to monitor the electromagnetic fields or power variation.
-    And in time-driven attack, the attacker can monitor the encryption execution time.
-     While in access-driven attack, the attacker can actively control the cache state so that it can monitor the cache access pattern of the encryption.
-      For trace-driven and time-driven attack, the attacker cannot impact the cache activities of the encryption. 
- 
+ while an operation in RAM takes tens or hundreds of cycles \cite{drepper2007every}.
+
+%  Based on the ability of the attacker, 
+Cache side-channel attacks on cryptographic engines
+    are roughly divided into three categories: trace-driven, time-driven and access-driven attacks.
+The trace-driven attackers %access the hardware directly to
+     probe the variation of electromagnetic fields or power,
+       to capture the profile of cache activities and deduce cache hits and misses
+  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}.
+In time-driven attacks,
+     the adversary passively measures the execution time  to disclose the secret keys.
+In these two categories of attacks,
+    the cache states are changed by the victim cryptographic engine (and the system activities),
+    while an access-driven attacker actively manipulates the cache states
+         by running a malicious process that shares caches with the victim.
+%So we sometimes call them active cache side-channel attacks in this paper.
+
 
 
 %  依据攻击者所拥有的能力，基于cache的侧信道攻击分为三类：轨迹驱动、时间驱动和访问驱动攻击。轨迹驱动（trace-driven）的攻击[10]是指攻击者有能力接触到目标物理机器硬件，通过在密码运算时对cache和内存的能量、电磁辐射等变化进行物理监听，从而分析出密钥比特信息。时间驱动（time-driven）的攻击[3][4]是指攻击者可以测量密码运算的整体时间来统计由cache命中和未命中所造成的密码计算的时间差别，而获取密钥比特之间的关系。访问驱动（access-driven）的攻击[1][6][7][11]是指攻击者可以判断密码操作访问了哪些cache sets，也就是说攻击者有能力监控cache的变化，从而更细粒度的通过cache访问模式来分析密钥信息。
@@ -158,8 +167,8 @@ Two typical remote time side channels on block cipher implementations are outlin
 %Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
 
 %Bernstein
-\noindent\textbf{Bernstein's attack\cite{Bernstein2005Cache}.}
-It statically analyzes the relation between the overall execution time and  lookup table indexes.
+\noindent\textbf{Bernstein's attack.}
+It statically analyzes the relation between the overall execution time and  lookup table indexes \cite{Bernstein2005Cache}.
 The attacker firstly obtains the AES execution time for each possible value of $p_i \oplus k_i$ (where $p_i$ and $k_i$ are the $i$th byte of the plaintext and key, respectively) %, and  $0 \leq i < 16$)
      on a duplicated server whose hardware and software configurations are the same as the victim server.
       It finds the value of $p_i \oplus k_i$ corresponding to the maximum average AES execution time.
@@ -196,20 +205,20 @@ When any two inputs of $T_i$ access the lookup table entries in a same cache lin
 This attack is extended to the second and last rounds of AES~\cite{Ac2007Cache} to fully extract the secret key. %without extra information.
 It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
-\subsubsection{Trace-driven Side Channel}
-During the execution of encryption,
-the trace-driven attacker directly physical contacts to the victim machine to monitor the variations of electromagnetic fields or power
-  to capture the profile of cache activities and deduce cache hits and misses
-  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}.
+%\subsubsection{Trace-driven Side Channel}
+%During the execution of encryption,
+%the trace-driven attacker directly physical contacts to the victim machine to monitor the variations of electromagnetic fields or power
+%  to capture the profile of cache activities and deduce cache hits and misses
+%  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}.
 
-\subsubsection{Active Cache Side Channel}
- When the caches are shared by attackers and victims on the same system,
+\subsubsection{Access-driven Cache Side Channel}
+ When the caches are shared by attackers and the victim,
   the attacker could actively control the cache states and monitor the cache accesses by the victim process.
 Then, the keys are derived from the access patterns.%, which is called access-driven attack.
 %Attackers and victims may share either the L1 cache or last-level cache (LLC).
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
 
-This attack falls into two categories: synchronous and asynchronous attack \cite{Osvik2006Cache}.
+There are two categories of active cache side channels: synchronous and asynchronous \cite{Osvik2006Cache}.
 In a synchronous attack, %the attacker runs serially with the victim.
  the attacker first sets the cache states, triggers the encryption, and monitor the memory access by detecting the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
@@ -343,7 +352,7 @@ So the attacker studies the cache access pattern through the abort events.
 %Thus, if a total-data load is executed before processing, differences between the frequencies of cache misses will not be observed, making it impossible to determine the relationships between sets of S-boxes
 
 \subsection{Defense against Cache Timing Side Channels}
-Defense methods against the remote cache timing attacks have been proposed on different levels,
+Countermeasures against the remote cache timing attacks have been proposed at different levels,
  %These defense methods
  by eliminating the execution time difference, % of cache hits/misses,
     introducing confusion to cache accesses, % to obscure the difference,
@@ -361,19 +370,19 @@ But it only works for AES and is only available on Intel CPUs.
 Cache warm is another way to eliminate cache misses~\cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis}, which means to load all the lookup tables into caches before the encryption. Using a compact table instead also can reduce the cache misses~\cite{Gullasch2011Cache,Osvik2006Cache}. Both the two methods introduce some overload. Furthermore, they cannot avoid all the cache misses but just reduce them to a certain extent.
 
 \noindent\textbf{Confusing the cache accesses.}
-Adding delay is a common way to make the attacker obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and adding dynamic delay to make the encryption time constant~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive} in software level and OS level~\cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical}.
+Adding delay is a common way to make the attacker obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and adding dynamic delay to make the encryption time constant~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive} at software level and OS level~\cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical}.
    Using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} to replace the original time-based scheduling is another way to confuse the cache accesses.
     These methods are algorithm-independent and can effectively defend against the cache side channel attacks. But the major drawback of these methods is that they incur large performance overhead.
 
 %A fixed number Of CPU cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round.
-In paper \cite{Page2003Defending}, the author suggests to add some dummy instructions or access some extra arrays to confuse the encryption time. Rescheduling the instructions to confuse the cache misses is carried out in both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache (RPC) confuse the cache misses to the attacker. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
+In paper \cite{Page2003Defending}, the author suggests to add some dummy instructions or access some extra arrays to confuse the encryption time. Rescheduling the instructions to confuse the cache misses is carried out at both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache (RPC) confuse the cache misses to the attacker. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
 
 Another method to confuse the attacker's observations is modifying the precision of the time measured
  by the attacker \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}.
 But it is useless in the remote environment because the attacker can use its own timer.
 
 \noindent\textbf{Limiting Cache Sharing.} %Cache独占使用
-Another way to eliminate cache attacks is cache partition. Cache coloring is an explicit method to partition the cache on OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
+Another way to eliminate cache attacks is cache partition. Cache coloring is an explicit method to partition the cache at OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
 The new cache design in \cite{Kong2009Hardware,Wang2007New} uses partition-locked caches to prevent cache interference.
 Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
 SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time for better performance.

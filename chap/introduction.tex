@@ -118,7 +118,7 @@ The following principles are analyzed and discussed in the integration:
 Each encryption is protected by {\scshape{Warm}} and/or {\scshape{Delay}},
 so that the measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
      or the worst case (i.e., it is delayed to the execution time without any caches).
-      Otherwise, the cache timing side channel attacks may be launched.
+      Otherwise, the cache timing side channel attacks may still be launched.
 
 \item
 In order to optimize the performance,
@@ -135,7 +135,7 @@ Only when the effect of {\scshape{Warm}} is broken  by system activities, such a
 \item
 % 将warm放到delay的时间中
 When {\scshape{Delay}} is performed,
-  {\scshape{Warm}} is  done as a part of inserted instructions
+  {\scshape{Warm}} is  done as a part of inserted padding instructions
    for the next encryption.
 So, the cost of {\scshape{Warm}} is masked by padding instructions,
 and the performance is further improved.
@@ -156,7 +156,7 @@ and it is applicable to different implementations.
 %  except that the lookup tables are accessible in the warm operations.
 
 We apply the integrated {\scshape{Warm+Delay}} scheme to protect AES,
-    and analyze the conditions that it produces the optimal performance.
+    and analyze the conditions that produce the optimal performance.
 It is proven that,
    the integrated scheme with appropriate parameters,
    achieves \emph{the optimal performance with the least extra operations};
@@ -169,9 +169,9 @@ The optimal performance of the integrated {\scshape{Warm+Delay}} scheme with dif
     is investigated in commodity computers.
 For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
-when the ratio of
+\textcolor[rgb]{1.00,0.50,0.50}{when the ratio of
   the extra execution time caused by {\scshape{Delay}} to the extra execution time caused by {\scshape{Warm}},
-  denoted as $G$, is less than $167.7$.
+  denoted as $G$, is less than $167.7$.}
 These conditions hold %for continuous AES executions
  in commodity computers,
   which is confirmed by our experiments.
@@ -188,17 +188,17 @@ Our contributions are as follows:
 We investigate the overheads of {\scshape{Warm}} and {\scshape{Delay}},
     and derive the scheme to integrate these countermeasures
         with the optimal performance while effectively eliminate remote cache side channels.
-These countermeasures are algorithm-independent and implementation-transparent,
-   and do not require any privileged operation. % on the computer system.
-We apply the integration scheme to AES,
-   and analyze the detailed situations that it produces the optimal performance.
+%These countermeasures are algorithm-independent and implementation-transparent,
+%   and do not require any privileged operation. % on the computer system.
+%We apply the integration scheme to AES,
+%   and analyze the detailed situations that it produces the optimal performance.
 
 \item
-We implement the optimal {\scshape{Warm+Delay}} integration scheme on Linux with Intel Core CPUs for AES-128,
+We implement the optimal integration scheme on Linux with Intel CPUs for AES-128,
   and experimentally confirm that it (\emph{a}) eliminates cache timing side channels,
    (\emph{b}) outperforms other different integration strategies, % of {\scshape{Warm}} and {\scshape{Delay}},
     and
-   (\emph{c}) works without privileged operations on the system.
+   (\emph{c}) works without any privileged operation on the system.
 
 
 
