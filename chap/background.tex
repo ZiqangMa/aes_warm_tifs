@@ -21,7 +21,7 @@ The transformations except \texttt{AddRoundKey},
 % and a 256-byte lookup table $T_{4}$ in the last round.
 and \texttt{AddRoundKey} consists of bitwise-XOR on the state.
 
-The straightforward AES implementation needs four 1KB tables in all rounds, $T_{0}, T_{1}, T_{2}$ and $T_{3}$, 
+The straightforward AES implementation needs four 1KB tables in all rounds, $T_{0}, T_{1}, T_{2}$ and $T_{3}$,
  where $S(x)$ is the result of an AES S-box lookup for the input $x$.
 %\setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}
@@ -141,7 +141,7 @@ Cache timing side-channel attacks %on block cipher implementations
 Typically, it takes 3 to 4 cycles for a read operation in L1D caches,
  while an operation in RAM takes tens or hundreds of cycles \cite{drepper2007every}.
 
-%  Based on the ability of the attacker, 
+%  Based on the ability of the attacker,
 Cache side-channel attacks on cryptographic engines
     are roughly divided into three categories: trace-driven, time-driven and access-driven attacks.
 The trace-driven attackers %access the hardware directly to
@@ -213,7 +213,7 @@ It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 
 \subsubsection{Access-driven Cache Side Channel}
  When the caches are shared by attackers and the victim,
-  the attacker could actively control the cache states and monitor the cache accesses by the victim process.
+  the attacker could actively control the cache states and monitor the cache access by the victim process.
 Then, the keys are derived from the access patterns.%, which is called access-driven attack.
 %Attackers and victims may share either the L1 cache or last-level cache (LLC).
 %Typical access-driven cache attacks include Evict+time~\cite{Osvik2006Cache,Tromer2010Efficient}, Prime+Probe~\cite{liu2015last,Tromer2010Efficient} and Flush+Reload~\cite{flushreload}.
@@ -365,7 +365,7 @@ The straightforward method
         exploiting the no-fill cache mode~\cite{Osvik2006Cache,Taha2014Cache}
         or loading lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}.
 But all of them result in very low performance. %and effect other processes running concurrently.
-%Meanwhile, several implementations without lookup tables are proposed. 
+%Meanwhile, several implementations without lookup tables are proposed.
 Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES without lookup tables,
     effectively defend against the cache timing attacks.
 However, they are specific to AES,
@@ -384,17 +384,34 @@ Loading all lookup tables into caches before encryption \cite{Osvik2006Cache,Pag
     but not completely.
 There are still time differences exploitable to disclose the keys.
 
-\noindent\textbf{Confusing the cache accesses.}
-Adding delay is a common way to make the attacker obtain the confusing time information. The delay can be added in several ways such as adding random delay~\cite{Osvik2006Cache,Page2003Defending}, and adding dynamic delay to make the encryption time constant~\cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive} at software level and OS level~\cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical}.
-   Using instruction-based scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} to replace the original time-based scheduling is another way to confuse the cache accesses.
-    These methods are algorithm-independent and can effectively defend against the cache side channel attacks. But the major drawback of these methods is that they incur large performance overhead.
+\noindent\textbf{Confusing the cache access.}
+Delay (or inserting padding instructions) after encryption confuses the cache access leaked through the execution time.
+Random delay \cite{Osvik2006Cache,Page2003Defending}
+    or dynamic delay for the constant time of encryption \cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}, at the user-space or system level \cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical},
+    were designed.
+Instruction-based task scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} 
+    also confuses the cache access.
+The above methods are algorithm-independent and effectively defend against the timing side-channel attacks,
+    but result in a large performance overhead.
 
 %A fixed number Of CPU cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round.
-In paper \cite{Page2003Defending}, the author suggests to add some dummy instructions or access some extra arrays to confuse the encryption time. Rescheduling the instructions to confuse the cache misses is carried out at both software level~\cite{jayasinghe2012constant,Page2003Defending} and OS level~\cite{Crane2015Thwarting}. The masking technique can be used to the cache attack-resistant algorithm implementations~\cite{Bl2005Provably,Osvik2006Cache}. In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache (RPC) confuse the cache misses to the attacker. The combination of blinding and delay is used in paper \cite{K2009A} to reach the goal of confusion. These methods need modifications to the existing implementations making them suffer from the performance problem while have limited practical usage.
+\cite{Page2003Defending} suggests to access extra data arrays, % to confuse the cache access.
+ while the permutation of lookup tables and caches is proposed in \cite{Mer2007Analysis}.
+Rescheduling the instructions achieves the same goal,
+    and is enforced at different levels \cite{jayasinghe2012constant,Page2003Defending, Crane2015Thwarting}.
+\textcolor[rgb]{1.00,0.00,0.00}{The masking technique can be used to the cache attack-resistant algorithm implementations \cite{Bl2005Provably,Osvik2006Cache}.}
+%In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache (RPC) confuse the cache misses to the attacker.
+The combination of blinding and delay is designed \cite{K2009A} to finish the cache access confused to the timing side channels.
+These designs are not implementation-transparent,
+    and also suffer from the performance problem to some extent.
+ %making them suffer from the performance problem while have limited practical usage.
 
-Another method to confuse the attacker's observations is modifying the precision of the time measured
- by the attacker \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending}.
-But it is useless in the remote environment because the attacker can use its own timer.
+Breaking the precision of timing
+    confuses a local attacker's observations \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending},
+    but it does not work against a remote attacker with its own timer.
+
+++++
+
 
 \noindent\textbf{Limiting Cache Sharing.} %Cache∂¿’º π”√
 Another way to eliminate cache attacks is cache partition. Cache coloring is an explicit method to partition the cache at OS level~\cite{Cock2014The}. STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines. A hardware-based mechanism presented in~\cite{Dan2005Partitioned}, allows caches to be configured dynamically to match the need of a process.
