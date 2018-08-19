@@ -402,7 +402,7 @@ Rescheduling the instructions achieves the same goal,
 \textcolor[rgb]{1.00,0.00,0.00}{The masking technique can be used to the cache attack-resistant algorithm implementations \cite{Bl2005Provably,Osvik2006Cache}.}
 %In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache (RPC) confuse the cache misses to the attacker.
 The combination of blinding and delay is designed \cite{K2009A} to finish the cache access confused to the timing side channels.
-These designs are not implementation-transparent,
+These algorithm-dependent designs are not implementation-transparent,
     and also suffer from the performance problem to some extent.
  %making them suffer from the performance problem while have limited practical usage.
 
@@ -410,10 +410,10 @@ Breaking the precision of timing
     confuses a local attacker's observations \cite{Li2013Mitigating,Martin2012TimeWarp,Page2003Defending},
     but it does not work against a remote attacker with its own timer.
 
-\noindent\textbf{Limiting the Cache Sharing.} %Cache独占使用
+\noindent\textbf{Limiting the cache sharing.} %Cache独占使用
 Cache partition prevents the interference 
      of active cache side-channel attackers.
-Cache coloring partitions the caches at the OS level~\cite{Cock2014The}.
+Cache coloring partitions the caches at the operating system (OS) level~\cite{Cock2014The}.
 STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines.
 Partition-locked caches are designed \cite{Kong2009Hardware,Wang2007New} to prevent the cache interference.
 %Following performance improvements of partitioned caches
@@ -425,16 +425,20 @@ Although they defend against the cache attacks,
     the usage of caches is significantly degraded 
     and then such designs are rarely deployed on commodity systems.
 
-++++
-
-
 \noindent\textbf{Integrated methods.}
 Different methods are integrated to defend against the cache timing attacks.
-The scheme proposed in \cite{Brickell2006Software} consists of three parts: using compact tables, frequently randomizing tables, and pre-loading of relevant cache-lines. It makes cache misses occur as little as possible while makes the observations secret-independent. But the drawback is the performance overload as all three parts would introduce some extra overhead.
+The scheme \cite{Brickell2006Software} integrates compact lookup tables, table permutation (or randomization),
+    and cache line preloading,
+    so that cache misses occur as little as possible
+    while the relationship between the secret keys and the cache misses/hits is secret-independent.
+Dynamic instruction padding, isolated cache resources,
+    and lazily-cleaned cache states are integrated against cache side-channel attacks \cite{Braun2015Robust}.
+These schemes are not implementation-transparent, or require special system privileges.
 
-Another scheme is held in \cite{Braun2015Robust}, which employs dynamic padding, isolating shared resources and lazily cleansing state to form a robust defense. It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
+%It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
 
-The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.
+\textcolor[rgb]{1.00,0.00,0.00}{The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.}
+
 
 %\subsection{Notations}
 %The meaning of the symbols used in the following is list in Table~\ref{notation}.
@@ -452,8 +456,8 @@ $T_{nm}$ & the encryption execution time when no cache miss occurs\\
 \hline
 $T_{mm}$ & the maximum encryption execution time when all lookup tables are out of caches, i.e. the maximum number of cache misses occur. \\        % 定义需要再准确一些！
 \hline
-$t1, t2$ & the time that encryption execution begins and ends respectively\\
-\hline
+%$t1, t2$ & the time that encryption execution begins and ends respectively\\
+%\hline
 %$t2$ & the time that AES ends\\
 %\hline
 %$C$ & cache line size\\

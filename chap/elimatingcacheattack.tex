@@ -28,7 +28,8 @@ The remote attackers know the software/hardware configurations of the target sys
 The attackers are able to
   invoke the encryption function arbitrarily -- they could continuously invoke the function so that
         all lookup tables are cached, or stop using the function for a long time so that
-           all tables are highly likely to be evicted from caches. They are also able to  measure the overall execution time for each execution of the block cipher.
+           all tables are highly likely to be evicted from caches.
+They are able to  measure the overall execution time for each execution of the block cipher.
 
 The cache timing side-channels by active attackers are out of the scope of this paper.
 That is,
@@ -39,17 +40,17 @@ The attackers do not have physical access to the hardware, either.
 
 \subsection{Objective}
 \label{sec:goal}
-This work aims to provide an in-depth investigation of the \emph{performance} of integrating {\scshape{Warm}} and {\scshape{Delay}} to defend against the remote cache timing side-channel attacks.
+This work aims to provide an in-depth investigation of the \emph{performance} of integrating {\scshape{Warm}} and {\scshape{Delay}} against the remote cache timing side-channel attacks.
 % launched by unprivileged attackers, as we presented in the threat model.
 As the baseline, the defense shall satisfy the following conditions:
 
 \begin{itemize}
-  \item The solution is algorithm-independent.
-  It is generally applicable to various block ciphers and implementations that use lookup tables (so that they are vulnerable to cache timing side-channel attacks).
-  \item The solution is transparent to implementations that it does not require modification to the source code of the encryption functions.
-  \item The solution requires no privileged operations.
+  \item \emph{Algorithm-independent.}
+  It is generally applicable to block ciphers implemented with lookup tables (so that they are vulnerable to cache timing attacks).
+  \item \emph{Implementation-transparent.} It does not require modification to the source code of the encryption functions.
+  \item \emph{Unprivileged.} It requires no privileged operations.
   It works well in user space or kernel space,
-     to protect the block ciphers running in user mode and kernel mode, respectively.
+     to protect the computations in user mode and kernel mode.
 \end{itemize}
 
 More importantly, the objectives of our research are elaborated as follows:
@@ -59,7 +60,8 @@ More importantly, the objectives of our research are elaborated as follows:
    quantitative model to formally analyze the performance of block cipher implementations that integrate {\scshape{Warm}} and {\scshape{Delay}} to defend against the cache timing side-channel attacks.
   \item Follow the model, we examine the strategies of integrating {\scshape{Warm}} and {\scshape{Delay}}, and present the theoretical boundaries for the optimal performance while ensuring security.
 %So we focus on the situation where large amounts of data are encrypted and then the speed of encryption matters.
-  \item In our strategy, the parameters are configurable. Therefore, by configuring appropriate parameters, the optimal performance
+  \item In the optimal strategy,
+   the parameters are configurable. By configuring appropriate parameters, the optimal performance
    is achieved  for different block-cipher implementations and computing platforms.
 \end{itemize}
 
@@ -96,10 +98,10 @@ More importantly, the objectives of our research are elaborated as follows:
 There are two basic common countermeasures against remote cache timing side channels~\cite{Osvik2006Cache,Gullasch2011Cache,Bernstein2005Cache,Canteaut2006Understanding}:
     \emph{a}) {\scshape{Warm}}, load the lookup tables into caches \emph{before} encryption;
   and \emph{b}) {\scshape{Delay}},     insert padding instructions \emph{after} encryption.
-These mechanisms work complementarily and each has its own advantages:
-    {\scshape{Warm}} improves the performance, but it cannot completely ensure security by itself
+They work complementarily and each has its own advantages:
+    {\scshape{Warm}} improves the performance, but cannot completely ensure security by itself
         because the effect may be broken by system activities;
-    {\scshape{Delay}} completely eliminates the timing side channels, but the performance is significantly degraded.
+    {\scshape{Delay}} completely eliminates the timing side channels, but significantly degrade the performance.
 %So we integrate their advantages to form the defense scheme.
 
 %
@@ -117,7 +119,7 @@ These mechanisms work complementarily and each has its own advantages:
 
 A naive integration scheme is to perform both {\scshape{Warm}} and {\scshape{Delay}} operation every time the protected encryption
   function is invoked.
- But it introduces too many unnecessary extra operations and the performance is seriously degraded, although the security is ensured.
+It introduces too many unnecessary extra operations and the performance is seriously degraded, although the security is ensured.
 In order to achieve the optimal performance,
  we perform {\scshape{Delay}} as the last line of defense,
     only when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
@@ -130,7 +132,8 @@ As the scheme does not involve privileged operations,
 Next,
   when we consider that the cryptographic function is invoked continuously for large amounts of data,
  the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the last encryption.
-We could evict all tables from caches before {\scshape{Warm}} to eliminate the variation, but it brings another extra overhead.
+We could evict all tables from caches before {\scshape{Warm}} to eliminate this variation,
+but it brings another extra overhead.
 Fortunately,
     we find that,
      the conditions to perform {\scshape{Warm}} and {\scshape{Delay}} are related.
@@ -143,12 +146,13 @@ So,
    if it is needed.
    This design further improves the performance, and the variation of {\scshape{Warm}} is also masked.
 
++++++++++++++
 
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 %For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 %In this algorithm,
 There are two parameters, $T_{nm}$ and $T_{mm}$.
-$T_{nm}$ is the time period for one encryption execution,
+$T_{nm}$ is the time period for one encryption,
   in the case that no cache misses occur during the execution, i.e. all lookup tables are in caches.
 $T_{mm}$ is defined as the worst execution time for one encryption,
   in the case that none of table entries is cached before the execution and cache misses occur at most.
