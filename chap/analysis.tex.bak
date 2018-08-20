@@ -402,7 +402,7 @@ The state of the lookup table is estimated after each execution of AES encryptio
 The transition among the three states is triggered by three events:
 \begin{enumerate}
   \item
-    {\scshape{Warm}}: Performing {\vwarm} to load all lookup table entries into caches, and the probability is $P_{w}$.
+    {\scshape{Warm}}: Performing {\vwarm} to load all table entries into caches, and the probability is $P_{w}$.
   \item
     {\scshape{Eviction}}: The entries of lookup tables may be evicted from caches when task scheduling, interrupts or any other system activities occur during the execution of encryption. The probability that such an event occurs is denoted as $P_{e}$.
   \item

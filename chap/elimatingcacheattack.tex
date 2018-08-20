@@ -256,14 +256,12 @@ Note that,
 %\end{table}
 
 
-+++++++++++++
-
 \subsection{Security Analysis}
 The timing side channels result from the relation between the measured execution time and the data processed;
    that is, different data processed (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
    resulting in different measured time as some table entries are in caches and others are not.
 We ensure that the measured time does not leak any exploitable information about the status of lookup tables in caches,
-   and then destroy the  relationship between the execution time and data processed during encryption.
+   and then destroy the  relationship between the execution time and the data processed in encryption.
 %In our scheme we put the cache warm operation after the encryption/decryption, So the time costs by the cache warm can be hidden.
 %这句话是想说，将warm放在加密之后，可以将warm的时间隐藏在delay中间。
 %So the attackers can gain the cache warm time. The warm time is related to the previous execution, so the attackers can infer the cache access information from it. So the cache warm operation should be after the encryption/decryption.% 这句是说如果warm放在了开始，那么如果前一次AES进行了delay 的操作，需要进行warm，如果warm在这次AES 之前做，那么攻击者就能够获取到warm的时间，从而根据warm的时间推断上一次AES执行时对cache的访问情况，因为warm的时间长短就体现了访问查找表的内容。因此如果需要warm，必须在AES计算之后进行。
@@ -276,7 +274,7 @@ We ensure that the measured time does not leak any exploitable information about
 
 The execution time of {\scshape{Encrypt}}
 falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{mm})$ and $[T_{mm}, \infty )$.
-According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, respectively.
+We make the following treatments according to Algorithm~\ref{alg:aesdefense}:
 
 \begin{itemize}
   \item \textbf{Case 1}: The execution time of {\scshape{Encrypt}} is in $(0, T_{nm}]$.
@@ -285,14 +283,14 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
     the access time for any entry is constant,
      resulting in a fixed execution time. {\scshape{Delay}} is not performed in this case.
   \item \textbf{Case 2}: The execution time is in $(T_{nm}, T_{mm})$. It will be delayed to $T_{mm}$,
-    which is the execution time as all accessed lookup tables are uncached before encryption.
+    the execution time as all accessed table entries are uncached before encryption.
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of {\scshape{Encrypt}} is in $[T_{mm}, \infty )$.
+  \item \textbf{Case 3}: The execution time of is in $[T_{mm}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
-     the running states including the system activities,
+     the running states
        are random and unknown to the remote attackers,
         so the execution time is unexploitable.
        In this case, {\scshape{Delay}} is not performed, either.
@@ -314,8 +312,8 @@ When the measured time is in $(0, T_{nm}]$,
     it is almost a fixed value.
 When the time is greater than $T_{mm}$,
     it is caused by random system activities and/or the {\scshape{Delay}} operations
-    which destroy the relationship between the time and data processed.
-Although the execution time of {\scshape{Warm}} may leak the cache states after encryption,
+    which destroy the relationship between the time and the data processed.
+Although the execution time of {\scshape{Warm}} may leak the cache states after last encryption,
     it is only a part of the measured time and masked by the system activities or {\scshape{Delay}} operations.
 %{\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
 %    when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
@@ -370,13 +368,13 @@ we further explain that the integration scheme successfully prevent typical remo
 %From the analysis all above, it can be concluded that our defense scheme combining the cache warm and delay methods guarantees the security of the AES execution against the cache timing attacks.
 %
 For Bernstein's attack \cite{Bernstein2005Cache},
-    although the attacker can obtain
+    although the attacker obtains
         the maximum AES execution time for each $p_i \oplus k_i$ on the duplicated server,
     the measured time of the victim server
-        reflects only the system activities of the victim server.
+        reflects only system activities of the victim server.
 Because random and unknown system activities are involved in the measured AES execution time,
     the maximum time is not determined by the lookup table index;
-        that is, it cannot be inferred that $k_i^{'} \oplus  p_i^{'} = p_i \oplus k_i$.
+        that is, it does not hold that $k_i^{'} \oplus  p_i^{'} = p_i \oplus k_i$.
 
 
 To launch  an internal collision attack \cite{Bonneau2006Cache,Ac2007Cache},
@@ -385,10 +383,10 @@ To launch  an internal collision attack \cite{Bonneau2006Cache,Ac2007Cache},
   exploit the high 4 bits of $p_{i+4j} \oplus p_{i+4j'}$ to disclose the high 4 bits of $k_{i+4j}    \oplus    k_{i+4j'}$.
 When protected by the {\scshape{Warm+Delay}} scheme,
  the execution time measured by attackers is irrelative to the inputs of the lookup table
-  and the time variation is caused by the random and unknown system activities.
+  and the time variation is caused by random and unknown system activities.
    So the least time does not mean an internal  collision,
     that is, $p_i \oplus  k_i = p_j \oplus k_j$ does not hold.
-Therefore the attackers cannot extract useful information about the keys.
+Therefore, the attackers cannot extract useful information about the keys.
 
 
 
