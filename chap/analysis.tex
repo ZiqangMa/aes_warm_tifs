@@ -118,8 +118,6 @@ That is, the derived {\scshape{Warm+Delay}} scheme achieves the optimal performa
 %然后对warm 和delay 分别进行详细证明。
 %\end{CJK}
 
-+++++++++++++
-
 \subsection{The Optimal Conditions for {\vdelay}}
 \label{delayanalysis}
 %\vspace{-2mm}
@@ -154,7 +152,7 @@ Meanwhile, if we delay it to a random/pseudorandom value, which may be greater o
     the attackers could exclude all results greater than $T_{mm}$
       and the other results are still exploitable.
 Such methods reduce the attack accuracy,
-  but do not eliminate the cache timing side channels completely.
+  but do not eliminate the timing side channels completely.
 Therefore, delaying to $T_{mm}$ imposes the minimal overhead
    while effectively eliminates the cache timing side channels.
 %\qed
@@ -172,10 +170,10 @@ Therefore, delaying to $T_{mm}$ imposes the minimal overhead
 
 \begin{proof}
 As described above,
- if the execution time of encryption is equal to or less than $T_{nm}$, no cache miss occurs,
+ if the encryption execution time is equal to or less than $T_{nm}$, no cache miss occurs,
   and
-if the execution time is equal to $T_{mm}$ or greater, it is unexploitable.
-The execution time is independent of keys and plaintexts/ciphertexts in these cases,
+if the time is equal to $T_{mm}$ or greater, it is unexploitable.
+In these cases, the execution time is independent of keys and plaintexts/ciphertexts,
   so {\vdelay} is unnecessary.
 
 
@@ -183,14 +181,15 @@ The execution time is independent of keys and plaintexts/ciphertexts in these ca
 % it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
 
 When the execution time is in $(T_{nm}, T_{mm})$,
- it may result from cache misses due to the access of the uncached lookup table or system activities (but the overhead is less than $T_{mm} - T_{nm}$).
+ it may result from cache misses due to the access of the uncached table entries or system activities (but the overhead is less than $T_{mm} - T_{nm}$).
 We cannot distinguish the exact reasons without special privileges.
 However, the attackers may eliminate the effect of system activities by repeatedly invoking the encryption function using the same input.
  Therefore, {\vdelay} is necessary in this case.
 %\qed
 \end{proof}
 
-It is easy to verify that, in our {\vwd}  scheme, the {\vdelay} operation satisfies Theorems~\ref{delay2tw} and \ref{delaynum}.
+It is easy to verify that, in the scheme in Algorithm~\ref{alg:aesdefense},
+ the {\vdelay} operation satisfies Theorems~\ref{delay2tw} and \ref{delaynum}.
 % So the use of {\vdelay} can achieve the optimal performance in the {\vwd}  scheme.
 
 
@@ -214,7 +213,9 @@ We show that, %in this case,
 %\noindent\textbf{1. The Amount of Data To Be Loaded in {\vwarm} Operation.}
 
 
-\subsubsection{The Amount of Data to Be Loaded in {\vwarm}}
++++++++++++++
+
+\subsubsection{The Amount of Data Loaded in {\vwarm}}
 A {\vwarm} operation loads the lookup table into caches.
  It takes less time if only a part of the table is loaded,
   but it may introduce extra {\vdelay} operations if the unloaded part is accessed.
