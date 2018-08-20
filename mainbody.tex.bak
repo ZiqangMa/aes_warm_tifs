@@ -77,7 +77,7 @@ Eliminate Remote Cache Timing Side Channels} % with Optimal Performance}
         Jiwu~Jing~\IEEEmembership{Member,~IEEE}% <-this % stops a space
 \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Ziqiang Ma, Quanwei Cai, Jingqiang Lin, Jiwu Jing are with Data Assurance and Communications Security Research Center,
   and also State Key Laboratory of Information Security, Institute of Information Engineering, Chinese Academy of Sciences,
-  Beijing 100093, CHINA.\protect\\
+  Beijing 100093, CHINA.
 E-mail: \{maziqiang, caiquanwei, linjingqiang, jingjiwu\}@iie.ac.cn.
 \IEEEcompsocthanksitem Bo Luo is with Department of Electrical Engineering and Computer Science, the University of Kansas,
     KS 66045, USA.\protect\\
@@ -178,7 +178,7 @@ AES, cache side channel, block cipher, performance, timing side channel.
 \fi
 Ziqiang Ma, Quanwei Cai, Jingqiang Lin, and Jiwu Jing were partially supported
      by National Natural Science Foundation of China (No. 61772518)
-      and National Basic Research Program of China (973 Program No. 2013CB338001).
+      and xxxxxxxxxxxxxx.
 Bo Luo was partially supported by ...
 
 

@@ -147,7 +147,7 @@ Cache side-channel attacks on cryptographic engines
 The trace-driven attackers %access the hardware directly to
      probe the variation of electromagnetic fields or power,
        to capture the profile of cache activities and deduce cache hits and misses
-  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}.
+  \cite{Daemen2002The,Ac2006Trace}.  % Lauradoux2005Collision,
 In time-driven attacks,
      the adversary passively measures the execution time  to disclose the secret keys.
 In these two categories of attacks,
@@ -363,7 +363,7 @@ The straightforward method
  is to perform encryption without caches,
     by disabling caches~\cite{Page2003Defending},
         exploiting the no-fill cache mode~\cite{Osvik2006Cache,Taha2014Cache}
-        or loading lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}.
+        or loading lookup tables into registers~\cite{Osvik2006Cache}.  % jayasinghe2010remote,
 But all of them result in very low performance. %and effect other processes running concurrently.
 %Meanwhile, several implementations without lookup tables are proposed.
 Bitsliced implementations~\cite{kasper2009faster,K2008A,Osvik2006Cache} of AES without lookup tables,
@@ -388,17 +388,17 @@ There are still time differences exploitable to disclose the keys.
 Delay (or inserting padding instructions) after encryption confuses the cache access leaked through the execution time.
 Random delay \cite{Osvik2006Cache,Page2003Defending}
     or dynamic delay for the constant time of encryption \cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}, at the user-space or system level \cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical},
-    were designed.
+    were proposed.
 Instruction-based task scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} 
     also confuses the cache access.
-The above methods are algorithm-independent and effectively defend against the timing side-channel attacks,
+These methods are algorithm-independent and effectively defend against the timing side-channel attacks,
     but result in a large performance overhead.
 
 %A fixed number Of CPU cycles AES implementation~\cite{herath2013software} is proposed by adding dynamic delay to each round.
 \cite{Page2003Defending} suggests to access extra data arrays, % to confuse the cache access.
  while the permutation of lookup tables and caches is proposed in \cite{Mer2007Analysis}.
 Rescheduling the instructions achieves the same goal,
-    and is enforced at different levels \cite{jayasinghe2012constant,Page2003Defending, Crane2015Thwarting}.
+    and is enforced at different levels \cite{Page2003Defending, Crane2015Thwarting}. % jayasinghe2012constant,
 \textcolor[rgb]{1.00,0.00,0.00}{The masking technique can be used to the cache attack-resistant algorithm implementations \cite{Bl2005Provably,Osvik2006Cache}.}
 %In addition, a modified random permutation table method raised in paper~\cite{Mer2007Analysis}, and a new cache design called random permutation cache (RPC) confuse the cache misses to the attacker.
 The combination of blinding and delay is designed \cite{K2009A} to finish the cache access confused to the timing side channels.
@@ -437,7 +437,7 @@ These schemes are not implementation-transparent, or require special system priv
 
 %It considers the performance problem and decreases the reduction of performance through careful design. But the scheme needs some privileges to modify the OS kernel.
 
-\textcolor[rgb]{1.00,0.00,0.00}{The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.}
+%\textcolor[rgb]{1.00,0.00,0.00}{The PRET hardware architecture~\cite{lickly2008predictable,liu2009elimination} replaces caches with scratchpad memories. Also in this architecture, it will delay the encryption to the worst case execution time.}
 
 
 %\subsection{Notations}
@@ -452,9 +452,10 @@ These schemes are not implementation-transparent, or require special system priv
 \hline\hline
 \bfseries Symbol & \multicolumn{1}{c}{\bfseries Notation} \\
 \hline
-$T_{nm}$ & The encryption execution time when no cache miss occurs.\\
+$T_{nm}$ & The encryption execution time when \underline{n}o cache \underline{m}iss occurs.\\
 \hline
-$T_{mm}$ & The encryption execution time with the maximum of cache misses. \\ %all lookup table entries are out of caches.\\        % 定义需要再准确一些！
+$T_{mm}$ & The encryption execution time with the \underline{m}aximum of cache \underline{m}isses. \\
+%all lookup table entries are out of caches.\\        % 定义需要再准确一些！
 \hline
 %$t1, t2$ & the time that encryption execution begins and ends respectively\\
 %\hline
@@ -466,18 +467,18 @@ $T_{mm}$ & The encryption execution time with the maximum of cache misses. \\ %a
 %\hline
 %$L$ & the size of lookup tables\\
 %\hline
-$T_{cl}$ & The time cost to load a cache line of data from RAM to L1D caches.\\
+$T_{cl}$ & The time cost to load a \underline{c}ache \underline{l}ine of data from RAM to L1D caches.\\
 \hline
-$B_{nl}(N)$ & the benefit of not loading data into $N$ cache lines in the {\scshape{Warm}} operation\\
+$B_{nl}(N)$ & The benefit of \underline{n}ot \underline{l}oading data into $N$ cache lines in a {\scshape{Warm}} operation.\\
 \hline
-$D_{nl}(N)$ & the expected overhead (or the time cost) due to not loading $N$ cache lines of lookup tables\\
+$D_{nl}(N)$ & The expected overhead (or padding by {\scshape{Delay}}) due to \underline{n}ot \underline{l}oading $N$ cache lines in a {\scshape{Warm}} operation.\\
 \hline
-$P_{\bar{a}}(N)$ & the probability that $N$ certain cache lines are not accessed after $R$ rounds of AES encryption\\
+$P_{\bar{a}}(N)$ & The probability that $N$ certain cache lines are \underline{not} \underline{a}ccessed after $R$ rounds of AES encryption.\\
 \hline
-$P_{d}$ & the probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
+$P_{d}$ & The probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
 \hline
-$X_n$ & the state of the lookup table in the caches \\
-\hline
+%$X_n$ & the state of the lookup table in the caches \\
+%\hline
      $S_{c}$&  the state that all entries of the lookup tables are in caches\\
 \hline
      $S_{\bar{c}, a}$& the state that some entries are uncached, and at least one of them is accessed during the AES encryption\\
@@ -490,8 +491,8 @@ $P_{w}$ & the probability of performing {\scshape{Warm}} operation\\
 \hline
 $P_{a}$ & the probability that some uncached entries are accessed during the AES execution\\
 \hline
-$P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
-\hline
+%$P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
+%\hline
 $P_{a|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
 \hline
 $P_{a|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
