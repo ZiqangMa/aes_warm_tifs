@@ -27,8 +27,8 @@ The remote attackers know the software/hardware configurations of the target sys
  the cache hierarchy, etc. However, the running states of the system are unknown to the attackers, due to non-deterministic interrupts, task scheduling and other system activities.
 The attackers are able to
   invoke the encryption function arbitrarily -- they could continuously invoke the function so that
-        all lookup tables are cached, or stop using the function for a long time so that
-           all tables are highly likely to be evicted from caches.
+        all lookup table entries are cached, or stop using the function for a long time so that
+           all entries are highly likely to be evicted from caches.
 They are able to  measure the overall execution time for each execution of the block cipher.
 
 The cache timing side-channels by active attackers are out of the scope of this paper.
@@ -123,14 +123,13 @@ It introduces too many unnecessary extra operations and the performance is serio
 In order to achieve the optimal performance,
  we perform {\scshape{Delay}} as the last line of defense,
     only when the effect of {\scshape{Warm}} is broken and the execution time may leak information on the secret key
-         i.e., is not equal to the expected execution time with all tables cached (detailed in Section~\ref{delayanalysis});
+         i.e., is not equal to the expected execution time with all table entries cached (detailed in Section~\ref{delayanalysis});
 similarly,
      {\scshape{Warm}} is performed only when some entries are not in caches (detailed in Section~\ref{warmanalysis}).
 As the scheme does not involve privileged operations,
     the conditions of {\scshape{Warm}} and {\scshape{Delay}} are defined as regular timing.
 
-Next,
-  when we consider that the cryptographic function is invoked continuously for large amounts of data,
+When we consider that the cryptographic function is invoked continuously for large amounts of data,
  the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the last encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate this variation,
 but it brings another extra overhead.
@@ -138,7 +137,7 @@ Fortunately,
     we find that,
      the conditions to perform {\scshape{Warm}} and {\scshape{Delay}} are related.
 That is,
-    when the execution time is greater than the expected time with all tables cached (i.e.,
+    when the execution time is greater than the expected time with all table entries cached (i.e.,
     the execution time when no cache miss occurs),
         {\scshape{Delay}} is necessary to mitigate the risk and {\scshape{Warm}} is also necessary for the next encryption because some table entry is probably  uncached.
 So,
@@ -146,16 +145,17 @@ So,
    if it is needed.
    This design further improves the performance, and the variation of {\scshape{Warm}} is also masked.
 
-+++++++++++++
-
 The {\scshape{Warm+Delay}} scheme is described  in Algorithm~\ref{alg:aesdefense}.
 %For easy identification, in the following we use {\scshape{Crypt}}, {\scshape{Delay}} and {\scshape{Warm}} to denote the encryption function, delay operation and warm operation, respectively.
 %In this algorithm,
 There are two parameters, $T_{nm}$ and $T_{mm}$.
-$T_{nm}$ is the time period for one encryption,
-  in the case that no cache misses occur during the execution, i.e. all lookup tables are in caches.
-$T_{mm}$ is defined as the worst execution time for one encryption,
-  in the case that none of table entries is cached before the execution and cache misses occur at most.
+$T_{nm}$ is the time period for one encryption operation,
+  in the case that \underline{n}o cache \underline{m}isses occur during the execution, or all table entries are in caches.
+$T_{mm}$ is defined as the time period
+    with the \underline{m}aximum of cache \underline{m}isses,
+    i.e.,
+        the worst execution time 
+  in the case that none of table entries is cached before the encryption.
 %These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
 Given an implementation of  block ciphers, $T_{nm}$ and $T_{mm}$
   are constant on a certain computing platform.
@@ -189,16 +189,16 @@ Given an implementation of  block ciphers, $T_{nm}$ and $T_{mm}$
 
 
 In addition to {\scshape{Encrypt}}, three operations
-  are introduced by this defense scheme:
+  are introduced in this scheme:
         \emph{a}) {\scshape{Warm}}, access lookup tables as constant data,
         \emph{b}) {\scshape{Delay}}, insert padding instructions,
-        and \emph{c}) {\scshape{GetTime}}, get the current time as the conditions of {\scshape{Warm}} and {\scshape{Delay}}.
-All these operations are algorithms-independent and implementation-transparent,
-        except that the memory address of lookup tables are needed in {\scshape{Warm}}.
+        and \emph{c}) {\scshape{GetTime}}, return the current time as the conditions of {\scshape{Warm}} and {\scshape{Delay}}.
+These operations are algorithms-independent and implementation-transparent,
+        except that the memory addresses of lookup tables are needed in {\scshape{Warm}}.
 All these operations are supported in commodity computer systems without special privileges,
  either in user mode or kernel mode.
 %The conditions of warm and delay are defined by timing.
-We do not query the status of any cache line to determine whether an entry of the lookup tables is in caches or not,
+We do not query the status of any cache line to determine whether a table entry is in caches or not,
        which are generally unavailable on common computing platforms.
 
 % 说明一下调用方法：如下[以algorithm的方式写出来]：
@@ -256,6 +256,8 @@ Note that,
 %\end{table}
 
 
++++++++++++++
+
 \subsection{Security Analysis}
 The timing side channels result from the relation between the measured execution time and the data processed;
    that is, different data processed (i.e., keys and plaintexts/ciphertexts)  determines the lookup table access,
@@ -278,7 +280,7 @@ According to Algorithm~\ref{alg:aesdefense}, we make the following treatments, r
 
 \begin{itemize}
   \item \textbf{Case 1}: The execution time of {\scshape{Encrypt}} is in $(0, T_{nm}]$.
-   It is almost a fixed value for arbitrary data processed, as all tables are cached and the measured time is $T_{nm}$.
+   It is almost a fixed value for arbitrary data processed, as all table entries are cached and the measured time is $T_{nm}$.
     When all table entries are in caches,
     the access time for any entry is constant,
      resulting in a fixed execution time. {\scshape{Delay}} is not performed in this case.

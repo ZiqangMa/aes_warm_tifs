@@ -16,7 +16,7 @@ We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K look
 As we attempt to optimize performance while eliminate remote cache timing side channels,
  efficient {\scshape{Warm}}, {\scshape{GetTime}},  and {\scshape{Delay}}
   are finished;
-and the constant parameters ($T_{NM}$ and $T_{W}$) are determined properly.
+and the constant parameters ($T_{nm}$ and $T_{mm}$) are determined properly.
  Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
 
 
@@ -29,7 +29,7 @@ In order to ensure these operations are not obsoleted
 
 %\vspace{1mm}\noindent\textbf{Time variations with cached data.}
 %As mentioned above, we use the AES-128 implementation of OpenSSL-1.0.2c.
-However, even when all lookup tables are in the L1D cache,
+However, even when all table entries are in the L1D cache,
   the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
 
 %There time variations result from the cache hierarchy of Intel CPUs.
@@ -55,7 +55,7 @@ So, multiple access operations to the same cache bank are slower than to differe
  we disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1D cache for the cache bank conflict.
 All the following experiments, Hyper-Threading is disabled.
 
-The other is read-write conflict that the load from L1 cache takes slightly more time if it involves the same set of cache lines as a recent store.
+The other is read-write conflict that the load from the L1D cache takes slightly more time if it involves the same set of cache lines as a recent store.
 \figurename~\ref{fig:fullwarmworst} shows the distribution of the AES execution time for $2^{30}$ random plaintexts when this conflict occurs.
 We avoid the read-write conflict by exploiting the stack switch technique~\cite{guan2014copker}. The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
 We declare a 2KB global array as the stack, with which we can easily control the address.
@@ -103,30 +103,45 @@ Finally,
 %\end{figure}
 
 
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{subf
+%igcase1}
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{sub
+%figcase2}
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+
 
 \begin{figure}[!t]
-%\centering
-%    \begin{minipage}[t]{\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
+%%\centering
+%    \begin{minipage}[t]{0.5\linewidth}%设定图片下字的宽度，在此基础尽量满足图片的长宽
 %    %\centering
-%    \includegraphics[width=\textwidth]{pic/fwopensslworst.pdf}
-%    \caption*{(a) the worst case}%加*可以去掉默认前缀，作为图片单独的说明
+%    \includegraphics[width=\textwidth]{pic/fwnormal.pdf}
+%    \caption{(a) in normal case}%加*可以去掉默认前缀，作为图片单独的说明
 %    \label{fig:fullwarmworst}
 %    \end{minipage}
-%    \begin{minipage}[t]{\linewidth}%需要几张添加即可，注意设定合适的linewidth
+%    \begin{minipage}[t]{0.5\linewidth}%需要几张添加即可，注意设定合适的linewidth
 %    %\centering
-%    \includegraphics[width=\textwidth]{pic/fwopensslbest.pdf}
-%    \caption*{(b) the best case}
+%    \includegraphics[width=\textwidth]{pic/fwbest.pdf}
+%    \caption{(b) the best case}
 %    \label{fig:fullwarmbest}
 %    \end{minipage}
-%    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition..}%n张图片共享的说明
+%    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
 \centering
-\subfloat[in normal case]{\includegraphics[width=2.8in]{pic/TWOCM_allwarm.pdf}
+\subfloat[in normal case]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
 \label{fig:fullwarmworst}}
-\vfil
-\subfloat[the best case]{\includegraphics[width=2.8in]{pic/fwopensslbest.pdf}
+\hfil
+\subfloat[the best case]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
 \label{fig:fullwarmbest}}
 \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
 \end{figure}
+
+
 
 %In our environment, for each of $2^{30}$ random plaintexts, we perform the encryption after loading  all the lookup tables into cache. Figure~\ref{fig:fullwarmese-diffinput} describes the distribution of encrypting time.
 
@@ -147,8 +162,8 @@ In the implementation, we need to perform the following operations to achieve th
 (1) as the TSCs on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
-Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation.
-so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{W}$,
+Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
+so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
    instead of every time after {\scshape{Warm}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
@@ -168,7 +183,7 @@ On the contrary,
 
 We measure the time for different loop numbers of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
 The relation between the time delayed ($T_d$) and the loop number of \verb+xor+ instruction ($n$) is calculated through the least squares method. The result is $t_{delay} = 2.9886n + 15.68$, and the coefficient of determination is 0.99996.
-The precision is 3 cycles, much smaller than the noise of remote environments, so it cannot be exploited.
+The precision is 3 cycles, much less than the noise of remote environments, so it cannot be exploited.
 Implementation of {\scshape{Delay()}} is provided in Listing 1.
 We do not use a table of $t_{delay}$ and $n$ with the purpose of reducing the use of caches in our scheme.
 
@@ -222,8 +237,8 @@ volatile int delay(uint64_t t_delay){
 \end{lstlisting}
 
 
-\vspace{1mm}\noindent\textbf{$\mathbf{T_{NM}}$.}
-$T_{NM}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{nm}}$.}
+$T_{nm}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
 and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
 In our environment it is $331$ cycles.
@@ -231,15 +246,31 @@ In our environment it is $331$ cycles.
    while all lookup tables except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
 We use the stack switch technique to eliminate the read-write conflict, at the same time it makes the AES execution time much more concentrated as shown in \figurename~\ref{fig:sim}.
- This helps the determination of $T_{NM}$ can be more accurate and reasonable.
-  Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{NM}$ that might occur.
-Finally, we choose 355 cycles as $T_{NM}$.
-This value is chosen to ensure that all tables are in L1 caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
+ This helps the determination of $T_{nm}$ can be more accurate and reasonable.
+  Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{nm}$ that might occur.
+Finally, we choose 355 cycles as $T_{nm}$.
+This value is chosen to ensure that all tables are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
 
-\vspace{1mm}\noindent\textbf{$\mathbf{T_{W}}$.}
-$T_{W}$ is the worst AES execution time and unrelated to the cache states.
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
+$T_{mm}$ is the maximum encryption execution time when all lookup tables are out of caches and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as   $T_{W}$.
- In this case $T_{W}$ is 2834 CPU cycles.
+In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as $T_{mm}$.
+ In this case $T_{mm}$ is 2834 CPU cycles.
+
+ Noted that we should consider the effect of the instruction caches.
+  The implementation of block ciphers is not subject
+   to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
+  because there is generally no branches in the execution path.
+However, the instructions of block ciphers
+  may be evicted from the caches due to system activities,
+   which causes instruction cache misses and increases the execution time.
+As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
+  we determine $T_{nm}$ when all instructions of encryption are cached
+and $T_{mm}$ as the execution time
+  when all instructions are not in instruction caches (and all lookup tables are not in data caches).
+Otherwise,
+ the measured time might leak some information about data cache access.
+
+
 

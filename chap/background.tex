@@ -378,7 +378,7 @@ It is available only on Intel CPUs,
 
 %There are also some methods using normal lookup tables that can avoid the cache misses such as utilizing the cache no-fill mode~\cite{Osvik2006Cache,Taha2014Cache} and loading the lookup tables into registers~\cite{jayasinghe2010remote,Osvik2006Cache}. But all their problems are the low performance and the effect to processes running simultaneously.
 
-Loading all lookup tables into caches before encryption \cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis},
+Loading lookup tables into caches before encryption \cite{Osvik2006Cache,Page2003Defending,Tsunoo2003Cryptanalysis},
     or using a compact table \cite{Gullasch2011Cache,Osvik2006Cache},
     eliminates cache misses remarkably,
     but not completely.
@@ -445,16 +445,16 @@ These schemes are not implementation-transparent, or require special system priv
 
 \begin{table}[!t]
 \renewcommand{\arraystretch}{1.3}
-\caption{symbols used in this paper}
+\caption{Symbols in the performance analysis}
 \label{notation}
 \centering
 \begin{tabular}{c|m{2.5in}}
 \hline\hline
 \bfseries Symbol & \multicolumn{1}{c}{\bfseries Notation} \\
 \hline
-$T_{nm}$ & the encryption execution time when no cache miss occurs\\
+$T_{nm}$ & The encryption execution time when no cache miss occurs.\\
 \hline
-$T_{mm}$ & the maximum encryption execution time when all lookup tables are out of caches, i.e. the maximum number of cache misses occur. \\        % 定义需要再准确一些！
+$T_{mm}$ & The encryption execution time with the maximum of cache misses. \\ %all lookup table entries are out of caches.\\        % 定义需要再准确一些！
 \hline
 %$t1, t2$ & the time that encryption execution begins and ends respectively\\
 %\hline
@@ -466,7 +466,7 @@ $T_{mm}$ & the maximum encryption execution time when all lookup tables are out 
 %\hline
 %$L$ & the size of lookup tables\\
 %\hline
-$T_{cl}$ & the time cost to load a cache line of data from RAM to L1D cache \\
+$T_{cl}$ & The time cost to load a cache line of data from RAM to L1D caches.\\
 \hline
 $B_{nl}(N)$ & the benefit of not loading data into $N$ cache lines in the {\scshape{Warm}} operation\\
 \hline

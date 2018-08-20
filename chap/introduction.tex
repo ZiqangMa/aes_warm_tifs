@@ -116,7 +116,7 @@ The following principles are analyzed and discussed in the integration:
 %     or the worst case (i.e., it is delayed to the execution time without any caches).
 %      Otherwise the cache side channel attacks may be launched.
 Each encryption is protected by {\scshape{Warm}} and/or {\scshape{Delay}},
-so that the measured time reflects either the best case (i.e., all lookup tables are cached by {\scshape{Warm}}),
+so that the measured time reflects either the best case (i.e., all table entries are cached by {\scshape{Warm}}),
      or the worst case (i.e., it is delayed to the execution time without any caches).
       Otherwise, the cache timing side channel attacks may still be launched.
 
@@ -124,7 +124,7 @@ so that the measured time reflects either the best case (i.e., all lookup tables
 In order to optimize the performance,
   {\scshape{Warm}} is preferred to {\scshape{Delay}};
   i.e.,
-    finish  encryption operations as many as possible, with all lookup tables in caches.
+    finish  encryption operations as many as possible, with all table entries in caches.
 %Note that,
 %    compared with the best case protected by {\scshape{Warm}},
 %  the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.
