@@ -163,8 +163,8 @@ In the implementation, we need to perform the following operations to achieve th
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
-so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
-   instead of every time after {\scshape{Warm}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
+So we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
+   instead of every time after {\scshape{Warm}} (Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
 The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
