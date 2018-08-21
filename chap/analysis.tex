@@ -408,9 +408,9 @@ The transition among three states is triggered by three events:
   \item
     {\scshape{Eviction}}: Some table entries of may be evicted from caches when task scheduling, interrupts or other system activities occur during the execution. The probability that such an event occurs is denoted as $P_{e}$.
   \item
-    {\scshape{Access-Uncached}}: For one execution of AES encryption,
-     some entries are uncached before encryption and it is possible that some of them is accessed during encryption,
-      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
+    {\scshape{Access-Uncached}}: For one AES execution,
+     some entries are uncached before encryption and some of them are accessed during encryption,
+      and the probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
       i.e., {\scshape{Access-Uncached}} results in {\vdelay}.
 \end{enumerate}
 

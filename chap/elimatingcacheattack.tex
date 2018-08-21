@@ -222,7 +222,7 @@ As the scheme does not involve privileged operations,
     the conditions of {\scshape{Warm}} and {\scshape{Delay}} are defined as regular timing.
 
 When we consider that the cryptographic function is invoked continuously for large amounts of data,
- the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the previous encryption.
+ the time of each {\scshape{Warm}} may vary and this variation reflects the cache state after the previous encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate this variation,
 but it brings another extra overhead.
 Fortunately,
