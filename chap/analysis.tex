@@ -446,7 +446,7 @@ Since the state of the lookup table is observed immediately after the AES execut
   {\scshape{Access-Uncached}} occurs in the last during one state transition (if occurs).
 In the following analysis, we firstly ignore the partial-warm effect of {\scshape{Access-Uncached}} in the analysis of the different strategies,
     and in Section~\ref{remark} we show that
-    this effect has no influence on our conclusions.
+    this effect does not influence our conclusions.
 
 
 We consider three strategies:
@@ -541,11 +541,11 @@ the stationary distribution of three states and the following equations hold:
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 
-++++++
-
 \noindent\textbf{Less {\vwarm}.}
 The state transition of less {\vwarm} is in \figurename~\ref{fig:lesscase}.
 In the state $S_{c}$, {\scshape{Warm}} is not performed. So the transition probability is the same as that in conditional {\vwarm}.
+
+++++++
 
 In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$.
   When {\scshape{Warm}} is performed, the state transition is the same as that in conditional {\vwarm}.
@@ -578,7 +578,7 @@ The stationary distribution of three states satisfies with the following equatio
 &\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
 &\Pi_{\bar{c}, a}^{\ominus} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}}{D_L}
 \end{split}
-\right.,
+\right.
 \end{equation}
 where
 \begin{align}
@@ -614,7 +614,7 @@ The stationary distribution of three states satisfies with the following equatio
 &\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{D_M}\  \\
 &\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
 \end{split}
-\right.,
+\right.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 where
@@ -663,7 +663,7 @@ Detailed calculation process for equation~\ref{equ:tpc1} is in Appendix~\ref{app
 %\vspace{2mm}
 %\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
-Next, we compare the more {\vwarm} with conditional {\vwarm} strategy.
+Next, we compare conditional {\vwarm} with more {\vwarm}.
 First we denote:
 \begin{align}
 &G = T_{d} / T_{w}\ , \nonumber \\
@@ -687,8 +687,8 @@ First we denote:
 %g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
 %\end{equation}
 % \end{theorem}
-Conditional {\vwarm} strategy provides better performance than the more {\vwarm} strategy if the following condition
- is satisfied:
+The conditional {\vwarm} strategy provides better performance than more {\vwarm}, if the following condition
+ holds:
 %\begin{itemize}
 %  \item
 %    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
@@ -732,7 +732,7 @@ Then we draw the result that $E(T^{\oplus})\geq E(T)$ if
     \end{equation*}
     %$\{$.
 %\end{itemize}
-The detailed calculation steps are in Appendix~\ref{appendixa2}.
+The detailed steps are listed in Appendix~\ref{appendixa2}.
 \end{proof}
 
 %\vspace{2mm}
@@ -891,8 +891,8 @@ That is  performing {\vwarm} when some cache misses occur during the previous ex
 \begin{corollary}
 For the AES-128 implementation with a 2KB lookup table
 in commodity computer systems,
-performing  {\vwarm}  when cache-miss occurs during the previous execution,
-  results in the least extra time of {\vdelay} and {\vwarm}.
+performing  {\vwarm}  when cache misses occur during the previous execution,
+  results in the least extra time cost of {\vdelay} and {\vwarm}.
 \end{corollary}
 
 \begin{proof}

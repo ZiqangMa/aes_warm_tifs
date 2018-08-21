@@ -222,7 +222,7 @@ As the scheme does not involve privileged operations,
     the conditions of {\scshape{Warm}} and {\scshape{Delay}} are defined as regular timing.
 
 When we consider that the cryptographic function is invoked continuously for large amounts of data,
- the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the last encryption.
+ the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the previous encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate this variation,
 but it brings another extra overhead.
 Fortunately,
@@ -405,7 +405,7 @@ When the measured time is in $(0, T_{nm}]$,
 When the time is greater than $T_{mm}$,
     it is caused by random system activities and/or the {\scshape{Delay}} operations
     which destroy the relationship between the time and the data processed.
-Although the execution time of {\scshape{Warm}} may leak the cache states after last encryption,
+Although the execution time of {\scshape{Warm}} may leak the cache states after the previous encryption,
     it is only a part of the measured time and masked by the system activities or {\scshape{Delay}} operations.
 %{\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
 %    when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
