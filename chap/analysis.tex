@@ -545,13 +545,13 @@ the stationary distribution of three states and the following equations hold:
 The state transition of less {\vwarm} is in \figurename~\ref{fig:lesscase}.
 In the state $S_{c}$, {\scshape{Warm}} is not performed. So the transition probability is the same as that in conditional {\vwarm}.
 
-++++++
-
 In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$.
-  When {\scshape{Warm}} is performed, the state transition is the same as that in conditional {\vwarm}.
-  The state turns to $S_c$ if the {\scshape{Warm}} is performed and the {\scshape{Eviction}} event does not occur. So the probability is $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P_{w}^{\ominus}(1-P_{e|S_c})$.
-   The state remains if the uncached entries are accessed during the AES execution whether the {\scshape{Warm}} is performed.
-   Thus, the probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
+%  When {\scshape{Warm}} is performed, the state transition is the same as that in conditional {\vwarm}.
+  The state turns to $S_c$ if {\scshape{Warm}} is performed and {\scshape{Eviction}} does not occur,
+so $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P_{w}^{\ominus}(1-P_{e|S_c})$.
+   The state remains if the uncached entries are accessed during the AES execution, whether {\scshape{Warm}} is performed or not.
+   Thus, $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$,
+   where $P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ is the probability of the state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed.
     The state turns to $S_{\bar{c}, \bar{a}}$ if the uncached entries are not accessed,
     and the probability is $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$.
 
@@ -562,7 +562,7 @@ In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is not performed.
 Whether {\scshape{Eviction}} occurs or not, some entries are not in caches.
 So if these uncached entries are accessed during the AES execution,
  it turns to $S_{\bar{c}, a}$, and the transition probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}=P_{e|S_{\bar{c}, \bar{a}}}^{\ominus}P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}+(1-P_{e|S_{\bar{c}, \bar{a}}}^{\ominus})P_{a|S_{c}}$.
-Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
+Otherwise, the state remains and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
 
 
 %We use $\Pi_{c}^{\ominus}$, $\Pi_{\bar{c}, \bar{a}}^{\ominus}$, $\Pi_{\bar{c}, a}^{\ominus}$ to represent
@@ -574,54 +574,56 @@ The stationary distribution of three states satisfies with the following equatio
 \left\{
 \begin{split}
 &\Pi_{c}^{\ominus} = \frac{(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}}{D_L}\ \\
-&\Pi_{\bar{c}, \bar{a}}^{\ominus} = \frac{P_{e|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})}{D_L} \\
-&\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
+&\Pi_{\bar{c}, \bar{a}}^{\ominus} = \frac{P_{e|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus})}{D_L} \\
+&\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
 &\Pi_{\bar{c}, a}^{\ominus} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}}{D_L}
 \end{split}
 \right.
 \end{equation}
 where
 \begin{align}
-D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}) \nonumber \\
+D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}) \nonumber \\
 &\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus} \nonumber \\
-&\ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} . \nonumber
+&\ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus}. \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
 \noindent\textbf{More {\vwarm}.}
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
 In the state $S_{c}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$ but has no effect.
-In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed loading all lookup entries into caches.
-   The two situations are the same with conditional {\vwarm} and the transition probability is the same.
+In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed to load all table entries into caches.
+   The two situations are the same with the states of conditional {\vwarm} and also the transition probabilities.
 
 In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$.
      If {\scshape{Warm}} is performed, all entries are in caches and the state transition is the same as in the state $S_{c}$.
       The state turns to $S_c$ with the probability $P_{S_{c}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{S_{c}|S_{c}}=P_{w}^{\oplus}(1-P_{e|S_c})$.
-    If {\scshape{Warm}} is not performed, whether {\scshape{Eviction}} occurs or not, some lookup entries are not in the cache.
-     So if these uncached entries are accessed during encryption, it turns to the state $S_{\bar{c}, a}$,
-      and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$.
-      Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and
-      $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$ means the probability of state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
+    If {\scshape{Warm}} is not performed, whether {\scshape{Eviction}} occurs or not, some entries are not in caches.
+     So if these uncached entries are accessed during encryption, it turns to $S_{\bar{c}, a}$,
+      and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}^{\bar{w}}}^{\oplus}$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}^{\bar{w}}}^{\oplus}$ is the probability of the state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed.
+      Otherwise, the state remains and
+      $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}^{\bar{w}}}^{\oplus})$.
 
 %We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent the stationary distribution of the three states and the values are as follows.
-The stationary distribution of three states satisfies with the following equations:
+\textcolor[rgb]{1.00,0.00,0.00}{The stationary distribution of three states satisfies with the following equations:}
 %\setlength{\arraycolsep}{0.0em}
 \begin{equation}
 \label{equ:pim}
 \left\{
 \begin{split}
-&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
+&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
 &\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{D_M}\  \\
-&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
+&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
 \end{split}
 \right.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 where
 \begin{align}
-D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1- P_{w}^{\oplus}) \nonumber \\
+D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1- P_{w}^{\oplus}) \nonumber \\
 &-P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{a|S_{c}}P_{w}^{\oplus}) \ .  \nonumber
 \end{align}
+
+++++++
 
 %\vspace{2mm}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
