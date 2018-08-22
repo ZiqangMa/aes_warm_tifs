@@ -34,7 +34,7 @@
 In particular, \emph{remote timing side channels} allow attackers, who have
     no system privilege or physical access to the computer,
     to discover the keys
-    by repeatedly invoking the encryption/decryption functions and measuring the execution time \cite{Tsunoo2002Cryptanalysis,Bernstein2005Cache,Bonneau2006Cache,Neve2006A,Brumley2011Remote,Brumley2005Remote}.
+    by repeatedly invoking the encryption/decryption functions and measuring the execution time \cite{Bernstein2005Cache,Bonneau2006Cache,Neve2006A,Brumley2011Remote,Brumley2005Remote}. % Tsunoo2002Cryptanalysis,
 % 公钥算法的timing，也很明显，但是与cache无关？引用remote cache攻击
 %Public key algorithms have proved the most vulnerable to timing attacks because they typically perform lengthy mathematical operations, the running time of which depends directly on the data due to branch statements
 %Timing side channel attacks are the easiest to be carried out because the time is measured simply and they don't require specialized equipment.
@@ -89,7 +89,7 @@ The intuitive design is
     {\scshape{Warm}} fills cache lines by reading constant tables \emph{before} the encryption operations,
     and
     {\scshape{Delay}} inserts padding instructions \emph{after} encryption.\footnote{Another choice is to perform encryption without using caches, but it is very inefficient.
-     In fact, a typical strategy of {\scshape{Delay}}
+     A typical strategy of {\scshape{Delay}}
      is to extend the encryption operation in constant time, equal to the execution time without caches.} With {\scshape{Warm}} or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
@@ -124,7 +124,7 @@ so that the measured time reflects either the best case (i.e., all table entries
 In order to optimize the performance,
   {\scshape{Warm}} is preferred to {\scshape{Delay}};
   i.e.,
-    finish  encryption operations as many as possible, with all lookup tables in caches.
+    finish  encryption operations as many as possible, with all table entries in caches.
 %Note that,
 %    compared with the best case protected by {\scshape{Warm}},
 %  the worst case by {\scshape{Delay}} costs about eight times of CPU cycles.

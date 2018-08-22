@@ -163,8 +163,8 @@ In the implementation, we need to perform the following operations to achieve th
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
-so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
-   instead of every time after {\scshape{Warm}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
+So we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
+   instead of every time after {\scshape{Warm}} (Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
 The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
@@ -255,7 +255,7 @@ This value is chosen to ensure that all table entries are in L1D caches and no f
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
 $T_{mm}$ is the maximum encryption execution time when all table entries are out of caches and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as $T_{mm}$.
+We repeat the measurement for 10000 times, and calculate the average value of \textcolor[rgb]{1.00,0.00,0.00}{100 greater measurements} as $T_{mm}$.
  In this case $T_{mm}$ is 2834 CPU cycles.
 
  Noted that we should consider the effect of the instruction caches.

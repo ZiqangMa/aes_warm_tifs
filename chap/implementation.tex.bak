@@ -243,19 +243,19 @@ and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
 In our environment it is $331$ cycles.
  \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
-   while all lookup tables except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
+   while all table entries except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
 We use the stack switch technique to eliminate the read-write conflict, at the same time it makes the AES execution time much more concentrated as shown in \figurename~\ref{fig:sim}.
  This helps the determination of $T_{nm}$ can be more accurate and reasonable.
   Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{nm}$ that might occur.
 Finally, we choose 355 cycles as $T_{nm}$.
-This value is chosen to ensure that all tables are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
+This value is chosen to ensure that all table entries are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
 
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
-$T_{mm}$ is the maximum encryption execution time when all lookup tables are out of caches and unrelated to the cache states.
+$T_{mm}$ is the maximum encryption execution time when all table entries are out of caches and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-In actual measurement, we repeat the measurement for 10000 times, and calculate the average value of 100 greater measurements as $T_{mm}$.
+We repeat the measurement for 10000 times, and calculate the average value of \textcolor[rgb]{1.00,0.00,0.00}{100 greater measurements} as $T_{mm}$.
  In this case $T_{mm}$ is 2834 CPU cycles.
 
  Noted that we should consider the effect of the instruction caches.
@@ -268,7 +268,7 @@ However, the instructions of block ciphers
 As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
   we determine $T_{nm}$ when all instructions of encryption are cached
 and $T_{mm}$ as the execution time
-  when all instructions are not in instruction caches (and all lookup tables are not in data caches).
+  when all instructions are not in instruction caches (and all table entries are not in data caches).
 Otherwise,
  the measured time might leak some information about data cache access.
 

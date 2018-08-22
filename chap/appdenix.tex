@@ -1,13 +1,13 @@
 \newpage
 %\appendix
-\section{The detail proof of Theorem~\ref{lemma:warmnum1} and Theorem~\ref{lemma:warmnum2}}
+\section{Proofs of Theorems~\ref{lemma:warmnum1} and \ref{lemma:warmnum2}}
 \label{appendixa}
 In this section, we describe the proof details of Theorem~\ref{lemma:warmnum1} and Theorem~\ref{lemma:warmnum2}.
 
 For the following calculation, $0 \leq P_{a|S_{c}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} \leq 1$, $0 \leq P_{w}^{\ominus} \leq 1$, $0 \leq P_{w}^{\oplus} \leq 1$
  and $0 \leq P_{e|S_{c}} \leq 1$.
 
-\subsection{The proof of Theorem~\ref{lemma:warmnum1}}
+\subsection{Proof of Theorem~\ref{lemma:warmnum1}}
 \label{appendixa1}
 To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{\ominus})$ with $E(T)$.
 So we get the Formula~\ref{equ:tpc1}, and estimate if it is larger than $0$.
@@ -52,7 +52,7 @@ Also $A_{L}$ and $B_{L}$ are greater than zero.
 Therefore $E(T^{\ominus}) - E(T)\geq 0$.
 That means the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy.
 
-\subsection{The proof of Theorem~\ref{lemma:warmnum2}}
+\subsection{Proof of Theorem~\ref{lemma:warmnum2}}
 \label{appendixa2}
 The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
 In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
@@ -444,7 +444,7 @@ At this point conditional {\vwarm} strategy has better performance than the less
 %From the above analysis, we find that when $1< k \leq k_{0}$, $E(T^{p}) \geq E(T^{c})$.
 %%I.e. when $1< k \leq k_{0}$, $T^{p} \geq T^{C}$
 
-\section{The $P_{a}$ in different AES key lengthes and different AES implementations }
+\section{$P_{a}$ for Different AES Key Lengthes and Implementations}
 \label{appendixb}
 We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the probability that some of the $N$ cache line size of lookup tables not in the cache are accessed. So when the AES implementation uses 4.25KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
@@ -613,4 +613,4 @@ When the AES implementation uses 2KB lookup table, the $P_{a}$ for AES-128, AES-
 \begin{equation*}
     %\scriptsize
     P_{a}^{256} = 1- (1-\frac{NC}{2048})^{16*14}.
-\end{equation*} 
+\end{equation*}

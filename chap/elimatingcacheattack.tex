@@ -89,6 +89,98 @@ More importantly, the objectives of our research are elaborated as follows:
 %加密明文时，少量的miss对应短的加密时间，多的miss对应长的加密时间
 %
 %敌手可以随时对算法进行调用，且没有限制。
+
+
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{Symbols in the performance analysis.}
+\label{notation}
+\centering
+\begin{tabular}{c|m{2.5in}}
+\hline\hline
+\bfseries Symbol & \multicolumn{1}{c}{\bfseries Description} \\
+\hline
+$T_{nm}$ & The encryption execution time when \underline{n}o cache \underline{m}iss occurs.\\
+\hline
+$T_{mm}$ & The encryption execution time with the \underline{m}aximum of cache \underline{m}isses. \\
+%all lookup table entries are out of caches.\\        % 定义需要再准确一些！
+\hline
+%$t1, t2$ & the time that encryption execution begins and ends respectively\\
+%\hline
+%$t2$ & the time that AES ends\\
+%\hline
+%$C$ & cache line size\\
+%\hline
+%$R$ & the number of the round of AES\\
+%\hline
+%$L$ & the size of lookup tables\\
+%\hline
+$T_{cl}$ & The time cost to load a \underline{c}ache \underline{l}ine of data from RAM to L1D caches.\\
+\hline
+$B_{nl}(N)$ & The benefit of \underline{n}ot \underline{l}oading data into $N$ cache lines in a {\scshape{Warm}} operation.\\
+\hline
+$D_{nl}(N)$ & The expected overhead (or padding by {\scshape{Delay}}) due to \underline{n}ot \underline{l}oading $N$ cache lines in a {\scshape{Warm}} operation.\\
+\hline
+$P_{\bar{a}}(N)$ & The probability that $N$ certain cache lines are \underline{n}ot \underline{a}ccessed after $R$ rounds of AES encryption.\\
+\hline
+%$P_{d}(N)$ & The probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables.
+%${P}_{d}(N) = 1-P_{\bar{a}}(N)$. \\
+%\hline
+%$X_n$ & the state of the lookup table in the caches \\
+%\hline
+%     $S_{c}$&  the state that all entries of the lookup tables are in caches\\
+%\hline
+%     $S_{\bar{c}, a}$& the state that some entries are uncached, and at least one of them is accessed during the AES encryption\\
+%\hline
+%     $S_{\bar{c}, \bar{a}}$& the state that some entries are uncached, but none of them is accessed during the AES encryption\\
+%\hline
+%$P_{e}$ & The probability that eviction occurs\\
+%\hline
+%$P_{w}$ & the probability of performing {\scshape{Warm}} operation\\
+%\hline
+%$P_{a}$ & the probability that some uncached entries are accessed during the AES execution\\
+%\hline
+%$P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
+%\hline
+%$P_{a|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
+%\hline
+%$P_{a|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
+%\hline
+$\Pi_{c}$ & the probability that the system is in the state $S_c$ in the stationary distribution\\
+\hline
+$\Pi_{\bar{c}, \bar{a}}$ & the probability that the system is in the state $S_{\bar{c}, \bar{a}}$ in the stationary distribution\\
+\hline
+$\Pi_{\bar{c}, a}$ & the probability that the system is in the state $S_{\bar{c}, a}$ in the stationary distribution\\
+\hline
+$T_{d}$ & the extra cost introduced by  {\scshape{Delay}} operation\\
+\hline
+$T_{w}$ & the extra cost introduced by  {\scshape{Warm}} operation\\
+\hline
+$T_{w}^{min}$ & the minimum value of $T_{w}$\\
+\hline
+$G$ & $T_{d}/T_{w}$\\
+\hline
+$M$ & $T_{w}^{min} / T_{d}$\\
+\hline
+$F_G$ & represents an expression that $G$ should be less than \\
+%\hline
+%$W$ & general warm strategy\\
+\hline
+$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
+\hline
+$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
+%\hline
+%$E(T)$ & the expected extra time cost\\
+%\hline
+%$$ & \\
+%\hline
+%$$ & \\
+%\hline
+%$$ & \\
+\hline\hline
+\end{tabular}
+\end{table}
+
 %\vspace{-1mm}
 \subsection{The {\scshape{Warm+Delay}} Scheme}
 \label{sec:scheme}
@@ -130,7 +222,7 @@ As the scheme does not involve privileged operations,
     the conditions of {\scshape{Warm}} and {\scshape{Delay}} are defined as regular timing.
 
 When we consider that the cryptographic function is invoked continuously for large amounts of data,
- the time of performing {\scshape{Warm}} may vary and this variation reflects the cache state after the last encryption.
+ the time of each {\scshape{Warm}} may vary and this variation reflects the cache state after the previous encryption.
 We could evict all tables from caches before {\scshape{Warm}} to eliminate this variation,
 but it brings another extra overhead.
 Fortunately,
@@ -154,7 +246,7 @@ $T_{nm}$ is the time period for one encryption operation,
 $T_{mm}$ is defined as the time period
     with the \underline{m}aximum of cache \underline{m}isses,
     i.e.,
-        the worst execution time 
+        the worst execution time
   in the case that none of table entries is cached before the encryption.
 %These two parameters are measured when there is no concurrent interrupts, task scheduling or any other system activities.
 Given an implementation of  block ciphers, $T_{nm}$ and $T_{mm}$
@@ -313,14 +405,14 @@ When the measured time is in $(0, T_{nm}]$,
 When the time is greater than $T_{mm}$,
     it is caused by random system activities and/or the {\scshape{Delay}} operations
     which destroy the relationship between the time and the data processed.
-Although the execution time of {\scshape{Warm}} may leak the cache states after last encryption,
+Although the execution time of {\scshape{Warm}} may leak the cache states after the previous encryption,
     it is only a part of the measured time and masked by the system activities or {\scshape{Delay}} operations.
 %{\scshape{Warm}} is performed after the {\scshape{Encryption}} function,
 %    when almost all entries are in caches so that {\scshape{Warm}} costs only a few CPU cycles and then {\scshape{Delay}} is performed,
 %    or {\scshape{Warm}} costs a lot of CPU cycles for {\scshape{Encryption}} is interrupted by system activities.
 %   Therefore, the time obtained by the remote attackers has no relation to the  data processed.
 %    The relationship between the execution time and data processed during encryption is destroyed.
-Therefore, the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
+So the cache timing side-channel attacks do not work under the integration scheme in Algorithm \ref{alg:aesdefense}.
 %
 %The timing information and also its differential information,
 % are determined by non-deterministic system activities and unrelated to the secret keys.

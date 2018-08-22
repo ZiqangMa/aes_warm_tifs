@@ -5,16 +5,15 @@
 \def \vwarm {{\scshape{Warm}}}
 \def \vwd {{\scshape{Warm+Delay}}}
 
-
 %In this section, we first introduce five principles that lead to an optimized {\scshape{Warm+Delay}} performance. We then examine these principles with our proposed algorithm, and derive practical conditions which make the proposed algorithm optimal. We first examine the performance of \vdelay, and then analyze the \vwam~operation with AES as the cryptographic algorithm, and show that our scheme is optimal. Last, we discuss the impact of different key lengths and different algorithm implementations.
 %All the detailed conditions are practical.
 
 
 In this section, we apply the {\scshape{Warm+Delay}} scheme in Algorithm~\ref{alg:aesdefense}  to AES.
-We first discuss the factors for the {\scshape{Warm+Delay}} scheme to produce optimized long-term performance.
-Then we present the practical conditions for the {\scshape{Delay}} operation to get the optimal performance.
+We first discuss the factors for the integration scheme to produce the optimized long-term performance.
+Then we present the conditions for the {\scshape{Delay}} operations to get the optimal performance.
  Meanwhile we use a statistical model to examine the {\scshape{Warm}} operations.
-  Furthermore, we propose a strategy for the {\scshape{Warm+Delay}} scheme,
+Finally, we propose a strategy for the {\scshape{Warm+Delay}} scheme,
    and quantitatively prove that the optimal performance is achieved through our strategy.
 
 \subsection{Overview}
@@ -23,8 +22,9 @@ Then we present the practical conditions for the {\scshape{Delay}} operation to 
 In the {\scshape{Warm+Delay}} scheme,
         the extra operations are introduced by {\scshape{Warm}}, {\scshape{Delay}} and {\scshape{GetTime}}.
    Because the cost of {\scshape{GetTime}} is static and always necessary,
- the additional overhead is determined by {\scshape{Warm}} and {\scshape{Delay}} operations.
-Therefore, to achieve the optimal performance we shall discuss the following questions:
+ the additional overhead is determined by {\scshape{Warm}} and {\scshape{Delay}}.
+Therefore, to achieve the optimal performance, we shall discuss the following questions:
+
 \begin{enumerate}[(1)]
  \item Between {\scshape{Warm}} and {\scshape{Delay}}, which is the preferred operation?
 
@@ -33,7 +33,7 @@ Therefore, to achieve the optimal performance we shall discuss the following que
 
 % When the {\scshape{Delay}} operation is performed, what is the best strategy that would result the best performance while ensuring security? In particular,
 
- \item What is the best strategy for the {\scshape{Warm}} operations? It also includes two aspects: (3.A) When shall {\scshape{Warm}} be imposed? and (3.B) What is the optimal amount of lookup table entries to be accessed during {\scshape{Warm}}?
+ \item What is the best strategy for the {\scshape{Warm}} operations? It also includes two aspects: (3.A) When shall {\scshape{Warm}} be imposed? and (3.B) What is the optimal amount of lookup table entries to be accessed in {\scshape{Warm}}?
 
 % When the {\scshape{Warm}} operation is performed, what is the best strategy that would result the best performance? In particular, what is the optimal amount of data to be loaded during {\scshape{Warm}}?
 \end{enumerate}
@@ -53,24 +53,29 @@ When attempting to answer these questions,
 
 %In particular, we may sacrifice .... if the additional (seemingly unnecessary) operations in this encryption will improve the encryption speed in the future.
 
-The first question is relatively easy to answer. The {\vwarm} operation, which loads (all) lookup tables into caches, will speed up the following encryption.
+
+The first question is relatively easy to answer. The {\vwarm} operation, which loads lookup tables into caches, will speed up the following encryption.
 Meanwhile, the {\vdelay} operation, which inserts padding instructions to eliminate timing side channels,
  increases the overhead.
     Therefore, intuitively, the {\scshape{Warm}} operation is %always
      preferred over {\vdelay}. %in the {\scshape{Warm+Delay}} scheme.
 
-In our design (as in other implementations), we use an instruction loop to impose {\scshape{Delay}} which uses no memory,
+In our analysis (as in other implementations),
+ an instruction loop imposes {\scshape{Delay}} which accesses no memory,
+ %\footnote{We discuss the {\scshape{Warm}} operations, performed as a part of {\scshape{Delay}}, in Section \ref{remark}}
  so the cache state is not changed by {\scshape{Delay}}.
-The {\scshape{Delay}} operation only changes the execution time of the current AES encryption,
-  while it will \emph{not} affect the following AES executions.
-Therefore, the answers to Question (2) are: (2.A) we should only impose {\vdelay} when it is required for security purposes (i.e., to impose minimal number of {\vdelay} operations); and (2.B) the length of the imposed delay should be just enough to ensure security, but not more than that (i.e. to impose minimal length of delay in each {\vdelay} operation).
+The {\scshape{Delay}} operation only changes the execution time of the current encryption,
+  while it will \emph{not} affect the following executions.
+So the answers to Question (2) are: (2.A) We should only impose {\vdelay} when it is required for security purposes (i.e., to impose the minimal number of {\vdelay} operations); and (2.B) The length of the imposed delay should be just enough to ensure security, but not more than that (i.e., to impose the minimal padding  in each {\vdelay} operation).
 
 Meanwhile,
- the {\scshape{Warm}} operation not only changes the execution time of the current AES, but also has a lasting effect on the next encryptions. Intuitively, loading less data during one {\scshape{Warm}} operation introduces less overhead for the current encryption;
- however, it may result in more {\vdelay} and {\vwarm} operations in future encryptions.
+ the {\scshape{Warm}} operation not only changes the execution time of the current encryption,
+  but also has a lasting effect on the next one(s).
+  Intuitively, loading less data during one {\scshape{Warm}} operation introduces a smaller overhead for the current encryption;
+ however, it may result in more {\vdelay} and {\vwarm} operations in the future.
  In this case, optimized short-term performance may cause worse long-term performance, which is not desirable. Therefore, to answer Question (3),
-  we need to build a quantitative model for the impacts of a partial/full {\vwarm} on future encryptions.
-  It will be the main task of this section.
+  we need to build a quantitative model for the impacts of a partial/full {\vwarm} on future encryption.
+  It is the main challenge of this work.
 
 
 %   It is because the amount of data loaded in {\scshape{Warm}} operation and when performing it may lead to the extra {\scshape{Delay}} operation.
@@ -148,7 +153,7 @@ Meanwhile, if we delay it to a random/pseudorandom value, which may be greater o
     the attackers could exclude all results greater than $T_{mm}$
       and the other results are still exploitable.
 Such methods reduce the attack accuracy,
-  but do not eliminate the cache timing side channels completely.
+  but do not eliminate the timing side channels completely.
 Therefore, delaying to $T_{mm}$ imposes the minimal overhead
    while effectively eliminates the cache timing side channels.
 %\qed
@@ -166,10 +171,10 @@ Therefore, delaying to $T_{mm}$ imposes the minimal overhead
 
 \begin{proof}
 As described above,
- if the execution time of encryption is equal to or less than $T_{nm}$, no cache miss occurs,
+ if the encryption execution time is equal to or less than $T_{nm}$, no cache miss occurs,
   and
-if the execution time is equal to $T_{mm}$ or greater, it is unexploitable.
-The execution time is independent of keys and plaintexts/ciphertexts in these cases,
+if the time is equal to $T_{mm}$ or greater, it is unexploitable.
+In these cases, the execution time is independent of keys and plaintexts/ciphertexts,
   so {\vdelay} is unnecessary.
 
 
@@ -177,14 +182,15 @@ The execution time is independent of keys and plaintexts/ciphertexts in these ca
 % it means that the OS scheduler or interruption handler has been invoked during encryption -- the attacker could not recover the actual encryption time to perform timing attacks, because the time for OS scheduler or interruption handler is unpredictable.
 
 When the execution time is in $(T_{nm}, T_{mm})$,
- it may result from cache misses due to the access of the uncached lookup table or system activities (but the overhead is less than $T_{mm} - T_{nm}$).
+ it may result from cache misses due to the access of the uncached table entries or system activities (but the overhead is less than $T_{mm} - T_{nm}$).
 We cannot distinguish the exact reasons without special privileges.
 However, the attackers may eliminate the effect of system activities by repeatedly invoking the encryption function using the same input.
  Therefore, {\vdelay} is necessary in this case.
 %\qed
 \end{proof}
 
-It is easy to verify that, in our {\vwd}  scheme, the {\vdelay} operation satisfies Theorems~\ref{delay2tw} and \ref{delaynum}.
+It is easy to verify that, in the scheme in Algorithm~\ref{alg:aesdefense},
+ the {\vdelay} operation satisfies Theorems~\ref{delay2tw} and \ref{delaynum}.
 % So the use of {\vdelay} can achieve the optimal performance in the {\vwd}  scheme.
 
 
@@ -208,16 +214,16 @@ We show that, %in this case,
 %\noindent\textbf{1. The Amount of Data To Be Loaded in {\vwarm} Operation.}
 
 
-\subsubsection{The Amount of Data to Be Loaded in {\vwarm}}
-A {\vwarm} operation loads the lookup table into caches.
+\subsubsection{The Amount of Data Loaded in {\vwarm}}
+A {\vwarm} operation loads the lookup tables into caches.
  It takes less time if only a part of the table is loaded,
-  but it may introduce extra {\vdelay} operations if the unloaded part is accessed.
+  but it may introduce extra {\vdelay} operations if the unloaded entries are accessed.
    The benefit of not loading $N$ cache lines of data in the {\vwarm} operation is denoted as $B_{nl}(N)$,
-    while the expected overhead due to not loading $N$ cache lines of table entries is denoted as $D_{nl}(N)$.
+    while the expected overhead due to not loading $N$ cache lines is denoted as $D_{nl}(N)$.
 So the amount of data to be loaded in {\vwarm} is determined by comparing $B_{nl}(N)$ with $D_{nl}(N)$.
 
 We denote the size of a cache line as $C$,
-    and the time cost to load a cache line of data from RAM to the L1D cache as $T_{cl}$.
+    and the time cost to load a cache line of data from RAM to L1D caches as $T_{cl}$.
 We have the following theorem for an AES implementation of $R$ rounds with an $L$-byte lookup table ($L \gg C$).
 
 %The average time saved by not loading one cache line from RAM is denoted as $t_{nc}$,
@@ -242,7 +248,7 @@ where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{mm
 % while,
 % if some entry is uncached,
 %  the execution time of AES encryption may become longer and then it triggers an extra {\vdelay} operation.
-Not loading $N$ ($\frac{L}{C} \geq N > 0$) cache lines of table entries saves the execution time of \vwarm,
+Not loading $N$ cache lines of table entries saves the execution time of \vwarm,
  while the potential cost is
     the longer execution of encryption  and the extra execution of \vdelay.
 Since $L \gg C$, we needs $\frac{L}{C}$ cache lines to hold the lookup table.
@@ -267,13 +273,14 @@ Hence,
 
 %Therefore, the probability that a certain cache line of $L_{2k}$ is not accessed in all rounds is $P_{1} = (1-\frac{C}{L})^{160}$.
 %The expected probability that any cache line is not accessed in one AES execution is $P_{e} = \frac{16}{17}P_{0-3}+ \frac{1}{17}P_{4}$.
-If a table entry is uncached but accessed during the execution of AES encryption,
+
+If a table entry is uncached but accessed during encryption,
    the execution time is greater than $T_{nm}$ and {\vdelay} is performed.
 Therefore, if $N$ cache lines of table entries are not in caches,
-    the probability of extra {\vdelay} is as follows
+    the probability of extra {\vdelay} is:
   \begin{equation}
   \label{equ:delay}
- {P}_{d}(N) = 1-P_{\bar{a}}(N) = 1- (1-\frac{NC}{L})^{16 R}
+P_d(N) = 1-P_{\bar{a}}(N) = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
 
@@ -282,22 +289,18 @@ The execution time shall be delayed to $T_{mm}$ according to Theorem \ref{delay2
 So, %the expected overhead (or the time cost) due to not loading $N$ cache lines of table entries is:
 \begin{eqnarray}
  \label{equ:tdelay}
-&D_{nl}(N)&={ }  {P}_{d}(N)  (T_{mm}-T_{nm})  \nonumber \\
-&&= (1- (1-\frac{NC}{L})^{16 R})(T_{mm}-T_{nm}).
+D_{nl}(N)%&={ }  {P}_{d}(N)  (T_{mm}-T_{nm})  \nonumber \\
+= (1- (1-\frac{NC}{L})^{16 R})(T_{mm}-T_{nm})
 \end{eqnarray}
 
-On the other hand, the time cost to load a cache line of data is $T_{cl}$, so
+The time cost to load a cache line of data is $T_{cl}$, so $B_{nl}(N) = N T_{cl}$.
 %the benefit  of not loading data into $N$ cache lines in the {\vwarm} operation is
-\begin{eqnarray}
-B_{nl}(N) = N T_{cl}.
-\end{eqnarray}
-
 Therefore, we conclude that
 (\emph{a})
 if $B_{nl}(N) < D_{nl}(N)$ for any $\frac{L}{C} \geq N > 0$,
  loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance;
 % (1) If $\forall N>0, \Delta T_{warm} < E(T_{delay})$, warming all cache lines is always better.
-and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading $N$ cache lines of table entries provides better performance.
+and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading $N$ cache lines of table entries does better.
 %  and (3) If $\exists N>0, \Delta T_{warm} = E(T_{delay})$, warming or not warming $N$ cache lines provides equivalent performance.
 %\qed
 \end{proof}
@@ -346,8 +349,8 @@ $T_{mm}$, $T_{nm}$, and $T_{cl}$ are $2834.00$, $355.00$, and $54.55$ CPU cycles
 Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
     when $R = 10$, $L = 2$KB, and $C = 64$B.
 We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines of the lookup table is always much greater than the benefit.
-The result is applicable to other commodity computer systems.
-Then, by Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces better performance.
+\textcolor[rgb]{1.00,0.00,0.00}{The result is applicable to other commodity computer systems.}
+Then, according to Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces better performance.
 \end{proof}
 
 Moreover, in our {\vwd} scheme, {\vwarm} is performed % after encryption
@@ -383,11 +386,10 @@ So the cost of {\vwarm} is further reduced, ensuring that loading all entries of
 %\noindent\textbf{2. State Transition of Warm Strategies.}
 
 \subsubsection{State Transitions of Different {\vwarm} Strategies}
-To determine the optimal {\vwarm} operation,
- we shall compare the costs by different {\vwarm} strategies.
-We use Markov Chain to analyze the states of the lookup table in the L1D cache during the continuous invocations of AES encryption.
-Then the extra costs are calculated based on the probability of each state in the stationary distributions.
-Generally, there are three states after one AES execution (i.e. {\scshape{Encrypt}} in Algorithm~\ref{alg:aesdefense}):
+We use Markov Chain to analyze the states of the lookup table in caches during the continuous invocations of AES encryption.
+Then the extra costs are calculated based on the probability of each state in the stationary distributions,
+    to determine the optimal {\vwarm} strategy.
+There are three states after one AES execution (i.e. {\scshape{Encrypt}} in Algorithm~\ref{alg:aesdefense}):
   \begin{enumerate}
    \item
      $S_{c}$: all entries of the lookup table are in caches,
@@ -398,17 +400,17 @@ Generally, there are three states after one AES execution (i.e. {\scshape{Encryp
   \end{enumerate}
 $S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$ represent the states where one or more cache lines of table entries are uncached or evicted from caches.
 
-The state of the lookup table is estimated after each execution of AES encryption.
-The transition among the three states is triggered by three events:
+The state is estimated after each execution of AES encryption.
+The transition among three states is triggered by three events:
 \begin{enumerate}
   \item
     {\scshape{Warm}}: Performing {\vwarm} to load all table entries into caches, and the probability is $P_{w}$.
   \item
-    {\scshape{Eviction}}: The entries of lookup tables may be evicted from caches when task scheduling, interrupts or any other system activities occur during the execution of encryption. The probability that such an event occurs is denoted as $P_{e}$.
+    {\scshape{Eviction}}: Some table entries of may be evicted from caches when task scheduling, interrupts or other system activities occur during the execution. The probability that such an event occurs is denoted as $P_{e}$.
   \item
     {\scshape{Access-Uncached}}: For one execution of AES encryption,
-     some entries are uncached before encryption and it is possible that some of them is accessed during the encryption,
-      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ has the same meaning with $P_{d}$ in Theorem~\ref{theorm:warmall};
+     some entries are uncached before encryption and it is possible that some of them is accessed during encryption,
+      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
       i.e., {\scshape{Access-Uncached}} results in {\vdelay}.
 \end{enumerate}
 
@@ -427,25 +429,24 @@ The transition among the three states is triggered by three events:
 %AES执行肯定是最后发生，因为执行结束，cache状态以发生转移。
 %先warm后evict
 
-These events change the states of the lookup table.
+%These events change the states of the lookup table.
  %During the state transition, the state of lookup tables changes which means one AES executes.
 Without loss of generality,
-we assume that during one state transition, each of the three events occurs once at most.\footnote{Even if some occurs more than once actually,
+we assume that during one state transition, each of the events occurs once at most.\footnote{Even if some occurs more than once actually,
     they can be viewed as one event with  the strengthened impact on the state transition.}
   % Because the state changes after the \emph{Execution} event, the \emph{Execution} event occurs the last.
 We assume that,
     during one state transition,
-    {\scshape{Warm}} occurs before {\scshape{Eviction}} (if both of them occur).
+    {\scshape{Warm}} occurs before {\scshape{Eviction}} if both of them occur.
 It is reasonable,
     because
     an {\scshape{Eviction}} event occurring before  {\scshape{Warm}} has no effect on the state of the lookup table,
         and then can be ignored.
-Besides,
-    since the state of the lookup table is observed immediately after the AES execution,
-  the {\scshape{Access-Uncached}} event occurs in the last during one state transition (if occurs).
-In the following analysis, we firstly ignore the partial-warm effect of the {\scshape{Access-Uncached}} event in the analysis of the different warm strategies,
+Since the state of the lookup table is observed immediately after the AES execution,
+  {\scshape{Access-Uncached}} occurs in the last during one state transition (if occurs).
+In the following analysis, we firstly ignore the partial-warm effect of {\scshape{Access-Uncached}} in the analysis of the different strategies,
     and in Section~\ref{remark} we show that
-    this effect has no influence on our conclusions.
+    this effect does not influence our conclusions.
 
 
 We consider three strategies:
@@ -465,18 +466,18 @@ Markov Chain is used to simulate the state transition.
      takes values in the state space $\{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
   %The transition probabilities denoted as $P_{j|i}$, where $i$ and $j$ are in the state space, represents that
    If it is in the state $i$, the probability that it will be in the state $j$ after one step is denoted as $P_{j|i} = P\{X_{n+1}=j|X_n=i\}$, where $i,j \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
-
-Also, we denote $P_{a|i}$ to represent the probability that {\scshape{Access-Uncached}} event occurs (due to the occurrence of the {\scshape{Eviction}} event) in the state $i$, where $i \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
- $P_{e|i}$ is to represent the probability of the occurrence of the {\scshape{Eviction}} event in the state $i$, where $i \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
-   We use $\ominus$ and $\oplus$ to represent the less {\vwarm} and more {\vwarm} as the superscript.
-
+Also, $P_{a|i}$ and  $P_{e|i}$
+    represent the probabilities that {\scshape{Access-Uncached}} and {\scshape{Eviction}}
+     occur %(due to the occurrence of the {\scshape{Eviction}} event)
+    in the state $i$, respectively, where $i \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
+% $P_{e|i}$ is to represent the probability of the occurrence of the event in the state $i$, where $i \in \{S_{c},S_{\bar{c}, a},S_{\bar{c}, \bar{a}}\}$.
+Besides,
+    we use $\ominus$ and $\oplus$ to distinguish the symbols of less and more {\vwarm} as the superscripts, respectively.
 
 
 
 Next,
 the stationary distributions for the three different strategies are analyzed as follow.
-
-++++++
 
 \begin{figure*}[t]
     \centering
@@ -499,18 +500,34 @@ the stationary distributions for the three different strategies are analyzed as 
 \noindent\textbf{Conditional {\vwarm}.}
 The state transition of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
   %Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
+In the state $S_{c}$, {\scshape{Warm}} is not performed.
+If {\scshape{Eviction}} does not occur, {\scshape{Access-Uncached}} does not occur and the state remains, i.e. $P_{S_{c}|S_{c}}=1-P_{e|S_{c}}$.
+When {\scshape{Eviction}} occurs, some table entries are evicted from caches.
+Then if these evicted entries are accessed during the AES execution,
+ it turns to $S_{\bar{c}, a}$ and $P_{S_{\bar{c}, a}|S_{c}}=P_{e|S_{c}}P_{a|S_{c}}$;
+otherwise, it turns to $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{c}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
 
-When in the state $S_{c}$, {\scshape{Warm}} is not performed. If the {\scshape{Eviction}} event does not occur, the {\scshape{Access-Uncached}} does not occur and the state remains, i.e. $P_{S_{c}|S_{c}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, some lookup entries may be evicted from caches. Then if these evicted entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, thus $P_{S_{\bar{c}, a}|S_{c}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{c}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
+In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed to load all entries into caches,
+and then the state transition is similar to that in $S_{c}$.
+If {\scshape{Eviction}} does not occur, it turns to $S_{c}$ and $P_{S_{c}|S_{\bar{c}, a}}=1-P_{e|S_{c}}$.
+When {\scshape{Eviction}} occurs, and if the evicted entries are accessed during encryption,
+ the state remains the same and $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}=P_{e|S_{c}}P_{a|S_{c}}$;
+otherwise, it turns to $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
 
-  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed to load all lookup entries into caches. Then the state transition is like in $S_{c}$. If the {\scshape{Eviction}} event does not occur, the state turns to $S_{c}$ and $P_{S_{c}|S_{\bar{c}, a}}=1-P_{e|S_{c}}$. While if the {\scshape{Eviction}} event occurs, and if these evicted entries caused by the {\scshape{Eviction}} event are accessed during the AES execution, the state remains the same, thus $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}=P_{e|S_{c}}P_{a|S_{c}}$. Otherwise it turns to the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}=P_{e|S_{c}}(1-P_{a|S_{c}})$.
-
-    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed because the cache misses do not occur. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$. If the {\scshape{Eviction}} event occurs, the probability is $P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}$. And if not occur, the probability is $(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
-     Thus, the probability to the state $S_{\bar{c}, a}$ is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}=P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}+(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
-    Otherwise the uncached entries are not accessed, it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$.
+In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is not performed because cache misses do not occur.
+Whether {\scshape{Eviction}} occurs or not,
+    some table entries are not in caches.
+If these uncached entries are accessed during encryption,
+ it turns to $S_{\bar{c}, a}$:
+(\emph{a}) if {\scshape{Eviction}} occurs also, the probability is $P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}$;
+    and (\emph{b}) if not, the probability is $(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
+     Thus, $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}=P_{e|S_{\bar{c}, \bar{a}}}P_{a|S_{\bar{c}, \bar{a}}}+(1-P_{e|S_{\bar{c}, \bar{a}}})P_{a|S_{c}}$.
+If the uncached entries are not accessed,
+ the state remains and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$.
 
 
 We use $\Pi_{c}$, $\Pi_{\bar{c}, \bar{a}}$, $\Pi_{\bar{c}, a}$ to represent
-the stationary distribution of the three states and the values are as follows.
+the stationary distribution of three states and the following equations hold:
 %\setlength{\arraycolsep}{0.0em}
 \begin{equation}
 \label{equ:pic}
@@ -520,18 +537,18 @@ the stationary distribution of the three states and the values are as follows.
 &\Pi_{\bar{c}, \bar{a}} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})}\  \\
 &\Pi_{\bar{c}, a} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}}{P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})}
 \end{split}
-\right..
+\right.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 
-\vspace{2mm}
 \noindent\textbf{Less {\vwarm}.}
-The state transition diagram of less {\vwarm} is shown in \figurename~\ref{fig:lesscase}.
+The state transition of less {\vwarm} is in \figurename~\ref{fig:lesscase}.
+In the state $S_{c}$, {\scshape{Warm}} is not performed. So the transition probability is the same as that in conditional {\vwarm}.
 
-When in the state $S_{c}$, {\scshape{Warm}} is not performed. The transition probability is the same as in the Conditional {\vwarm}.
+++++++
 
-  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$.
-  When the {\scshape{Warm}} is performed, the state transition is the same as in Conditional {\vwarm}.
+In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$.
+  When {\scshape{Warm}} is performed, the state transition is the same as that in conditional {\vwarm}.
   The state turns to $S_c$ if the {\scshape{Warm}} is performed and the {\scshape{Eviction}} event does not occur. So the probability is $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P_{w}^{\ominus}(1-P_{e|S_c})$.
    The state remains if the uncached entries are accessed during the AES execution whether the {\scshape{Warm}} is performed.
    Thus, the probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
@@ -541,11 +558,15 @@ When in the state $S_{c}$, {\scshape{Warm}} is not performed. The transition pro
 %
 %  When {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. If these uncached entries are accessed during the AES execution, it remains the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$. In summary, the state turns to $S_c$ with $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}(1-P_{e|S_c})$, remains $S_{\bar{c}, a}$ with $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$ and turns to $S_{\bar{c}, \bar{a}}$ with $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
 
-    When in the state $S_{\bar{c}, \bar{a}}$, the {\scshape{Warm}} is not performed. Whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$, and the transition probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}=P_{e|S_{\bar{c}, \bar{a}}}^{\ominus}P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}+(1-P_{e|S_{\bar{c}, \bar{a}}}^{\ominus})P_{a|S_{c}}$. Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
+In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is not performed.
+Whether {\scshape{Eviction}} occurs or not, some entries are not in caches.
+So if these uncached entries are accessed during the AES execution,
+ it turns to $S_{\bar{c}, a}$, and the transition probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}=P_{e|S_{\bar{c}, \bar{a}}}^{\ominus}P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}+(1-P_{e|S_{\bar{c}, \bar{a}}}^{\ominus})P_{a|S_{c}}$.
+Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
 
 
-We use $\Pi_{c}^{\ominus}$, $\Pi_{\bar{c}, \bar{a}}^{\ominus}$, $\Pi_{\bar{c}, a}^{\ominus}$ to represent
-the stationary distribution of the three states and the values are as follows.
+%We use $\Pi_{c}^{\ominus}$, $\Pi_{\bar{c}, \bar{a}}^{\ominus}$, $\Pi_{\bar{c}, a}^{\ominus}$ to represent
+The stationary distribution of three states satisfies with the following equations:
 
 %\setlength{\arraycolsep}{0.0em}
 \begin{equation}
@@ -557,7 +578,7 @@ the stationary distribution of the three states and the values are as follows.
 &\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
 &\Pi_{\bar{c}, a}^{\ominus} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}}{D_L}
 \end{split}
-\right.,
+\right.
 \end{equation}
 where
 \begin{align}
@@ -567,25 +588,23 @@ D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
-\vspace{2mm}
 \noindent\textbf{More {\vwarm}.}
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
+In the state $S_{c}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$ but has no effect.
+In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed loading all lookup entries into caches.
+   The two situations are the same with conditional {\vwarm} and the transition probability is the same.
 
-When in the state $S_{c}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$ but has no effect.
-  When in the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed loading all lookup entries into caches.
-   The two situations are the same with  Conditional {\vwarm} and the transition probability is the same.
-
-    When in the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$.
-     If {\scshape{Warm}} is performed, all lookup entries are in caches and the state transition is the same as in the state $S_{c}$.
+In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$.
+     If {\scshape{Warm}} is performed, all entries are in caches and the state transition is the same as in the state $S_{c}$.
       The state turns to $S_c$ with the probability $P_{S_{c}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{S_{c}|S_{c}}=P_{w}^{\oplus}(1-P_{e|S_c})$.
-    If {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache.
-     So if these uncached entries are accessed during the AES execution, it turns to the state $S_{\bar{c}, a}$,
+    If {\scshape{Warm}} is not performed, whether {\scshape{Eviction}} occurs or not, some lookup entries are not in the cache.
+     So if these uncached entries are accessed during encryption, it turns to the state $S_{\bar{c}, a}$,
       and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$.
       Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and
       $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$ means the probability of state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
 
-We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent
-the stationary distribution of the three states and the values are as follows.
+%We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent the stationary distribution of the three states and the values are as follows.
+The stationary distribution of three states satisfies with the following equations:
 %\setlength{\arraycolsep}{0.0em}
 \begin{equation}
 \label{equ:pim}
@@ -595,7 +614,7 @@ the stationary distribution of the three states and the values are as follows.
 &\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{D_M}\  \\
 &\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
 \end{split}
-\right.,
+\right.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 where
@@ -607,14 +626,14 @@ D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}
 %\vspace{2mm}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
 \subsubsection{The Best Strategy to Perform {\vwarm} Operation}
-We first compare the performance of conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies applied in a large number of continuous AES encryptions.
+We compare the performance of conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies applied in a large number of continuous AES encryptions.
  Followed we investigate the relationship on the performance between conditional {\vwarm} and arbitrary strategies.
   Finally, we estimate whether the conditions for the conditional {\vwarm} to get the optimal performance are satisfied in commodity computer systems.
 
-  We denote the extra cost (execution time) introduced by {\vdelay} and {\vwarm} as
+  We denote the extra time cost introduced by {\vdelay} and {\vwarm} as
     $T_{d}$ and $T_{w}$, respectively.
-$T_{d} = T_{mm}-T_{nm}$ is constant while
-    $T_{w}$ varies because the number of loaded cache lines of table entries may be different when {\vwarm} is performed.
+$T_{d} = T_{mm}-T_{nm}$ is constant, while
+    $T_{w}$ varies because the number of loaded cache lines changes if different {\vwarm} strategies are adopted.
 
 
 %%Then we have the following theorems.
@@ -644,7 +663,7 @@ Detailed calculation process for equation~\ref{equ:tpc1} is in Appendix~\ref{app
 %\vspace{2mm}
 %\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
-Next, we compare the more {\vwarm} with conditional {\vwarm} strategy.
+Next, we compare conditional {\vwarm} with more {\vwarm}.
 First we denote:
 \begin{align}
 &G = T_{d} / T_{w}\ , \nonumber \\
@@ -668,8 +687,8 @@ First we denote:
 %g_{max} = \frac{P_{evict}(1-P_{a1})(P_{a2}+P_{evict}P_{a2}+P_{evict}(1-P_{a1}))}{(P_{evict}P_{a2}+P_{a2}-P_{evict}P_{a1})(P_{evict}(1-P_{a1})-MP_{a2})-MP_{evict}P_{a2}}
 %\end{equation}
 % \end{theorem}
-Conditional {\vwarm} strategy provides better performance than the more {\vwarm} strategy if the following condition
- is satisfied:
+The conditional {\vwarm} strategy provides better performance than more {\vwarm}, if the following condition
+ holds:
 %\begin{itemize}
 %  \item
 %    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
@@ -713,7 +732,7 @@ Then we draw the result that $E(T^{\oplus})\geq E(T)$ if
     \end{equation*}
     %$\{$.
 %\end{itemize}
-The detailed calculation steps are in Appendix~\ref{appendixa2}.
+The detailed steps are listed in Appendix~\ref{appendixa2}.
 \end{proof}
 
 %\vspace{2mm}
@@ -754,7 +773,7 @@ It can be proved that conditional {\vwarm} strategy has better performance than 
 
 Generally,
  any {\vwarm} strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and unusual {\vwarm}.
-  We denote the arbitrary warm strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious encryption execution, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
+  We denote the arbitrary strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious encryption execution, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
    Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and unusual {\vwarm} as $W_{L}$, $W_{M}$ and $W_{U}$.
   Then we can get the equation:
   \begin{equation}
@@ -771,7 +790,7 @@ $$\left\{
 $$
 
 In this way, the arbitrary strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and unusual {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
-So conditional {\vwarm} has better performance than warm strategies with any $P_{1}$ and $P_{2}$,
+So conditional {\vwarm} has better performance than \textcolor[rgb]{1.00,0.00,0.00}{warm strategies} with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}
 %  \item
@@ -872,8 +891,8 @@ That is  performing {\vwarm} when some cache misses occur during the previous ex
 \begin{corollary}
 For the AES-128 implementation with a 2KB lookup table
 in commodity computer systems,
-performing  {\vwarm}  when cache-miss occurs during the previous execution,
-  results in the least extra time of {\vdelay} and {\vwarm}.
+performing  {\vwarm}  when cache misses occur during the previous execution,
+  results in the least extra time cost of {\vdelay} and {\vwarm}.
 \end{corollary}
 
 \begin{proof}

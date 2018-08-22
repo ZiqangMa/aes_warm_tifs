@@ -162,7 +162,7 @@ In these two categories of attacks,
 
 \subsubsection{Time-driven Side Channel}
 
-Two typical remote time side channels on block cipher implementations are outlined as follows.
+Two typical remote cache time side channels on block cipher implementations are outlined as follows.
 
 %Both of them exploit the relationship between the whole encryption time and the different input plaintexts (or ciphertexts), due to the time for accessing the lookup tables.
 
@@ -226,10 +226,10 @@ The synchronous attack monitors the cache state once per encryption,
  while the asynchronous one does it for several times per encryption with higher performance.
 
 In an synchronous Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
-the attacker first triggers the encryption to load the data needed into caches
-    and evicts some data from caches, of which the addresses will be monitored.
-So the cache states are set.
-   Then the attacker triggers the encryption again,
+the attacker sets the cache states as follows:
+    triggers the encryption to load data into caches
+    and explicitly evicts some from caches, of which the addresses will be monitored.
+Then, the attacker triggers the encryption again,
     and records the time to infers whether the monitored addresses are accessed or not.
 %    Through monitoring different addresses, the memory access pattern is obtained.
 
@@ -385,11 +385,11 @@ Loading lookup tables into caches before encryption \cite{Osvik2006Cache,Page200
 There are still time differences exploitable to disclose the keys.
 
 \noindent\textbf{Confusing the cache access.}
-Delay (or inserting padding instructions) after encryption confuses the cache access leaked through the execution time.
+Delay (or inserting padding instructions) after encryption, confuses the cache access leaked through the execution time.
 Random delay \cite{Osvik2006Cache,Page2003Defending}
-    or dynamic delay for the constant time of encryption \cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}, at the user-space or system level \cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical},
+    or delay for the constant time of encryption \cite{Askarov2010Predictive,Cock2014The,Ferdinand2004Worst,Zhang2011Predictive}, at the user-space or system level \cite{Yinqian2013D,Cleemput2012Compiler,Coppens2009Practical},
     were proposed.
-Instruction-based task scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler} 
+Instruction-based task scheduling~\cite{Cock2014The,stefan2013eliminating,varadarajan2014scheduler}
     also confuses the cache access.
 These methods are algorithm-independent and effectively defend against the timing side-channel attacks,
     but result in a large performance overhead.
@@ -411,7 +411,7 @@ Breaking the precision of timing
     but it does not work against a remote attacker with its own timer.
 
 \noindent\textbf{Limiting the cache sharing.} %Cache独占使用
-Cache partition prevents the interference 
+Cache partition prevents the interference
      of active cache side-channel attackers.
 Cache coloring partitions the caches at the operating system (OS) level~\cite{Cock2014The}.
 STEALTHMEM~\cite{Kim2012STEALTHMEM} allows each VM to load the sensitive data into its own locked cache lines.
@@ -422,7 +422,7 @@ Partition-locked caches are designed \cite{Kong2009Hardware,Wang2007New} to prev
 %Another cache design in \cite{Wang2008A} reduces cache miss rates by dynamic remapping and longer cache indices.
 %SecDCP~\cite{wang2016secdcp} changes the size of cache partitions at run time for better performance.
 Although they defend against the cache attacks,
-    the usage of caches is significantly degraded 
+    the usage of caches is significantly degraded
     and then such designs are rarely deployed on commodity systems.
 
 \noindent\textbf{Integrated methods.}
@@ -443,94 +443,6 @@ These schemes are not implementation-transparent, or require special system priv
 %\subsection{Notations}
 %The meaning of the symbols used in the following is list in Table~\ref{notation}.
 
-\begin{table}[!t]
-\renewcommand{\arraystretch}{1.3}
-\caption{Symbols in the performance analysis}
-\label{notation}
-\centering
-\begin{tabular}{c|m{2.5in}}
-\hline\hline
-\bfseries Symbol & \multicolumn{1}{c}{\bfseries Notation} \\
-\hline
-$T_{nm}$ & The encryption execution time when \underline{n}o cache \underline{m}iss occurs.\\
-\hline
-$T_{mm}$ & The encryption execution time with the \underline{m}aximum of cache \underline{m}isses. \\
-%all lookup table entries are out of caches.\\        % 定义需要再准确一些！
-\hline
-%$t1, t2$ & the time that encryption execution begins and ends respectively\\
-%\hline
-%$t2$ & the time that AES ends\\
-%\hline
-%$C$ & cache line size\\
-%\hline
-%$R$ & the number of the round of AES\\
-%\hline
-%$L$ & the size of lookup tables\\
-%\hline
-$T_{cl}$ & The time cost to load a \underline{c}ache \underline{l}ine of data from RAM to L1D caches.\\
-\hline
-$B_{nl}(N)$ & The benefit of \underline{n}ot \underline{l}oading data into $N$ cache lines in a {\scshape{Warm}} operation.\\
-\hline
-$D_{nl}(N)$ & The expected overhead (or padding by {\scshape{Delay}}) due to \underline{n}ot \underline{l}oading $N$ cache lines in a {\scshape{Warm}} operation.\\
-\hline
-$P_{\bar{a}}(N)$ & The probability that $N$ certain cache lines are \underline{not} \underline{a}ccessed after $R$ rounds of AES encryption.\\
-\hline
-$P_{d}$ & The probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables \\
-\hline
-%$X_n$ & the state of the lookup table in the caches \\
-%\hline
-     $S_{c}$&  the state that all entries of the lookup tables are in caches\\
-\hline
-     $S_{\bar{c}, a}$& the state that some entries are uncached, and at least one of them is accessed during the AES encryption\\
-\hline
-     $S_{\bar{c}, \bar{a}}$& the state that some entries are uncached, but none of them is accessed during the AES encryption\\
-\hline
-$P_{e}$ & The probability that eviction occurs\\
-\hline
-$P_{w}$ & the probability of performing {\scshape{Warm}} operation\\
-\hline
-$P_{a}$ & the probability that some uncached entries are accessed during the AES execution\\
-\hline
-%$P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
-%\hline
-$P_{a|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
-\hline
-$P_{a|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
-\hline
-$\Pi_{c}$ & the probability that the system is in the state $S_c$ in the stationary distribution\\
-\hline
-$\Pi_{\bar{c}, \bar{a}}$ & the probability that the system is in the state $S_{\bar{c}, \bar{a}}$ in the stationary distribution\\
-\hline
-$\Pi_{\bar{c}, a}$ & the probability that the system is in the state $S_{\bar{c}, a}$ in the stationary distribution\\
-\hline
-$T_{d}$ & the extra cost introduced by  {\scshape{Delay}} operation\\
-\hline
-$T_{w}$ & the extra cost introduced by  {\scshape{Warm}} operation\\
-\hline
-$T_{w}^{min}$ & the minimum value of $T_{w}$\\
-\hline
-$G$ & $T_{d}/T_{w}$\\
-\hline
-$M$ & $T_{w}^{min} / T_{d}$\\
-\hline
-$F_G$ & represents an expression that $G$ should be less than \\
-%\hline
-%$W$ & general warm strategy\\
-\hline
-$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
-\hline
-$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
-%\hline
-%$E(T)$ & the expected extra time cost\\
-%\hline
-%$$ & \\
-%\hline
-%$$ & \\
-%\hline
-%$$ & \\
-\hline\hline
-\end{tabular}
-\end{table}
 %
 %AES-NI
 %S. Gueron, “Advanced Encryption Standard (AES) instructions
