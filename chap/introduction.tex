@@ -88,8 +88,8 @@ The intuitive design is
     to eliminate cache timing side channels \cite{Braun2015Robust,Osvik2006Cache,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant tables \emph{before} the encryption operations,
     and
-    {\scshape{Delay}} inserts padding instructions \emph{after} encryption.\footnote{Another choice is to perform encryption without using caches, which is very inefficient.
-     In fact, a typical strategy of {\scshape{Delay}}
+    {\scshape{Delay}} inserts padding instructions \emph{after} encryption.\footnote{Another choice is to perform encryption without caches, which is inefficient.
+In fact, a typical {\scshape{Delay}} strategy
      is to extend the encryption operation in constant time, equal to the execution time without caches.} With {\scshape{Warm}} or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,

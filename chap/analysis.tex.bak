@@ -408,9 +408,9 @@ The transition among three states is triggered by three events:
   \item
     {\scshape{Eviction}}: Some table entries of may be evicted from caches when task scheduling, interrupts or other system activities occur during the execution. The probability that such an event occurs is denoted as $P_{e}$.
   \item
-    {\scshape{Access-Uncached}}: For one execution of AES encryption,
-     some entries are uncached before encryption and it is possible that some of them is accessed during encryption,
-      and this probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
+    {\scshape{Access-Uncached}}: For one AES execution,
+     some entries are uncached before encryption and some of them are accessed during encryption,
+      and the probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
       i.e., {\scshape{Access-Uncached}} results in {\vdelay}.
 \end{enumerate}
 
@@ -545,13 +545,13 @@ the stationary distribution of three states and the following equations hold:
 The state transition of less {\vwarm} is in \figurename~\ref{fig:lesscase}.
 In the state $S_{c}$, {\scshape{Warm}} is not performed. So the transition probability is the same as that in conditional {\vwarm}.
 
-++++++
-
 In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\ominus}$.
-  When {\scshape{Warm}} is performed, the state transition is the same as that in conditional {\vwarm}.
-  The state turns to $S_c$ if the {\scshape{Warm}} is performed and the {\scshape{Eviction}} event does not occur. So the probability is $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P_{w}^{\ominus}(1-P_{e|S_c})$.
-   The state remains if the uncached entries are accessed during the AES execution whether the {\scshape{Warm}} is performed.
-   Thus, the probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
+%  When {\scshape{Warm}} is performed, the state transition is the same as that in conditional {\vwarm}.
+  The state turns to $S_c$ if {\scshape{Warm}} is performed and {\scshape{Eviction}} does not occur,
+so $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P_{w}^{\ominus}(1-P_{e|S_c})$.
+   The state remains if the uncached entries are accessed during the AES execution, whether {\scshape{Warm}} is performed or not.
+   Thus, $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$,
+   where $P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ is the probability of the state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed.
     The state turns to $S_{\bar{c}, \bar{a}}$ if the uncached entries are not accessed,
     and the probability is $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$.
 
@@ -562,7 +562,7 @@ In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is not performed.
 Whether {\scshape{Eviction}} occurs or not, some entries are not in caches.
 So if these uncached entries are accessed during the AES execution,
  it turns to $S_{\bar{c}, a}$, and the transition probability is $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}=P_{e|S_{\bar{c}, \bar{a}}}^{\ominus}P_{a|S_{\bar{c}, \bar{a}}}^{\ominus}+(1-P_{e|S_{\bar{c}, \bar{a}}}^{\ominus})P_{a|S_{c}}$.
-Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
+Otherwise, the state remains and $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\ominus}=1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\ominus}$.
 
 
 %We use $\Pi_{c}^{\ominus}$, $\Pi_{\bar{c}, \bar{a}}^{\ominus}$, $\Pi_{\bar{c}, a}^{\ominus}$ to represent
@@ -574,63 +574,63 @@ The stationary distribution of three states satisfies with the following equatio
 \left\{
 \begin{split}
 &\Pi_{c}^{\ominus} = \frac{(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}}{D_L}\ \\
-&\Pi_{\bar{c}, \bar{a}}^{\ominus} = \frac{P_{e|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})}{D_L} \\
-&\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
+&\Pi_{\bar{c}, \bar{a}}^{\ominus} = \frac{P_{e|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus})}{D_L} \\
+&\ \ \ \ +\frac{P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}-P_{a|S_{c}})P_{w}^{\ominus}}{D_L}\  \\
 &\Pi_{\bar{c}, a}^{\ominus} = \frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}}{D_L}
 \end{split}
 \right.
 \end{equation}
 where
 \begin{align}
-D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}) \nonumber \\
+D_L &= P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}) \nonumber \\
 &\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus} \nonumber \\
-&\ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} . \nonumber
+&\ \ +(P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus}. \nonumber
 \end{align}
 %\setlength{\arraycolsep}{5pt}
 
 \noindent\textbf{More {\vwarm}.}
 The state transition diagram of more {\vwarm} is shown in \figurename~\ref{fig:morecase}.
 In the state $S_{c}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$ but has no effect.
-In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed loading all lookup entries into caches.
-   The two situations are the same with conditional {\vwarm} and the transition probability is the same.
+In the state $S_{\bar{c}, a}$, {\scshape{Warm}} is performed to load all table entries into caches.
+   The two situations are the same with the states of conditional {\vwarm} and also the transition probabilities.
 
 In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the probability $P_{w}^{\oplus}$.
      If {\scshape{Warm}} is performed, all entries are in caches and the state transition is the same as in the state $S_{c}$.
       The state turns to $S_c$ with the probability $P_{S_{c}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{S_{c}|S_{c}}=P_{w}^{\oplus}(1-P_{e|S_c})$.
-    If {\scshape{Warm}} is not performed, whether {\scshape{Eviction}} occurs or not, some lookup entries are not in the cache.
-     So if these uncached entries are accessed during encryption, it turns to the state $S_{\bar{c}, a}$,
-      and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$.
-      Otherwise it remains the state $S_{\bar{c}, \bar{a}}$ and
-      $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}},\bar{w}}^{\oplus}$ means the probability of state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
+    If {\scshape{Warm}} is not performed, whether {\scshape{Eviction}} occurs or not, some entries are not in caches.
+     So if these uncached entries are accessed during encryption, it turns to $S_{\bar{c}, a}$,
+      and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}P_{a|S_c}+(1-P_{w}^{\oplus})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}^{\bar{w}}}^{\oplus}$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}^{\bar{w}}}^{\oplus}$ is the probability of the state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed.
+      Otherwise, the state remains and
+      $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, \bar{a}}}^{\oplus}=P_{w}^{\oplus}P_{e|S_c}(1-P_{a|S_c})+(1-P_{w}^{\oplus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}^{\bar{w}}}^{\oplus})$.
 
 %We use $\Pi_{c}^{\oplus}$, $\Pi_{\bar{c}, \bar{a}}^{\oplus}$, $\Pi_{\bar{c}, a}^{\oplus}$ to represent the stationary distribution of the three states and the values are as follows.
-The stationary distribution of three states satisfies with the following equations:
+\textcolor[rgb]{1.00,0.00,0.00}{The stationary distribution of three states satisfies with the following equations:}
 %\setlength{\arraycolsep}{0.0em}
 \begin{equation}
 \label{equ:pim}
 \left\{
 \begin{split}
-&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
+&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
 &\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{D_M}\  \\
-&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
+&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
 \end{split}
 \right.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 where
 \begin{align}
-D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},\bar{w}}^{\ominus}(1- P_{w}^{\oplus}) \nonumber \\
+D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1- P_{w}^{\oplus}) \nonumber \\
 &-P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{a|S_{c}}P_{w}^{\oplus}) \ .  \nonumber
 \end{align}
 
 %\vspace{2mm}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
 \subsubsection{The Best Strategy to Perform {\vwarm} Operation}
-We compare the performance of conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies applied in a large number of continuous AES encryptions.
- Followed we investigate the relationship on the performance between conditional {\vwarm} and arbitrary strategies.
-  Finally, we estimate whether the conditions for the conditional {\vwarm} to get the optimal performance are satisfied in commodity computer systems.
+We compare the performance of conditional {\vwarm} with the less {\vwarm} and more {\vwarm} strategies. %applied in a large number of continuous AES encryptions.
+Then, we investigate the relationship on the performance between conditional {\vwarm} and an arbitrary strategy.
+  Finally, we estimate whether the conditions for conditional {\vwarm} to achieve the optimal performance are satisfied in commodity systems.
 
-  We denote the extra time cost introduced by {\vdelay} and {\vwarm} as
+We denote the extra time cost introduced by {\vdelay} and {\vwarm} as
     $T_{d}$ and $T_{w}$, respectively.
 $T_{d} = T_{mm}-T_{nm}$ is constant, while
     $T_{w}$ varies because the number of loaded cache lines changes if different {\vwarm} strategies are adopted.
@@ -643,11 +643,12 @@ $T_{d} = T_{mm}-T_{nm}$ is constant, while
 \begin{theorem}\label{lemma:warmnum1}
   The conditional {\vwarm} strategy provides better performance than the less {\vwarm} strategy.
 \end{theorem}
+
 \begin{proof}
-The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
+The expected extra time costs introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
 In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
 so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation.
- In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for these two strategies.
+ In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for these two strategies.
 The difference between the expected extra time introduced by less {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
 \begin{equation}
@@ -655,16 +656,20 @@ The difference between the expected extra time introduced by less {\vwarm} and c
 E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{d} - \Pi_{\bar{c}, a} * T_{d}
 \end{equation}
 
-And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{w}^{\ominus}\in(0,1)$.
-So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
-Detailed calculation process for equation~\ref{equ:tpc1} is in Appendix~\ref{appendixa1}.
+We find that $E(T^{\ominus}) - E(T) > 0$ for any $P_{w}^{\ominus}\in(0,1)$,
+    and the detailed calculation is in Appendix~\ref{appendixa1}.
+So the extra time introduced by less {\vwarm} is always larger than conditional {\vwarm},
+    and conditional {\vwarm} is better.
+%That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{proof}
+
+++++++
 
 %\vspace{2mm}
 %\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
 Next, we compare conditional {\vwarm} with more {\vwarm}.
-First we denote:
+First we define
 \begin{align}
 &G = T_{d} / T_{w}\ , \nonumber \\
 &M = T_{w}^{min} / T_{d}\ ,  \nonumber \\
@@ -694,7 +699,7 @@ The conditional {\vwarm} strategy provides better performance than more {\vwarm}
 %    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
 %\end{itemize}
     \begin{equation*}
-    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+    (1)\ D_{F} \geq 0,\ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
 %    \left\{
 %    \begin{split}
 %    &D_{F} \geq 0 \\
@@ -706,11 +711,11 @@ The conditional {\vwarm} strategy provides better performance than more {\vwarm}
 \end{theorem}
 
 \begin{proof}
-The process of proof is the same as Theorem~\ref{lemma:warmnum1} that compares $E(T)$ with $E(T^{\oplus})$.
-In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+We compare $E(T)$ and $E(T^{\oplus})$ as in Theorem~\ref{lemma:warmnum1}.
+In the state $S_{\bar{c}, a}$, {\vdelay} is needed,
 so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation for these two strategies.
- In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm}.
-But for more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
+ In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm}.
+But for the more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
  Thus,
 \begin{align}
 \label{equ:tpc2}
@@ -718,7 +723,7 @@ But for more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
  &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}^{\oplus}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
 \end{align}
 
-Then we draw the result that $E(T^{\oplus})\geq E(T)$ if
+Then, we draw that $E(T^{\oplus})\geq E(T)$ if
 %\begin{itemize}
   %\item
     \begin{equation*}
@@ -732,7 +737,7 @@ Then we draw the result that $E(T^{\oplus})\geq E(T)$ if
     \end{equation*}
     %$\{$.
 %\end{itemize}
-The detailed steps are listed in Appendix~\ref{appendixa2}.
+The details are listed in Appendix~\ref{appendixa2}.
 \end{proof}
 
 %\vspace{2mm}
@@ -740,7 +745,7 @@ The detailed steps are listed in Appendix~\ref{appendixa2}.
 %By computing the expected extra time introduced by different warm strategies, we can get the following theorem.
 
 \begin{theorem}\label{lemma:warmnum3}
-    the conditional {\vwarm} strategy that performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
+    The conditional {\vwarm} strategy that performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
 if the following condition is satisfied:
 %\begin{itemize}
 %  \item
@@ -789,7 +794,9 @@ $$\left\{
 \right..
 $$
 
-In this way, the arbitrary strategy is divided. It has already been proved that conditional {\vwarm} has the best performance compared with less {\vwarm} strategy and unusual {\vwarm}. Meanwhile if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
+In this way, the arbitrary strategy is divided.
+It has been proved that conditional {\vwarm} has the better performance than less {\vwarm} or unusual {\vwarm}.
+Meanwhile, if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
 So conditional {\vwarm} has better performance than \textcolor[rgb]{1.00,0.00,0.00}{warm strategies} with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}

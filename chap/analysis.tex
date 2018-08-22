@@ -454,11 +454,11 @@ We consider three strategies:
 %While considering other two cases:
 \begin{itemize}
   \item
-    Conditional {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, as done in the {\vwd} scheme;
+    \emph{Conditional {\vwarm}}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, as done in the {\vwd} scheme;
   \item
-    Less {\vwarm}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious encryption execution;
+    \emph{Less {\vwarm}}: performing {\vwarm} with a probability $P_{w}^{\ominus}\in[0,1)$  when cache misses occur during the pervious encryption execution;
   \item
-    More {\vwarm}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, and also performing with a probability $P_{w}^{\oplus}\in(0,1]$ in other conditions.
+    \emph{More {\vwarm}}: performing {\vwarm} when some cache misses occur during the pervious encryption execution, and also performing with a probability $P_{w}^{\oplus}\in(0,1]$ in other conditions.
 \end{itemize}
 
 Markov Chain is used to simulate the state transition.
@@ -623,16 +623,14 @@ D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}
 &-P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{a|S_{c}}P_{w}^{\oplus}) \ .  \nonumber
 \end{align}
 
-++++++
-
 %\vspace{2mm}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
 \subsubsection{The Best Strategy to Perform {\vwarm} Operation}
-We compare the performance of conditional {\vwarm} with less {\vwarm} and more {\vwarm} strategies applied in a large number of continuous AES encryptions.
- Followed we investigate the relationship on the performance between conditional {\vwarm} and arbitrary strategies.
-  Finally, we estimate whether the conditions for the conditional {\vwarm} to get the optimal performance are satisfied in commodity computer systems.
+We compare the performance of conditional {\vwarm} with the less {\vwarm} and more {\vwarm} strategies. %applied in a large number of continuous AES encryptions.
+Then, we investigate the relationship on the performance between conditional {\vwarm} and an arbitrary strategy.
+  Finally, we estimate whether the conditions for conditional {\vwarm} to achieve the optimal performance are satisfied in commodity systems.
 
-  We denote the extra time cost introduced by {\vdelay} and {\vwarm} as
+We denote the extra time cost introduced by {\vdelay} and {\vwarm} as
     $T_{d}$ and $T_{w}$, respectively.
 $T_{d} = T_{mm}-T_{nm}$ is constant, while
     $T_{w}$ varies because the number of loaded cache lines changes if different {\vwarm} strategies are adopted.
@@ -645,11 +643,12 @@ $T_{d} = T_{mm}-T_{nm}$ is constant, while
 \begin{theorem}\label{lemma:warmnum1}
   The conditional {\vwarm} strategy provides better performance than the less {\vwarm} strategy.
 \end{theorem}
+
 \begin{proof}
-The expected extra time introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
+The expected extra time costs introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
 In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
 so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation.
- In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for these two strategies.
+ In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for these two strategies.
 The difference between the expected extra time introduced by less {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
 \begin{equation}
@@ -657,19 +656,23 @@ The difference between the expected extra time introduced by less {\vwarm} and c
 E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{d} - \Pi_{\bar{c}, a} * T_{d}
 \end{equation}
 
-And then, we get that $E(T^{\ominus}) > E(T)$ for all $P_{w}^{\ominus}\in(0,1)$.
-So the extra time introduced by less {\vwarm} strategy is always larger than conditional {\vwarm} strategy. That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
-Detailed calculation process for equation~\ref{equ:tpc1} is in Appendix~\ref{appendixa1}.
+We find that $E(T^{\ominus}) - E(T) > 0$ for any $P_{w}^{\ominus}\in(0,1)$,
+    and the detailed calculation is in Appendix~\ref{appendixa1}.
+So the extra time introduced by less {\vwarm} is always larger than conditional {\vwarm},
+    and conditional {\vwarm} is better.
+%That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{proof}
+
+++++++
 
 %\vspace{2mm}
 %\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
 Next, we compare conditional {\vwarm} with more {\vwarm}.
-First we denote:
+First we \textcolor[rgb]{1.00,0.00,0.00}{use $T_{w}^{min}$ to denote the minimum of $T_{w}$ as $x$ varies,}
+    and define $G = T_{d} / T_{w}$, 
+    $M = T_{w}^{\min} / T_{d}$,
 \begin{align}
-&G = T_{d} / T_{w}\ , \nonumber \\
-&M = T_{w}^{min} / T_{d}\ ,  \nonumber \\
 &D_{F}=P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})(P_{a|S_{c}}-1) \nonumber \\
    & \ \ \ \ +M(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))\ , \nonumber \\
 &F_G = \frac{P_{e|S_{c}}(P_{a|S_{c}}-1)(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}))}{D_{F}}\ . \nonumber
@@ -690,51 +693,52 @@ First we denote:
 %\end{equation}
 % \end{theorem}
 The conditional {\vwarm} strategy provides better performance than more {\vwarm}, if the following condition
- holds:
-%\begin{itemize}
-%  \item
-%    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
-%\end{itemize}
-    \begin{equation*}
-    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
-%    \left\{
-%    \begin{split}
-%    &D_{F} \geq 0 \\
-%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-%    \end{split}
-%    \right. .
-    \end{equation*}
+ holds:     (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$,
+ where $F_G^{\min}$ is the minimum of $F_G$ as $x++++$ varies.
+%%\begin{itemize}
+%%  \item
+%%    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
+%%\end{itemize}
+%    \begin{equation*}
+%    (1)\ D_{F} \geq 0,\ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%%    \left\{
+%%    \begin{split}
+%%    &D_{F} \geq 0 \\
+%%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%%    \end{split}
+%%    \right. .
+%    \end{equation*}
 
 \end{theorem}
 
 \begin{proof}
-The process of proof is the same as Theorem~\ref{lemma:warmnum1} that compares $E(T)$ with $E(T^{\oplus})$.
-In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
-so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation for these two strategies.
- In the state $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm}.
-But for more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
- Thus,
+We compare $E(T)$ and $E(T^{\oplus})$ as in Theorem~\ref{lemma:warmnum1}.
+In $S_{\bar{c}, a}$, {\vdelay} is needed,
+so the extra time introduced by {\vwarm} is masked in {\vdelay} for these two strategies.
+ In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm}.
+But for the more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
+\textcolor[rgb]{1.00,0.00,0.00}{ Thus,} % 以下的等式是 = ，为什么会有Tmin？
 \begin{align}
 \label{equ:tpc2}
 &E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}^{\oplus}*T_{w}^{min} \nonumber \\
  &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}^{\oplus}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
 \end{align}
 
-Then we draw the result that $E(T^{\oplus})\geq E(T)$ if
-%\begin{itemize}
-  %\item
-    \begin{equation*}
-    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
-%    \left\{
-%    \begin{split}
-%    &D_{F} \geq 0 \\
-%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-%    \end{split}
-%    \right..
-    \end{equation*}
-    %$\{$.
-%\end{itemize}
-The detailed steps are listed in Appendix~\ref{appendixa2}.
+Then, it is drawn that, $E(T^{\oplus})\geq E(T)$, if (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$.
+%%\begin{itemize}
+%  %\item
+%    \begin{equation*}
+%    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%%    \left\{
+%%    \begin{split}
+%%    &D_{F} \geq 0 \\
+%%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%%    \end{split}
+%%    \right..
+%    \end{equation*}
+%    %$\{$.
+%%\end{itemize}
+The details are listed in Appendix~\ref{appendixa2}.
 \end{proof}
 
 %\vspace{2mm}
@@ -742,26 +746,28 @@ The detailed steps are listed in Appendix~\ref{appendixa2}.
 %By computing the expected extra time introduced by different warm strategies, we can get the following theorem.
 
 \begin{theorem}\label{lemma:warmnum3}
-    the conditional {\vwarm} strategy that performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay},
-if the following condition is satisfied:
-%\begin{itemize}
-%  \item
-%    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
-%\end{itemize}
-    \begin{equation*}
-    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
-%    \left\{
-%    \begin{split}
-%    &D_{F} \geq 0 \\
-%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
-%    \end{split}
-%    \right..
-    \end{equation*}
+Conditional {\vwarm} that performing {\vwarm} if some cache miss occurs during the previous encryption
+     results in the least extra time cost of {\vwarm} and {\vdelay},
+if the following condition holds: (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$.
+%%\begin{itemize}
+%%  \item
+%%    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
+%%\end{itemize}
+%    \begin{equation*}
+%    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+%%    \left\{
+%%    \begin{split}
+%%    &D_{F} \geq 0 \\
+%%    &\textbf{or}\ \   D_{F} < 0 \  and \ G < \min(F_G)
+%%    \end{split}
+%%    \right..
+%    \end{equation*}
 \end{theorem}
 
 \begin{proof}
-Firstly, we consider an extreme case that is performing {\vwarm} with a probability $P_{w}^{\odot}\in[0,1]$ just when cache misses do not occur during the pervious encryption execution, while not performing {\vwarm} when cache misses occur. This case is denoted as unusual {\vwarm}.
-The state transition of unusual {\vwarm} is shown in \figurename~\ref{fig:cocase}.
+Firstly, we consider an extreme strategy that performs {\vwarm} with a probability $P_{w}^{\odot}\in[0,1]$ only when cache misses do not occur during the pervious encryption, while not {\vwarm} when any cache miss occurs.
+It is called \emph{unusual {\vwarm}},
+    and the state transition is shown in \figurename~\ref{fig:cocase}.
 %In this case, when there is a cache miss in the previous, {\vdelay} is needed. If the next encryption accesses any entry that is currently not in caches, performing {\vwarm} before hand introduces non extra overhead.
 % However, if not performing {\vwarm},
 %   the extra time introduced by {\vdelay} is listed in Table\ref{tbl:warmcontent}.
@@ -771,10 +777,13 @@ The state transition of unusual {\vwarm} is shown in \figurename~\ref{fig:cocase
 %On the other hand, the Markov state transition diagram of complementary {\vwarm} is in \figurename~\ref{fig:cocase}.
 %Using the same calculation process within Theorem~\ref{lemma:warmnum1},
 % we can get that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy.
-It can be proved that conditional {\vwarm} strategy has better performance than complementary {\vwarm} strategy using the same method as in Theorem~\ref{lemma:warmnum1}. The detailed calculation steps are in Appendix~\ref{appendixa}.
+It is proved that the conditional {\vwarm} strategy produces better performance
+ than unusual {\vwarm},
+ following the same  steps as in Theorem~\ref{lemma:warmnum1}.
+%The detailed calculation steps \textcolor[rgb]{1.00,0.00,0.00}{are in Appendix~\ref{appendixa}.}
 
 Generally,
- any {\vwarm} strategies can be divided into the combination of less {\vwarm}, more {\vwarm} and unusual {\vwarm}.
+ any {\vwarm} strategy is a combination of less {\vwarm}, more {\vwarm} and unusual {\vwarm}.
   We denote the arbitrary strategy as $W$. In $W$, performing {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the pervious encryption execution, while performing {\vwarm} with a probability $P_{2}\in[0,1]$ in other conditions.
    Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and unusual {\vwarm} as $W_{L}$, $W_{M}$ and $W_{U}$.
   Then we can get the equation:
@@ -791,7 +800,7 @@ $$\left\{
 \right..
 $$
 
-In this way, the arbitrary strategy is divided.
+%In this way, the arbitrary strategy is divided.
 It has been proved that conditional {\vwarm} has the better performance than less {\vwarm} or unusual {\vwarm}.
 Meanwhile, if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
 So conditional {\vwarm} has better performance than \textcolor[rgb]{1.00,0.00,0.00}{warm strategies} with any $P_{1}$ and $P_{2}$,
@@ -816,7 +825,7 @@ if condition:
 %    \right.
     \end{equation*}
  is satisfied.
-That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
+%That is  performing {\vwarm} when some cache misses occur during the previous execution of encryption results in the least extra time of {\vwarm} and {\vdelay}.
 \end{proof}
 
 
@@ -889,6 +898,8 @@ That is  performing {\vwarm} when some cache misses occur during the previous ex
 %%$$
 %
 %\end{proof}
+
+++++++
 
 %$T^{p} > T^{C}$.
 %\paragraph{comparing conditional \vwarm~ with general warm strategy}
