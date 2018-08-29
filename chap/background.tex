@@ -212,7 +212,7 @@ It also works for DES and 3DES \cite{Tsunoo2003Cryptanalysis}.
 %  \cite{Daemen2002The,Lauradoux2005Collision,Ac2006Trace}.
 
 \subsubsection{Access-driven Cache Side Channel}
- When the caches are shared by attackers and the victim,
+ When the caches are shared by the attacker and the victim,
   the attacker could actively control the cache states and monitor the cache access by the victim process.
 Then, the keys are derived from the access patterns.%, which is called access-driven attack.
 %Attackers and victims may share either the L1 cache or last-level cache (LLC).
@@ -220,15 +220,15 @@ Then, the keys are derived from the access patterns.%, which is called access-dr
 
 There are two categories of active cache side channels: synchronous and asynchronous \cite{Osvik2006Cache}.
 In a synchronous attack, %the attacker runs serially with the victim.
- the attacker first sets the cache states, triggers the encryption, and monitor the memory access by detecting the change of cache states after the encryption.
+ the attacker first sets the cache states, triggers the encryption, and monitors the memory access by detecting the change of cache states after the encryption.
 While in an asynchronous attack, the attacker sets the cache states and detects the changes by the victim process running concurrently.
 The synchronous attack monitors the cache state once per encryption,
  while the asynchronous one does it for several times per encryption with higher performance.
 
-In an synchronous Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
+In a synchronous Evict+Time attack \cite{Osvik2006Cache,Tromer2010Efficient},
 the attacker sets the cache states as follows:
-    triggers the encryption to load data into caches
-    and explicitly evicts some from caches, of which the addresses will be monitored.
+    triggering the encryption to load data into caches
+    and explicitly evicting some from caches, of which the addresses will be monitored.
 Then, the attacker triggers the encryption again,
     and records the time to infers whether the monitored addresses are accessed or not.
 %    Through monitoring different addresses, the memory access pattern is obtained.

@@ -379,7 +379,7 @@ We make the following treatments according to Algorithm~\ref{alg:aesdefense}:
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time of is in $[T_{mm}, \infty )$.
+  \item \textbf{Case 3}: The execution time is in $[T_{mm}, \infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states
@@ -434,7 +434,7 @@ So the cache timing side-channel attacks do not work under the integration schem
 
 
 In the following,
-we further explain that the integration scheme successfully prevent typical remote cache timing side-channel attacks in the literature.
+we further explain that the integration scheme successfully prevents typical remote cache timing side-channel attacks in the literature.
 %	对各个不同类型的攻击，用我们的防御方案以后，可以获得哪些数据，通过这些数据不能够实施这些攻击。
 %通过对AES的各种cache时间攻击进行分析，可以将时间攻击分为三种典型的类型：
 %一是统计攻击：

@@ -132,7 +132,7 @@ To effectively eliminate the cache timing side channels,
 \end{theorem}
 
 \begin{proof}
-From the attackers' point of view,
+From the attacker's perspective,
    $T_{nm}$, $T_{mm}$ and any value greater than $T_{mm}$ are three types of measured time that are unexploitable;
    i.e. the measured time does not reflect the cache misses/hits of certain lookup table entries.
     %$T_{nm}$, $T_{mm}$, and any value greater than $T_{mm}$.
@@ -610,16 +610,16 @@ In the state $S_{\bar{c}, \bar{a}}$, {\scshape{Warm}} is performed with the prob
 \label{equ:pim}
 \left\{
 \begin{split}
-&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
+&\Pi_{c}^{\oplus} = \frac{(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}(1-P_{w}^{\oplus})+P_{w}^{\oplus})}{D_M}\ \\
 &\Pi_{\bar{c}, \bar{a}}^{\oplus} = \frac{P_{e|S_{c}}(1-P_{a|S_{c}})}{D_M}\  \\
-&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1-P_{w}^{\oplus})}{D_M}
+&\Pi_{\bar{c}, a}^{\oplus} = \frac{P_{e|S_{c}}P_{a|S_{c}}P_{w}^{\oplus}}{D_M} +\frac{P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}(1-P_{w}^{\oplus})}{D_M}
 \end{split}
 \right.
 \end{equation}
 %\setlength{\arraycolsep}{5pt}
 where
 \begin{align}
-D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\ominus}(1- P_{w}^{\oplus}) \nonumber \\
+D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}(1- P_{w}^{\oplus}) \nonumber \\
 &-P_{e|S_{c}}(P_{w}^{\oplus}+P_{a|S_{c}}-P_{a|S_{c}}P_{w}^{\oplus}) \ .  \nonumber
 \end{align}
 
@@ -670,7 +670,7 @@ So the extra time introduced by less {\vwarm} is always larger than conditional 
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
 Next, we compare conditional {\vwarm} with more {\vwarm}.
 First we \textcolor[rgb]{1.00,0.00,0.00}{use $T_{w}^{min}$ to denote the minimum of $T_{w}$ as $x$ varies,}
-    and define $G = T_{d} / T_{w}$, 
+    and define $G = T_{d} / T_{w}$,
     $M = T_{w}^{\min} / T_{d}$,
 \begin{align}
 &D_{F}=P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}-P_{e|S_{c}}P_{a|S_{c}})(P_{a|S_{c}}-1) \nonumber \\
@@ -801,7 +801,7 @@ $$\left\{
 $$
 
 %In this way, the arbitrary strategy is divided.
-It has been proved that conditional {\vwarm} has the better performance than less {\vwarm} or unusual {\vwarm}.
+It has been proved that conditional {\vwarm} has better performance than less {\vwarm} or unusual {\vwarm}.
 Meanwhile, if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
 So conditional {\vwarm} has better performance than \textcolor[rgb]{1.00,0.00,0.00}{warm strategies} with any $P_{1}$ and $P_{2}$,
 if condition:
@@ -952,7 +952,7 @@ where
 By computation we get that when $P_{e|S_c} = 1$, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1$ and $P_{a|S_c} = 0.994$, $F_G$ gets the minimum value.
 The minimum value is $167.67$.
 Therefore, $G$ is much less than the minimum value of $F_G$ when $D_F < 0$.
- So based on Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache-miss occurs during the previous execution,
+ So based on Theorem~\ref{lemma:warmnum3}, performing  {\vwarm}  when cache misses occur during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
 \end{proof}
 
@@ -965,12 +965,12 @@ For different platforms, $T_{w}$ and $T_{d}$ are different. So the value of $M$ 
      And the minimum value is less than $167.67$.
 
 %2.对G的范围的影响
-The maximum value of $G$ is $1/M$. When $M\geq 0.0069$, $1/M\leq 144.93$. This value is less than $167.67$, so the condition in Theorem~\ref{lemma:warmnum3} is satisfied which means performing  {\vwarm}  when cache-miss occurs during the previous execution,
+The maximum value of $G$ is $1/M$. When $M\geq 0.0069$, $1/M\leq 144.93$. This value is less than $167.67$, so the condition in Theorem~\ref{lemma:warmnum3} is satisfied which means performing  {\vwarm}  when cache misses occur during the previous execution,
   results in the least extra time of {\vdelay} and {\vwarm}.
     When $M < 0.0059$, the maximum value of $G$ is larger than $169.49$.
-     Thus the condition in Theorem~\ref{lemma:warmnum3} is not hold any more. In this case, the more {\vwarm} strategy has better performance.
+     Thus the condition in Theorem~\ref{lemma:warmnum3} is not held any more. In this case, the more {\vwarm} strategy has better performance.
       This is reasonable because the cost of {\vwarm} is very little here.
-  While when $ 0.0059 \geq M < 0.0069$, whether the conditional {\vwarm} has better performance depends on the minimum value of $F_G$.
+  While when $ 0.0059 \leq M < 0.0069$, whether the conditional {\vwarm} has better performance depends on the minimum value of $F_G$.
 
 %\qed
 %\end{proof}
@@ -1040,7 +1040,7 @@ When the system is in the state $S_{\bar{c}, a}$, one AES execution is a partial
 When the system state is $S_{\bar{c}, a}$, conditional {\vwarm} strategy performs {\vwarm}  with probability 1,
  while the general warm strategy performs {\vwarm} with a probability $P_{1}^{'}\in[0,1]$ greater than $P_{1}$ (in Theorem~\ref{lemma:warmnum3}), due to the partial warm by the AES execution.
 %, it mean the AES expands the $P_{warm}$.
-However, the condition that makes $E(T^{\oplus}) > E(T)$ hold is not changed.
+However, the condition that makes $E(T^{\oplus}) > E(T)$ is not changed.
  Moreover based on Theorem~\ref{lemma:warmnum3}, although $P_{1}^{'}$ is different, the general warm strategy still can be divided.
 Therefore, conditional {\vwarm} strategy still  has better performance.
 
