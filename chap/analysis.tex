@@ -481,16 +481,16 @@ the stationary distributions for the three different strategies are analyzed as 
 
 \begin{figure*}[t]
     \centering
-    \subfloat[Conditional warm]{\includegraphics[width=2.9in]{pic/conditionwarm2.pdf}
+    \subfloat[Conditional warm]{\includegraphics[width=2.9in]{pic/conditionwarm3.pdf}
     \label{fig:conditioncase}}
     \hfil
-    \subfloat[Less warm]{\includegraphics[width=3.15in]{pic/probwarmless2.pdf}
+    \subfloat[Less warm]{\includegraphics[width=3.15in]{pic/probwarmless3.pdf}
     \label{fig:lesscase}}
     \hfil
-    \subfloat[More warm]{\includegraphics[width=3.5in]{pic/probwarmmore2.pdf}
+    \subfloat[More warm]{\includegraphics[width=3.5in]{pic/probwarmmore3.pdf}
     \label{fig:morecase}}
     \hfil
-    \subfloat[Unusual warm]{\includegraphics[width=3.5in]{pic/probwarmco2.pdf}
+    \subfloat[Unusual warm]{\includegraphics[width=3.5in]{pic/probwarmco3.pdf}
     \label{fig:cocase}}
     \caption{The Markov state transition probability diagram.}
     \label{pic:statetrans}
@@ -553,7 +553,7 @@ so $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}P_{S_{c}|S_{\bar{c}, a}}=P
    Thus, $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$,
    where $P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$ is the probability of the state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed.
     The state turns to $S_{\bar{c}, \bar{a}}$ if the uncached entries are not accessed,
-    and the probability is $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$.
+    and the probability is $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a}^{\bar{w}}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$.
 
 %
 %  When {\scshape{Warm}} is not performed, whether the {\scshape{Eviction}} event occurs or not, some lookup entries are not in the cache. If these uncached entries are accessed during the AES execution, it remains the state $S_{\bar{c}, a}$, otherwise it turns to the state $S_{\bar{c}, \bar{a}}$. In summary, the state turns to $S_c$ with $P_{S_{c}|S_{\bar{c}, a}}^{\ominus}=P_{w}^{\ominus}(1-P_{e|S_c})$, remains $S_{\bar{c}, a}$ with $P_{S_{\bar{c}, a}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}+P_{w}^{\ominus}P_{e|S_c}P_{a|S_c}$ and turns to $S_{\bar{c}, \bar{a}}$ with $P_{S_{\bar{c}, \bar{a}}|S_{\bar{c}, a}}^{\ominus}=(1-P_{w}^{\ominus})(1-P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus})+P_{w}^{\ominus}P_{e|S_c}(1-P_{a|S_c})$, where $P_{S_{\bar{c}, a}|S_{\bar{c}, a},\bar{w}}^{\ominus}$ means the probability of state transition from $S_{\bar{c}, a}$ to $S_{\bar{c}, a}$ if {\vwarm} is not performed.
@@ -669,7 +669,7 @@ So the extra time introduced by less {\vwarm} is always larger than conditional 
 %\noindent\textbf{Comparing Conditional \vwarm~ with More {\vwarm}.}
 %By comparing the expected extra time introduced by the two strategies, we get the following theorem.
 Next, we compare conditional {\vwarm} with more {\vwarm}.
-First we \textcolor[rgb]{1.00,0.00,0.00}{use $T_{w}^{min}$ to denote the minimum of $T_{w}$ as $x$ varies,}
+First we use $T_{w}^{min}$ to denote the minimum of $T_{w}$ as the number of table entries in caches varies, which means the time of performing {\vwarm} when all table entries are in caches.
     and define $G = T_{d} / T_{w}$,
     $M = T_{w}^{\min} / T_{d}$,
 \begin{align}
@@ -694,7 +694,7 @@ First we \textcolor[rgb]{1.00,0.00,0.00}{use $T_{w}^{min}$ to denote the minimum
 % \end{theorem}
 The conditional {\vwarm} strategy provides better performance than more {\vwarm}, if the following condition
  holds:     (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$,
- where $F_G^{\min}$ is the minimum of $F_G$ as $x++++$ varies.
+ where $F_G^{\min}$ is the minimum of $F_G$ as $P_{e|S_{c}}, P_{a|S_{c}}$ and $P_{S_{\bar{c}, a}|S_{\bar{c}, \bar{a}}}$ varies.
 %%\begin{itemize}
 %%  \item
 %%    $D_{F} \geq 0$ or $D_{F} < 0$ and $G < \min(F_G)$.
@@ -717,7 +717,8 @@ In $S_{\bar{c}, a}$, {\vdelay} is needed,
 so the extra time introduced by {\vwarm} is masked in {\vdelay} for these two strategies.
  In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm}.
 But for the more {\vwarm} strategy, {\vwarm} is performed with $P_{w}^{\oplus}$.
-\textcolor[rgb]{1.00,0.00,0.00}{ Thus,} % 以下的等式是 = ，为什么会有Tmin？
+The extra time is $T_{w}^{min}$ in $S_{c}$ as all table entries are cached and $T_w$ in $S_{\bar{c}, \bar{a}}$.
+ Thus,
 \begin{align}
 \label{equ:tpc2}
 &E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}^{\oplus}*T_{w}^{min} \nonumber \\
@@ -803,7 +804,7 @@ $$
 %In this way, the arbitrary strategy is divided.
 It has been proved that conditional {\vwarm} has better performance than less {\vwarm} or unusual {\vwarm}.
 Meanwhile, if satisfied the condition in Theorem~\ref{lemma:warmnum2}  conditional {\vwarm} has better performance compared with more {\vwarm} strategy.
-So conditional {\vwarm} has better performance than \textcolor[rgb]{1.00,0.00,0.00}{warm strategies} with any $P_{1}$ and $P_{2}$,
+So conditional {\vwarm} has better performance than arbitrary \textcolor[rgb]{1.00,0.00,0.00}{warm strategies} with any $P_{1}$ and $P_{2}$,
 if condition:
 %\begin{enumerate}
 %  \item
@@ -816,7 +817,7 @@ if condition:
 %    $\forall D_{F}$, when  $D_{F} < 0$, $G < \min(F_G)$.
 %\end{itemize}
     \begin{equation*}
-    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < \min(F_G) .
+    (1)\ D_{F} \geq 0 \ or\ (2)\ D_{F} < 0 \  and \ G < F_{G}^{\min} .
 %    \left\{
 %    \begin{split}
 %    &D_{F} \geq 0 \\
@@ -995,8 +996,10 @@ The maximum value of $G$ is $1/M$. When $M\geq 0.0069$, $1/M\leq 144.93$. This v
 %\noindent\textbf{4. Remarks.}
 \subsubsection{Remarks}
 \label{remark}
-In the analysis of {\vwarm} operation before, we assume that some conditions are not considered. In this part, we discuss these conditions.
-First is the effect of partial warm caused by the AES execution. Second is the influence of process scheduling and interruptions.
+In the analysis of {\vwarm} operation before, we assume that some conditions are not considered.
+ In this part, we discuss these conditions.
+First, we discuss the effect of partial warm caused by the AES execution.
+ Second, the influence of process scheduling and interruptions is analysed.
 Finally, we summarize the relation between the measured time and the cache states.
 %$S_{\bar{c}, a}$ and $S_{\bar{c}, \bar{a}}$
 
