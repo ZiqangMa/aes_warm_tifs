@@ -327,39 +327,13 @@ and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading
 
 % 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET 时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
-\begin{example}
-\label{corollarywarm1}
-For the AES-128 implementation with a 2KB lookup table
-in commodity computer systems,
+
+\noindent\textbf{Example.}
+For the AES-128 implementation with a 2KB lookup table,
 loading all entries of the lookup table into caches in the {\vwarm} operation
    provides better performance than loading any part of entries.
-\end{example}
 
-\begin{proof}
-With commodity hardware, the cache is enough for all entries of the lookup tables.
-For example, AES is implemented with the lookup tables of 2KB, 4KB, 4.25KB or 5KB,
-   and the lookup tables of DES/3DES are 2KB.
-Meanwhile, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
-
-
-In our experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM,
-$T_{mm}$, $T_{nm}$, and $T_{cl}$ are $2834.00$, $355.00$, and $54.55$ CPU cycles, respectively
- (see Section \ref{sec:implementation} for details).
-%%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
-Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
-    when $R = 10$, $L = 2$KB, and $C = 64$B.
-We find that, the cost of not loading $N$ ($32 \geq N >0$) cache lines of the lookup table is always much greater than the benefit.
-\textcolor[rgb]{1.00,0.00,0.00}{The result is applicable to other commodity computer systems.}
-Then, according to Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces better performance.
-\end{proof}
-
-Moreover, in our {\vwd} scheme, {\vwarm} is performed % after encryption
-   as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
-So the cost of {\vwarm} is further reduced, ensuring that loading all entries of the lookup table in {\vwarm} is better.
-
- %The time $T_{mm}$ is 2834 CPU cycles, while the shortest AES execution time $T_{nm}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
-
-\begin{table*}[t]
+\begin{table*}[htb]
   \renewcommand{\arraystretch}{1.3}
   \caption{Benefit and expected cost of not loading $N$ cache lines of table entries (in CPU cycles).}\label{tbl:warmcontent}
   \centering
@@ -376,6 +350,28 @@ So the cost of {\vwarm} is further reduced, ensuring that loading all entries of
 \end{table*}
 
 
+
+We finished the experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
+$T_{mm}$, $T_{nm}$, and $T_{cl}$ are $2834.00$, $355.00$, and $54.55$ CPU cycles, respectively
+ (see Section \ref{sec:implementation} for details).
+%%% 计数的数字保留，最好一致。例如，都是小数点后1位、2位，固定一致。
+Table~\ref{tbl:warmcontent} shows $B_{nl}(N)$ and $D_{nl}(N)$,
+    when $R = 10$, $L = 2$KB, and $C = 64$B.
+The cost of not loading $N$ ($32 \geq N >0$) cache lines of the lookup table is always much greater than the benefit.
+Thus, according to Theorem \ref{theorm:warmall}, loading all entries in {\vwarm} produces better performance.
+
+
+On commodity systems, the cache is enough for all entries of the lookup tables.
+For example, AES is implemented with the lookup tables of 2KB, 4KB, 4.25KB or 5KB,
+   and the lookup tables of DES/3DES are 2KB.
+Meanwhile, the typical L1D cache is 32KB or 64KB for Intel CPUs, and 16KB or 32KB for ARM CPUs.
+
+
+Moreover, in our {\vwd} scheme, {\vwarm} is performed % after encryption
+   as a part of the {\vdelay} operation, as shown in Algorithm \ref{alg:aesdefense}.
+So the cost of {\vwarm} is further reduced, ensuring that loading all entries of the lookup table in {\vwarm} is better.
+
+ %The time $T_{mm}$ is 2834 CPU cycles, while the shortest AES execution time $T_{nm}$ is 309 cycles. The average time $T_{cl}$ for loading one cache line of lookup table is 55.68 cycles.
 
 
 %************************************分隔符******************************************
@@ -658,7 +654,7 @@ E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{d} - \Pi_{\bar{c}, a} * T_{d
 
 We find that $E(T^{\ominus}) - E(T) > 0$ for any $P_{w}^{\ominus}\in(0,1)$,
     and the detailed calculation is in Appendix~\ref{appendixa1}.
-So the extra time introduced by less {\vwarm} is always larger than conditional {\vwarm},
+So the extra time introduced by less {\vwarm} is always greater than conditional {\vwarm},
     and conditional {\vwarm} is better.
 %That is the conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 \end{proof}
@@ -896,20 +892,17 @@ if it does better than more {\vwarm}, i.e.,
 
 %$T^{p} > T^{C}$.
 %\paragraph{comparing conditional \vwarm~ with general warm strategy}
-\begin{corollary}
-For the AES-128 implementation with a 2KB lookup table
-in commodity computer systems,
+
+\noindent\textbf{Example.} For the AES-128 implementation with a 2KB lookup table,
 performing  {\vwarm}  when cache misses occur during the previous encryption,
   results in the least extra time cost of {\vdelay} and {\vwarm}.
-\end{corollary}
 
-\begin{proof}
-For the AES-128 implementation with a 2KB lookup table, $P_{a|S_c}$ is larger than 0.994 based on Equation~\ref{equ:delay},
+
+First of all, $P_{a|S_c}$ is greater than 0.994 based on Equation~\ref{equ:delay},
 and the range of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ is $[0.994,1]$.
-
-We measured $T_d$ and $T_w$ in the Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
+We measured $T_d$ and $T_w$ in the Lenovo ThinkCentre M8400t PC. %with an Intel Core i7-2600 CPU and 2GB RAM.
 $T_{d}$ is $2479.00$ CPU cycles,
-the minimum of $T_{w}$ (or $T_{w}^{min}$) is $88$ cycles when accessing the lookup table in the L1D cache,
+$T_{w}^{min}$ is \textcolor[rgb]{1.00,0.00,0.00}{$88$ cycles }when accessing the lookup table in the L1D cache,
 and the maximum of $T_{w}$ is $1745.60$ CPU cycles when all the lookup entries are not cached.
 Thus, $M=0.0355$ and the rang of $G$ is $[1.42,28.17]$.
 
@@ -934,8 +927,8 @@ $F_G$ reaches the minimum value when $P_{a|S_c} = 0.994$.
 \begin{split}
 &P_{e|S_c} = \frac{0.994M(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{0.006(1-0.006M)} \\
 &P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = \frac{0.07746P_{e|S_c}}{\sqrt{M(1-P_{e|S_c})}}-0.006P_{e|S_c} \\
-& \text{If } P_{e|S_c} \geq 1, P_{e|S_c} = 1\text{ and }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1 \\
-& \text{If} P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq  1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
+& \text{If }P_{e|S_c} \geq 1, P_{e|S_c} = 1\text{ and }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1 \\
+& \text{If }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq  1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right. \ ,
 \end{equation}
@@ -953,7 +946,6 @@ So $G$ is much less than $F_G^{\min}$  when $D_F < 0$.
 Finally, according to Theorem~\ref{lemma:warmnum3},
   performing  {\vwarm}  when cache misses occur during the previous encryption,
   results in the least extra time of {\vdelay} and {\vwarm}.
-\end{proof}
 
 %%1.对极值点和极值的影响
 %For different platforms, $T_{w}$ and $T_{d}$ are different. So the value of $M$ and the rang of $G$ are different.
@@ -994,7 +986,7 @@ Finally, according to Theorem~\ref{lemma:warmnum3},
 %\noindent\textbf{4. Remarks.}
 \subsubsection{Remarks}
 \label{remark}
-In the above analysis of {\vwarm},
+In the above analysis,
     we ignore some effects on caches by encryption execution, task scheduling and interrupts,
     and these effects are discussed as below.
 We also summarize the relation between the measured time and the cache states.
@@ -1042,8 +1034,8 @@ When the system is in the state $S_{\bar{c}, a}$, one encryption execution is a 
 
 %In our analysis, the warmup operation is performed after the AES execution. When doing the delay operation, the time consumption of the warmup operation is included in the delay time. So it is better to perform warmup when need to delay because the warmup cost nothing at this time.%这段话是想说，warm是在delay之后做的，而且warm的消耗包含在了delay的消耗里，所以只要需要进行delay的时候，进行一次warm是一个更好的选择，因为这个时候warm是不会产生额外消耗的。这段话放在这里似乎不太合适，但我没想好放在哪里。
 
-Therefore, when the system state is $S_{\bar{c}, a}$, conditional {\vwarm} performs {\vwarm}  with probability 1,
- while a general strategy performs {\vwarm} with a probability $P_{1}^{'}\in[0,1]$ greater than $P_{1}$ in Theorem~\ref{lemma:warmnum3}, due to the partial warm by the encryption execution.
+Therefore, when the system is in $S_{\bar{c}, a}$, conditional {\vwarm} performs {\vwarm}  with probability 1,
+ while a general strategy actually performs {\vwarm} with a probability $P_{1}^{'}$ greater than $P_{1}$ in Theorem~\ref{lemma:warmnum3}, due to the partial warm by the encryption execution.
 %, it mean the AES expands the $P_{warm}$.
 Although $P_{1}^{'}$ is different from $P_1$, 
 the condition that leads to $E(T^{\oplus}) > E(T)$ does not change.
@@ -1059,19 +1051,26 @@ So conditional {\vwarm} still produces better performance.
 %\subsubsection{Task scheduling and interruption occur during the AES execution}
 \vspace{2mm}
 \noindent\textbf{If task scheduling and interrupts occur during the encryption,
-    and then {\vwarm}  will be performed always.}
+    {\vwarm}  will be performed always.}
 In this case,  the time of {\scshape{Encrypt}} is greater than $T_{mm}$ (i.e., $t2 - t1 > T_{mm}$), {\vwarm}  will be triggered
  in the conditional {\vwarm} strategy. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
-As the task scheduling and interruption occur, we assume that $N$ cache lines of the lookup table are evicted from caches.
+When task scheduling or interrupts occur,
+ we assume that $N$ cache lines of the lookup table are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
-Hence, the extra overhead introduced by using {\vwarm}  to load the lookup table is $E(T_{w},N) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of the lookup table from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
-Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance when $N>0$.
+\textcolor[rgb]{1.00,0.00,0.00}{Hence, the extra overhead of {\vwarm}  to load the lookup table is $W_{nl}(N) = N T_{cl} + (32-N)*T_{\bar{cl}}$, where $T_{\bar{cl}}$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively.} % 是否影响到其他地方？
+If we do not perform \vwarm , the next AES may need to access some part(s) of the lookup table from RAM instead of caches,
+ which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (see Equation~\ref{equ:tdelay}).
 
-If $N = 0$, it means that the lookup table is not evicted from the cache when the task scheduling and interruption occur. In this case {\vwarm} is not needed. However from the overall execution we cannot distinguish whether the lookup table is evicted, otherwise we need more privileged operations. Therefore, we have to perform {\vwarm} and thus it introduces some extra overhead.
+Table~\ref{tbl:scheduaes} shows the results on the Lenovo ThinkCentre M8400t PC,
+    and performing {\vwarm} achieves better performance when $N>0$.
+If $N = 0$ (i.e., no table entry is evicted from caches), {\vwarm} is not needed while $t2 - t1 > T_{mm}$.
+However, we cannot distinguish whether the table entry is evicted, unless more privileged operations are performed.
+So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
+     access each cache line that has been in caches).
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
-\begin{table*}[t]
+\begin{table*}[htb]
   \centering
   %\small
   %\scriptsize
@@ -1084,7 +1083,7 @@ If $N = 0$, it means that the lookup table is not evicted from the cache when th
    %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
    \hline
-   {$E(T_{warm})$} & 139.80 & 191.60 & 243.40 & 347.00 & 606.00 & 865.00 & 1124.00 & 1383.00 & 1642.00 & 1693.80 & 1745.60 \\
+   {$W_{nl}(N)$} & 139.80 & 191.60 & 243.40 & 347.00 & 606.00 & 865.00 & 1124.00 & 1383.00 & 1642.00 & 1693.80 & 1745.60 \\
    \hline
    \end{tabular}
 \end{table*}

@@ -492,7 +492,6 @@ the stationary distributions for the three different strategies are analyzed as 
     \label{pic:statetrans}
 \end{figure*}
 
-\vspace{2mm}
 \noindent\textbf{Conditional {\vwarm}.}
 The state transition of conditional {\vwarm} is shown in \figurename~\ref{fig:conditioncase}.
   %Due to the difference of the quantity of entries of the lookup table not in the caches, $P_{a|S_{\bar{c}, \bar{a}}}$ is no less than $P_{a|S_{c}}$.
@@ -997,8 +996,8 @@ We also summarize the relation between the measured time and the cache states.
 
 %\noindent\textbf{One AES execution is a partial warm operation.}
 %\subsubsection{One AES execution is a partial warm operation}
-\vspace{2mm}
-\noindent\textbf{One encryption execution is a partial {\vwarm} operation.}
+
+\vspace{1mm}\noindent\textbf{One encryption execution is a partial {\vwarm} operation.}
 When the system is in the state $S_{\bar{c}, a}$, one encryption execution is a partial warm operation
     because table entries are accessed during the encryption
         and cache misses will load the corresponding entries into caches.
@@ -1049,22 +1048,27 @@ So conditional {\vwarm} still produces better performance.
 
 %\noindent\textbf{Task scheduling and interruption occur during the AES execution.}
 %\subsubsection{Task scheduling and interruption occur during the AES execution}
-\vspace{2mm}
-\noindent\textbf{If task scheduling and interrupts occur during the encryption,
+\vspace{1mm}\noindent\textbf{If task scheduling and interrupts occur during the encryption,
     {\vwarm}  will be performed always.}
 In this case,  the time of {\scshape{Encrypt}} is greater than $T_{mm}$ (i.e., $t2 - t1 > T_{mm}$), {\vwarm}  will be triggered
  in the conditional {\vwarm} strategy. %As proved in Theorem 2, we don't perform delay operation. So if we perform the warmup operation, it will bring extra overhead.
 When task scheduling or interrupts occur,
  we assume that $N$ cache lines of the lookup table are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
-Hence, the extra overhead of {\vwarm}  to load the lookup table is $E(T_{w},N) = N T_{cl} + (32-N)*T_{c}$, where $T_c$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively. If we do not perform \vwarm , the next round of AES may need to access part(s) of the lookup table from RAM instead of caches, which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (Equation~\ref{equ:tdelay}).
-Table~\ref{tbl:scheduaes} shows that performing {\vwarm} achieves better performance when $N>0$.
+\textcolor[rgb]{1.00,0.00,0.00}{Hence, the extra overhead of {\vwarm}  to load the lookup table is $W_{nl}(N) = N T_{cl} + (32-N)*T_{\bar{cl}}$, where $T_{\bar{cl}}$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively.} % 是否影响到其他地方？
+If we do not perform \vwarm , the next AES may need to access some part(s) of the lookup table from RAM instead of caches,
+ which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (see Equation~\ref{equ:tdelay}).
 
-If $N = 0$, it means that the lookup table is not evicted from the cache when the task scheduling and interruption occur. In this case {\vwarm} is not needed. However from the overall execution we cannot distinguish whether the lookup table is evicted, otherwise we need more privileged operations. Therefore, we have to perform {\vwarm} and thus it introduces some extra overhead.
+Table~\ref{tbl:scheduaes} shows the results on the Lenovo ThinkCentre M8400t PC,
+    and performing {\vwarm} achieves better performance when $N>0$.
+If $N = 0$ (i.e., no table entry is evicted from caches), {\vwarm} is not needed while $t2 - t1 > T_{mm}$.
+However, we cannot distinguish whether the table entry is evicted or not, unless more privileged operations are supported.
+So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
+     access each cache line that has been in caches) in the special case.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
-\begin{table*}[t]
+\begin{table*}[htb]
   \centering
   %\small
   %\scriptsize
@@ -1077,15 +1081,15 @@ If $N = 0$, it means that the lookup table is not evicted from the cache when th
    %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
    {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
    \hline
-   {$E(T_{warm})$} & 139.80 & 191.60 & 243.40 & 347.00 & 606.00 & 865.00 & 1124.00 & 1383.00 & 1642.00 & 1693.80 & 1745.60 \\
+   {$W_{nl}(N)$} & 139.80 & 191.60 & 243.40 & 347.00 & 606.00 & 865.00 & 1124.00 & 1383.00 & 1642.00 & 1693.80 & 1745.60 \\
    \hline
    \end{tabular}
 \end{table*}
 
 %\noindent\textbf{Periodical schedule function is called without scheduling during AES execution.}
 %\subsubsection{Periodical schedule function is called without scheduling during AES execution}
-\vspace{2mm}
-\noindent\textbf{Periodical Schedule Function Is Called without Scheduling during The AES Execution.}
+
+\vspace{1mm}\noindent\textbf{Periodical Schedule Function Is Called without Scheduling during The AES Execution.}
 As no other process invoked, the lookup table is not evicted.
 Therefore, {\vwarm}   is unnecessary although $T_{nm} < t2 - t1 \leq T_{mm}$.
 However, {\vwarm}   is a better choice, as we cannot predict whether the lookup table is in the cache, and the overhead introduced by accessing the elements in caches is concealed by \vdelay.
@@ -1094,7 +1098,7 @@ However, {\vwarm}   is a better choice, as we cannot predict whether the lookup 
 
 %\noindent\textbf{The relationship between the cache state and execution time.}
 %\subsubsection{The relationship between the cache state and execution time}
-\vspace{2mm}
+\vspace{1mm}
 \noindent\textbf{The Relationship between The Cache State and Execution Time.}
 In the above, we prove that performing  {\vwarm}  when not all lookup entries are in caches, results the least extra time.
 However, in our {\vwd} scheme, we perform the {\vwarm} operation according to the previous AES execution time,

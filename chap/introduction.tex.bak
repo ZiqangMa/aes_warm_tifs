@@ -159,19 +159,19 @@ We apply the integrated {\scshape{Warm+Delay}} scheme to protect AES,
     and analyze the conditions that produce the optimal performance.
 It is proven that,
    the integrated scheme with appropriate parameters,
-   achieves \emph{the optimal performance with the least extra operations};
+   achieves \emph{the optimal performance with the least extra operations} on commodity systems;
     that is, without any unnecessary table lookup operations
    or padding instructions.
 %In particular, we apply this scheme to AES,
 %It is found that,
 The optimal performance of {\scshape{Warm+Delay}} with different key sizes (128, 192, and 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables),
-    is investigated in commodity computers.
-\textcolor[rgb]{1.00,0.00,0.00}{For example,
+    is also investigated.
+For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
 if the ratio of
   the extra execution time caused by {\scshape{Delay}} to the extra time by {\scshape{Warm}},
-is less than $167.7$. (where can I find it? in the following section)
+is less than $167.7$. (\textbf{where can I find it? in the following sections})
 }These conditions hold %for continuous AES executions
  in commodity computers,
   which is confirmed by our experiments.
