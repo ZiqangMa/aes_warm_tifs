@@ -1,4 +1,4 @@
-\section{Implementation and Performance Evaluation}
+\section{Performance Evaluation}
 \label{sec:implementationEvalution}
 %更多的细节考虑，应该放在这里
 %\vspace{-1mm}
@@ -159,12 +159,12 @@ We adopt the instruction \verb+RDTSCP+ to implement {\scshape{GetTime}}, to obta
 %The instruction \verb+RDTSCP+ has high precision (in clock cycle) and is adopted in our implementation.
 \verb+RDTSCP+ is a serializing call which prevents the CPU from reordering it.
 In the implementation, we need to perform the following operations to achieve the high accuracy:
-(1) as the TSCs on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
+(1) as the Time Stamp Counters (TSC) on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
 Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
-so,  we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
-   instead of every time after {\scshape{Warm}} (see Line 7 in Algorithm \ref{alg:aesdefense}).
+So we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
+   instead of every time after {\scshape{Warm}} (Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
 The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
@@ -245,9 +245,9 @@ In our environment it is $331$ cycles.
  \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
    while all table entries except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
 Note that, this uncached entry may be unnecessary in an execution of AES encryption.
-We use the stack switch technique to eliminate the read-write conflict, at the same time it makes the AES execution time much more concentrated as shown in \figurename~\ref{fig:sim}.
- This helps the determination of $T_{nm}$ can be more accurate and reasonable.
-  Also we should choose the value as large as possible to avoid the influence of the fluctuation around $T_{nm}$ that might occur.
+The stack switch technique makes the AES execution time much more concentrated,
+ which helps the determination of $T_{nm}$ to be more accurate and reasonable.
+  Also we choose the value as large as possible to avoid the influence of the fluctuation around $T_{nm}$ that might occur.
 Finally, we choose 355 cycles as $T_{nm}$.
 This value is chosen to ensure that all table entries are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
 
@@ -255,10 +255,10 @@ This value is chosen to ensure that all table entries are in L1D caches and no f
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
 $T_{mm}$ is the maximum encryption execution time when all table entries are out of caches and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-We repeat the measurement for 10000 times, and calculate the average value of \textcolor[rgb]{1.00,0.00,0.00}{100 greater measurements} as $T_{mm}$.
+We repeat the measurement for 10000 times, and calculate the average value of \textcolor[rgb]{1.00,0.00,0.00}{100 greatest measurements} as $T_{mm}$.
  In this case $T_{mm}$ is 2834 CPU cycles.
 
- Noted that we should consider the effect of the instruction caches.
+ Note that we should consider the effect of the instruction caches.
   The implementation of block ciphers is not subject
    to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
   because there is generally no branches in the execution path.

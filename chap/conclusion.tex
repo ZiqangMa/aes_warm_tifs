@@ -16,7 +16,7 @@ The scheme eliminates remote cache timing side channels,
     by integrating {\scshape{Warm}} and {\scshape{Delay}} operations, two  algorithm-independent and implementation-transparent mechanisms.
 We investigate the factors affecting the performance of the scheme.
 It is concluded that {\scshape{Warm}} should load all lookup table entries into caches and  {\scshape{Delay}} should make the execution time to $T_{mm}$.
-  The optimal performance is achieved by performing {\scshape{Warm}} when cache misses occur during the previous execution
+  The optimal performance is achieved by performing {\scshape{Warm}} when cache misses occur during the previous encryption
     and performing {\scshape{Delay}} when  the execution time of encryption is in $(T_{nm} ,T_{mm})$.
 
 We implement the derived {\scshape{Warm+Delay}} scheme on Linux with Intel Core CPUs for AES-128.

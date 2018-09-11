@@ -88,8 +88,8 @@ The intuitive design is
     to eliminate cache timing side channels \cite{Braun2015Robust,Osvik2006Cache,Zhang2011Predictive}.
     {\scshape{Warm}} fills cache lines by reading constant tables \emph{before} the encryption operations,
     and
-    {\scshape{Delay}} inserts padding instructions \emph{after} encryption.\footnote{Another choice is to perform encryption without caches, which is very inefficient.
-     In fact, a typical strategy of {\scshape{Delay}}
+    {\scshape{Delay}} inserts padding instructions \emph{after} encryption.\footnote{Another choice is to perform encryption without caches, which is inefficient.
+In fact, a typical {\scshape{Delay}} strategy
      is to extend the encryption operation in constant time, equal to the execution time without caches.} With {\scshape{Warm}} or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
@@ -161,18 +161,18 @@ It is proven that,
    the integrated scheme with appropriate parameters,
    achieves \emph{the optimal performance with the least extra operations};
     that is, without any unnecessary table lookup operations
-   or inserted padding instructions.
+   or padding instructions.
 %In particular, we apply this scheme to AES,
 %It is found that,
 The optimal performance of {\scshape{Warm+Delay}} with different key sizes (128, 192, and 256 bits)
     and different implementations (2KB, 4KB, 4.25KB, and 5KB lookup tables),
     is investigated in commodity computers.
-For example,
+\textcolor[rgb]{1.00,0.00,0.00}{For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
-\textcolor[rgb]{1.00,0.50,0.50}{when the ratio of
+if the ratio of
   the extra execution time caused by {\scshape{Delay}} to the extra time by {\scshape{Warm}},
-is less than $167.7$.}
-These conditions hold %for continuous AES executions
+is less than $167.7$. (where can I find it? in the following section)
+}These conditions hold %for continuous AES executions
  in commodity computers,
   which is confirmed by our experiments.
 The conditions of the optimal performance for other AES implementations of different key sizes are not identical
