@@ -153,7 +153,7 @@ In the evaluation, we use the AES implementation with a 2KB lookup table.
   The 2KB lookup table takes up one cache line of 32 cache sets.
    So we can declare a 2KB array taking up the reminder cache sets to be used as the stack, just making the address successive with the lookup table module 4096.
 
-However, when using larger lookup tables, all cache sets will be occupied by default due to the continuity of lookup tables in the RAM.
+However, when using greater lookup tables, all cache sets will be occupied by default due to the continuity of lookup tables in the RAM.
  In these conditions, to avoid the impact of read-write of same cache sets and to be able to declare a 2KB array as the stack, first we should make the lookup tables only take up the 32 cache sets.
   This can be done by making the lookup tables discontinuous.
    When using 4KB lookup tables, we can make the first address of $T_2$ the same as $T_0$ module 4096, which makes them take up the same cache sets. So 4KB lookup tables only occupy 32 cache sets and the 2KB array can take up the other 32 cache sets.
