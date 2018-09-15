@@ -1036,7 +1036,7 @@ When the system is in the state $S_{\bar{c}, a}$, one encryption execution is a 
 Therefore, when the system is in $S_{\bar{c}, a}$, conditional {\vwarm} performs {\vwarm}  with probability 1,
  while a general strategy actually performs {\vwarm} with a probability $P_{1}^{'}$ greater than $P_{1}$ in Theorem~\ref{lemma:warmnum3}, due to the partial warm by the encryption execution.
 %, it mean the AES expands the $P_{warm}$.
-Although $P_{1}^{'}$ is different from $P_1$, 
+Although $P_{1}^{'}$ is different from $P_1$,
 the condition that leads to $E(T^{\oplus}) > E(T)$ does not change.
 % Moreover based on Theorem~\ref{lemma:warmnum3}, the general warm strategy still can be divided.
 So conditional {\vwarm} still produces better performance.
@@ -1062,7 +1062,7 @@ If we do not perform \vwarm , the next AES may need to access some part(s) of th
 Table~\ref{tbl:scheduaes} shows the results on the Lenovo ThinkCentre M8400t PC,
     and performing {\vwarm} achieves better performance when $N>0$.
 If $N = 0$ (i.e., no table entry is evicted from caches), {\vwarm} is not needed while $t2 - t1 > T_{mm}$.
-However, we cannot determine whether the table entry is evicted or not, unless more privileged operations are supported.
+However, we cannot find whether the table entry is evicted or not, unless more privileged operations are supported.
 So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
      access each cache line that has been in caches) in the special case.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
@@ -1089,26 +1089,24 @@ So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
 %\noindent\textbf{Periodical schedule function is called without scheduling during AES execution.}
 %\subsubsection{Periodical schedule function is called without scheduling during AES execution}
 
-\vspace{1mm}\noindent\textbf{If task scheduling is triggered but the encryption execution is not suspended,
+\vspace{1mm}\noindent\textbf{If task scheduling is triggered but the encryption execution is not suspended and resumed immediately,
     {\vwarm} is still performed.}
 Although $T_{nm} < t2 - t1 \leq T_{mm}$,
-    {\vwarm}  is unnecessary 
-        for no other task is executed and the lookup table is probably not evicted.
+    {\vwarm}  is unnecessary
+        for no other task is executed and the lookup table is not evicted.
 In this case,
-    {\vwarm}  is still a better choice, as we cannot determine whether a table entry is in caches or not,
+    {\vwarm}  is still a better choice, as we cannot find whether a table entry is in caches or not,
      and the introduced overhead is concealed by \vdelay.
 
 %In this case, the lookup tables normally are still in the cache. So the warmup and delay operation are not needed. Actually, in this case, $T_{nm} < end - start \leq T_{mm}$. However, we can't distinguish it is in this case or cache misses occurs. So we must do the delay operation. Moreover, in this case, performing warmup operation introduces none extra time. Therefore, we can regard this case as in the state $S_{as}$. %这段话是说明了周期调度函数调用但未有其他函数被调度时，AES时间是小于WET的，但是我们通过观察无法分辨是这种情况发生，还是是有cache miss发生。因此我们要对这种情况进行delay+warm的操作。其实对于概率warm的情况，也是要这么处理，所以，我们的方案合适。
 
 %\noindent\textbf{The relationship between the cache state and execution time.}
 %\subsubsection{The relationship between the cache state and execution time}
-++++
-
 \vspace{1mm}
-\noindent\textbf{The Relationship between The Cache State and Execution Time.}
-In the above, we prove that performing  {\vwarm}  when not all lookup entries are in caches, results the least extra time.
-However, in our {\vwd} scheme, we perform the {\vwarm} operation according to the previous AES execution time,
- as we are technically unable to observe the cache state without introducing additional overhead.
+\noindent\textbf{The execution time does not exactly reflect the cache state.}
+In the above, we prove that, {\vwarm}  when not all lookup entries are in caches, results the least extra time.
+However, in the {\vwd} scheme, {\vwarm} is performed according to the previous execution time,
+ as it is technically unable to observe the cache state without introducing additional overhead.
 % \footnote{Otherwise, we perform  the warmup operation before each execution, which is less efficient as proved in Theorem 4.}.% 这个脚注是什么意思？为什么？
 The relationship between the cache state and execution time is as follows:
 \begin{itemize}
@@ -1173,7 +1171,7 @@ $P_{a}$ (detailed in Appendix~\ref{appendixb}) is the probability that some cach
 For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, they have 5 lookup tables with the total size 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
 Table~\ref{tbl:pdelayvalue} lists the corresponding minimum $P_{a}$.
 $T_{w}$ and $T_{d}$ are related to not only the different implementations and key length, but also the platform that running AES.
-Therefore, for different implementations and key length of AES, first we should determine $P_{a}$, $T_{w}$ and $T_{d}$. Then we can use the previous theorems to determine whether the {\scshape{Warm+Delay}} scheme provides the optimal performance.
+Therefore, for different implementations and key length of AES, first we should measure  $P_{a}$, $T_{w}$ and $T_{d}$. Then we can use the previous theorems to determine whether the {\scshape{Warm+Delay}} scheme provides the optimal performance.
  %Furthermore, the {\vwarm} and {\vdelay} can be configured to satisfy the theorems then get the optimal performance.
 
 

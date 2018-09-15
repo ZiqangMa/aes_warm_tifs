@@ -238,7 +238,7 @@ volatile int delay(uint64_t t_delay){
 
 
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{nm}}$.}
-$T_{nm}$ is larger than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+$T_{nm}$ is greater than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
 and less than the AES execution that only one cache miss occurs.
 The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
 In our environment it is $331$ cycles.
