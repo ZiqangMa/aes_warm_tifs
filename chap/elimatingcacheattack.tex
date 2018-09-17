@@ -102,7 +102,7 @@ More importantly, the objectives of our research are elaborated as follows:
 \hline
 $T_{nm}$ & The encryption execution time when \underline{n}o cache \underline{m}iss occurs.\\
 \hline
-$T_{mm}$ & The encryption execution time with the \underline{m}aximum of cache \underline{m}isses. \\
+$T_{mm}$ & The encryption execution time with the \underline{m}aximal number of cache \underline{m}isses. \\
 %all lookup table entries are out of caches.\\        % 定义需要再准确一些！
 \hline
 %$t1, t2$ & the time that encryption execution begins and ends respectively\\
@@ -128,11 +128,15 @@ $P_{\bar{a}}(N)$ & The probability that $N$ certain cache lines are \underline{n
 %\hline
 %$X_n$ & the state of the lookup table in the caches \\
 %\hline
-%     $S_{c}$&  the state that all entries of the lookup tables are in caches\\
-%\hline
-%     $S_{\bar{c}, a}$& the state that some entries are uncached, and at least one of them is accessed during the AES encryption\\
-%\hline
-%     $S_{\bar{c}, \bar{a}}$& the state that some entries are uncached, but none of them is accessed during the AES encryption\\
+$T_{d}$ & The extra time cost introduced by  {\scshape{Delay}} operation. $T_{d} = T_{mm}-T_{nm}$.\\
+\hline
+$T_{w}$ & The extra time cost introduced by  {\scshape{Warm}} operation.\\
+\hline
+     $S_{c}$&  The state that all entries of the lookup table are in caches.\\
+\hline
+     $S_{\bar{c}, a}$& The state that some entries are uncached, and at least one of them is accessed during encryption.\\
+\hline
+     $S_{\bar{c}, \bar{a}}$& The state that some entries are uncached, but none of them is accessed during encryption.\\
 %\hline
 %$P_{e}$ & The probability that eviction occurs\\
 %\hline
@@ -146,23 +150,19 @@ $P_{\bar{a}}(N)$ & The probability that $N$ certain cache lines are \underline{n
 %\hline
 %$P_{a|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
 %\hline
-$\Pi_{c}$ & the probability that the system is in the state $S_c$ in the stationary distribution\\
+$\Pi_{c}$ & The probability that the system is in $S_c$, in the stationary distribution.\\
 \hline
-$\Pi_{\bar{c}, \bar{a}}$ & the probability that the system is in the state $S_{\bar{c}, \bar{a}}$ in the stationary distribution\\
+$\Pi_{\bar{c}, \bar{a}}$ & The probability that the system is in $S_{\bar{c}, \bar{a}}$, in the stationary distribution.\\
 \hline
-$\Pi_{\bar{c}, a}$ & the probability that the system is in the state $S_{\bar{c}, a}$ in the stationary distribution\\
-\hline
-$T_{d}$ & the extra cost introduced by  {\scshape{Delay}} operation\\
-\hline
-$T_{w}$ & the extra cost introduced by  {\scshape{Warm}} operation\\
-\hline
-$T_{w}^{min}$ & the minimal value of $T_{w}$\\
-\hline
-$G$ & $T_{d}/T_{w}$\\
-\hline
-$M$ & $T_{w}^{min} / T_{d}$\\
-\hline
-$F_G$ & represents an expression that $G$ should be less than \\
+$\Pi_{\bar{c}, a}$ & The probability that the system is in $S_{\bar{c}, a}$ in the stationary distribution.\\
+%\hline
+%$T_{w}^{min}$ & the minimal value of $T_{w}$\\
+%\hline
+%$G$ & $T_{d}/T_{w}$\\
+%\hline
+%$M$ & $T_{w}^{min} / T_{d}$\\
+%\hline
+%$F_G$ & represents an expression that $G$ should be less than \\
 %\hline
 %$W$ & general warm strategy\\
 %\hline
@@ -244,7 +244,7 @@ There are two parameters, $T_{nm}$ and $T_{mm}$.
 $T_{nm}$ is the time period for one encryption operation,
   in the case that \underline{n}o cache \underline{m}isses occur during the execution, or all table entries are in caches.
 $T_{mm}$ is defined as the time period
-    with the \underline{m}aximum of cache \underline{m}isses,
+    with the \underline{m}aximal number of cache \underline{m}isses,
     i.e.,
         the worst execution time
   in the case that none of table entries is cached before the encryption.
@@ -461,11 +461,11 @@ we further explain that the integration scheme successfully prevents typical rem
 %
 For Bernstein's attack \cite{Bernstein2005Cache},
     although the attacker obtains
-        the maximum AES execution time for each $p_i \oplus k_i$ on the duplicated server,
+        the maximal AES execution time for each $p_i \oplus k_i$ on the duplicated server,
     the measured time of the victim server
         reflects only system activities of the victim server.
 Because random and unknown system activities are involved in the measured AES execution time,
-    the maximum time is not determined by the lookup table index;
+    the maximal time is not determined by the lookup table index;
         that is, it does not hold that $k_i^{'} \oplus  p_i^{'} = p_i \oplus k_i$.
 
 
