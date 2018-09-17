@@ -41,7 +41,7 @@ In particular, \emph{remote timing side channels} allow attackers, who have
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
 One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, %passively
- exploits the time differences of data-cache hits and misses. Such cache timing side channels are widely found in the implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+ exploits the time differences of data-cache hits and misses. Such cache timing side channels are widely found in the implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
 In the implementations,
   table lookup is the primary time-consuming operation in encryption/decryption.
 The overall execution time %of block ciphers
@@ -171,8 +171,7 @@ For example,
     the protected AES-128 implementation with a 2KB lookup table \cite{Daemen2002The} achieves the optimal performance,
 if the ratio of
   the extra execution time caused by {\scshape{Delay}} to the extra time by {\scshape{Warm}},
-is less than $167.7$. (\textbf{where can I find it? in the following sections})
-}These conditions hold %for continuous AES executions
+is less than a certain threshold. These conditions hold %for continuous AES executions
  in commodity computers,
   which is confirmed by our experiments.
 The conditions of the optimal performance for other AES implementations of different key sizes are not identical
