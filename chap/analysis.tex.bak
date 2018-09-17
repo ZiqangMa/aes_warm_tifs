@@ -283,6 +283,23 @@ Therefore, if $N$ cache lines of table entries are not in caches,
 P_d(N) = 1-P_{\bar{a}}(N) = 1- (1-\frac{NC}{L})^{16 R}
 \end{equation}
 
+\begin{table*}[hbt]
+  \renewcommand{\arraystretch}{1.3}
+  \caption{Benefit and expected cost of not loading $N$ cache lines of table entries (in CPU cycles).}\label{tbl:warmcontent}
+  \centering
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+   \hline
+   {$N$}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  & 31  & 32\\
+   \hline
+   {$B_{nl}(N)$} & 54.55 & 109.10 & 163.65 & 272.75 & 545.50 & 818.25 & 1091.00 & 1386.25 & 1636.50 & 1691.05 & 1745.60 \\
+   \hline
+   %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
+   {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
+   \hline
+   \end{tabular}
+\end{table*}
+
+
 
 The execution time shall be delayed to $T_{mm}$ according to Theorem \ref{delay2tw},
  while it is $T_{nm}$ if all entries are in caches.
@@ -332,23 +349,6 @@ and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading
 For the AES-128 implementation with a 2KB lookup table,
 loading all entries of the lookup table into caches in the {\vwarm} operation
    provides better performance than loading any part of entries.
-
-\begin{table*}[htb]
-  \renewcommand{\arraystretch}{1.3}
-  \caption{Benefit and expected cost of not loading $N$ cache lines of table entries (in CPU cycles).}\label{tbl:warmcontent}
-  \centering
-   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-   \hline
-   {$N$}           & 1      & 2  & 3    & 5   & 10   & 15   & 20  & 25   & 30  & 31  & 32\\
-   \hline
-   {$B_{nl}(N)$} & 54.55 & 109.10 & 163.65 & 272.75 & 545.50 & 818.25 & 1091.00 & 1386.25 & 1636.50 & 1691.05 & 1745.60 \\
-   \hline
-   %{$D_{nl}(N)$} & 2509.29 & 2524.92 & 2524.99 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 & 2525.00 \\
-   {$D_{nl}(N)$} & 2463.58 & 2478.92 & 2478.99 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 & 2479.00 \\
-   \hline
-   \end{tabular}
-\end{table*}
-
 
 
 We finished the experiments on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
@@ -918,7 +918,7 @@ On this platform, the range of $D_{F}$ is $[-0.000036,0.0355]$.
 When $D_{F} \geq 0$, conditional {\vwarm} is the best according to Theorem~\ref{lemma:warmnum3}.
 When $D_{F} < 0$, $F_G$ is a monotonous increasing function of $P_{a|S_c}$,
 so
-$F_G$ reaches the minimum value when $P_{a|S_c} = 0.994$.
+$F_G$ reaches the minimum when $P_{a|S_c} = 0.994$.
 \textcolor[rgb]{1.00,0.00,0.00}{At this point, $P_{e|S_c}$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ satisfy:}
 \begin{equation}
 \label{equ:fg}
@@ -1146,11 +1146,11 @@ performing {\vwarm} according to the previous execution time is reasonable to ob
 %++++++++++
 %Table~\ref{tbl:pdelayvalue} shows the minimum value of the $P_{delay}$ in different AES key lengthes and different AES implementations. The formulas of $P_{delay}$ is in the appendix.
 
-\begin{table}[t]
+\begin{table}[tb]
 %\vspace{-2mm}
   \centering
   \small
-  \caption{the minimum value of the $P_{a}$ in different cases.}
+  \caption{The minimum value of $P_{a}$ in different cases.}
   \label{tbl:pdelayvalue}
    \begin{tabular}{|c|c|c|c|c|}
    \hline

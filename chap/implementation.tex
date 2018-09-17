@@ -54,7 +54,6 @@ So, multiple access operations to the same cache bank are slower than those to d
  Because the L1D cache is unshared and
   the L1D cache is not accessed by other cores,
  we disable Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to L1D caches with cache bank conflicts.
-In the following experiments, Hyper-Threading is disabled.
 
 ++++++
 
@@ -67,6 +66,9 @@ The beginning address of the array is made next to the lookup table module 4096,
 
 Finally,
  the distribution of the AES encryption time is shown in \figurename~\ref{fig:fullwarmbest}.
+
+In the following experiments, Hyper-Threading is disabled.
+
 %Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution that the first address of the array is the same as the lookup table module 4096.
 %\begin{figure}[t]
 %\centering
@@ -166,8 +168,8 @@ In the implementation, we need to perform the following operations to achieve th
 (1) as the Time Stamp Counters (TSC) on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
 (2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
-Besides, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
-So we perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
+Moreover, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
+We perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
    instead of every time after {\scshape{Warm}} (Line 7 in Algorithm \ref{alg:aesdefense}).
 
 \vspace{1mm}\noindent\textbf{{\scshape{Delay}}.}
@@ -175,7 +177,7 @@ The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
    do not satisfy the resolution requirement,
    and they switch the process state to {TASK\_INTERRUPTIBLE}, which may cause the lookup tables to be evicted from caches.
 On the contrary,
-   we implement the {\vdelay} operation
+   we implement {\vdelay}
  by executing XOR repeatedly as follows, achieving a high resolution without modifying the cache state.
 
 \begin{figure}[!t]
@@ -185,11 +187,12 @@ On the contrary,
     \label{pic:delay} %% label for entire figure
 \end{figure}
 
-We measure the time for different loop numbers of the \verb+xor+ instruction, by invoking it $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
-The relation between the time delayed ($T_d$) and the loop number of \verb+xor+ instruction ($n$) is calculated through the least squares method. The result is $t_{delay} = 2.9886n + 15.68$, and the coefficient of determination is 0.99996.
-The precision is 3 cycles, much less than the noise of remote environments, so it cannot be exploited.
-Implementation of {\scshape{Delay()}} is provided in Listing 1.
-We do not use a table of $t_{delay}$ and $n$ with the purpose of reducing the use of caches in our scheme.
+We measure the time for different loop numbers of the \verb+xor+ instruction, by invoking it for $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
+The relation between the time delayed and the loop number ($n$) is calculated through the least squares method.
+The result is $T_{delay} = 2.9886n + 15.68$, and the coefficient of determination is 0.99996.
+%The precision is 3 cycles, much less than the noise of remote environments, so it cannot be exploited.
+The implementation of {\scshape{Delay()}} is provided in Listing 1.
+No table is used in this implementation, to reduce the use of caches.
 
 
 
@@ -242,9 +245,10 @@ volatile int delay(uint64_t t_delay){
 
 
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{nm}}$.}
-$T_{nm}$ is greater than the minimum AES execution time (no cache miss occurs), which avoids the unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
-and less than the AES execution that only one cache miss occurs.
-The average minimum AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
+$T_{nm}$ is greater than the minimal AES execution time when no cache miss occurs,
+ which avoids unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+and less than the execution time when only one cache miss occurs.
+The average minimal AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
 In our environment it is $331$ cycles.
  \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
    while all table entries except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.

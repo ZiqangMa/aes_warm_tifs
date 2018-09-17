@@ -4,7 +4,7 @@
 %\vspace{-1mm}
 We evaluate the  scheme on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-2600 CPU and 2GB RAM.
  This CPU has $4$ cores and each core has $32$KB L1 data caches,
-  and the operating system is 32-bit Linux with kernel version 3.6.2.
+  and the operating system is Linux v3.6.2 (32-bit).
 
 \subsection{Implementation}
 \label{sec:implementation}
@@ -12,12 +12,12 @@ We evaluate the  scheme on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-
 % AES  mbed TLS-2.4.2
 %In this section,
 We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K lookup table, %to validate the security and evaluate the performance.
-  which is directly borrowed from OpenSSL-1.0.2c \cite{openssl}.
-As we attempt to optimize performance while eliminate remote cache timing side channels,
+  directly borrowed from OpenSSL-1.0.2c \cite{openssl}.
+As we attempt to optimize the performance while eliminate remote cache timing side channels,
  efficient {\scshape{Warm}}, {\scshape{GetTime}},  and {\scshape{Delay}}
   are finished;
 and the constant parameters ($T_{nm}$ and $T_{mm}$) are set properly.
- Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
+% Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
 
 
 \vspace{1mm}\noindent\textbf{{\scshape{Warm}}.}
@@ -29,9 +29,9 @@ In order to ensure these operations are not obsoleted
 
 %\vspace{1mm}\noindent\textbf{Time variations with cached data.}
 %As mentioned above, we use the AES-128 implementation of OpenSSL-1.0.2c.
-However, even when all table entries are in the L1D cache,
+However, even when all table entries are in L1D caches,
   the execution time of encryption still has variations and these variations could be exploited to launched side-channel attackers~\cite{Canteaut2006Understanding,Bernstein2005Cache}.
-
+%
 %There time variations result from the cache hierarchy of Intel CPUs.
 %cache line; cache bank; cache set.???
 %
@@ -40,24 +40,27 @@ However, even when all table entries are in the L1D cache,
 %
 %We disable Hyper-Threading to ensure
 %{\color{red}is it useful? any influence from other core?}
-The time variations result from accessing the L1D cache.
-There are two possible reasons. One is the cache bank conflict.
-Cache bank is a physical structure that divides the L1D cache into several banks.
+The variations result from two types of time differences within L1D caches.
+One is the cache bank conflict.
+The L1D cache is divided physically into several banks.
 Each core has its own L1D cache and the banks are not across the L1D cache.
 Different banks can be concurrently accessed,
-but one bank only serves one request at a time.
+    but one bank only serves one request at a time.
 %Intel introduced a cache design consisting of multiple banks.
 %Each of the banks serves part of the cache line specified by the offset in the cache line.
 %The banks can operate independently and serve requests concurrently.
 %But each cache bank can only serve one request at a time.
-So, multiple access operations to the same cache bank are slower than to different banks.
- Because the L1D cache is unshared, the L1D cache can not be accessed by the other cores on the same CPU,
- we disable the Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to the L1D cache for the cache bank conflict.
-All the following experiments, Hyper-Threading is disabled.
+So, multiple access operations to the same cache bank are slower than those to different banks.
+ Because the L1D cache is unshared and
+  the L1D cache is not accessed by other cores,
+ we disable Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to L1D caches with cache bank conflicts.
 
-The other is read-write conflict that the load from the L1D cache takes slightly more time if it involves the same set of cache lines as a recent store.
+++++++
+
+The other cause is the read-write conflict that the load from L1D caches takes slightly more time if it involves the same set of cache lines as a recent store.
 \figurename~\ref{fig:fullwarmworst} shows the distribution of the AES execution time for $2^{30}$ random plaintexts when this conflict occurs.
-We avoid the read-write conflict by exploiting the stack switch technique~\cite{guan2014copker}. The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
+We avoid the read-write conflict by switching the stack \cite{guan2014copker}.
+The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
 We declare a 2KB global array as the stack, with which we can easily control the address.
 The beginning address of the array is made next to the lookup table module 4096, and this make the intermediate variables of AES execution use the remaining cache sets compared with the lookup table.
 
@@ -132,6 +135,14 @@ Finally,
 %    \label{fig:fullwarmbest}
 %    \end{minipage}
 %    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
+\centering
+\subfloat[in normal case]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
+\label{fig:fullwarmworst}}
+\hfil
+\subfloat[the best case]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
+\label{fig:fullwarmbest}}
+\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
+\end{figure}
 
 
 
