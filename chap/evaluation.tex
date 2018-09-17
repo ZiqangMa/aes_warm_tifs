@@ -1,4 +1,4 @@
-\subsection{Performance Evaluation +++}
+\subsection{Performance Evaluation}
 \label{sec:eva}
 %\subsection{The distribution of AES execution time}
 %The Figure~\ref{aesdistri} shows the distribution of AES execution time of the original AES and the AES using our defense scheme. The original AES execution time is distributed all positions on x axis means the execution time is affected by the different input plaintexts. However, the execution time of AES with our defense scheme is distributed at position that is less than the computation threshold ,the T_{mm} and the position larger than T_{mm}. Therefore, the relation between the AES execution time and the different input plaintexts is eliminated. So our defense scheme is efficient against the cache timing attacks.
@@ -11,28 +11,33 @@
 
 %\textbf{Eliminating remote cache timing side channels.}
 
-This section demonstrates that,
-with the {\scshape{Warm+Delay}} scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mm}$,
+This section shows that,
+with the {\scshape{Warm+Delay}} scheme, the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and greater than $T_{mm}$,
    which meets our expectation.
-Then, we evaluate the performance in three different aspects.
-We compare it with different {\vwarm} strategies to show that our scheme has the best performance among the different strategies integrating {\vwarm} and {\vdelay}.
+Then, we evaluate the performance in different aspects.
+We compare it with different {\vwarm} strategies to show that the integration scheme has the best performance among the different strategies integrating {\vwarm} and {\vdelay}.
 We measure the performance of several different timing side-channel defenses.
-        It is shown that our scheme has a better performance than other software-based methods.
-Finally, we apply the {\scshape{Warm+Delay}} scheme to OpenSSL and use an Apache web server as an HTTPS server
- to provide application services.
-The overhead of our scheme is acceptable in the practical environment.
+        It is shown that {\scshape{Warm+Delay}} produces better performance than other software-based methods,
+        either running as a ``pure'' encryption service or integrated in an Apache HTTPS server.
+%The overhead of our scheme is acceptable in the practical environment.
 
 
 %Our scheme aims to make the observed AES execution time independent of the input.
-\noindent\textbf{The time distribution with the {\scshape{Warm+Delay}} scheme.}
+\noindent\textbf{The time distribution with {\scshape{Warm+Delay}}.}
 %To show the security of {\scshape{Warm+Delay}} scheme,
 We measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
-  We compare the distribution of the protected AES with the unprotected ones using $2^{30}$ different plaintexts.
+  We compare it with the unprotected version, for  $2^{30}$ random plaintexts.
 
 
-Fig. \ref{pic:sec} shows the distributions of AES execution time for two cases. It is clear that most of the execution time is less than $T_{nm}$ or no less than $T_{mm}$ using the {\scshape{Warm+Delay}} scheme.
-  The time between $T_{nm}$ and $T_{mm}$ in unprotected AES distribution is delayed to $T_{mm}$.
-The average execution time of our scheme is less than $1.29$ times of the unprotected AES.
+Fig. \ref{pic:sec} shows the distributions of AES execution time for two implementations.
+With {\scshape{Warm+Delay}},
+    almost all results are less than $T_{nm}$ or greater than $T_{mm}$.
+The distribution between $T_{nm}$ and $T_{mm}$ is exploitable,
+    which is delayed to $T_{mm}$ in the {\scshape{Warm+Delay}} scheme.
+A small set appears around the position of 1750 cycles,
+    which are due to task scheduling, which are unexploitable constant results.
+Besides,
+    in this case the average execution time of {\scshape{Warm+Delay}}  is less than $1.29$ times of the unprotected implementation.
 
 \begin{figure}[t]
   \centering
@@ -43,40 +48,44 @@ The average execution time of our scheme is less than $1.29$ times of the unprot
 
 
 \noindent\textbf{Performance of different {\vwarm} strategies.}
-We compare conditional {\vwarm} with other {\vwarm} strategies which have different $P_{1}$ and $P_{2}$.
- The runtime environment is with low workload, high CPU workload and high memory workload separately when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
- The low workload means that we do not run any processes on the OS, just some necessary system processes are running on it.
-We use the benchmark SysBench to simulate the CPU and memory workload. % in parallel with the AES encryption.
-For CPU workload, we run  SysBench in its CPU mode, which  launches $16$ threads to issue 10K requests to search the prime up to 300K.
-For memory workload, we adopt SysBench with $16$ threads in its memory mode, which reads or writes 1KB block each time to operate the total  3GB data on one CPU core.
-In each case, we perform $2^{30}$ AES encryptions with random plaintexts.
-The AES encryption process and the concurrent workload run on the same CPU core.
+We compare conditional {\vwarm} with other {\vwarm} strategies which have different $P_{1}$ and $P_{2}$,
+    in different scenarios: low workload, high CPU workload and high memory workload.
+With low workload, no other task except the evaluated AES implementation runs.
+We use the SysBench benchmark to simulate the CPU and memory workloads. % in parallel with the AES encryption.
+We run SysBench in its CPU mode, which  launches $16$ threads to issue 10K requests to search the primes up to 300K,
+ to produce the CPU workload.
+For the memory workload, we adopt SysBench with $16$ threads in its memory mode, which reads or writes 1KB blocks each time to operate the total 3GB data on one CPU core.
+The evaluated AES implementation and the concurrent workload run on the same CPU core.
+The interval of task OS scheduling is set as $1$ ms and $4$ ms, respectively.
+In each case, we perform AES encryption with  $2^{30}$ random plaintexts.
 
 
 % The main overhead is caused by the timer function.
-Fig. \ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
+Fig. \ref{pic:eval} confirms that the performance of conditional {\scshape{Warm}} is the best.
 Moreover, we approximately calculated $P_{e}$ under different workloads.
- When {\scshape{Eviction}} event occurs, the encryption time will be greater than $T_{nm}$.
-  But not all encryption times greater than $T_{nm}$ are due to the {\scshape{Eviction}} event.
-   Based on the analysis in section~\ref{remark}, there are other cases that make the encryption time greater than $T_{nm}$.
-    Fortunately, these cases occur very little.
-  So, we use the number of the AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{e}$, of which the value is a little greater than $P_{e}$.
-The approximate value of $P_{e}$ is in Table~\ref{tbl:pevict}.
-  As proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
+ When the {\scshape{Eviction}} event occurs, the encryption time will be greater than $T_{nm}$;
+but not all encryption time greater than $T_{nm}$ is caused by {\scshape{Eviction}}.
+   Based on the analysis in Section~\ref{remark}, there are other cases that result in the encryption time greater than $T_{nm}$.
+Fortunately, these cases occur very little.
+  So, we use the number of AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{e}$,
+   of which the value is a little greater than $P_{e}$.
+The approximate value of is in Table~\ref{tbl:pevict}.
+In the analysis of Example 2 in Section \ref{best-strategy-warm}
+  \textcolor[rgb]{1.00,0.00,0.00}{As proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.}
 %which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.
 
 \begin{table}[b]
   \centering
   \small
-  \caption{The value of $P_{e}$ under different workload.}
+  \caption{The value of $P_{evict}$ under different workload.}
   \label{tbl:pevict}
-   \begin{tabular}{|m{0.8in}|m{0.6in}|m{0.6in}|m{0.6in}|}
+   \begin{tabular}{|m{0.84in}|m{0.6in}|m{0.6in}|m{0.71in}|}
    \hline
-   {Interval of OS scheduler}& Low workload  & High CPU workload & High mem workload   \\
+   {Interval of task scheduling}& Low workload  & High CPU workload & High memory workload   \\
    \hline
-   {1ms} & $1.87\times10^{-4}$ & $1.99\times10^{-4}$ & $2.20\times10^{-3}$ \\
+   {1 ms} & $1.87\times10^{-4}$ & $1.99\times10^{-4}$ & $2.20\times10^{-3}$ \\
    \hline
-   {4ms} & $4.67\times10^{-5}$ & $7.52\times10^{-5}$ & $7.88\times10^{-5}$  \\
+   {4 ms} & $4.67\times10^{-5}$ & $7.52\times10^{-5}$ & $7.88\times10^{-5}$  \\
    \hline
    \end{tabular}
 \end{table}
@@ -97,12 +106,14 @@ The approximate value of $P_{e}$ is in Table~\ref{tbl:pevict}.
 \end{figure}
 
 
-\noindent\textbf{Comparison of different defense methods.}
+\noindent\textbf{Comparison with other defenses.}
 %\textbf{[[if possible, also in different scenarios as Fig. 6; more comprehensive]]}
-Furthermore, we compare the performance of our scheme with different defense methods:
- AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}.
- For each method, we perform $2^{30}$ AES encryptions with random plaintexts.
-  It is shown in Fig. \ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all software implementations.
+{\scshape{Warm+Delay}} is compared with other timing side-channel countermeasures:
+ AES-NI, compact table \cite{openssl} and bit-sliced implementation \cite{bitsliced}.
+Each method encrypts random plaintexts for $2^{30}$ times.
+Fig. \ref{pic:diffscheme} shows that,
+    hardware AES-NI has the best performance.
+    The {\scshape{Warm+Delay}} scheme has the best performance among all software implementations.
 
 \begin{figure}[t]
     \centering
@@ -123,7 +134,7 @@ We applied our solution to protect the TLS connection protocol in OpenSSL.
 
 The HTTPS throughput is shown in Fig. \ref{fig:apacheperformance}.
  When the unprotected AES is used, the throughput is 27.2 requests per second for 1MB data.
-  While using our scheme, the throughput is 23.5 requests per second for 1MB data.
+With {\scshape{Warm+Delay}}, the throughput is 23.5 requests per second for 1MB data.
    It is clearly that {\scshape{Warm+Delay}} scheme has a low influence on the performance of TLS protocol.
     As the data of request increase, the influence on the performance of TLS protocol caused by {\scshape{Warm+Delay}} scheme increases gradually.
     %随着请求数据增大，变化如何

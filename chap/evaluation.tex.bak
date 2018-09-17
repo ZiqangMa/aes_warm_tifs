@@ -1,4 +1,4 @@
-\subsection{Performance Evaluation ++++}
+\subsection{Performance Evaluation +++}
 \label{sec:eva}
 %\subsection{The distribution of AES execution time}
 %The Figure~\ref{aesdistri} shows the distribution of AES execution time of the original AES and the AES using our defense scheme. The original AES execution time is distributed all positions on x axis means the execution time is affected by the different input plaintexts. However, the execution time of AES with our defense scheme is distributed at position that is less than the computation threshold ,the T_{mm} and the position larger than T_{mm}. Therefore, the relation between the AES execution time and the different input plaintexts is eliminated. So our defense scheme is efficient against the cache timing attacks.
@@ -11,28 +11,28 @@
 
 %\textbf{Eliminating remote cache timing side channels.}
 
-In this section,
- we first demonstrate the result that with our scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mm}$,
+This section demonstrates that,
+with the {\scshape{Warm+Delay}} scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mm}$,
    which meets our expectation.
-     Then, we evaluate the performance of {\scshape{Warm+Delay}} scheme in three different aspects.
-      Firstly we compare our scheme with different \vwarm~ strategies to show that our scheme has the best performance among the different strategies using warm and delay operations.
-       Secondly, we measure the performance of several different defense methods comparing with our scheme.
-        It will show that our scheme has a better performance than other software-based methods.
-         Finally, we apply our defense scheme to Openssl and use an Apache web server as a HTTPS server to provide application services.
-          We find that the overhead of our scheme is acceptable in a real environment.
+Then, we evaluate the performance in three different aspects.
+We compare it with different {\vwarm} strategies to show that our scheme has the best performance among the different strategies integrating {\vwarm} and {\vdelay}.
+We measure the performance of several different timing side-channel defenses.
+        It is shown that our scheme has a better performance than other software-based methods.
+Finally, we apply the {\scshape{Warm+Delay}} scheme to OpenSSL and use an Apache web server as an HTTPS server
+ to provide application services.
+The overhead of our scheme is acceptable in the practical environment.
 
 
 %Our scheme aims to make the observed AES execution time independent of the input.
-\noindent\textbf{The AES distribution with {\scshape{Warm+Delay}} scheme.}
-To show the security of {\scshape{Warm+Delay}} scheme,
- we measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
+\noindent\textbf{The time distribution with the {\scshape{Warm+Delay}} scheme.}
+%To show the security of {\scshape{Warm+Delay}} scheme,
+We measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
   We compare the distribution of the protected AES with the unprotected ones using $2^{30}$ different plaintexts.
 
 
-Figure~\ref{pic:sec} shows the distributions of AES execution time for two cases. It is clear that most of the execution time is less than $T_{nm}$ or no less than $T_{mm}$ using the {\scshape{Warm+Delay}} scheme.
+Fig. \ref{pic:sec} shows the distributions of AES execution time for two cases. It is clear that most of the execution time is less than $T_{nm}$ or no less than $T_{mm}$ using the {\scshape{Warm+Delay}} scheme.
   The time between $T_{nm}$ and $T_{mm}$ in unprotected AES distribution is delayed to $T_{mm}$.
-   Also from this figure,
-the average execution time of our scheme is less than $1.29$ times of the unprotected AES.
+The average execution time of our scheme is less than $1.29$ times of the unprotected AES.
 
 \begin{figure}[t]
   \centering
@@ -42,8 +42,8 @@ the average execution time of our scheme is less than $1.29$ times of the unprot
 \end{figure}
 
 
-\noindent\textbf{Performance of different warm strategies.}
-We compare conditional {\vwarm} with  {\vwarm} strategies which have different $P_{1}$ and $P_{2}$.
+\noindent\textbf{Performance of different {\vwarm} strategies.}
+We compare conditional {\vwarm} with other {\vwarm} strategies which have different $P_{1}$ and $P_{2}$.
  The runtime environment is with low workload, high CPU workload and high memory workload separately when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
  The low workload means that we do not run any processes on the OS, just some necessary system processes are running on it.
 We use the benchmark SysBench to simulate the CPU and memory workload. % in parallel with the AES encryption.
@@ -54,21 +54,21 @@ The AES encryption process and the concurrent workload run on the same CPU core.
 
 
 % The main overhead is caused by the timer function.
-Figure~\ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
-Moreover, we approximately calculated $P_{evict}$ under different workloads.
+Fig. \ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
+Moreover, we approximately calculated $P_{e}$ under different workloads.
  When {\scshape{Eviction}} event occurs, the encryption time will be greater than $T_{nm}$.
   But not all encryption times greater than $T_{nm}$ are due to the {\scshape{Eviction}} event.
    Based on the analysis in section~\ref{remark}, there are other cases that make the encryption time greater than $T_{nm}$.
     Fortunately, these cases occur very little.
-  So, we use the number of the AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{evict}$, of which the value is a little greater than $P_{evict}$.
-The approximate value of $P_{evict}$ is in Table~\ref{tbl:pevict}.
+  So, we use the number of the AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{e}$, of which the value is a little greater than $P_{e}$.
+The approximate value of $P_{e}$ is in Table~\ref{tbl:pevict}.
   As proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
 %which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.
 
 \begin{table}[b]
   \centering
   \small
-  \caption{The value of $P_{evict}$ under different workload.}
+  \caption{The value of $P_{e}$ under different workload.}
   \label{tbl:pevict}
    \begin{tabular}{|m{0.8in}|m{0.6in}|m{0.6in}|m{0.6in}|}
    \hline
@@ -102,7 +102,7 @@ The approximate value of $P_{evict}$ is in Table~\ref{tbl:pevict}.
 Furthermore, we compare the performance of our scheme with different defense methods:
  AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}.
  For each method, we perform $2^{30}$ AES encryptions with random plaintexts.
-  It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
+  It is shown in Fig. \ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all software implementations.
 
 \begin{figure}[t]
     \centering
@@ -121,7 +121,7 @@ We applied our solution to protect the TLS connection protocol in OpenSSL.
        ApacheBench issues 10K requests with various levels of request size,
         and we measure the HTTPS server throughput.
 
-The HTTPS throughput is shown in Figure~\ref{fig:apacheperformance}.
+The HTTPS throughput is shown in Fig. \ref{fig:apacheperformance}.
  When the unprotected AES is used, the throughput is 27.2 requests per second for 1MB data.
   While using our scheme, the throughput is 23.5 requests per second for 1MB data.
    It is clearly that {\scshape{Warm+Delay}} scheme has a low influence on the performance of TLS protocol.
