@@ -1,4 +1,4 @@
-\subsection{Performance Evaluation}
+\subsection{Performance Evaluation ++++}
 \label{sec:eva}
 %\subsection{The distribution of AES execution time}
 %The Figure~\ref{aesdistri} shows the distribution of AES execution time of the original AES and the AES using our defense scheme. The original AES execution time is distributed all positions on x axis means the execution time is affected by the different input plaintexts. However, the execution time of AES with our defense scheme is distributed at position that is less than the computation threshold ,the T_{mm} and the position larger than T_{mm}. Therefore, the relation between the AES execution time and the different input plaintexts is eliminated. So our defense scheme is efficient against the cache timing attacks.
@@ -60,7 +60,7 @@ Moreover, we approximately calculated $P_{evict}$ under different workloads.
   But not all encryption times greater than $T_{nm}$ are due to the {\scshape{Eviction}} event.
    Based on the analysis in section~\ref{remark}, there are other cases that make the encryption time greater than $T_{nm}$.
     Fortunately, these cases occur very little.
-  So, we use the number of the AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{evict}$, of which the value is a little larger than $P_{evict}$.
+  So, we use the number of the AES encryption whose execution time is greater than $T_{nm}$ to approximate $P_{evict}$, of which the value is a little greater than $P_{evict}$.
 The approximate value of $P_{evict}$ is in Table~\ref{tbl:pevict}.
   As proved in Section~\ref{sec:performanceproof}, the {\scshape{Warm+Delay}} scheme is the optimal.
 %which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.

@@ -1,4 +1,4 @@
-\subsection{Performance Evaluation}
+\subsection{Performance Evaluation +++}
 \label{sec:eva}
 %\subsection{The distribution of AES execution time}
 %The Figure~\ref{aesdistri} shows the distribution of AES execution time of the original AES and the AES using our defense scheme. The original AES execution time is distributed all positions on x axis means the execution time is affected by the different input plaintexts. However, the execution time of AES with our defense scheme is distributed at position that is less than the computation threshold ,the T_{mm} and the position larger than T_{mm}. Therefore, the relation between the AES execution time and the different input plaintexts is eliminated. So our defense scheme is efficient against the cache timing attacks.
@@ -11,21 +11,22 @@
 
 %\textbf{Eliminating remote cache timing side channels.}
 
-In this section,
- we first demonstrate the result that with our scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mm}$,
+This section demonstrates that,
+with the {\scshape{Warm+Delay}} scheme the distribution of AES execution time are separated into two parts: less than $T_{nm}$ and no less than $T_{mm}$,
    which meets our expectation.
-     Then, we evaluate the performance of {\scshape{Warm+Delay}} scheme in three different aspects.
-      Firstly we compare our scheme with different \vwarm~ strategies to show that our scheme has the best performance among the different strategies using warm and delay operations.
-       Secondly, we measure the performance of several different defense methods comparing with our scheme.
-        It will show that our scheme has a better performance than other software-based methods.
-         Finally, we apply our defense scheme to Openssl and use an Apache web server as a HTTPS server to provide application services.
-          We find that the overhead of our scheme is acceptable in a real environment.
+Then, we evaluate the performance in three different aspects.
+We compare it with different {\vwarm} strategies to show that our scheme has the best performance among the different strategies integrating {\vwarm} and {\vdelay}.
+We measure the performance of several different timing side-channel defenses.
+        It is shown that our scheme has a better performance than other software-based methods.
+Finally, we apply the {\scshape{Warm+Delay}} scheme to OpenSSL and use an Apache web server as an HTTPS server
+ to provide application services.
+The overhead of our scheme is acceptable in the practical environment.
 
 
 %Our scheme aims to make the observed AES execution time independent of the input.
-\noindent\textbf{The AES distribution with {\scshape{Warm+Delay}} scheme.}
-To show the security of {\scshape{Warm+Delay}} scheme,
- we measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
+\noindent\textbf{The time distribution with the {\scshape{Warm+Delay}} scheme.}
+%To show the security of {\scshape{Warm+Delay}} scheme,
+We measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
   We compare the distribution of the protected AES with the unprotected ones using $2^{30}$ different plaintexts.
 
 
