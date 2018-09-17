@@ -23,7 +23,7 @@ By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:y
 %\footnotesize
 %\scriptsize
 y(&P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \\
-&-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}}))*P_{w}^{\ominus} \\
+&-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}})) P_{w}^{\ominus} \\
 & +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
 & - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{a}^{\mathfrak{3}\mathcal{L}}) \,
 \end{split}\end{equation}
@@ -31,7 +31,7 @@ y(&P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S
 \begin{equation}
 \label{equ:detail1}
 \begin{split}
-E(T^{\ominus}) - E(T) = &\frac{y(P_{w}^{\ominus})P_{e|S_{c}}T_{d}}{A_{L}*B_{L}}
+E(T^{\ominus}) - E(T) = &\frac{y(P_{w}^{\ominus})P_{e|S_{c}}T_{d}}{A_{L} B_{L}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where
@@ -67,8 +67,8 @@ the extra time introduced by {\vwarm} is the minimum value of $T_{w}$ ($T_{w}^{m
 Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
 \begin{align}
 %label{equ:tpc22}
-&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}*T_{w}^{min} \nonumber \\
- &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
+&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} T_{d} + \Pi_{c}^{\oplus} P_{w} T_{w}^{min} \nonumber \\
+ &\ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus} P_{w} T_{w} - \Pi_{\bar{c}, a} T_{d}
 \end{align}
 
 %Also, we find that $P_{a}^{\mathfrak{2}} = P_{a}^{\mathfrak{2}\oplus}$.
@@ -133,7 +133,7 @@ y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
 \begin{equation}
 \label{equ:detail2}
 \begin{split}
-E(T^{\oplus}) - E(T) = &\frac{y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M}*F_{M}}
+E(T^{\oplus}) - E(T) = &\frac{y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where

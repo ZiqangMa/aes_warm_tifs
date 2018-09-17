@@ -651,7 +651,7 @@ The difference between the expected extra time introduced by less {\vwarm} and c
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:tpc1}
-E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} * T_{d} - \Pi_{\bar{c}, a} * T_{d}
+E(T^{\ominus})-E(T)=\Pi_{\bar{c}, a}^{\ominus} T_{d} - \Pi_{\bar{c}, a} T_{d}
 \end{equation}
 
 We find that $E(T^{\ominus}) - E(T) > 0$ for any $P_{w}^{\ominus}\in(0,1)$,
@@ -720,8 +720,8 @@ The extra time is $T_{w}^{min}$ in $S_{c}$ as all table entries are cached,
  Thus,
 \begin{align}
 \label{equ:tpc2}
-&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} * T_{d} + \Pi_{c}^{\oplus}*P_{w}^{\oplus}*T_{w}^{min} \nonumber \\
- &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus}*P_{w}^{\oplus}*T_{w} - \Pi_{\bar{c}, a} * T_{d}
+&E(T^{\oplus})-E(T)=\Pi_{\bar{c}, a}^{\oplus} T_{d} + \Pi_{c}^{\oplus} P_{w}^{\oplus} T_{w}^{min} \nonumber \\
+ &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \Pi_{\bar{c}, \bar{a}}^{\oplus} P_{w}^{\oplus} T_{w} - \Pi_{\bar{c}, a} T_{d}
 \end{align}
 
 It is drawn that, $E(T^{\oplus})\geq E(T)$, if (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$.
@@ -1059,7 +1059,7 @@ In this case,  the time of {\scshape{Encrypt}} is greater than $T_{mm}$ (i.e., $
 When task scheduling or interrupts occur,
  we assume that $N$ cache lines of the lookup table are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
-Hence, the extra overhead of {\vwarm}  to load the lookup table is $W_{nl}(N) = N T_{cl} + (32-N)*T_{\bar{cl}}$, where $T_{\bar{cl}}$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively.
+Hence, the extra overhead of {\vwarm}  to load the lookup table is $W_{nl}(N) = N T_{cl} + (32-N) T_{\bar{cl}}$, where $T_{\bar{cl}}$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively.
 If we do not perform \vwarm , the next AES may need to access some part(s) of the lookup table from RAM instead of caches,
  which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (see Equation~\ref{equ:tdelay}).
 
