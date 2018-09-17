@@ -155,11 +155,17 @@ The 2KB lookup table occupies exactly one cache line in each of 32 cache sets.
    So we declare a 2KB array using the other 32 cache sets as the stack,
     the address of which does not intersect with the lookup table module 4096.
 
-However, when using greater lookup tables, all cache sets will be occupied by default due to the continuity of lookup tables in the RAM.
- In these conditions, to avoid the impact of read-write of same cache sets and to be able to declare a 2KB array as the stack, first we should make the lookup tables only take up the 32 cache sets.
-  This can be done by making the lookup tables discontinuous.
-   When using 4KB lookup tables, we can make the first address of $T_2$ the same as $T_0$ module 4096, which makes them take up the same cache sets. So 4KB lookup tables only occupy 32 cache sets and the 2KB array can take up the other 32 cache sets.
-    The same is true for 4.25KB and 5KB lookup tables. We can make them only take up 32 cache sets and leave the others for the 2KB array.
+However, when a greater lookup table is used,
+ all cache sets will be occupied by default due to the continuity of lookup tables in memory.
+ In these cases,
+  to avoid the the read-write conflict of cache sets and declare an array as the stack,
+   we shall reserve the constant lookup table within 32 cache sets.
+It can be achieved by discontinuous table entries.
+For example, when using a 4KB lookup table ($T_{0}, T_{1}, T_{2}, T_{3}$),
+ we allocate $T_2$ in the same memory address as $T_0$ module 4096, so that they occupy the same cache sets.
+Then a 4KB lookup table only occupies 32 cache sets and the 2KB stack occupies the other 32 cache sets.
+% The same is true for 4.25KB and 5KB lookup tables. We can make them only take up 32 cache sets and leave the others for the 2KB array.
+This method works for a 4.25KB or 5KB lookup table. 
 
 
 %  to So the attackers can obtain the information of every cache line at every access.
@@ -191,17 +197,26 @@ However, when using greater lookup tables, all cache sets will be occupied by de
 
 
 \subsection{Other Cache-based Timing Side Channels}
-Our {\scshape{Warm+Delay}} scheme can be used in active cache side channel attacks.
-For the trace-driven attack, attackers can observe the inner cache access pattern of the encryption execution, so {\scshape{Delay}} is not effective.
-While {\scshape{Warm}} is effective but not always executed.
- Therefore, the {\scshape{Warm+Delay}} scheme can not eliminate but just mitigates the trace-driven attacks.
+The {\scshape{Warm+Delay}} scheme is effective against remote cache timing side channels,
+    and also works for some active cache attacks.
+{\scshape{Warm+Delay}} prevents the synchronous access-driven attacks.
+The attackers monitor the cache state once per encryption,
+ so they do not observe the cache states in the middle.
+The cache access pattern is masked by the {\scshape{Warm+Delay}} scheme.
+%So the {\scshape{Warm+Delay}} scheme is effective for the synchronous attacks.
+
+As for the trace-driven attack, attackers can observe the cache access pattern during the encryption execution,
+ so {\scshape{Delay}} is ineffective.
+{\scshape{Warm}} is effective,
+    but not always executed.
+Therefore, {\scshape{Warm+Delay}} mitigates the trace-driven attacks but not eliminate the attacks.
 %In synchronous attacks, the attacker only monitors the cache pattern for the whole encryption.
 %For Evict+time, the attacker
-For the access-driven attack, the synchronous attacks can be prevented by the {\scshape{Warm+Delay}} scheme.
-These attacks monitor the cache once per encryption, so the attackers can not observe the inner cache states.
- With the {\scshape{Warm+Delay}} scheme the cache access pattern is masked to the attackers. So the {\scshape{Warm+Delay}} scheme is effective for the synchronous attacks.
-While the asynchronous attacks can not be defended
- because the attackers can change the cache states and observe the inner cache access pattern which the {\scshape{Warm+Delay}} scheme is helpless.
+
+Finally, the {\scshape{Warm+Delay}} scheme is ineffective 
+    for asynchronous attacks,
+ because the attackers can change the cache states at any time and observe the cache access pattern during encryption.
+
 
 %Additionally, there is another type of cache attack called trace-driven attack.
 %During the execution of encryption,
