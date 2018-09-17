@@ -236,7 +236,8 @@ We have the following theorem for an AES implementation of $R$ rounds with an $L
 % than loading any part of entries,
 %where $B_{nl}(N) = N T_{cl}$ and $D_{nl}(N) = (1- (1-\frac{NC}{L})^{16 R})(T_{mm}-T_{nm})$.
 %\end{theorem}
-\begin{theorem}\label{theorm:warmall}
+\begin{theorem}
+\label{theorm:warmall}
 If $B_{nl}(N) < D_{nl}(N)$ for any $0 < N \leq \frac{L}{C}$,
  loading all entries of the lookup table into caches in the {\vwarm} operation provides better performance
  than loading any part of entries,
@@ -382,6 +383,7 @@ So the cost of {\vwarm} is further reduced, ensuring that loading all entries of
 %\noindent\textbf{2. State Transition of Warm Strategies.}
 
 \subsubsection{State Transitions of Different {\vwarm} Strategies}
+\label{State-Transitions}
 We use Markov Chain to analyze the states of the lookup table in caches during the continuous invocations of AES encryption.
 Then the extra costs are calculated based on the probability of each state in the stationary distributions,
     to determine the optimal {\vwarm} strategy.
@@ -406,7 +408,7 @@ The transition among three states is triggered by three events:
   \item
     {\scshape{Access-Uncached}}: For one AES execution,
      some entries are uncached before encryption and some of them are accessed during encryption,
-      and the probability is denoted as $P_{a}$. Actually, $P_{a}$ is equal to $P_{d}$ in Theorem~\ref{theorm:warmall};
+      and the probability is denoted as $P_{a}$. Actually, $P_{a}$ is the same as $P_{d}$ in Theorem~\ref{theorm:warmall};
       i.e., {\scshape{Access-Uncached}} results in {\vdelay}.
 \end{enumerate}
 
@@ -1055,7 +1057,7 @@ In this case,  the time of {\scshape{Encrypt}} is greater than $T_{mm}$ (i.e., $
 When task scheduling or interrupts occur,
  we assume that $N$ cache lines of the lookup table are evicted from caches.
 %We assume that after this AES, there are $N$ cache line size of lookup tables not in the cache.
-\textcolor[rgb]{1.00,0.00,0.00}{Hence, the extra overhead of {\vwarm}  to load the lookup table is $W_{nl}(N) = N T_{cl} + (32-N)*T_{\bar{cl}}$, where $T_{\bar{cl}}$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively.} % 是否影响到其他地方？
+Hence, the extra overhead of {\vwarm}  to load the lookup table is $W_{nl}(N) = N T_{cl} + (32-N)*T_{\bar{cl}}$, where $T_{\bar{cl}}$ and $T_{cl}$ denote the time for accessing one cache line from caches and RAM, respectively.
 If we do not perform \vwarm , the next AES may need to access some part(s) of the lookup table from RAM instead of caches,
  which will trigger \vdelay. The expected overhead is $D_{nl}(N)$ (see Equation~\ref{equ:tdelay}).
 
@@ -1140,42 +1142,54 @@ performing {\vwarm} according to the previous execution time is reasonable to ob
 
 \subsection{Different Key Lengths and Implementations}
 
-++++
 \label{analy:otherkey}
 %shall be discussed here!
 %++++++++++
 %Table~\ref{tbl:pdelayvalue} shows the minimum value of the $P_{delay}$ in different AES key lengthes and different AES implementations. The formulas of $P_{delay}$ is in the appendix.
 
-\begin{table}[tb]
-%\vspace{-2mm}
-  \centering
-  \small
-  \caption{The minimal value of $P_{a}$ in different cases.}
-  \label{tbl:pdelayvalue}
-   \begin{tabular}{|c|c|c|c|c|}
-   \hline
-   {table size}           & AES-128      & AES-192 & AES-256   \\
-   \hline
-   {5KB} & 0.85 & 0.88 & 0.90  \\
-   \hline
-   {4.25KB} & 0.907 & 0.944 & 0.966 \\
-   \hline
-   {4KB} & 0.924 & 0.954 & 0.973  \\
-   \hline
-   {2KB} & 0.994 & 0.998 & 0.999  \\
-   \hline
-   \end{tabular}
-\end{table}
+For other key lengths with different numbers of rounds and implementations with different sizes of tables,
+    Theorems \ref{delay2tw}, \ref{delaynum}, \ref{theorm:warmall}, \ref{lemma:warmnum1}, \ref{lemma:warmnum2},
+    and \ref{lemma:warmnum3} still hold,
+    but we need to re-calculate the equations (for example,
+    in Theorem \ref{theorm:warmall}, $T_{cl}$ is the maximum of $T_w$ divided by the number of cache lines in the table,
+    and $T_{d} = T_{mm}-T_{nm}$).
+After the re-calculation, we will find whether 
+        the {\scshape{Warm+Delay}} scheme provides the optimal performance or not.
 
-All the theorems above still stand, with the only difference being the value of $P_{a}$, $T_{w}$ and $T_{d}$.
-The {\scshape{Warm+Delay}} scheme provides the optimal performance for various implementations of AES~\cite{openssl,polarssl} with different key length, if the conditions in previous theorems are satisfied.
+$T_{w}$, $T_{mm}$, and $T_{nm}$ will be measured on a certain platform.
+$P_{d}(N)$ in Theorems \ref{theorm:warmall} (i.e., the probability that some cache lines of table entries not in caches are accessed,
+    or called $P_{a}$ in Section \ref{State-Transitions}),
+    depends on the structure of lookup tables.
+We list the calculation of $P_{a}$ in Appendix~\ref{appendixb}.
+Other variables and equations will be calculated, following the same steps as in the theorems.
 
-$P_{a}$ (detailed in Appendix~\ref{appendixb}) is the probability that some cache line size of lookup tables not in the cache are accessed. It depends  on the structure, the size of lookup tables and the number of iterated rounds.
-For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, they have 5 lookup tables with the total size 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256,respectively.
-Table~\ref{tbl:pdelayvalue} lists the corresponding minimal values of $P_{a}$.
+%For mbed TLS-1.3.10~\cite{polarssl} and OpenSSL-0.9.7i~\cite{openssl}, they have 5 lookup tables with the total size 4.25KB and 5KB. For OpenSSL-1.0.2c~\cite{openssl}, the size of lookup tables is 4KB or 2KB. The number of rounds is 10, 12 and 14 for AES-128, AES-192 and AES-256, respectively.
+%Table~\ref{tbl:pdelayvalue} lists the corresponding minimal values of $P_{a}$.
 
-$T_{w}$ and $T_{d}$ are related to not only the different implementations and key length, but also the platform that running AES.
-Therefore, for different implementations and key length of AES, first we should measure  $P_{a}$, $T_{w}$ and $T_{d}$. Then we can use the previous theorems to determine whether the {\scshape{Warm+Delay}} scheme provides the optimal performance.
+%
+%\begin{table}[tb]
+%%\vspace{-2mm}
+%  \centering
+%  \small
+%  \caption{The minimal value of $P_{a}$ in different cases.}
+%  \label{tbl:pdelayvalue}
+%   \begin{tabular}{|c|c|c|c|c|}
+%   \hline
+%   {table size}           & AES-128      & AES-192 & AES-256   \\
+%   \hline
+%   {5KB} & 0.85 & 0.88 & 0.90  \\
+%   \hline
+%   {4.25KB} & 0.907 & 0.944 & 0.966 \\
+%   \hline
+%   {4KB} & 0.924 & 0.954 & 0.973  \\
+%   \hline
+%   {2KB} & 0.994 & 0.998 & 0.999  \\
+%   \hline
+%   \end{tabular}
+%\end{table}
+
+
+%Therefore, for different implementations and key length of AES, first we should measure  $P_{a}$, $T_{w}$ and $T_{d}$. Then we can use the previous theorems to determine whether the {\scshape{Warm+Delay}} scheme provides the optimal performance.
  %Furthermore, the {\vwarm} and {\vdelay} can be configured to satisfy the theorems then get the optimal performance.
 
 

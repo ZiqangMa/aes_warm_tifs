@@ -54,20 +54,17 @@ So, multiple access operations to the same cache bank are slower than those to d
  Because the L1D cache is unshared and
   the L1D cache is not accessed by other cores,
  we disable Hyper-Threading of the system to ensure the protected process itself not to produce concurrent access to L1D caches with cache bank conflicts.
-
-++++++
+In all the following experiments, Hyper-Threading is disabled.
 
 The other cause is the read-write conflict that the load from L1D caches takes slightly more time if it involves the same set of cache lines as a recent store.
 \figurename~\ref{fig:fullwarmworst} shows the distribution of the AES execution time for $2^{30}$ random plaintexts when this conflict occurs.
 We avoid the read-write conflict by switching the stack \cite{guan2014copker}.
 The aligned consecutive lookup table distributes in 32 cache sets due to the cache mapping rule while the total number of cache sets is 64 on our platform.
-We declare a 2KB global array as the stack, with which we can easily control the address.
-The beginning address of the array is made next to the lookup table module 4096, and this make the intermediate variables of AES execution use the remaining cache sets compared with the lookup table.
-
+We declare a 2KB global array as the stack, with which we easily control the address.
+The beginning address of the array is made next to the lookup table module 4096, and this make the intermediate variables of AES execution use the remaining cache sets.  % compared with the lookup table.
 Finally,
- the distribution of the AES encryption time is shown in \figurename~\ref{fig:fullwarmbest}.
+ the distribution of AES encryption time is shown in \figurename~\ref{fig:fullwarmbest}.
 
-In the following experiments, Hyper-Threading is disabled.
 
 %Served as a contrast, the Figure~\ref{fig:fullwarmworst} shows the distribution that the first address of the array is the same as the lookup table module 4096.
 %\begin{figure}[t]
@@ -164,9 +161,9 @@ In the following experiments, Hyper-Threading is disabled.
 We adopt the instruction \verb+RDTSCP+ to implement {\scshape{GetTime}}, to obtain the current time in high precision (clock cycles) with low cost.
 %The instruction \verb+RDTSCP+ has high precision (in clock cycle) and is adopted in our implementation.
 \verb+RDTSCP+ is a serializing call which prevents the CPU from reordering it.
-In the implementation, we need to perform the following operations to achieve the high accuracy:
-(1) as the Time Stamp Counters (TSC) on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
-(2) the clock cycle changes due to the energy-saving option of the computer, we  disable this option in BIOS to ensure the clock cycle be a  constant.
+We finished the following to achieve the high accuracy:
+(1) as the time stamp counters (TSC) on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
+(2) the clock cycle changes due to the energy-saving option, so we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
 Moreover, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
 We perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
@@ -261,7 +258,7 @@ This value is chosen to ensure that all table entries are in L1D caches and no f
 
 
 \vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
-$T_{mm}$ is the maximum encryption execution time when all table entries are out of caches and unrelated to the cache states.
+$T_{mm}$ is the maximal encryption execution time when all table entries are out of caches and unrelated to the cache states.
 Before measuring, we flush both the data and instructions out of L1/2/3 caches.
 We repeat the measurement for 10000 times, and calculate the average value of \textcolor[rgb]{1.00,0.00,0.00}{100 greatest measurements} as $T_{mm}$.
  In this case $T_{mm}$ is 2834 CPU cycles.
