@@ -15,9 +15,7 @@ We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K look
   directly borrowed from OpenSSL-1.0.2c \cite{openssl}.
 As we attempt to optimize the performance while eliminate remote cache timing side channels,
  efficient {\scshape{Warm}}, {\scshape{GetTime}},  and {\scshape{Delay}}
-  are finished;
-and the constant parameters ($T_{nm}$ and $T_{mm}$) are set properly.
-% Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
+  are finished.
 
 
 \vspace{1mm}\noindent\textbf{{\scshape{Warm}}.}
@@ -136,12 +134,12 @@ Finally,
 %    \end{minipage}
 %    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
 \centering
-\subfloat[in normal case]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
+\subfloat[with read-write conflicts]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
 \label{fig:fullwarmworst}}
 \hfil
-\subfloat[the best case]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
+\subfloat[after the stack switch]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
 \label{fig:fullwarmbest}}
-\caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}\label{fig:sim}
+\caption{The distribution of AES encryption time with a 2KB lookup table in L1D caches.}\label{fig:sim}
 \end{figure}
 
 
@@ -165,7 +163,7 @@ We finished the following to achieve the high accuracy:
 (1) as the time stamp counters (TSC) on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
 (2) the clock cycle changes due to the energy-saving option, so we  disable this option in BIOS to ensure the clock cycle be a  constant.
 
-Moreover, the cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
+The cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
 We perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
    instead of every time after {\scshape{Warm}} (Line 7 in Algorithm \ref{alg:aesdefense}).
 
@@ -241,41 +239,48 @@ volatile int delay(uint64_t t_delay){
 \end{lstlisting}
 
 
-\vspace{1mm}\noindent\textbf{$\mathbf{T_{nm}}$.}
-$T_{nm}$ is greater than the minimal AES execution time when no cache miss occurs,
- which avoids unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
-and less than the execution time when only one cache miss occurs.
-The average minimal AES execution time is measured by average $2^{30}$ AES execution time with the lookup tables all in L1D cache.
-In our environment it is $331$ cycles.
- \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
-   while all table entries except one block of 64 bytes (i.e., one cache line) are loaded in L1D cache.
-Note that, this uncached entry may be unnecessary in an execution of AES encryption.
-The stack switch technique makes the AES execution time much more concentrated,
- which helps the measurement of $T_{nm}$ to be more accurate and reasonable.
-  Also we choose the value as large as possible to avoid the influence of the fluctuation around $T_{nm}$ that might occur.
-Finally, we choose 355 cycles as $T_{nm}$.
-This value is chosen to ensure that all table entries are in L1D caches and no fluctuation occurs around it. So no useful observation will be obtained by attackers, and no useful variations will be magnified.
-
-
-\vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
-$T_{mm}$ is the maximal encryption execution time when all table entries are out of caches and unrelated to the cache states.
-Before measuring, we flush both the data and instructions out of L1/2/3 caches.
-We repeat the measurement for 10000 times, and calculate the average value of \textcolor[rgb]{1.00,0.00,0.00}{100 greatest measurements} as $T_{mm}$.
- In this case $T_{mm}$ is 2834 CPU cycles.
-
- Note that we should consider the effect of the instruction caches.
-  The implementation of block ciphers is not subject
+\vspace{1mm}The constant parameters ($T_{nm}$ and $T_{mm}$) are set properly as follows.
+% Next, we show the implementation details about the {\scshape{Warm+Delay}} scheme.
+First of all, the implementation of block ciphers is not subject
    to timing side-channel attacks based on instruction caches \cite{Onur2007Yet},
   because there is generally no branches in the execution path.
 However, the instructions of block ciphers
   may be evicted from the caches due to system activities,
    which causes instruction cache misses and increases the execution time.
 As the effect of instruction caches on the execution time is almost indistinguishable from that of data caches,
-  we measure $T_{nm}$ when all instructions of encryption are cached
+  we measure $T_{nm}$ when all instructions are cached,
 and $T_{mm}$ as the execution time
   when all instructions are not in instruction caches (and all table entries are not in data caches).
 Otherwise,
  the measured time might leak some information about data cache access.
+
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{nm}}$.}
+$T_{nm}$ is greater than the minimal AES execution time when no cache miss occurs,
+ which avoids unnecessary {\scshape{Warm()}} and {\scshape{Delay()}} operations;
+and less than the execution time when only one cache miss occurs.
+The minimal  AES execution time,
+ is measured as the average time of $2^{30}$ AES execution  with all table entries in the L1D cache.
+In our environment it is $331$ cycles.
+
+
+ \figurename~\ref{fig:twocm} shows the distribution of AES execution time for $2^{30}$ plaintexts
+   while all table entries except one block of 64 bytes (i.e., one cache line) are in L1D caches.
+Note that, this uncached entry may be unnecessary in an execution of AES encryption.
+The stack switch makes the AES execution time much more concentrated,
+ which helps the measurement of $T_{nm}$ to be more accurate and reasonable.
+  Also we choose the value as large as possible to avoid the influence of the possible fluctuation around $T_{nm}$.
+Finally, we choose 355 cycles as $T_{nm}$,
+    to ensure that all table entries are in L1D caches and no fluctuation occurs around it.
+%So no useful observation will be obtained by attackers, and no useful variations will be magnified.
+
+
+\vspace{1mm}\noindent\textbf{$\mathbf{T_{mm}}$.}
+$T_{mm}$ is the maximal encryption execution time when all table entries are out of caches. %and unrelated to the cache states.
+Before measuring it, we flush both the data and instructions out of L1/2/3 caches.
+We repeat the measurement for 10000 times, and calculate the average value of the 100 greatest measurements as $T_{mm}$.
+The result 2834 CPU cycles.
+
+% Note that we should consider the effect of the instruction caches.
 
 
 
