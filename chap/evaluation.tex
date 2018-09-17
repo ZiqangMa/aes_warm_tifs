@@ -30,10 +30,9 @@ We measure the distribution of AES execution time implemented with the {\scshape
   We compare the distribution of the protected AES with the unprotected ones using $2^{30}$ different plaintexts.
 
 
-Figure~\ref{pic:sec} shows the distributions of AES execution time for two cases. It is clear that most of the execution time is less than $T_{nm}$ or no less than $T_{mm}$ using the {\scshape{Warm+Delay}} scheme.
+Fig. \ref{pic:sec} shows the distributions of AES execution time for two cases. It is clear that most of the execution time is less than $T_{nm}$ or no less than $T_{mm}$ using the {\scshape{Warm+Delay}} scheme.
   The time between $T_{nm}$ and $T_{mm}$ in unprotected AES distribution is delayed to $T_{mm}$.
-   Also from this figure,
-the average execution time of our scheme is less than $1.29$ times of the unprotected AES.
+The average execution time of our scheme is less than $1.29$ times of the unprotected AES.
 
 \begin{figure}[t]
   \centering
@@ -43,8 +42,8 @@ the average execution time of our scheme is less than $1.29$ times of the unprot
 \end{figure}
 
 
-\noindent\textbf{Performance of different warm strategies.}
-We compare conditional {\vwarm} with  {\vwarm} strategies which have different $P_{1}$ and $P_{2}$.
+\noindent\textbf{Performance of different {\vwarm} strategies.}
+We compare conditional {\vwarm} with other {\vwarm} strategies which have different $P_{1}$ and $P_{2}$.
  The runtime environment is with low workload, high CPU workload and high memory workload separately when the interval of OS scheduler is $1$ ms and $4$ ms respectively.
  The low workload means that we do not run any processes on the OS, just some necessary system processes are running on it.
 We use the benchmark SysBench to simulate the CPU and memory workload. % in parallel with the AES encryption.
@@ -55,7 +54,7 @@ The AES encryption process and the concurrent workload run on the same CPU core.
 
 
 % The main overhead is caused by the timer function.
-Figure~\ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
+Fig. \ref{pic:eval} validates that the performance of conditional {\scshape{Warm}} strategy is the best.
 Moreover, we approximately calculated $P_{evict}$ under different workloads.
  When {\scshape{Eviction}} event occurs, the encryption time will be greater than $T_{nm}$.
   But not all encryption times greater than $T_{nm}$ are due to the {\scshape{Eviction}} event.
@@ -103,7 +102,7 @@ The approximate value of $P_{evict}$ is in Table~\ref{tbl:pevict}.
 Furthermore, we compare the performance of our scheme with different defense methods:
  AESNI, compact table implementation~\cite{openssl} and bit-sliced AES implementation~\cite{bitsliced}.
  For each method, we perform $2^{30}$ AES encryptions with random plaintexts.
-  It is shown in Figure~\ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
+  It is shown in Fig. \ref{pic:diffscheme} that AESNI, the hardware implementation, has the best performance. The {\scshape{Warm+Delay}} scheme has the best performance among all the software implementations.
 
 \begin{figure}[t]
     \centering
@@ -122,7 +121,7 @@ We applied our solution to protect the TLS connection protocol in OpenSSL.
        ApacheBench issues 10K requests with various levels of request size,
         and we measure the HTTPS server throughput.
 
-The HTTPS throughput is shown in Figure~\ref{fig:apacheperformance}.
+The HTTPS throughput is shown in Fig. \ref{fig:apacheperformance}.
  When the unprotected AES is used, the throughput is 27.2 requests per second for 1MB data.
   While using our scheme, the throughput is 23.5 requests per second for 1MB data.
    It is clearly that {\scshape{Warm+Delay}} scheme has a low influence on the performance of TLS protocol.
