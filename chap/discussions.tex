@@ -147,11 +147,13 @@
 %For our defense scheme, if the computation threshold is chosen larger than the value of the peak, the effect of the peak is not eliminated. If the computation threshold is less than the value of the peak, the AES execution time affected by the peak is delayed to the T_{mm}. At this time the effect is eliminated. So when we choose the computation threshold we must consider this situation and make the computation threshold less than the value of the peak.
 
 
-\subsection{Timing Variations with Fully Cached Lookup Tables}
+\subsection{Timing Variations with Fully-Cached Lookup Tables}
 In the evaluation, we use the AES implementation with a 2KB lookup table.
- Based on the cache structure, the L1D cache of 32KB is divided into 64 cache sets and each set has 8 cache lines.
-  The 2KB lookup table takes up one cache line of 32 cache sets.
-   So we can declare a 2KB array taking up the reminder cache sets to be used as the stack, just making the address successive with the lookup table module 4096.
+The L1D cache of 32KB,
+    is typically divided into 64 cache sets and each set has 8 cache lines.
+The 2KB lookup table occupies exactly one cache line in each of 32 cache sets.
+   So we declare a 2KB array using the other 32 cache sets as the stack,
+    the address of which does not intersect with the lookup table module 4096.
 
 However, when using greater lookup tables, all cache sets will be occupied by default due to the continuity of lookup tables in the RAM.
  In these conditions, to avoid the impact of read-write of same cache sets and to be able to declare a 2KB array as the stack, first we should make the lookup tables only take up the 32 cache sets.
