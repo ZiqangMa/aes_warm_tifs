@@ -1,4 +1,4 @@
-\section{Towards the Optimal Performance of {{\scshape{Warm+Delay}}}}
+\section{Towards the Optimal Performance of the {{\scshape{Warm+Delay}}} Scheme}
 \label{sec:performanceproof}
 %\vspace{-1mm}
 \def \vdelay {{\scshape{Delay}}}
@@ -26,7 +26,7 @@ In the {\scshape{Warm+Delay}} scheme,
 Therefore, to achieve the optimal performance, we shall discuss the following questions:
 
 \begin{enumerate}[(1)]
- \item Among {\scshape{Warm}} and {\scshape{Delay}}, which is the preferred operation?
+ \item Of {\scshape{Warm}} and {\scshape{Delay}}, which is the preferred operation?
 
  \item What is the best strategy for the {\scshape{Delay}} operations that will produce the optimal performance in the long term?
  The strategy includes two aspects: (2.A) When shall {\scshape{Delay}} be imposed? and (2.B) What is the optimal delay to be imposed?
@@ -346,7 +346,7 @@ and (2) if there exists $N$ satisfying that $B_{nl}(N) > D_{nl}(N)$, not loading
 % 这一段我是想说，咱们的方案中，warm 是在AES 计算之后进行的，当AES计算如果大于WET的时候，warm之后不进行delay，所以warm少几个cache line节省的开销是按照上面的计算，说明warm 比不warm 要优。而在AES计算小于WET 时，warm操作本身就是delay的一部分，那么可以认为warm的操作开销减小，这时warm 自然是全部warm 最优。
 
 
-\noindent\textbf{Example.}
+\noindent\textbf{Example 1.}
 For the AES-128 implementation with a 2KB lookup table,
 loading all entries of the lookup table into caches in the {\vwarm} operation
    provides better performance than loading any part of entries.
@@ -623,6 +623,7 @@ D_M &= P_{e|S_{c}}+P_{w}^{\oplus}+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}
 %\vspace{2mm}
 %\noindent\textbf{3. The Best Opportunity to Perform {\vwarm} Operation.}
 \subsubsection{The Best Strategy to Perform {\vwarm} Operation}
+\label{best-strategy-warm}
 We compare the performance of conditional {\vwarm} with the less {\vwarm} and more {\vwarm} strategies. %applied in a large number of continuous AES encryptions.
 Then, we investigate the relationship on the performance between conditional {\vwarm} and an arbitrary strategy.
   Finally, we estimate whether the conditions for conditional {\vwarm} to achieve the optimal performance are satisfied in commodity systems.
@@ -708,7 +709,11 @@ The conditional {\vwarm} strategy provides better performance than more {\vwarm}
 \end{theorem}
 
 \begin{proof}
-We compare $E(T)$ and $E(T^{\oplus})$ as in Theorem~\ref{lemma:warmnum1}.
+We compare $E(T)$ and $E(T^{\oplus})$ as in Theorem~\ref{lemma:warmnum1},
+
+The expected extra time costs introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
+
+.
 {\vdelay} is needed in $S_{\bar{c}, a}$,
 so the extra time introduced by {\vwarm} is masked in {\vdelay} for these two strategies.
  In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for conditional {\vwarm},
@@ -894,7 +899,7 @@ if it does better than more {\vwarm}, i.e.,
 %$T^{p} > T^{C}$.
 %\paragraph{comparing conditional \vwarm~ with general warm strategy}
 
-\noindent\textbf{Example.} For the AES-128 implementation with a 2KB lookup table,
+\noindent\textbf{Example 2.} For the AES-128 implementation with a 2KB lookup table,
 performing  {\vwarm}  when cache misses occur during the previous encryption,
   results in the least extra time cost of {\vdelay} and {\vwarm}.
 
@@ -931,7 +936,7 @@ At this point, $P_{e|S_c}$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ satisfy:
 & \text{If }P_{e|S_c} \geq 1, P_{e|S_c} = 1\text{ and }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1 \\
 & \text{If }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq  1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
-\right. \ ,
+\right.,
 \end{equation}
 where
 \begin{align}

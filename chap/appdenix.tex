@@ -7,10 +7,12 @@ In the following calculation,
  all probabilities are in $[0,1]$.
  %$0 \leq P_{a|S_{c}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} \leq 1$, $0 \leq P_{w}^{\ominus} \leq 1$, $0 \leq P_{w}^{\oplus} \leq 1$
  %and $0 \leq P_{e|S_{c}} \leq 1$.
+$E(T^{\ominus})$, $E(T)$ and $E(T^{\oplus})$ are the expected extra time costs
+    introduced by less {\vwarm}, conditional {\vwarm} and more {\vwarm}, respectively.
 
 \subsection{Proof of Theorem~\ref{lemma:warmnum1}}
 \label{appendixa1}
-To prove the Theorem~\ref{lemma:warmnum1}, we need to compare $E(T^{\ominus})$ with $E(T)$.
+We compare $E(T^{\ominus})$ and  $E(T)$ as below.
 So we get the Formula~\ref{equ:tpc1}, and estimate if it is greater than $0$.
 By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:ypwarm1} and \ref{equ:detail1}.
 
@@ -49,14 +51,15 @@ So we can get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}
 In this way,
 the function $y(P_{w}^{\ominus})$ is a monotony decrease function. When $P_{w}^{\ominus} = 1$, it gets the minimum value.
 At this point, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and $y(P_{w}^{\ominus}) = 0$.
-Also $A_{L}$ and $B_{L}$ are greater than zero.
-Therefore $E(T^{\ominus}) - E(T)\geq 0$.
-That means the extra time introduced by less {\vwarm} strategy is always greater than conditional {\vwarm} strategy.
+$A_{L}$ and $B_{L}$ are positive,
+so $E(T^{\ominus}) - E(T)\geq 0$.
+It means that,
+    the extra time cost introduced by the less {\vwarm} strategy is always greater than conditional {\vwarm}.
 
 \subsection{Proof of Theorem~\ref{lemma:warmnum2}}
 \label{appendixa2}
-The expected extra time introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
-In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+%The expected extra time cost introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
+In $S_{\bar{c}, a}$, {\vdelay} is needed,
 so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
  However in more {\vwarm} strategy,
 the extra time introduced by {\vwarm} is the minimum value of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in the caches.
