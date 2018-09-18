@@ -173,12 +173,12 @@ The system functions such as \verb+nanosleep()+ and \verb+usleep()+,
    and they switch the process state to {TASK\_INTERRUPTIBLE}, which may cause the lookup tables to be evicted from caches.
 On the contrary,
    we implement {\vdelay}
- by executing XOR repeatedly as follows, achieving a high resolution without modifying the cache state.
+ by executing the \verb+xor+ instruction repeatedly as follows, achieving a high resolution without modifying the cache state.
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=0.48\textwidth]{pic/delay.pdf}\\
-    \caption{The relation between the time delayed and the loop number ($n$).}
+    \caption{The relation between the delaying time and the number of instruction loops.}
     \label{pic:delay} %% label for entire figure
 \end{figure}
 
@@ -223,8 +223,9 @@ basicstyle=\small\ttfamily,
 numbersep=5pt,
 xleftmargin=2pt,
 breaklines=true,
-%frame=tb,
-frame=shadowbox,
+frame=single,
+%frame=box,
+aboveskip=1em, %´úÂë¿é±ß¿ò
 framexleftmargin=2pt
 }
 
