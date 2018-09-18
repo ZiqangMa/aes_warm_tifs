@@ -16,6 +16,95 @@ Then we present the conditions for the {\scshape{Delay}} operations to get the o
 Finally, we propose a strategy for the {\scshape{Warm+Delay}} scheme,
    and quantitatively prove that the optimal performance is achieved through our strategy.
 
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{Symbols in the performance analysis.}
+\label{notation}
+\centering
+\begin{tabular}{c|m{2.5in}}
+\hline
+\bfseries Symbol & \multicolumn{1}{c}{\bfseries Description} \\
+\hline
+$T_{nm}$ & The encryption execution time when \underline{n}o cache \underline{m}iss occurs.\\
+\hline
+$T_{mm}$ & The encryption execution time with the \underline{m}aximal number of cache \underline{m}isses. \\
+%all lookup table entries are out of caches.\\        % 定义需要再准确一些！
+\hline
+%$t1, t2$ & the time that encryption execution begins and ends respectively\\
+%\hline
+%$t2$ & the time that AES ends\\
+%\hline
+%$C$ & cache line size\\
+%\hline
+%$R$ & the number of the round of AES\\
+%\hline
+%$L$ & the size of lookup tables\\
+%\hline
+$T_{cl}$ & The time cost to load a \underline{c}ache \underline{l}ine of data from RAM to L1D caches.\\
+\hline
+$B_{nl}(N)$ & The benefit of \underline{n}ot \underline{l}oading data into $N$ cache lines in a {\scshape{Warm}} operation.\\
+\hline
+$D_{nl}(N)$ & The expected overhead (or padding by {\scshape{Delay}}) due to \underline{n}ot \underline{l}oading $N$ cache lines in a {\scshape{Warm}} operation.\\
+\hline
+$P_{\bar{a}}(N)$ & The probability that $N$ certain cache lines are \underline{n}ot \underline{a}ccessed after $R$ rounds of AES encryption.\\
+\hline
+%$P_{d}(N)$ & The probability that performing {\scshape{Delay}} due to not loading $N$ lines of lookup tables.
+%${P}_{d}(N) = 1-P_{\bar{a}}(N)$. \\
+%\hline
+%$X_n$ & the state of the lookup table in the caches \\
+%\hline
+$T_{d}$ & The extra time cost introduced by  {\scshape{\underline{D}elay}} operation. $T_{d} = T_{mm}-T_{nm}$.\\
+\hline
+$T_{w}$ & The extra time cost introduced by  {\scshape{\underline{W}arm}} operation.\\
+\hline
+     $S_{c}$&  The state that all entries of the lookup table are in \underline{c}aches.\\
+\hline
+     $S_{\bar{c}, a}$& The state that some entries are \underline{u}n\underline{c}ached, and at least one of them is \underline{a}ccessed during encryption.\\
+\hline
+     $S_{\bar{c}, \bar{a}}$& The state that some entries are \underline{u}n\underline{c}ached, but \underline{n}one of them is \underline{a}ccessed during encryption.\\
+\hline
+%$P_{e}$ & The probability that eviction occurs\\
+%\hline
+%$P_{w}$ & the probability of performing {\scshape{Warm}} operation\\
+%\hline
+%$P_{a}$ & the probability that some uncached entries are accessed during the AES execution\\
+%\hline
+%$P_{j|i}$ & if the lookup table in the caches is in the state $i$, the probability that it will be in the state $j$ after one step\\
+%\hline
+%$P_{a|S_{c}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_c$\\
+%\hline
+%$P_{a|S_{\bar{c}, \bar{a}}}$ & the probability that some uncached entries are accessed during the AES execution when in the state $S_{\bar{c}, \bar{a}}$\\
+%\hline
+$\Pi_{c}$ & The probability that the system is in $S_c$, in the stationary distribution.\\
+\hline
+$\Pi_{\bar{c}, \bar{a}}$ & The probability that the system is in $S_{\bar{c}, \bar{a}}$, in the stationary distribution.\\
+\hline
+$\Pi_{\bar{c}, a}$ & The probability that the system is in $S_{\bar{c}, a}$ in the stationary distribution.\\
+%\hline
+%$T_{w}^{min}$ & the minimal value of $T_{w}$\\
+%\hline
+%$G$ & $T_{d}/T_{w}$\\
+%\hline
+%$M$ & $T_{w}^{min} / T_{d}$\\
+%\hline
+%$F_G$ & represents an expression that $G$ should be less than \\
+%\hline
+%$W$ & general warm strategy\\
+%\hline
+%$P_{1}$ & the probability of performing {\scshape{Warm}} when a cache miss occurs during the pervious execution of encryption\\
+%\hline
+%$P_2$ & the probability of performing {\scshape{Warm}} unless a cache miss occurs during the pervious execution of encryption \\
+%\hline
+%$E(T)$ & the expected extra time cost\\
+%\hline
+%$$ & \\
+%\hline
+%$$ & \\
+%\hline
+%$$ & \\
+\hline
+\end{tabular}
+\end{table}
 \subsection{Overview}
 \label{sec:eval}
 
@@ -1096,7 +1185,7 @@ So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
 \vspace{1mm}\noindent\textbf{If task scheduling is triggered but the encryption execution is not suspended and resumed immediately,
     {\vwarm} is still performed.}
 Because the task is not switched, the time cost of scheduling is less than $T_d$.
- That is， $T_{nm} < t2 - t1 \leq T_{mm}$.
+ That is, $T_{nm} < t2 - t1 \leq T_{mm}$.
  In this case,
     {\vwarm}  is unnecessary
         for no other task is executed and the lookup table is not evicted.

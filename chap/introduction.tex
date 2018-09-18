@@ -22,7 +22,7 @@
     %Gullasch2011Cache access-driven attack, 近乎实时攻击，所需的样本量很少，非特权的spy进程，也是先学习，后猜测的过程。针对AES
     %Osvik2005Cache: evict+time，on AES
     %Tromer2010Efficient 是Osvik2005Cache的journal版本
-\IEEEPARstart{I}{n}  practical cryptographic algorithm implementations,
+\IEEEPARstart{I}{n}  practical implementations of cryptographic algorithms,
    the cryptographic keys could be leaked through  side channels on
     timing \cite{Acii2005Improving,Ac2006Trace,Bonneau2006Cache,Bernstein2005Cache,Gullasch2011Cache,Kocher1996Timing,Neve2006A,Osvik2006Cache,Tsunoo2003Cryptanalysis,Tromer2010Efficient}, % 引用一些在不同的方法上，有开创性的
     electromagnetic fields \cite{Electromagnetic-sidechannel}, power \cite{power-pc,Bertoni2005AES},
@@ -69,7 +69,7 @@ Compared with other side channels, such as
     or extra physical access to the victim system.
  Moreover,
   such remote attacks only require the least privilege to (remotely) invoke the encryption functions,
-while other active cache-based side-channel attacks involve operations
+while other active cache side-channel attacks involve operations
  by a malicious task that shares caches with the victim cryptographic engine
 %   such as cross-VM side-channel attack, FLUSH+RELOAD, and access-driven cache-attacks
 \cite{YinqianZhang2012-cross-vm,get-off-my-cloud,flushreload,Gullasch2011Cache}.
@@ -90,7 +90,7 @@ The intuitive design is
     and
     {\scshape{Delay}} inserts padding instructions \emph{after} encryption.\footnote{Another choice is to perform encryption without caches, which is inefficient.
 In fact, a typical {\scshape{Delay}} strategy
-     is to extend the encryption operation in constant time, equal to the execution time without caches.} With {\scshape{Warm}} or {\scshape{Delay}}, the execution time measured by attackers becomes \emph{irrelevant} to the cache misses/hits \emph{during} encryption.
+     is to extend the encryption operation in constant time, equal to the execution time without caches.} With {\scshape{Warm}} or {\scshape{Delay}}, the execution time measured by attackers becomes irrelevant to the cache misses/hits \emph{during} encryption.
 
 These two common mechanisms prevent cache-based timing attacks at different phases,
     but they introduce extra operations and significantly degrade the performance. %especially in naive implementations.

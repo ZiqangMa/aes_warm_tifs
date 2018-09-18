@@ -22,7 +22,7 @@
     %Gullasch2011Cache access-driven attack, 近乎实时攻击，所需的样本量很少，非特权的spy进程，也是先学习，后猜测的过程。针对AES
     %Osvik2005Cache: evict+time，on AES
     %Tromer2010Efficient 是Osvik2005Cache的journal版本
-\IEEEPARstart{I}{n}  practical cryptographic algorithm implementations,
+\IEEEPARstart{I}{n}  practical implementations of cryptographic algorithms,
    the cryptographic keys could be leaked through  side channels on
     timing \cite{Acii2005Improving,Ac2006Trace,Bonneau2006Cache,Bernstein2005Cache,Gullasch2011Cache,Kocher1996Timing,Neve2006A,Osvik2006Cache,Tsunoo2003Cryptanalysis,Tromer2010Efficient}, % 引用一些在不同的方法上，有开创性的
     electromagnetic fields \cite{Electromagnetic-sidechannel}, power \cite{power-pc,Bertoni2005AES},
@@ -41,7 +41,7 @@ In particular, \emph{remote timing side channels} allow attackers, who have
 %在AES选举的过程中，认为AES是基于查找表的实现，其是能够抵抗像RSA、ECC这些分支跳转产生的执行时间差异所引入的side channel attack
 
 One type of remote timing side channels,  called \emph{remote cache timing side channels} in this paper, %passively
- exploits the time differences of data-cache hits and misses. Such cache timing side channels are widely found in the implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
+ exploits the time differences of data-cache hits and misses. Such cache timing side channels are widely found in the implementations of block ciphers \cite{Ac2007Cache,Bernstein2005Cache,Tsunoo2003Cryptanalysis,atici2016remote,saraswat2014remote}. % Brumley2011Remote,Brumley2005Remote, 分别是针对ECC 和RSA 的，而且不是针对cache hit or miss的。 广泛存在\cite{}
 In the implementations,
   table lookup is the primary time-consuming operation in encryption/decryption.
 The overall execution time %of block ciphers
