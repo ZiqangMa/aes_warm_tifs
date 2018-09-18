@@ -25,17 +25,16 @@ We measure the performance of several different timing side-channel defenses.
 %Our scheme aims to make the observed AES execution time independent of the input.
 \noindent\textbf{The time distribution with {\scshape{Warm+Delay}}.}
 %To show the security of {\scshape{Warm+Delay}} scheme,
-We measure the distribution of AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
+We measure the AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
   We compare it with the unprotected version, for  $2^{30}$ random plaintexts.
-
 
 Fig. \ref{pic:sec} shows the distributions of AES execution time for two implementations.
 With {\scshape{Warm+Delay}},
-    almost all results are less than $T_{nm}$ or greater than $T_{mm}$.
-\textcolor[rgb]{1.00,0.00,0.00}{Note that,
-    in the Fig. \ref{pic:sec}, the results is greater than (2 RTDSC), compared with the result in Fig. .}
-The distribution between $T_{nm}$ and $T_{mm}$ is exploitable,
-    which is delayed to $T_{mm}$ in the {\scshape{Warm+Delay}} scheme.
+    almost all results between $T_{nm}$ and $T_{mm}$ are delayed to the value greater than $T_{mm}$.
+The minimum value of {\scshape{Warm+Delay}} scheme is greater than unprotected encryption because of the cost of {\scshape{GetTime}} (line 2 and 4 in Algorithm \ref{alg:aesdefense}).
+The actual maximum value is also greater than $T_{mm}$ for the same reason.
+%The distribution between $T_{nm}$ and $T_{mm}$ is exploitable,
+%    which is delayed to $T_{mm}$ in the {\scshape{Warm+Delay}} scheme.
 A small set appears around the position of 1750 cycles,
     which are due to task scheduling, which are unexploitable constant results.
 Besides,
@@ -76,21 +75,21 @@ Fig. \ref{pic:eval} confirms that the performance of conditional {\scshape{Warm}
 %The approximate value of is in Table~\ref{tbl:pevict}.
 %%which proves the best performance of our {\scshape{Warm+Delay}} scheme according to the Theorem 4.
 
-\begin{table}[b]
-  \centering
-  \small
-  \caption{The value of $P_{evict}$ under different workload.}
-  \label{tbl:pevict}
-   \begin{tabular}{|m{0.84in}|m{0.6in}|m{0.6in}|m{0.71in}|}
-   \hline
-   {Interval of task scheduling}& Low workload  & High CPU workload & High memory workload   \\
-   \hline
-   {1 ms} & $1.87\times10^{-4}$ & $1.99\times10^{-4}$ & $2.20\times10^{-3}$ \\
-   \hline
-   {4 ms} & $4.67\times10^{-5}$ & $7.52\times10^{-5}$ & $7.88\times10^{-5}$  \\
-   \hline
-   \end{tabular}
-\end{table}
+%\begin{table}[b]
+%  \centering
+%  \small
+%  \caption{The value of $P_{e}$ under different workload.}
+%  \label{tbl:pevict}
+%   \begin{tabular}{|m{0.84in}|m{0.6in}|m{0.6in}|m{0.71in}|}
+%   \hline
+%   {Interval of task scheduling}& Low workload  & High CPU workload & High memory workload   \\
+%   \hline
+%   {1 ms} & $1.87\times10^{-4}$ & $1.99\times10^{-4}$ & $2.20\times10^{-3}$ \\
+%   \hline
+%   {4 ms} & $4.67\times10^{-5}$ & $7.52\times10^{-5}$ & $7.88\times10^{-5}$  \\
+%   \hline
+%   \end{tabular}
+%\end{table}
 
 %0.000186894
 %0.000199487
@@ -102,7 +101,7 @@ Fig. \ref{pic:eval} confirms that the performance of conditional {\scshape{Warm}
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.5\textwidth]{pic/new_performance.pdf}\\
+    \includegraphics[width=0.5\textwidth]{pic/performance_warm.pdf}\\
     \caption{AES execution performance in different scenarios.}
     \label{pic:eval} %% label for entire figure
 \end{figure}
@@ -120,7 +119,7 @@ Fig. \ref{pic:diffscheme} shows that,
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.4\textwidth]{pic/diff_scheme_compare1.pdf}\\
+    \includegraphics[width=0.4\textwidth]{pic/diff_scheme_comp2.pdf}\\
     \caption{Performance of different defense methods.}
     \label{pic:diffscheme} %% label for entire figure
 \end{figure}
@@ -147,7 +146,7 @@ Meanwhile,     in Fig. \ref{fig:apacheperformance}, {\scshape{Warm+Delay}} is
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.45\textwidth]{pic/openssl_apache1.pdf}\\
+  \includegraphics[width=0.45\textwidth]{pic/openssl_apache2.pdf}\\
   \caption{Apache Benchmark result}\label{fig:apacheperformance}
 \end{figure}
 

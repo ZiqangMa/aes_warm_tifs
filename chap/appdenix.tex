@@ -13,56 +13,56 @@ $E(T^{\ominus})$, $E(T)$ and $E(T^{\oplus})$ are the expected extra time costs
 \subsection{Proof of Theorem~\ref{lemma:warmnum1}}
 \label{appendixa1}
 We compare $E(T^{\ominus})$ and  $E(T)$ as below.
-So we get the Formula~\ref{equ:tpc1}, and estimate if it is greater than $0$.
-By combing Equation~\ref{equ:pic} and ~\ref{equ:pil}, we get Equation~\ref{equ:ypwarm1} and \ref{equ:detail1}.
-
-%\begin{footnotesize}
-\begin{equation}
-\label{equ:ypwarm1}
-\begin{split}
-%\footnotesize
-%\scriptsize
-y(&P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \\
-&-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}})) P_{w}^{\ominus} \\
-& +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
-& - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{a}^{\mathfrak{3}\mathcal{L}}) \,
-\end{split}\end{equation}
+By combing Equations~\ref{equ:pic} and \ref{equ:pil} in Equation \ref{equ:tpc1},
+we obtain Equation \ref{equ:detail1} as follows.
 
 \begin{equation}
 \label{equ:detail1}
 \begin{split}
-E(T^{\ominus}) - E(T) = &\frac{y(P_{w}^{\ominus})P_{e|S_{c}}T_{d}}{A_{L} B_{L}}
+E(T^{\ominus}) - E(T) = &\frac{Y(P_{w}^{\ominus})P_{e|S_{c}}T_{d}}{A_{L} B_{L}}
 \end{split}\end{equation}
-%\end{footnotesize}
 where
+%\begin{footnotesize}
+\begin{equation*}
+\label{equ:ypwarm1}
+\begin{split}
+%\footnotesize
+%\scriptsize
+Y(&P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \\
+&-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}})) P_{w}^{\ominus} \\
+& +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
+& - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{a}^{\mathfrak{3}\mathcal{L}}) \,
+\end{split}
+\end{equation*},
 \begin{equation*}
 \begin{split}
 &A_{L}=P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})\\
 &\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}+(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} \\
 &B_{L}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
+
+\textcolor[rgb]{1.00,0.00,0.00}{It can be seen from analysis that $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.}
 In the Markov state transition diagram,
 \begin{equation*}
 \begin{split}
 &P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}} .
 \end{split}\end{equation*}
-It can be seen from analysis that $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.
-So we can get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}}$.
+So we get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}}$.
 In this way,
-the function $y(P_{w}^{\ominus})$ is a monotony decrease function. When $P_{w}^{\ominus} = 1$, it gets the minimum value.
-At this point, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and $y(P_{w}^{\ominus}) = 0$.
+$Y(P_{w}^{\ominus})$ is monotone decreasing. When $P_{w}^{\ominus} = 1$, it gets the minimal value.
+At this point, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and $Y(P_{w}^{\ominus}) = 0$.
 $A_{L}$ and $B_{L}$ are positive,
 so $E(T^{\ominus}) - E(T)\geq 0$.
-It means that,
-    the extra time cost introduced by the less {\vwarm} strategy is always greater than conditional {\vwarm}.
+%It means that,
+%    the extra time cost introduced by the less {\vwarm} strategy is always greater than conditional {\vwarm}.
 
 \subsection{Proof of Theorem~\ref{lemma:warmnum2}}
 \label{appendixa2}
 %The expected extra time cost introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
-In $S_{\bar{c}, a}$, {\vdelay} is needed,
+{\vdelay} is needed in $S_{\bar{c}, a}$,
 so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
- However in more {\vwarm} strategy,
-the extra time introduced by {\vwarm} is the minimum value of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in the caches.
+ However, in the more {\vwarm} strategy,
+the extra time introduced by {\vwarm} is the minimum of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in the caches.
   Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{w}$.
 Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
 \begin{align}
@@ -117,9 +117,9 @@ Therefore, the difference between the expected extra time introduced by more {\v
 
 %To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
 %So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
-We estimate if it is greater than $0$.
-First, we find that $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
-Then by combing Equation~\ref{equ:pic} and ~\ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
+%We estimate if it is greater than $0$.
+\textcolor[rgb]{1.00,0.00,0.00}{We find that }$P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+Then by combing Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
 %\begin{footnotesize}
