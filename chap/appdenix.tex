@@ -205,7 +205,7 @@ For the second case, denote
     %\end{equation*}
 
 Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotony increase function of $P_{a|S_{c}}$.
-When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimal value.
+When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum value.
 
 \item
 Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
@@ -321,7 +321,7 @@ When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and inc
 %Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
 
-Therefore, the minimal value of $F_G$ gets when
+Therefore, the minimum value of $F_G$ gets when
 \begin{equation}
 \left\{
 \begin{split}
@@ -338,7 +338,7 @@ From the above, we can make the following conclusions:
   \item
   When $D_F \geq 0$, $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimal value of $F_G$.
+  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimum value of $F_G$.
 \end{enumerate}
 
 That is:
@@ -454,7 +454,7 @@ We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the prob
 \begin{align}
 %\begin{flalign}
 %\begin{split}
-    P_{a}^{\{128\}} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,36)}}}}}, \nonumber
 %\end{split}
 %\end{flalign}
@@ -462,13 +462,13 @@ We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the prob
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{a}^{\{192\}} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{a}^{\{256\}} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,52)}}}}}, \nonumber
 \end{align}
 
@@ -505,19 +505,19 @@ where
 
 When the AES implementation uses 5KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
-    P_{a}^{\{128\}} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{a}^{\{192\}} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{a}^{\{256\}} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,52)}}}}}, \nonumber
 \end{align}
 where
@@ -556,19 +556,19 @@ where
 
 When the AES implementation uses 4KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
-    P_{a}^{\{128\}} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,40)}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{a}^{\{192\}} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,48)}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{a}^{\{256\}} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,56)}}}}, \nonumber
 \end{align}
 where
@@ -606,15 +606,15 @@ where
 When the AES implementation uses 2KB lookup table, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{equation*}
     %\scriptsize
-    P_{a}^{\{128\}} = 1- (1-\frac{NC}{2048})^{160},
+    P_{a}^{128} = 1- (1-\frac{NC}{2048})^{16*10},
 \end{equation*}
 %for AES-192 is
 \begin{equation*}
     %\scriptsize
-    P_{a}^{\{192\}} = 1- (1-\frac{NC}{2048})^{192},
+    P_{a}^{192} = 1- (1-\frac{NC}{2048})^{16*12},
 \end{equation*}
 %for AES-256 is
 \begin{equation*}
     %\scriptsize
-    P_{a}^{\{256\}} = 1- (1-\frac{NC}{2048})^{224}.
+    P_{a}^{256} = 1- (1-\frac{NC}{2048})^{16*14}.
 \end{equation*}
