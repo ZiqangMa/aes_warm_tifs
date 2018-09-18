@@ -327,8 +327,8 @@ Therefore, the minimum value of $F_G$ gets when
 \begin{split}
 &P_{e|S_{c}} = \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})} \\
 &P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}}) \\
-& if\  P_{e|S_{c}} >1, P_{e|S_{c}} = 1 \\
-& if\  P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} >1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
+& \text{if }P_{e|S_{c}} \geq 1, P_{e|S_{c}} = 1 \text{ and }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1\\
+& \text{if }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq 1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right.
 \end{equation}
@@ -342,8 +342,8 @@ From the above, we can make the following conclusions:
 \end{enumerate}
 
 That is:
-$\forall D_F$, when  $D_F < 0$, $G$ is less than the minimum value of $F_G$.
-At this point conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+ if (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$,
+ conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
 
 
 

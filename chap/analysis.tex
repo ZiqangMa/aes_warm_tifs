@@ -1095,10 +1095,12 @@ So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
 
 \vspace{1mm}\noindent\textbf{If task scheduling is triggered but the encryption execution is not suspended and resumed immediately,
     {\vwarm} is still performed.}
-Although $T_{nm} < t2 - t1 \leq T_{mm}$,
+Because the task is not switched, the time cost of scheduling is less than $T_d$.
+ That is $T_{nm} < t2 - t1 \leq T_{mm}$.
+ In this case,
     {\vwarm}  is unnecessary
         for no other task is executed and the lookup table is not evicted.
-In this case,
+However,
     {\vwarm}  is still a better choice, as we cannot find whether a table entry is in caches or not,
      and the introduced overhead is concealed by \vdelay.
 
