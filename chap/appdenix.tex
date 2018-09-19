@@ -38,12 +38,11 @@ where
 \end{split}
 \end{equation*}
 
-\textcolor[rgb]{1.00,0.00,0.00}{It can be seen from analysis that $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.}
+$P_{a|S_{\bar{c}, a}}^{\ominus}$ and $P_{a|S_{c}}$ are related to the number of uncached table entries.
+ Obviously, the number of uncached table entries in $S_{\bar{c}, a}$ is greater than in $S_{c}$.
+\textcolor[rgb]{1.00,0.00,0.00}{Therefore, $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.}
 In the Markov state transition diagram,
-\begin{equation*}
-\begin{split}
-&P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}} .
-\end{split}\end{equation*}
+$P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$.
 So we get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}}$.
 In this way,
 $Y(P_{w}^{\ominus})$ is monotone decreasing. When $P_{w}^{\ominus} = 1$, it gets the minimal value.
@@ -115,22 +114,25 @@ Therefore, the difference between the expected extra time introduced by more {\v
 %To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
 %So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
 %We estimate if it is greater than $0$.
-\textcolor[rgb]{1.00,0.00,0.00}{We find that }$P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
-Then by combing Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
+
+$P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}$ means the probability of the state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed in the more {\vwarm} strategy. 
+  While if {\vwarm} is not performed at the state $S_{\bar{c},\bar{a}}$, the state transition is the same as in the conditional {\vwarm} strategy.
+So $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+Then by combining Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equations~\ref{equ:detail2} and \ref{equ:ypwarm2}.
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
 %\begin{footnotesize}
+\begin{equation}
+\label{equ:detail2}
+\begin{split}
+E(T^{\oplus}) - E(T) = &\frac{Y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
+\end{split}\end{equation}
 \begin{equation}
 \label{equ:ypwarm2}
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
-\end{split}\end{equation}
-\begin{equation}
-\label{equ:detail2}
-\begin{split}
-E(T^{\oplus}) - E(T) = &\frac{y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
+Y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
 \end{split}\end{equation}
 %\end{footnotesize}
 where
@@ -145,7 +147,7 @@ where
 &F_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
 
-Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\oplus}) - E(T) \geq 0$, $y(P_{w}^{\oplus})$ should be equal or greater than zero.
+Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\oplus}) - E(T) \geq 0$, $Y(P_{w}^{\oplus})$ should be equal or greater than zero.
 Therefore we can get $ B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \geq 0$.
 If this inequality holds for all $P_{w}^{\oplus} \in [0,1]$, it should be satisfied that
 \begin{equation}\label{equ:omega}
@@ -162,8 +164,8 @@ D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2+(P_{e|S_{c}})^2P_{a|S_{c}}  \\
 &-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
 \end{split}\end{equation}
 
-Regard $D_{F}$ as the function of $P_{a|S_{c}}$,
-and we can find that it is an quadratic function.
+Regarding $D_{F}$ as the function of $P_{a|S_{c}}$,
+and we find that it is an quadratic function.
 
 When $P_{a|S_{c}} = 1$,
 $$D_{F}(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
@@ -319,7 +321,7 @@ When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and inc
 \end{enumerate}
 
 Therefore, the minimum value of $F_G$ gets when
-\begin{equation}
+\begin{equation*}
 \left\{
 \begin{split}
 &P_{e|S_{c}} = \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})} \\
@@ -328,7 +330,7 @@ Therefore, the minimum value of $F_G$ gets when
 & \text{if }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq 1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right.
-\end{equation}
+\end{equation*}
 
 From the above, we can make the following conclusions:
 \begin{enumerate}
