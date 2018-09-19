@@ -164,37 +164,35 @@ D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2+(P_{e|S_{c}})^2P_{a|S_{c}}  \\
 &-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
 \end{split}\end{equation}
 
-Regarding $D_{F}$ as the function of $P_{a|S_{c}}$,
-and we find that it is a quadratic function.
-
-When $P_{a|S_{c}} = 1$,
-$$D_{F}(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
-
-Let $D_{F}(P_{a|S_{c}}) = 0$,
- and denote the smaller root of the equation as $P_{a|S_{c},lroot}$.
-  so when $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
-   When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
+%Regarding $D_{F}$ as the function of $P_{a|S_{c}}$,
+%and we find that it is a quadratic function.
+%
+%When $P_{a|S_{c}} = 1$,
+%$$D_{F}(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
+%
+%Let $D_{F}(P_{a|S_{c}}) = 0$,
+% and denote the smaller root of the equation as $P_{a|S_{c},lroot}$.
+%  so when $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
+%   When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
  Thus,
 \begin{enumerate}
   \item
-  When $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
-  In this case, inequality \ref{equ:omega} holds. That is $E(T^{\oplus}) - E(T) \geq 0$.
+  When $D_{F} \geq 0$,
+   the Inequality \ref{equ:omega} holds. That is $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
-   In this case, to make the inequality \ref{equ:omega} holds,
-   \begin{equation}\label{equ:ge}
-     G \leq \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}
-   \end{equation}
-    for all $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
+  When  $D_{F} < 0$,
+    to make the Inequality \ref{equ:omega} holds,
+     $G$ shall be less than $\frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}$
+    for $P_{a|S_{c}}\in [0,1]$, $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
 \end{enumerate}
 
-For the second case, denote
+Next, we denote
     $$F_G = \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}$$
-
+and compute the minimal value of $F_G$ when $D_{F} < 0$.
 
 \begin{enumerate}
 \item
-    First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$, and get:
+    First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$. Then we get:
     %\begin{equation*}
     \begin{flalign*}
     \frac{d(F_G)}{d(P_{a|S_{c}})} &= (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
@@ -207,7 +205,8 @@ Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotone in
 When $P_{a|S_{c}}$ fetches the minimal value, $F_G$ gets its minimal value.
 
 \item
-Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
+Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+ We calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
 \begin{equation*}
 \begin{split}
 &\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = \{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
@@ -215,7 +214,7 @@ Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}
 \end{split}
 \end{equation*}
 
-Denote $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}$ as the greater root of equation $\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$.
+Denote $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}$ as the greater root of the equation $\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$.
 \begin{equation*}
   P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{equation*}
@@ -449,7 +448,7 @@ That is:
 
 \section{$P_{a}$ for Different AES Key Lengthes and Implementations}
 \label{appendixb}
-We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the probability that some of the $N$ cache line size of lookup tables not in the cache are accessed. So when the AES implementation uses 4.25KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+We assume the size of a cache line is $C$ Byte. $P_{a}$ represents the probability that some of the $N$ cache line size of lookup tables not in the cache are accessed. So when the AES implementation uses 4.25KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
 %\begin{flalign}
 %\begin{split}
