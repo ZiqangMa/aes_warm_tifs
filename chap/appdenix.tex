@@ -214,14 +214,13 @@ Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}
 \end{split}
 \end{equation*}
 
-Denote $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}$ as the greater root of the equation $\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$.
+We denote $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}$ as the greater root of the equation $\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})}=0$, 
+and
 \begin{equation*}
   P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{equation*}
-So, when $
-0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}
-$,
-$$\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0 \ .$$
+When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}]$,
+$\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0$.
 
 Therefore, when $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} \geq 1$, $F_G$ is a monotone decreasing function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
 When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}]$ and increases at $(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot},1]$.
@@ -253,7 +252,7 @@ When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,
 % And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
 \item
- Third, we regard $F_G$ as the function of $P_{e|S_{c}}$ and calculate the derivative on $P_{e|S_{c}}$, and get:
+ Third, we regard $F_G$ as the function of $P_{e|S_{c}}$. We calculate the derivative on $P_{e|S_{c}}$, and get:
 \begin{equation*}
 \begin{split}
 &\frac{d(F_G)}{d(P_{e|S_{c}})}=\\
@@ -263,7 +262,7 @@ When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,
 \end{split}
 \end{equation*}
 When $P_{e|S_{c}} = 0$, $\frac{d(F_G)}{d(P_{e|S_{c}})} = -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \leq 0 $.
-Let $\frac{d(F_G)}{d(P_{e|S_{c}})} = 0$, we can get the right root of this equation:
+Let $\frac{d(F_G)}{d(P_{e|S_{c}})} = 0$, and we get the greater root of this equation:
 \begin{equation}
 \begin{split}
 P_{e|S_{c},rroot} &= \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})}
@@ -274,12 +273,8 @@ where
 \Delta = &M^{2}(P_{a|S_{c}})^{2}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \nonumber \\
 &+ M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})\  .\nonumber
 \end{align}
-So when
-$
-0 \leq P_{e|S_{c}} \leq P_{e|S_{c},rroot}
-$,
-$$\frac{d(F_G)}{d(P_{e|S_{c}})} \leq 0\ .$$
-
+So when $P_{e|S_{c}} \in [0,P_{e|S_{c},rroot}]$,
+$\frac{d(F_G)}{d(P_{e|S_{c}})} \leq 0$.
 Therefore, when $P_{e|S_{c},rroot} \geq 1$, $F_G$ is a monotone decreasing function of $P_{e|S_{c}}$.
 When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and increases at $(P_{e|S_{c},rroot},1]$.
 
@@ -320,23 +315,24 @@ When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and inc
 \end{enumerate}
 
 Therefore, the minimal value of $F_G$ gets when
-\begin{equation*}
+\begin{equation}
+\label{equ:fgmin}
 \left\{
 \begin{split}
 &P_{e|S_{c}} = \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})} \\
-&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}}) \\
+&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = P_{e|S_{c}}(\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-(1-P_{a|S_{c}})) \\
 & \text{if }P_{e|S_{c}} \geq 1, P_{e|S_{c}} = 1 \text{ and }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1\\
 & \text{if }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq 1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 
-From the above, we can make the following conclusions:
+In summary,
 \begin{enumerate}
   \item
   When $D_F \geq 0$, $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimal value of $F_G$.
+  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimal value of $F_G$, where the minimal value satisfies the Equation set \ref{equ:fgmin}.
 \end{enumerate}
 
 That is:
