@@ -25,14 +25,15 @@ We measure the performance of several different timing side-channel defenses.
 %Our scheme aims to make the observed AES execution time independent of the input.
 \noindent\textbf{The time distribution with {\scshape{Warm+Delay}}.}
 %To show the security of {\scshape{Warm+Delay}} scheme,
-We measure the AES execution time implemented with the {\scshape{Warm+Delay}} scheme.
-  We compare it with the unprotected version, for  $2^{30}$ random plaintexts.
+We measure the AES execution time implemented with the {\scshape{Warm+Delay}} scheme,
+    and compare it with the unprotected version, for  $2^{30}$ random plaintexts.
 
 Fig. \ref{pic:sec} shows the distributions of AES execution time for two implementations.
 With {\scshape{Warm+Delay}},
-    almost all results between $T_{nm}$ and $T_{mm}$ are delayed to the value greater than $T_{mm}$.
-The minimum value of {\scshape{Warm+Delay}} scheme is greater than unprotected encryption because of the cost of {\scshape{GetTime}} (line 2 and 4 in Algorithm \ref{alg:aesdefense}).
-The actual maximum value is also greater than $T_{mm}$ for the same reason.
+    almost all the results are in the range of (0, $T_{nm} + 2T_{GetTime}$] and [$T_{mm}+2T_{GetTime}$, $\inf$),
+        where $T_{GetTime}$ is the cost of \verb+RDTSCP+  {\scshape{GetTime}} is called at least twice (Lines 2 and 4 in Algorithm \ref{alg:aesdefense}).
+%    between $T_{nm}$ and $T_{mm}$ are delayed to the value greater than $T_{mm}$.
+%The result of {\scshape{Warm+Delay}} is greater than the unprotected version because of the cost of {\scshape{GetTime}}
 %The distribution between $T_{nm}$ and $T_{mm}$ is exploitable,
 %    which is delayed to $T_{mm}$ in the {\scshape{Warm+Delay}} scheme.
 A small set appears around the position of 1750 cycles,
@@ -44,7 +45,7 @@ Besides,
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.5\textwidth]{pic/ori_scheme_distri.pdf}\\
-  \caption{The observed AES execution time with different plaintext.}\label{pic:sec}
+  \caption{The distribution of the observed AES execution time with different plaintexts.}\label{pic:sec}
 \end{figure}
 
 

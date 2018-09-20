@@ -134,10 +134,10 @@ Finally,
 %    \end{minipage}
 %    \caption{The distribution of AES encryption time with 2KB lookup table in full warm condition.}%n张图片共享的说明
 \centering
-\subfloat[with read-write conflicts]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
+\subfloat[With read-write conflicts]{\includegraphics[width=0.23\textwidth]{pic/fwnormal.pdf}
 \label{fig:fullwarmworst}}
 \hfil
-\subfloat[after the stack switch]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
+\subfloat[After the stack switch]{\includegraphics[width=0.23\textwidth]{pic/fwbest.pdf}
 \label{fig:fullwarmbest}}
 \caption{The distribution of AES encryption time with a 2KB lookup table in L1D caches.}\label{fig:sim}
 \end{figure}
@@ -150,7 +150,7 @@ Finally,
   \centering
   \includegraphics[width=0.48\textwidth]{pic/TWOCM_onenotin.pdf}\\
   %\includegraphics[width=2.5in]{pic/TWOCM_onenotin.pdf}\\
-  \caption{The distribution of AES execution time only  not warm one cache line.}\label{fig:twocm}
+  \caption{The distribution of AES execution time, with one cache line of data uncached.}\label{fig:twocm}
 \end{figure}
 
 
@@ -178,7 +178,7 @@ On the contrary,
 \begin{figure}[!t]
     \centering
     \includegraphics[width=0.48\textwidth]{pic/delay.pdf}\\
-    \caption{The relation between the delaying time and the number of instruction loops.}
+    \caption{The relation between the delayed time and the number of instruction loops.}
     \label{pic:delay} %% label for entire figure
 \end{figure}
 

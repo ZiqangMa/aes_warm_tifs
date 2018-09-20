@@ -2,7 +2,7 @@
 %\appendix
 \section{Proofs of Theorems~\ref{lemma:warmnum1} and \ref{lemma:warmnum2}}
 \label{appendixa}
-This section presents the proof details of Theorems~\ref{lemma:warmnum1} and \ref{lemma:warmnum2}.
+We present the proof details of Theorems~\ref{lemma:warmnum1} and \ref{lemma:warmnum2}.
 In the following calculation,
  all probabilities are in $[0,1]$.
  %$0 \leq P_{a|S_{c}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} \leq 1$, $0 \leq P_{w}^{\ominus} \leq 1$, $0 \leq P_{w}^{\oplus} \leq 1$
@@ -13,7 +13,7 @@ $E(T^{\ominus})$, $E(T)$ and $E(T^{\oplus})$ are the expected extra time costs
 \subsection{Proof of Theorem~\ref{lemma:warmnum1}}
 \label{appendixa1}
 We compare $E(T^{\ominus})$ and  $E(T)$ as below.
-By combining Equations~\ref{equ:pic} and \ref{equ:pil} in Equation \ref{equ:tpc1},
+By combing Equations~\ref{equ:pic} and \ref{equ:pil} in Equation \ref{equ:tpc1},
 we obtain Equation \ref{equ:detail1} as follows.
 
 \begin{equation}
@@ -28,21 +28,24 @@ where
 \begin{split}
 %\footnotesize
 %\scriptsize
-&Y(P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\{P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \\
-&\ \ \ \ -P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus})\} P_{w}^{\ominus} \\
-&\ \ \ \  +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
-&\ \ \ \  - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}) \, \\
-&A_{L}=P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus})\\
-&\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}+(P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus} \\
-&B_{L}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
-\end{split}
+Y(&P_{w}^{\ominus}) = -P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \\
+&-P_{e|S_{c}}(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}+P_{a|S_{c}}-P_{a}^{\mathfrak{3}\mathcal{L}})) P_{w}^{\ominus} \\
+& +  P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}(1-P_{a|S_{c}})+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
+& - P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{a}^{\mathfrak{3}\mathcal{L}}), \end{split}
 \end{equation*}
+\begin{equation*}
+\begin{split}
+&A_{L}=P_{e|S_{c}}(1+P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}-P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus})\\
+&\ \ +(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus}P_{w}^{\ominus}+(P_{S_{\bar{c}, a}|S_{\bar{c},a},\bar{w}}^{\ominus}-P_{a|S_{c}})P_{e|S_{c}}P_{w}^{\ominus},\\
+&B_{L}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}}).
+\end{split}\end{equation*}
 
-$P_{a|S_{\bar{c}, a}}^{\ominus}$ and $P_{a|S_{c}}$ are related to the number of uncached table entries.
- Obviously, the number of uncached table entries in $S_{\bar{c}, a}$ is greater than in $S_{c}$.
-\textcolor[rgb]{1.00,0.00,0.00}{Therefore, $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.}
-In the Markov state transition diagram,
-$P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$.
+\textcolor[rgb]{1.00,0.00,0.00}{It can be seen from analysis that $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.}
+Meanwhile, in the Markov state transition diagram,
+\begin{equation*}
+\begin{split}
+&P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}} .
+\end{split}\end{equation*}
 So we get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}}$.
 In this way,
 $Y(P_{w}^{\ominus})$ is monotone decreasing. When $P_{w}^{\ominus} = 1$, it gets the minimal value.
@@ -58,8 +61,8 @@ so $E(T^{\ominus}) - E(T)\geq 0$.
 {\vdelay} is needed in $S_{\bar{c}, a}$,
 so the extra time introduced by {\vwarm} is concealed in the {\vdelay} operation.
  However, in the more {\vwarm} strategy,
-the extra time introduced by {\vwarm} is the minimum of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in the caches.
-  Also in the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{w}$.
+the extra time introduced by {\vwarm} is the minimum of $T_{w}$ ($T_{w}^{min}$) in the state $S_{c}$, as all lookup entries are in caches.
+In the state $S_{\bar{c}, \bar{a}}$, the extra time introduced by {\vwarm} is $T_{w}$.
 Therefore, the difference between the expected extra time introduced by more {\vwarm} and conditional {\vwarm} is:
 \begin{align}
 %label{equ:tpc22}
@@ -114,25 +117,22 @@ Therefore, the difference between the expected extra time introduced by more {\v
 %To prove the Theorem~\ref{lemma:warmnum2}, we need to compare $E(T^{\mathcal{M}})$ with $E(T^{\mathcal{C}})$.
 %So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
 %We estimate if it is greater than $0$.
-
-$P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}$ means the probability of the state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed in the more {\vwarm} strategy.
-  While if {\vwarm} is not performed at the state $S_{\bar{c},\bar{a}}$, the state transition is the same as in the conditional {\vwarm} strategy.
-So $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
-Then by combining Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equations~\ref{equ:detail2} and \ref{equ:ypwarm2}.
+\textcolor[rgb]{1.00,0.00,0.00}{We find that }$P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+Then by combing Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equations~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
 %\begin{footnotesize}
-\begin{equation}
-\label{equ:detail2}
-\begin{split}
-E(T^{\oplus}) - E(T) = &\frac{Y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
-\end{split}\end{equation}
 \begin{equation}
 \label{equ:ypwarm2}
 \begin{split}
 %\footnotesize
 %\scriptsize
 Y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
+\end{split}\end{equation}
+\begin{equation}
+\label{equ:detail2}
+\begin{split}
+E(T^{\oplus}) - E(T) = &\frac{Y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where
@@ -164,35 +164,37 @@ D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2+(P_{e|S_{c}})^2P_{a|S_{c}}  \\
 &-P_{e|S_{c}}P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}
 \end{split}\end{equation}
 
-%Regarding $D_{F}$ as the function of $P_{a|S_{c}}$,
-%and we find that it is a quadratic function.
-%
-%When $P_{a|S_{c}} = 1$,
-%$$D_{F}(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
-%
-%Let $D_{F}(P_{a|S_{c}}) = 0$,
-% and denote the smaller root of the equation as $P_{a|S_{c},lroot}$.
-%  so when $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
-%   When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
+Regard $D_{F}$ as the function of $P_{a|S_{c}}$,
+and we can find that it is an quadratic function.
+
+When $P_{a|S_{c}} = 1$,
+$$D_{F}(P_{a|S_{c}})=M(1-P_{e|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \geq 0 \ .$$
+
+Let $D_{F}(P_{a|S_{c}}) = 0$,
+ and denote the smaller root of the equation as $P_{a|S_{c},lroot}$.
+  so when $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
+   When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
  Thus,
 \begin{enumerate}
   \item
-  When $D_{F} \geq 0$,
-   the Inequality \ref{equ:omega} holds. That is $E(T^{\oplus}) - E(T) \geq 0$.
+  When $P_{a|S_{c}} \geq P_{a|S_{c},lroot}$, $D_{F} \geq 0$.
+  In this case, inequality \ref{equ:omega} holds. That is $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When  $D_{F} < 0$,
-    to make the Inequality \ref{equ:omega} holds,
-     $G$ shall be less than $\frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}$
-    for $P_{a|S_{c}}\in [0,1]$, $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
+  When $P_{a|S_{c}} < P_{a|S_{c},lroot}$, $D_{F} < 0$.
+   In this case, to make the inequality \ref{equ:omega} holds,
+   \begin{equation}\label{equ:ge}
+     G \leq \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}
+   \end{equation}
+    for all $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
 \end{enumerate}
 
-Next, we denote
+For the second case, denote
     $$F_G = \frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}$$
-and compute the minimal value of $F_G$ when $D_{F} < 0$.
+
 
 \begin{enumerate}
 \item
-    First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$. Then we get:
+    First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$, and get:
     %\begin{equation*}
     \begin{flalign*}
     \frac{d(F_G)}{d(P_{a|S_{c}})} &= (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
@@ -201,12 +203,11 @@ and compute the minimal value of $F_G$ when $D_{F} < 0$.
     \end{flalign*}
     %\end{equation*}
 
-Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotone increasing function of $P_{a|S_{c}}$.
-When $P_{a|S_{c}}$ fetches the minimal value, $F_G$ gets its minimal value.
+Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotony increasing function of $P_{a|S_{c}}$.
+When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum.
 
 \item
-Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
- We calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
+Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
 \begin{equation*}
 \begin{split}
 &\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = \{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
@@ -219,10 +220,12 @@ and
 \begin{equation*}
   P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{equation*}
-When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}]$,
-$\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0$.
+So, when $
+0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}
+$,
+$$\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0 \ .$$
 
-Therefore, when $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} \geq 1$, $F_G$ is a monotone decreasing function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+Therefore, when $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} \geq 1$, $F_G$ is a monotony decreasing function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
 When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}]$ and increases at $(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot},1]$.
 
 %$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
@@ -252,7 +255,7 @@ When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,
 % And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
 \item
- Third, we regard $F_G$ as the function of $P_{e|S_{c}}$. We calculate the derivative on $P_{e|S_{c}}$, and get:
+ Third, we regard $F_G$ as the function of $P_{e|S_{c}}$ and calculate the derivative on $P_{e|S_{c}}$, and get:
 \begin{equation*}
 \begin{split}
 &\frac{d(F_G)}{d(P_{e|S_{c}})}=\\
@@ -262,7 +265,7 @@ When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,
 \end{split}
 \end{equation*}
 When $P_{e|S_{c}} = 0$, $\frac{d(F_G)}{d(P_{e|S_{c}})} = -M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \leq 0 $.
-Let $\frac{d(F_G)}{d(P_{e|S_{c}})} = 0$, and we get the greater root of this equation:
+Let $\frac{d(F_G)}{d(P_{e|S_{c}})} = 0$, we can get the right root of this equation:
 \begin{equation}
 \begin{split}
 P_{e|S_{c},rroot} &= \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})}
@@ -273,9 +276,13 @@ where
 \Delta = &M^{2}(P_{a|S_{c}})^{2}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^2 \nonumber \\
 &+ M(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})^{2}(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})\  .\nonumber
 \end{align}
-So when $P_{e|S_{c}} \in [0,P_{e|S_{c},rroot}]$,
-$\frac{d(F_G)}{d(P_{e|S_{c}})} \leq 0$.
-Therefore, when $P_{e|S_{c},rroot} \geq 1$, $F_G$ is a monotone decreasing function of $P_{e|S_{c}}$.
+So when
+$
+0 \leq P_{e|S_{c}} \leq P_{e|S_{c},rroot}
+$,
+$$\frac{d(F_G)}{d(P_{e|S_{c}})} \leq 0\ .$$
+
+Therefore, when $P_{e|S_{c},rroot} \geq 1$, $F_G$ is a monotony decreasing function of $P_{e|S_{c}}$.
 When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and increases at $(P_{e|S_{c},rroot},1]$.
 
 %If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
@@ -314,30 +321,29 @@ When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and inc
 %Therefore, the minimum value of $Gexpression$ is get when $P_{a1}$ achieves the minimum value, $P_{a2}$ and $P_{evict}$ achieve the maximum value.
 \end{enumerate}
 
-Therefore, the minimal value of $F_G$ gets when
+Therefore, the minimum value of $F_G$ gets when
 \begin{equation}
-\label{equ:fgmin}
 \left\{
 \begin{split}
 &P_{e|S_{c}} = \frac{MP_{a|S_{c}}(1-P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})+\sqrt{\Delta}}{(1-P_{a|S_{c}})(1-M+MP_{a|S_{c}})} \\
-&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = P_{e|S_{c}}(\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-(1-P_{a|S_{c}})) \\
+&P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = P_{e|S_{c}}\sqrt{\frac{1-P_{a|S_{c}}}{M(1-P_{e|S_{c}})}}-P_{e|S_{c}}(1-P_{a|S_{c}}) \\
 & \text{if }P_{e|S_{c}} \geq 1, P_{e|S_{c}} = 1 \text{ and }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1\\
 & \text{if }P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \geq 1, P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} = 1
 \end{split}
 \right.
 \end{equation}
 
-In summary,
+From the above, we can make the following conclusions:
 \begin{enumerate}
   \item
   When $D_F \geq 0$, $E(T^{\oplus}) - E(T) \geq 0$.
   \item
-  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimal value of $F_G$, where the minimal value satisfies the Equation set \ref{equ:fgmin}.
+  When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimum value of $F_G$.
 \end{enumerate}
 
-That is:
+That is,
  if (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$,
- conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+ conditional {\vwarm} produces better performance than less {\vwarm}.
 
 
 
@@ -444,7 +450,7 @@ That is:
 
 \section{$P_{a}$ for Different AES Key Lengthes and Implementations}
 \label{appendixb}
-We assume the size of a cache line is $C$ Byte. $P_{a}$ represents the probability that some of the $N$ cache line size of lookup tables not in the cache are accessed. So when the AES implementation uses 4.25KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+The size of a cache line is $C$ bytes. $P_{a}$ represents that the probability that some of the $N$ cache line size of lookup tables not in caches are accessed. When the AES implementation uses 4.25KB lookup tables, $P_{a}$ for AES-128, AES-192 and AES-256 is as follows:
 \begin{align}
 %\begin{flalign}
 %\begin{split}
@@ -497,21 +503,21 @@ where
     &&x_{2e} = \min(1024/C,N-x_4-x_0-x_1)
   \end{eqnarray*}
 
-When the AES implementation uses 5KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+When the AES implementation uses 5KB lookup tables, $P_{a}$ for AES-128, AES-192 and AES-256 is as follows:
 \begin{align}
-    P_{a}^{[128]} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{a}^{[192]} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{a}^{[256]} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,52)}}}}}, \nonumber
 \end{align}
 where
@@ -553,19 +559,19 @@ where
 
 When the AES implementation uses 4KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{align}
-    P_{a}^{[128]} = &1-   \nonumber \\
+    P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,40)}}}}, \nonumber
 \end{align}
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{a}^{[192]} = &1-  \nonumber \\
+    P_{a}^{192} = &1-  \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,48)}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{a}^{[256]} = &1-  \nonumber \\
+    P_{a}^{256} = &1-  \nonumber \\
     \frac{1}{\binom{4096/C}{N}}&\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{\sum_{x_2=x_{2b}}^{x_{2e}}{\prod_{i=0}^{3}{f(x_i,56)}}}}, \nonumber
 \end{align}
 where
@@ -603,15 +609,15 @@ where
 When the AES implementation uses 2KB lookup table, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
 \begin{equation*}
     %\scriptsize
-    P_{a}^{[128]} = 1- (1-\frac{NC}{2048})^{160},
+    P_{a}^{128} = 1- (1-\frac{NC}{2048})^{16*10},
 \end{equation*}
 %for AES-192 is
 \begin{equation*}
     %\scriptsize
-    P_{a}^{[192]} = 1- (1-\frac{NC}{2048})^{192},
+    P_{a}^{192} = 1- (1-\frac{NC}{2048})^{16*12},
 \end{equation*}
 %for AES-256 is
 \begin{equation*}
     %\scriptsize
-    P_{a}^{[256]} = 1- (1-\frac{NC}{2048})^{224}.
+    P_{a}^{256} = 1- (1-\frac{NC}{2048})^{16*14}.
 \end{equation*}
