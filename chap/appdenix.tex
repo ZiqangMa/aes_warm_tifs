@@ -118,7 +118,7 @@ Therefore, the difference between the expected extra time introduced by more {\v
 %So we get the Formula~\ref{equ:tpc2}, and estimate if it is larger than $0$.
 %We estimate if it is greater than $0$.
 \textcolor[rgb]{1.00,0.00,0.00}{We find that }$P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
-Then by combing Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equation~\ref{equ:ypwarm2} and \ref{equ:detail2}.
+Then by combing Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equations~\ref{equ:ypwarm2} and \ref{equ:detail2}.
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
 %\begin{footnotesize}
@@ -127,12 +127,12 @@ Then by combing Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equation~\ref{
 \begin{split}
 %\footnotesize
 %\scriptsize
-y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
+Y(P_{w}^{\oplus}) = &B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \,
 \end{split}\end{equation}
 \begin{equation}
 \label{equ:detail2}
 \begin{split}
-E(T^{\oplus}) - E(T) = &\frac{y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
+E(T^{\oplus}) - E(T) = &\frac{Y(P_{w}^{\oplus})P_{w}^{\oplus}T_{w}}{E_{M} F_{M}}
 \end{split}\end{equation}
 %\end{footnotesize}
 where
@@ -147,7 +147,7 @@ where
 &F_{M}=P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+P_{e|S_{c}}(1-P_{a|S_{c}})
 \end{split}\end{equation*}
 
-Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\oplus}) - E(T) \geq 0$, $y(P_{w}^{\oplus})$ should be equal or greater than zero.
+Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\oplus}) - E(T) \geq 0$, $Y(P_{w}^{\oplus})$ should be equal or greater than zero.
 Therefore we can get $ B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \geq 0$.
 If this inequality holds for all $P_{w}^{\oplus} \in [0,1]$, it should be satisfied that
 \begin{equation}\label{equ:omega}
@@ -203,8 +203,8 @@ For the second case, denote
     \end{flalign*}
     %\end{equation*}
 
-Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotony increase function of $P_{a|S_{c}}$.
-When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum value.
+Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotony increasing function of $P_{a|S_{c}}$.
+When $P_{a|S_{c}}$ fetches the minimum value, $F_G$ gets its minimum.
 
 \item
 Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
@@ -224,7 +224,7 @@ So, when $
 $,
 $$\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} \leq 0 \ .$$
 
-Therefore, when $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} \geq 1$, $F_G$ is a monotony decrease function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+Therefore, when $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} \geq 1$, $F_G$ is a monotony decreasing function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
 When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot}]$ and increases at $(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot},1]$.
 
 %$M(1+P_{evict})^{2} > 0$ and when $P_{a2} = 0$, so $\frac{d(Gexpression)}{d(P_{a2})} < 0$,
@@ -281,7 +281,7 @@ $
 $,
 $$\frac{d(F_G)}{d(P_{e|S_{c}})} \leq 0\ .$$
 
-Therefore, when $P_{e|S_{c},rroot} \geq 1$, $F_G$ is a monotony decrease function of $P_{e|S_{c}}$.
+Therefore, when $P_{e|S_{c},rroot} \geq 1$, $F_G$ is a monotony decreasing function of $P_{e|S_{c}}$.
 When $P_{e|S_{c},rroot} < 1$, $F_G$ decreases at $[0,P_{e|S_{c},rroot}]$ and increases at $(P_{e|S_{c},rroot},1]$.
 
 %If $P_{a2}=\sqrt{\frac{\bar{P}_{a1}}{M}}-\bar{P}_{a1}$, $\frac{d(Gexpression)}{d(P_{evict})} < 0$. Function $Gexpression$ is a monotony decrease function on $P_{evict}$.
@@ -340,9 +340,9 @@ From the above, we can make the following conclusions:
   When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimum value of $F_G$.
 \end{enumerate}
 
-That is:
+That is,
  if (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$,
- conditional {\vwarm} strategy has better performance than the less {\vwarm} strategy.
+ conditional {\vwarm} produces better performance than less {\vwarm}.
 
 
 
@@ -449,11 +449,11 @@ That is:
 
 \section{$P_{a}$ for Different AES Key Lengthes and Implementations}
 \label{appendixb}
-We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the probability that some of the $N$ cache line size of lookup tables not in the cache are accessed. So when the AES implementation uses 4.25KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+The size of a cache line is $C$ bytes. $P_{a}$ represents that the probability that some of the $N$ cache line size of lookup tables not in caches are accessed. When the AES implementation uses 4.25KB lookup tables, $P_{a}$ for AES-128, AES-192 and AES-256 is as follows:
 \begin{align}
 %\begin{flalign}
 %\begin{split}
-    P_{a}^{128} = &1-   \nonumber \\
+    P_{a}^{[128]} = &1-   \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,36)}}}}}, \nonumber
 %\end{split}
 %\end{flalign}
@@ -461,13 +461,13 @@ We assume the size of a cache line is $C$ Byte. $P_{a}$ represents that the prob
 %for AES-192 is
 \begin{align}
     %\scriptsize
-    P_{a}^{192} = &1-  \nonumber \\
+    P_{a}^{[192]} = &1-  \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,44)}}}}}, \nonumber
 \end{align}
 %for AES-256 is
 \begin{align}
     %\scriptsize
-    P_{a}^{256} = &1-  \nonumber \\
+    P_{a}^{[256]} = &1-  \nonumber \\
     \frac{1}{\binom{4352/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4)\prod_{i=0}^{3}{g(x_i,52)}}}}}, \nonumber
 \end{align}
 
@@ -502,7 +502,7 @@ where
     &&x_{2e} = \min(1024/C,N-x_4-x_0-x_1)
   \end{eqnarray*}
 
-When the AES implementation uses 5KB lookup tables, the $P_{a}$ for AES-128, AES-192 and AES-256 are as follows respectively:
+When the AES implementation uses 5KB lookup tables, $P_{a}$ for AES-128, AES-192 and AES-256 is as follows:
 \begin{align}
     P_{a}^{128} = &1-   \nonumber \\
     \frac{1}{\binom{5120/C}{N}}&\sum_{x_4=x_{4b}}^{x_{4e}}{\sum_{x_0=x_{0b}}^{x_{0e}}{\sum_{x_1=x_{1b}}^{x_{1e}}{ \sum_{x_2=x_{2b}}^{x_{2e}}{f(x_4,16)\prod_{i=0}^{3}{f(x_i,36)}}}}}, \nonumber
