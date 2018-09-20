@@ -531,7 +531,7 @@ It is reasonable,
     because
     an {\scshape{Eviction}} event occurring before  {\scshape{Warm}} has no effect on the state of the lookup table,
         and then can be ignored.
-Since the state of the lookup table is observed immediately after the AES execution,
+Since the state is observed immediately after the AES execution,
   {\scshape{Access-Uncached}} occurs in the last during one state transition (if occurs).
 In the following analysis, we firstly ignore the partial-warm effect of {\scshape{Access-Uncached}} in the analysis of the different strategies,
     and in Section~\ref{remark} we show that
@@ -735,10 +735,10 @@ $T_{d} = T_{mm}-T_{nm}$ is constant, while
 
 \begin{proof}
 The expected extra time costs introduced by less {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\ominus})$ and $E(T)$, respectively.
-In the state $S_{\bar{c}, a}$, the {\vdelay} operation is needed,
+{\vdelay} is needed in $S_{\bar{c}, a}$,
 so the extra time introduced by {\vwarm} is masked in the {\vdelay} operation.
  In $S_{c}$ and $S_{\bar{c}, \bar{a}}$, {\vwarm} and {\vdelay} are not needed for these two strategies.
-The difference between the expected extra time introduced by less {\vwarm} and conditional {\vwarm} is:
+The difference between the extra time introduced by less {\vwarm} and conditional {\vwarm} is:
 %\begin{footnotesize}
 \begin{equation}
 \label{equ:tpc1}
@@ -1246,8 +1246,8 @@ For other key lengths with different numbers of rounds and implementations with 
     Theorems \ref{delay2tw}, \ref{delaynum}, \ref{theorm:warmall}, \ref{lemma:warmnum1}, \ref{lemma:warmnum2},
     and \ref{lemma:warmnum3} still hold,
     but we need to re-calculate the equations (for example,
-    in Theorem \ref{theorm:warmall}, $T_{cl}$ is the maximum of $T_w$ divided by the number of cache lines in the table,
-    and $T_{d} = T_{mm}-T_{nm}$).
+    in Theorem \ref{theorm:warmall}, $T_{cl}$ is the maximum of $T_w$ divided by the number of cache lines in the table).
+%    and $T_{d} = T_{mm}-T_{nm}$).
 After the re-calculation, we will find whether
         the {\scshape{Warm+Delay}} scheme provides the optimal performance or not.
 

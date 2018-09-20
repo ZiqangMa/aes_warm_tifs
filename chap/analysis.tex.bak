@@ -15,8 +15,9 @@ Then we present the conditions for the {\scshape{Delay}} operations to get the o
  Meanwhile we use a statistical model to examine the {\scshape{Warm}} operations.
 Finally, we propose a strategy for the {\scshape{Warm+Delay}} scheme,
    and quantitatively prove that the optimal performance is achieved through our strategy.
+We list the major symbols of the analysis in Table \ref{notation}.
 
-\begin{table}[!t]
+\begin{table}[tb]
 \renewcommand{\arraystretch}{1.3}
 \caption{Symbols in the performance analysis.}
 \label{notation}
@@ -105,6 +106,7 @@ $\Pi_{\bar{c}, a}$ & The probability that the system is in $S_{\bar{c}, a}$ in t
 \hline
 \end{tabular}
 \end{table}
+
 \subsection{Overview}
 \label{sec:eval}
 
@@ -872,7 +874,7 @@ It is proved that the conditional {\vwarm} strategy produces better performance
  following the same  steps in Theorem~\ref{lemma:warmnum1}.
 %The detailed calculation steps \textcolor[rgb]{1.00,0.00,0.00}{are in Appendix~\ref{appendixa}.}
 
-Generally, any {\vwarm} strategy $W$ is generally described with $P_1$ and $P_2$:
+Any {\vwarm} strategy $W$ is generally described with $P_1$ and $P_2$:
 performs {\vwarm} with a probability $P_{1}\in[0,1]$  when a cache miss occurs during the previous encryption, and with a probability $P_{2}\in[0,1]$ in other states.
 %   Similarly, we denote less {\vwarm} strategy, more {\vwarm} strategy and unusual {\vwarm} as $W_{L}$, $W_{M}$ and $W_{U}$.
 %  Then we can get the equation:
@@ -1157,7 +1159,7 @@ Table~\ref{tbl:scheduaes} shows the results on the Lenovo ThinkCentre M8400t PC,
 If $N = 0$ (i.e., no table entry is evicted from caches), {\vwarm} is not needed while $t2 - t1 > T_{mm}$.
 However, we cannot find whether the table entry is evicted or not, unless more privileged operations are supported.
 So we have to perform {\vwarm} and it introduces a little extra overhead (i.e.,
-     access each cache line that has been in caches) in the special case.
+     access each cache line of data that are in caches) in this special case.
 %If not performing the warmup operation, the probability of needing delay is $P_{delay}$, and the extra time introduced is $T_{delay}$ as shown in Equation~\ref{equ:delay} and Equation~\ref{equ:tdelay}.
 %So from Table~\ref{tbl:scheduaes}, we find that in this case, performing warmup operation is better.%这段是说明了调度和中断发生在AES执行过程中的情况。这时的warm是有额外开销的，比较这时使用warm的开销和不使用warm时会产生的delay的开销。得出此时使用warm是更好的。
 
@@ -1244,7 +1246,7 @@ For other key lengths with different numbers of rounds and implementations with 
     Theorems \ref{delay2tw}, \ref{delaynum}, \ref{theorm:warmall}, \ref{lemma:warmnum1}, \ref{lemma:warmnum2},
     and \ref{lemma:warmnum3} still hold,
     but we need to re-calculate the equations (for example,
-    in Theorem \ref{theorm:warmall}, $T_{cl}$ is the maximum of $T_w$ divided by the number of cache lines in the table,
+    in Theorem \ref{theorm:warmall}, $T_{cl}$ is the maximum of $T_w$ divided by the number of cache lines in the table)
     and $T_{d} = T_{mm}-T_{nm}$).
 After the re-calculation, we will find whether
         the {\scshape{Warm+Delay}} scheme provides the optimal performance or not.
