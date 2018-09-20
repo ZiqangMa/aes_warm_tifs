@@ -182,6 +182,30 @@ On the contrary,
     \label{pic:delay} %% label for entire figure
 \end{figure}
 
+
+\lstset{
+language=[ANSI]C,
+basicstyle=\small\ttfamily,
+numbersep=5pt,
+xleftmargin=2pt,
+breaklines=true,
+frame=single,
+%frame=box,
+aboveskip=1em, %´úÂë¿é±ß¿ò
+framexleftmargin=2pt
+}
+
+\renewcommand*\thelstnumber{\arabic{lstnumber}:}
+
+\begin{lstlisting}[caption={{The implementation of {\scshape{Delay()}}.}}]
+volatile int delay(uint64_t t_delay){
+    uint64_t n = (double)t_delay>15.68 ? (uint64_t)((double) t_delay/2.9886-5.2466) : 0;
+    for (; n>0; n--)
+        asm volatile ("xor %%eax, %%eax;" : : : "%eax");
+}
+\end{lstlisting}
+
+
 We measure the time for different loop numbers of the \verb+xor+ instruction, by invoking it for $10^6$ times with different loop numbers (from 0 to 950 and the step is 50), as shown in \figurename~\ref{pic:delay}.
 The relation between the time delayed and the loop number ($n$) is calculated through the least squares method.
 The result is $T_{delay} = 2.9886n + 15.68$, and the coefficient of determination is 0.99996.
@@ -217,27 +241,7 @@ No table is used in this implementation, to reduce the use of caches.
 
 %x86: unify/rewrite SMP TSC sync code
 
-\lstset{
-language=[ANSI]C,
-basicstyle=\small\ttfamily,
-numbersep=5pt,
-xleftmargin=2pt,
-breaklines=true,
-frame=single,
-%frame=box,
-aboveskip=1em, %´úÂë¿é±ß¿ò
-framexleftmargin=2pt
-}
 
-\renewcommand*\thelstnumber{\arabic{lstnumber}:}
-
-\begin{lstlisting}[caption={{The implementation of {\scshape{Delay()}}.}}]
-volatile int delay(uint64_t t_delay){
-    uint64_t n = (double)t_delay>15.68 ? (uint64_t)((double) t_delay/2.9886-5.2466) : 0;
-    for (; n>0; n--)
-        asm volatile ("xor %%eax, %%eax;" : : : "%eax");
-}
-\end{lstlisting}
 
 
 \vspace{1mm}The constant parameters ($T_{nm}$ and $T_{mm}$) are set properly as follows.

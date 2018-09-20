@@ -161,11 +161,11 @@ However, when a larger lookup table is used,
   to avoid the the read-write conflict of cache sets between the look table and the stack,
    we shall reserve the lookup table within 32 cache sets.
 It will be achieved by discontinuous table entries.
-For example, when using a 4KB lookup table ($T_{0}, T_{1}, T_{2}, T_{3}$),
+For example, when using 4KB lookup tables ($T_{0}, T_{1}, T_{2}, T_{3}$),
  we allocate $T_2$/$T_3$ in the same memory address as $T_0$/$T_1$ module 4096, so that they occupy the same cache sets.
-Then a 4KB lookup table occupies only 32 cache sets and the 2KB stack occupies the other 32 cache sets.
+Then the 4KB lookup tables occupy only 32 cache sets and the 2KB stack occupies the other 32 cache sets.
 % The same is true for 4.25KB and 5KB lookup tables. We can make them only take up 32 cache sets and leave the others for the 2KB array.
-This method works for a 4.25KB or 5KB lookup table.
+This method works for 4.25KB or 5KB lookup tables.
 
 
 %  to So the attackers can obtain the information of every cache line at every access.
