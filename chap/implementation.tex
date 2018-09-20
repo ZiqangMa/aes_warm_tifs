@@ -11,11 +11,11 @@ We evaluate the  scheme on a Lenovo ThinkCentre M8400t PC with an Intel Core i7-
 %\vspace{-1mm}
 % AES  mbed TLS-2.4.2
 %In this section,
-We apply the {\scshape{Warm+Delay}} scheme to AES-128 implemented with a 2K lookup table, %to validate the security and evaluate the performance.
+We apply {\scshape{Warm+Delay}} to AES-128 implemented with a 2K lookup table, %to validate the security and evaluate the performance.
   directly borrowed from OpenSSL-1.0.2c \cite{openssl}.
-As we attempt to optimize the performance while eliminate remote cache timing side channels,
+As we attempt to optimize the performance, % while eliminate remote cache timing side channels,
  efficient {\scshape{Warm}}, {\scshape{GetTime}},  and {\scshape{Delay}}
-  are finished.
+  are finished as follows.
 
 
 \vspace{1mm}\noindent\textbf{{\scshape{Warm}}.}
@@ -161,7 +161,7 @@ We adopt the instruction \verb+RDTSCP+ to implement {\scshape{GetTime}}, to obta
 \verb+RDTSCP+ is a serializing call which prevents the CPU from reordering it.
 We finished the following to achieve the high accuracy:
 (1) as the time stamp counters (TSC) on each core are not guaranteed to be synchronized, we install the patch [x86: unify/rewrite SMP TSC sync code] to synchronize the TSCs;
-(2) the clock cycle changes due to the energy-saving option, so we  disable this option in BIOS to ensure the clock cycle be a  constant.
+(2) the clock cycle changes due to the energy-saving option, so we  disable this option in BIOS to ensure the clock cycle be constant.
 
 The cost of \verb+RDTSCP+ is 36 cycles which is much greater than the comparison operation and cannot be ignored.
 We perform {\scshape{GetTime}} only if $t2 - t1 < T_{mm}$,
