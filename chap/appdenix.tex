@@ -38,12 +38,12 @@ where
 \end{split}
 \end{equation*}
 
-$P_{a|S_{\bar{c}, a}}^{\ominus}$ and $P_{a|S_{c}}$ are related to the number of uncached table entries.
-  Obviously, the number of uncached table entries in $S_{\bar{c}, a}$ is greater than in $S_{c}$.
-Therefore, $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.
+$P_{a|S_{\bar{c}, a}}^{\ominus}$ and $P_{a|S_{c}}$ are determined by the number of uncached table entries.
+The number of uncached table entries in $S_{\bar{c}, a}$ is greater than in $S_{c}$,
+so $P_{a|S_{\bar{c}, a}}^{\ominus} > P_{a|S_{c}}$.
 In the Markov state transition diagram,
-$P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$.
-So we get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}}$.
+$P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus}=P_{e|S_{\bar{c}, a}}^{\ominus}P_{a|S_{\bar{c}, a}}^{\ominus}+(1-P_{e|S_{\bar{c}, a}}^{\ominus})P_{a|S_{c}}$,
+and then we get $P_{S_{\bar{c}, a}|S_{\bar{c},a}^{\bar{w}}}^{\ominus} > P_{a|S_{c}}$.
 In this way,
 $Y(P_{w}^{\ominus})$ is monotone decreasing. When $P_{w}^{\ominus} = 1$, it gets the minimal value.
 At this point, $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$ and $Y(P_{w}^{\ominus}) = 0$.
@@ -116,9 +116,9 @@ Therefore, the difference between the expected extra time introduced by more {\v
 %We estimate if it is greater than $0$.
 
 $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}$ means the probability of the state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed in the more {\vwarm} strategy.
-   While if {\vwarm} is not performed at the state $S_{\bar{c},\bar{a}}$, the state transition is the same as in the conditional {\vwarm} strategy.
+If {\vwarm} is not performed in $S_{\bar{c},\bar{a}}$, the state transition is the same as with the conditional {\vwarm} strategy.
  So $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
- Then by combining Equations~\ref{equ:pic} and \ref{equ:pim}, we get Equations~\ref{equ:detail2} and \ref{equ:ypwarm2}.
+By combining Equations~\ref{equ:pic} and \ref{equ:pim}, we get the following equations.
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
 %\begin{footnotesize}
@@ -149,8 +149,8 @@ where
 \end{split}\end{equation*}
 
 Because $E_{M}$ and $F_{M}$ are greater than zero, to make $E(T^{\oplus}) - E(T) \geq 0$, $Y(P_{w}^{\oplus})$ should be equal or greater than zero.
-Therefore we can get $ B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \geq 0$.
-If this inequality holds for all $P_{w}^{\oplus} \in [0,1]$, it should be satisfied that
+Therefore, we get $ B_{M}C_{M}P_{w}^{\oplus}+A_{M}C_{M}+GD_{M} \geq 0$.
+If this inequality holds for all $P_{w}^{\oplus} \in [0,1]$, it is satisfied that
 \begin{equation}\label{equ:omega}
   (C_{M}(1-P_{e|S_{c}})P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}+D_{M})G+C_{M}P_{e|S_{c}}(1-P_{a|S_{c}}) \geq 0 \ .
 \end{equation}
@@ -179,10 +179,10 @@ D_{F} &=-(P_{e|S_{c}})^2(P_{a|S_{c}})^2+(P_{e|S_{c}})^2P_{a|S_{c}}  \\
 \begin{enumerate}
   \item
   When $D_{F} \geq 0$,
-    the Inequality \ref{equ:omega} holds. That is $E(T^{\oplus}) - E(T) \geq 0$.
+    Inequality \ref{equ:omega} holds. That is, $E(T^{\oplus}) - E(T) \geq 0$.
   \item
    When  $D_{F} < 0$,
-     to make the Inequality \ref{equ:omega} holds,
+     to let Inequality \ref{equ:omega} holds,
       $G$ shall be less than $\frac{C_{M}P_{e|S_{c}}(P_{a|S_{c}}-1)}{D_{F}}$
      for $P_{a|S_{c}}\in [0,1]$, $P_{e|S_{c}} \in [0,1]$ and $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \in [0,1]$.
 \end{enumerate}
@@ -193,7 +193,7 @@ and compute the minimal value of $F_G$ when $D_{F} < 0$.
 
 \begin{enumerate}
 \item
-    First, we regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$. Then we get:
+    We regard $F_G$ as the function of $P_{a|S_{c}}$ and calculate the derivative on $P_{a|S_{c}}$. Then we get
     %\begin{equation*}
     \begin{flalign*}
     \frac{d(F_G)}{d(P_{a|S_{c}})} &= (P_{e|S_{c}})^{3}(1-P_{a|S_{c}})^2\\
@@ -202,12 +202,12 @@ and compute the minimal value of $F_G$ when $D_{F} < 0$.
     \end{flalign*}
     %\end{equation*}
 
-Therefore,$\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotone increasing function of $P_{a|S_{c}}$.
+Therefore, $\frac{d(F_G)}{d(P_{a|S_{c}})} \geq 0$, so that $F_G$ is a monotone increasing function of $P_{a|S_{c}}$.
 When $P_{a|S_{c}}$ fetches the minimal value, $F_G$ gets its minimum.
 
 \item
-Second, we regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
- We calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get:
+We regard $F_G$ as the function of $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
+ We calculate the derivative on $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$, and get
 \begin{equation*}
 \begin{split}
 &\frac{d(F_G)}{d(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}})} = \{M(1-P_{e|S_{c}})(1-P_{a|S_{c}})(P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}\\
@@ -254,7 +254,7 @@ When $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}},rroot} < 1$, $F_G$ decreases at $[0,
 % And if not, $Gexpression$ first decreases then increase as the function of $P_{a2} \in [0,1]$.
 
 \item
- Third, we regard $F_G$ as the function of $P_{e|S_{c}}$. We calculate the derivative on $P_{e|S_{c}}$, and get:
+We regard $F_G$ as the function of $P_{e|S_{c}}$. We calculate the derivative on $P_{e|S_{c}}$, and get
 \begin{equation*}
 \begin{split}
 &\frac{d(F_G)}{d(P_{e|S_{c}})}=\\
@@ -337,7 +337,7 @@ In summary,
   When $D_F < 0$, $E(T^{\oplus}) - E(T) \geq 0$ if $G$ is smaller than the minimal value of $F_G$, where the minimal value satisfies the Equation set \ref{equ:fgmin}.
 \end{enumerate}
 
-That is,
+Finally,
  if (1) $D_{F} \geq 0$, or (2) $D_{F} < 0$  and $G < F_G^{\min}$,
  conditional {\vwarm} produces better performance than less {\vwarm}.
 
