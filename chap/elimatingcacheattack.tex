@@ -276,7 +276,7 @@ We ensure that the measured time does not leak any exploitable information about
 %]]]]]]]
 
 The execution time of {\scshape{Encrypt}}
-falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{mm})$ and $[T_{mm}, \infty )$.
+falls into three intervals, $(0, T_{nm}]$, $(T_{nm}, T_{mm})$ and $[T_{mm}, +\infty )$.
 We make the following treatments according to Algorithm~\ref{alg:aesdefense}:
 
 \begin{itemize}
@@ -290,7 +290,7 @@ We make the following treatments according to Algorithm~\ref{alg:aesdefense}:
     %That is, the encryption is executed equivalently without any caches.
     %In this case,
     %the cache timing side-channel attackers cannot infer the relation between the measured time and the data processed.
-  \item \textbf{Case 3}: The execution time is in $[T_{mm}, \infty )$.
+  \item \textbf{Case 3}: The execution time is in $[T_{mm}, +\infty )$.
     It results from task scheduling, interrupts or other system activities.
    As explained in Section~\ref{sec:assumption},
      the running states
@@ -303,7 +303,7 @@ We make the following treatments according to Algorithm~\ref{alg:aesdefense}:
 When applying the {\scshape{Warm+Delay}} scheme, as shown in Algorithm~\ref{alg:aesdefense}, the remote attackers are (assumed to be) able to measure each execution time of {\scshape{ProtectedEncrypt}},
  but not internal {\scshape{Encrypt}}.
  So the measured time, i.e., the execution time of {\scshape{ProtectedEncrypt}},
-  falls into two intervals, $(0, T_{nm}]$ and $[T_{mm}, \infty )$.
+  falls into two intervals, $(0, T_{nm}]$ and $[T_{mm}, +\infty )$.
 
 %Next, we prove that,
 % no information about the status of cache lines  %lookup tables cached or data processed
