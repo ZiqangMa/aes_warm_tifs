@@ -82,7 +82,7 @@ E-mail: \{maziqiang, caiquanwei, linjingqiang, jingjiwu\}@iie.ac.cn.
 \IEEEcompsocthanksitem Bo Luo is with Department of Electrical Engineering and Computer Science, the University of Kansas,
     KS 66045, USA.
 E-mail: bluo@ku.edu.}% <-this % stops a space
-\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+\thanks{Manuscript received September 21, 2018}}
 
 % The paper headers
 \markboth{Ziqiang Ma \MakeLowercase{\textit{et al.}}: Towards the Optimal Performance of {\scshape{Warm+Delay}} to Eliminate Remote Cache
@@ -104,15 +104,16 @@ Cache timing side channels allow a remote attacker to disclose the cryptographic
 %  and inserting padding instructions after these functions, respectively.
 They destroy the relationship between the execution time
   and the cache misses/hits which are determined by the secret key,
-  but introduce extra operations
+  but %introduce extra operations
 %  . However, the extra operations are sometimes unnecessary,
-   and then bring remarkable performance overheads.
+  % and then
+   bring remarkable performance overhead.
 In this paper, we investigate the performance of cryptographic functions protected by {\scshape{Warm}} and {\scshape{Delay}},
   and attempt to find the best strategy to integrate these two countermeasures
     with the optimal performance while effectively eliminate remote cache timing side channels.
 To the best of our knowledge,
   this work is the first to systematically analyze the performance of
-    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache side channels in commodity computer systems.
+    integrating {\scshape{Warm}} and {\scshape{Delay}} against cache side channels.% in commodity computer systems.
 %
 %we integrate these two countermeasure into a scheme  that adopts {\scshape{Warm}} and {\scshape{Delay}} alternatively and  complementarily.
 %
@@ -127,17 +128,18 @@ To the best of our knowledge,
 %   effectively eliminates remote cache timing side channels,
 %  and is applicable to different block ciphers and computing platforms.
 %
-We derive the optimization scheme to integrate {\scshape{Warm}} and {\scshape{Delay}},
+We derive the optimal scheme to integrate {\scshape{Warm}} and {\scshape{Delay}},
    and apply it to AES.
 It is proven that,
-   the integration scheme with appropriate parameters,
+   the integration scheme %with appropriate parameters,
    achieves the optimal performance with the least extra operations on commodity systems.
 Finally,
     we implement it on Linux with Intel CPUs. % to protect AES.
 Experimental results confirm that,
 (\emph{a}) the execution time does not leak information on cache access,
- (\emph{b}) the scheme outperforms other integration strategies of {\scshape{Warm}} and {\scshape{Delay}}, and
-(\emph{c}) the implementation works without any privileged operations on the computer.
+ (\emph{b}) the scheme outperforms other integration strategies of {\scshape{Warm}} and {\scshape{Delay}}.
+ % and
+%(\emph{c}) the implementation works without any privileged operations on the computer.
 %  Methods to defend against the cache side channel attacks are implemented a lot, but still exist some problems such as excess extra overhead, relying on hardware modification, non-portability etc.
 %Also it can be used to all the symmetric encryption algorithms implemented with lookup tables. The basic idea of our scheme is to combine performing cache warm and adding time delay.
 %Through reducing the context of cache warm and the time of delaying and eliminating the unnecessary cache warm and delay operation on the premise of guarantee security, we achieve the  performance.
@@ -146,7 +148,7 @@ Experimental results confirm that,
 \end{abstract}
 
 \begin{IEEEkeywords}
-AES, cache side channel, block cipher, performance, timing side channel.
+AES, cache side channel, block cipher, optimal performance, timing side channel.
 \end{IEEEkeywords}}
 
 \maketitle
@@ -180,8 +182,8 @@ This work was partially supported
 
 
 
-\appendices
-\input{chap/appdenix}
+%\appendices
+%\input{chap/appdenix}
 
 \ifCLASSOPTIONcaptionsoff
   \newpage
@@ -246,4 +248,15 @@ system security.
 % is flush with the other column.
 %\enlargethispage{-5in}
 
+
+
+\appendices
+\clearpage
+
+\input{chap/appdenix}
+
+
+
 \end{document}
+
+

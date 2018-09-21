@@ -1,8 +1,16 @@
 \newpage
+   
+\newpage
+\def \vdelay {{\scshape{Delay}}}
+\def \vwarm {{\scshape{Warm}}}
+\def \vwd {{\scshape{Warm+Delay}}}
+
 %\appendix
 \section{Proofs of Theorems~\ref{lemma:warmnum1} and \ref{lemma:warmnum2}}
+%\section{Proofs of Theorems 4 and 5}
 \label{appendixa}
 We present the proof details of Theorems~\ref{lemma:warmnum1} and \ref{lemma:warmnum2}.
+%We present the proof details of Theorems 4 and 5.
 In the following calculation,
  all probabilities are in $[0,1]$.
  %$0 \leq P_{a|S_{c}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\ominus} \leq 1$, $0 \leq P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}^{\oplus} \leq 1$, $0 \leq P_{w}^{\ominus} \leq 1$, $0 \leq P_{w}^{\oplus} \leq 1$
@@ -11,11 +19,14 @@ $E(T^{\ominus})$, $E(T)$ and $E(T^{\oplus})$ are the expected extra time costs
     introduced by less {\vwarm}, conditional {\vwarm} and more {\vwarm}, respectively.
 
 \subsection{Proof of Theorem~\ref{lemma:warmnum1}}
+%\subsection{Proof of Theorem 4}
 \label{appendixa1}
 %We compare $E(T^{\ominus})$ and  $E(T)$ as below.
 By combining Equations~\ref{equ:pic} and \ref{equ:pil} in Equation \ref{equ:tpc1},
+%By combining Equations 3 and 4 in Equation 6,
 we obtain Equation \ref{equ:detail1} as follows.
 
+%\setcounter{equation}{8}
 \begin{equation}
 \label{equ:detail1}
 \begin{split}
@@ -53,6 +64,7 @@ so $E(T^{\ominus}) - E(T)\geq 0$.
 %    the extra time cost introduced by the less {\vwarm} strategy is always greater than conditional {\vwarm}.
 
 \subsection{Proof of Theorem~\ref{lemma:warmnum2}}
+%\subsection{Proof of Theorem 5}
 \label{appendixa2}
 %The expected extra time cost introduced by more {\vwarm} and conditional {\vwarm}  are denoted as $E(T^{\oplus})$ and $E(T)$, respectively.
 {\vdelay} is needed in $S_{\bar{c}, a}$,
@@ -118,7 +130,7 @@ Therefore, the difference between the expected extra time introduced by more {\v
 $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus}$ means the probability of the state transition from $S_{\bar{c}, \bar{a}}$ to $S_{\bar{c}, a}$ when {\vwarm} is not performed in the more {\vwarm} strategy.
 If {\vwarm} is not performed in $S_{\bar{c},\bar{a}}$, the state transition is the same as with the conditional {\vwarm} strategy.
  So $P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}^{\bar{w}}}^{\oplus} = P_{S_{\bar{c}, a}|S_{\bar{c},\bar{a}}}$.
-By combining Equations~\ref{equ:pic} and \ref{equ:pim}, we get the following equations.
+By combining Equations \ref{equ:pic} and \ref{equ:pim}, we get the following equations.
 %For the calculation, $0 \leq P_{a1} \leq 1$, $0 \leq P_{a2} \leq 1$, $0 \leq P_{a2}^{'} \leq 1$, $0 \leq P_{a2}^{''} \leq 1$, $0 \leq P_{Lwarm} \leq 1$, $0 \leq P_{Mwarm} \leq 1$
 % and $0 \leq P_{evict} \leq 1$.
 %\begin{footnotesize}
